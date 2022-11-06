@@ -56,9 +56,9 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BruteForce-GrassShader\Extra\Bloom\Editor\BloomEditor.cs" />
-    <Compile Include="Assets\BruteForce-GrassShader\Editor\BF_TerrainEditor.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\Bloom\Editor\BloomGraphDrawer.cs" />
+    <Compile Include="Assets\BruteForce-GrassShader\Editor\BF_TerrainEditor.cs" />
+    <Compile Include="Assets\BruteForce-GrassShader\Extra\Bloom\Editor\BloomEditor.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Editor\BF_MowingManagerEditor.cs" />
   </ItemGroup>
   <ItemGroup>
