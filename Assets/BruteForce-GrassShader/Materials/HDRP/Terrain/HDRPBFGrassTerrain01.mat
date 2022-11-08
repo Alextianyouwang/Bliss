@@ -10,6 +10,7 @@ Material:
   m_Name: HDRPBFGrassTerrain01
   m_Shader: {fileID: 4800000, guid: 06d919d7eebd56c419ffb0af64b8f5b7, type: 3}
   m_ValidKeywords:
+  - USE_BMP
   - USE_CS
   - USE_RT
   - USE_SC
@@ -87,7 +88,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Noise:
-        m_Texture: {fileID: 2800000, guid: 529789b31389da34d9a7f98c613bf944, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal0:
@@ -207,16 +208,16 @@ Material:
     - _DstBlend: 0
     - _FadeAmplitude: 28
     - _FadeDistance: 16
-    - _FadeDistanceEnd: 200
-    - _FadeDistanceStart: 150
+    - _FadeDistanceEnd: 584.7
+    - _FadeDistanceStart: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GrassCut: 0
-    - _GrassSaturation: 2.65
-    - _GrassShading: 0
-    - _GrassThinness: 0.74
-    - _GrassThinnessIntersection: 2
+    - _GrassSaturation: 2.72
+    - _GrassShading: 0.098
+    - _GrassThinness: 0.88
+    - _GrassThinnessIntersection: 0.01
     - _Metallic: 0
     - _Metallic0: 0
     - _Metallic1: 0
@@ -226,11 +227,11 @@ Material:
     - _Metallic5: 0
     - _Metallic6: 0
     - _Metallic7: 0
-    - _MinimumNumberStacks: 2.27
+    - _MinimumNumberStacks: 1
     - _Mode: 0
-    - _NearCameraSmoosh: 4
-    - _NoisePower: 5.91
-    - _NumberOfStacks: 4.99
+    - _NearCameraSmoosh: 3
+    - _NoisePower: 0.22
+    - _NumberOfStacks: 7.55
     - _OcclusionStrength: 1
     - _OffsetValue: 6.89
     - _Parallax: 0.02
@@ -243,7 +244,7 @@ Material:
     - _ProceduralStrength: 1.5
     - _RTEffect: 1
     - _RimMax: 0.815
-    - _RimMin: 0.393
+    - _RimMin: 0.608
     - _RimPower: 2.27
     - _ShadowFuziness: 1
     - _ShadowMax: 0
@@ -262,14 +263,14 @@ Material:
     - _StencilWriteMaskMV: 32
     - _SurfaceType: 0
     - _TextureScale: 0.25
-    - _TilingN1: -8.08
-    - _TilingN2: 1.65
+    - _TilingN1: 10
+    - _TilingN2: 0
     - _TilingN3: 2
     - _TransparentCullMode: 2
     - _TransparentZWrite: 0
     - _UVSec: 0
     - _UseAmbientLight: 0
-    - _UseBetterModelPrecision: 0
+    - _UseBetterModelPrecision: 1
     - _UseBiplanar: 0
     - _UseCS: 1
     - _UsePR: 0
@@ -280,8 +281,8 @@ Material:
     - _UseTP: 0
     - _UseVR: 0
     - _UseWC: 0
-    - _WindForce: 60
-    - _WindMovement: 0.15
+    - _WindForce: 1
+    - _WindMovement: 0.1
     - _WorldRotation: 0
     - _WorldScale: 10
     - _ZTestDepthEqualForOpaque: 4
@@ -291,15 +292,15 @@ Material:
     - _ZWrite: 1
     - __NumberOfStacks: 17
     m_Colors:
-    - _Color: {r: 0.7278112, g: 0.9245283, b: 0.3794055, a: 1}
+    - _Color: {r: 0.7581916, g: 0.9254902, b: 0.38039216, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 1, g: 0.88, b: 0.75, a: 1}
-    - _OffsetVector: {r: 0, g: -1.9, b: 0, a: 0}
+    - _OffsetVector: {r: 0, g: 0, b: 0, a: 0}
     - _PJShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ProjectedShadowColor: {r: 0.509434, g: 0.33235958, b: 0.18983625, a: 1}
     - _RimColor: {r: 0.1792453, g: 0.1792453, b: 0.14627092, a: 0}
-    - _SelfShadowColor: {r: 0.475, g: 0.43963078, b: 0.3705, a: 1}
+    - _SelfShadowColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
     - _Specular0: {r: 1, g: 1, b: 1, a: 1}
     - _Specular1: {r: 1, g: 1, b: 1, a: 1}
     - _Specular2: {r: 1, g: 1, b: 1, a: 1}
