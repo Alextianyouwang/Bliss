@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Oblivion Scene.unity
     guid: 704a45222e2724c4bb3c19c86d8e3ce5
+  - enabled: 1
+    path: Assets/Terrain_Test/Terrain Experiments.unity
+    guid: 51041d9a4a70a1846acfaea98bdce158
   m_configObjects: {}
