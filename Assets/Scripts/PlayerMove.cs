@@ -43,13 +43,13 @@ public class PlayerMove : MonoBehaviour
             Move();
         }
         Gravity();
-        if (Physics.SphereCast(transform.position, 1f, transform.up, out camPosRay, 4f,ceiling))
+        if (Physics.SphereCast(transform.position, 1f, transform.up, out camPosRay, 1.5f,ceiling))
         {
             targetPostion = transform.InverseTransformPoint( camPosRay.point + 1 * camPosRay.normal);
         }
         else 
         {
-            targetPostion = new Vector3(0, 4.5f, 0);
+            targetPostion = new Vector3(0, 1.5f, 0);
         }
         cam.transform.localPosition = Vector3.SmoothDamp(cam.transform.localPosition, targetPostion, ref switchSpeed, 0.05f);
     }
