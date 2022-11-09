@@ -24,29 +24,29 @@ MonoBehaviour:
       m_SchemaId:
         m_Id: With3Levels
     supportVolumetrics: 1
-    supportVolumetricClouds: 0
-    supportLightLayers: 1
+    supportVolumetricClouds: 1
+    supportLightLayers: 0
     supportDistortion: 1
-    supportTransparentBackface: 0
-    supportTransparentDepthPrepass: 0
-    supportTransparentDepthPostpass: 0
+    supportTransparentBackface: 1
+    supportTransparentDepthPrepass: 1
+    supportTransparentDepthPostpass: 1
     colorBufferFormat: 74
-    supportCustomPass: 0
-    customBufferFormat: 12
+    supportCustomPass: 1
+    customBufferFormat: 8
     supportedLitShaderMode: 3
     planarReflectionResolution:
       m_Values: 000100000004000000040000
       m_SchemaId:
         m_Id: With3Levels
-    supportDecals: 0
+    supportDecals: 1
     supportDecalLayers: 0
     supportSurfaceGradient: 0
     decalNormalBufferHP: 0
     msaaSampleCount: 2
-    supportMotionVectors: 0
-    supportRuntimeAOVAPI: 0
+    supportMotionVectors: 1
+    supportRuntimeAOVAPI: 1
     supportDitheringCrossFade: 0
-    supportTerrainHole: 0
+    supportTerrainHole: 1
     supportProbeVolume: 0
     probeVolumeMemoryBudget: 1024
     probeVolumeSHBands: 1
@@ -62,10 +62,10 @@ MonoBehaviour:
       reflectionCubemapSize: 256
       reflectionCacheCompressed: 0
       reflectionProbeFormat: 74
-      skyReflectionSize: 256
+      skyReflectionSize: 2048
       skyLightingOverrideLayerMask:
         serializedVersion: 2
-        m_Bits: 0
+        m_Bits: 2147483647
       supportFabricConvolution: 0
       maxDirectionalLightsOnScreen: 16
       maxPunctualLightsOnScreen: 512
@@ -74,10 +74,10 @@ MonoBehaviour:
       maxDecalsOnScreen: 512
       maxPlanarReflectionOnScreen: 16
       maxLightsPerClusterCell: 8
-      maxLocalVolumetricFogSize: 32
-      maxLocalVolumetricFogOnScreen: 64
+      maxLocalVolumetricFogSize: 64
+      maxLocalVolumetricFogOnScreen: 512
     hdShadowInitParams:
-      maxShadowRequests: 300
+      maxShadowRequests: 100
       directionalShadowsDepthBits: 32
       shadowFilteringQuality: 1
       punctualLightShadowAtlas:
@@ -112,7 +112,7 @@ MonoBehaviour:
       drawDistance: 1000
       atlasWidth: 4096
       atlasHeight: 4096
-      perChannelMask: 0
+      perChannelMask: 1
     postProcessSettings:
       m_LutSize: 32
       lutFormat: 48
@@ -139,7 +139,7 @@ MonoBehaviour:
     xrSettings:
       singlePass: 1
       occlusionMesh: 1
-      cameraJitter: 0
+      cameraJitter: 1
       allowMotionBlur: 1
     postProcessQualitySettings:
       NearBlurSampleCount: 030000000500000008000000
@@ -162,7 +162,7 @@ MonoBehaviour:
       ChromaticAberrationMaxSamples: 03000000060000000c000000
     lightSettings:
       useContactShadow:
-        m_Values: 000001
+        m_Values: 000000
         m_SchemaId:
           m_Id: With3Levels
     maximumLODLevel:
@@ -177,9 +177,9 @@ MonoBehaviour:
       m_SchemaId:
         m_Id: With3Levels
     lightingQualitySettings:
-      AOStepCount: 040000000600000010000000
-      AOFullRes: 000001
-      AOMaximumRadiusPixels: 200000002800000050000000
+      AOStepCount: 060000000600000010000000
+      AOFullRes: 010001
+      AOMaximumRadiusPixels: 320000002800000050000000
       AOBilateralUpsample: 000101
       AODirectionCount: 010000000200000004000000
       ContactShadowSampleCount: 060000000a00000010000000

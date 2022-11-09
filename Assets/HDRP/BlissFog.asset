@@ -15,22 +15,22 @@ MonoBehaviour:
   active: 1
   rotation:
     m_OverrideState: 1
-    m_Value: 78
+    m_Value: 224.2
   skyIntensityMode:
     m_OverrideState: 1
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 14.11
+    m_Value: 11.7
   multiplier:
     m_OverrideState: 0
     m_Value: 1
   upperHemisphereLuxValue:
     m_OverrideState: 0
-    m_Value: 1.1954691
+    m_Value: 1.1954693
   upperHemisphereLuxColor:
     m_OverrideState: 0
-    m_Value: {x: 0.2229114, y: 0.29357207, z: 0.5}
+    m_Value: {x: 0.22291188, y: 0.29357216, z: 0.5}
   desiredLuxValue:
     m_OverrideState: 1
     m_Value: 600
@@ -216,7 +216,7 @@ MonoBehaviour:
     m_Value: 375
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 1244.24
+    m_Value: 1238.8
   enableVolumetricFog:
     m_OverrideState: 1
     m_Value: 1
