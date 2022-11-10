@@ -16,8 +16,8 @@ MonoBehaviour:
     supportShadowMask: 1
     supportSSR: 0
     supportSSRTransparent: 1
-    supportSSAO: 1
-    supportSSGI: 1
+    supportSSAO: 0
+    supportSSGI: 0
     supportSubsurfaceScattering: 1
     sssSampleBudget:
       m_Values: 140000002800000050000000
@@ -27,9 +27,9 @@ MonoBehaviour:
     supportVolumetricClouds: 1
     supportLightLayers: 0
     supportDistortion: 1
-    supportTransparentBackface: 1
-    supportTransparentDepthPrepass: 1
-    supportTransparentDepthPostpass: 1
+    supportTransparentBackface: 0
+    supportTransparentDepthPrepass: 0
+    supportTransparentDepthPostpass: 0
     colorBufferFormat: 74
     supportCustomPass: 1
     customBufferFormat: 8
@@ -43,10 +43,10 @@ MonoBehaviour:
     supportSurfaceGradient: 0
     decalNormalBufferHP: 0
     msaaSampleCount: 2
-    supportMotionVectors: 1
-    supportRuntimeAOVAPI: 1
+    supportMotionVectors: 0
+    supportRuntimeAOVAPI: 0
     supportDitheringCrossFade: 0
-    supportTerrainHole: 1
+    supportTerrainHole: 0
     supportProbeVolume: 0
     probeVolumeMemoryBudget: 1024
     probeVolumeSHBands: 1
@@ -177,7 +177,7 @@ MonoBehaviour:
       m_SchemaId:
         m_Id: With3Levels
     lightingQualitySettings:
-      AOStepCount: 060000000600000010000000
+      AOStepCount: 080000000600000010000000
       AOFullRes: 010001
       AOMaximumRadiusPixels: 320000002800000050000000
       AOBilateralUpsample: 000101
