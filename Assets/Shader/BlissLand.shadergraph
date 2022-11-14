@@ -22,7 +22,11 @@
             "m_Id": "4399d56745b74e178e430001a4253212"
         }
     ],
-    "m_Keywords": [],
+    "m_Keywords": [
+        {
+            "m_Id": "02abde0bc1f04377bfd93e188a7d34c4"
+        }
+    ],
     "m_Dropdowns": [],
     "m_CategoryData": [
         {
@@ -441,6 +445,41 @@
             "m_Id": "3d71bfe0f05d40ea9ada0870d48832bc"
         }
     ]
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
+    "m_ObjectId": "02abde0bc1f04377bfd93e188a7d34c4",
+    "m_Guid": {
+        "m_GuidSerialized": "ba8287db-1684-486d-a141-7504c390ab10"
+    },
+    "m_Name": "TerrainCompatible",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "TerrainCompatible",
+    "m_DefaultReferenceName": "_TERRAINCOMPATIBLE",
+    "m_OverrideReferenceName": "TERRAINCOMPATIBLE",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_KeywordType": 1,
+    "m_KeywordDefinition": 0,
+    "m_KeywordScope": 1,
+    "m_KeywordStages": 63,
+    "m_Entries": [
+        {
+            "id": 2,
+            "displayName": "True",
+            "referenceName": "TRUE"
+        },
+        {
+            "id": 3,
+            "displayName": "Fales",
+            "referenceName": "FALES"
+        }
+    ],
+    "m_Value": 0,
+    "m_IsEditable": true
 }
 
 {
@@ -929,6 +968,9 @@
         },
         {
             "m_Id": "4399d56745b74e178e430001a4253212"
+        },
+        {
+            "m_Id": "02abde0bc1f04377bfd93e188a7d34c4"
         }
     ]
 }

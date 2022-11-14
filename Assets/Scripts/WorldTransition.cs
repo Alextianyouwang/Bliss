@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class WorldTransition : MonoBehaviour
 {
     public GameObject bigEyeWorld;
     public GameObject ground;
-    public Material worldMat,grassMat;
+    public Material worldMat,grassMat,clippyMat;
     public AnimationCurve floatAnimationCurve,transitionSpeedCurve,cameraDolleyCurve;
     public Camera cam;
     public LayerMask groundMask;
@@ -29,7 +30,7 @@ public class WorldTransition : MonoBehaviour
         }
         rb = GetComponent<Rigidbody>();*/
         bigEyeWorld.SetActive(false);
-        bigEyeWorldMat = bigEyeWorld.GetComponent<MeshRenderer>().material;
+        //bigEyeWorldMat = bigEyeWorld.GetComponent<MeshRenderer>().material;
     }
 
     void Update()
@@ -77,10 +78,11 @@ public class WorldTransition : MonoBehaviour
     {
         isFloating = true;
         float percentage = 0;
-        //GetComponent<CharacterController>().enabled = false;
-        GetComponent<Rigidbody>().isKinematic = true;
+        if (GetComponent<CharacterController>())
+            GetComponent<CharacterController>().enabled = false;
+        if (GetComponent<Rigidbody>())
+            GetComponent<Rigidbody>().isKinematic = true;
         float startY = transform.position.y;
-        //rb.isKinematic = true;
         while (percentage < 1) 
         {
             percentage += Time.deltaTime * floatingSpeed;
@@ -88,8 +90,10 @@ public class WorldTransition : MonoBehaviour
             transform.position = new Vector3 (transform.position.x,startY+ targetY,transform.position.z);
             yield return null;
         }
-        //GetComponent<CharacterController>().enabled = true;
-         GetComponent<Rigidbody>().isKinematic = false;
+        if (GetComponent<CharacterController>())
+            GetComponent<CharacterController>().enabled = true;
+        if (GetComponent<Rigidbody>())
+            GetComponent<Rigidbody>().isKinematic = false;
         isFloating = false;
     }
 
@@ -97,8 +101,8 @@ public class WorldTransition : MonoBehaviour
     {
         isInTransition = true;
         float percentage = 0;
-        float initialValue = expanding ? 0 : 30;
-        float targetValue = expanding ? 30 : 0;
+        float initialValue = expanding ? 0 : 200;
+        float targetValue = expanding ? 200 : 0;
         if (expanding) 
         {
             bigEyeWorld.SetActive(true);
@@ -116,8 +120,8 @@ public class WorldTransition : MonoBehaviour
         {
             percentage += Time.deltaTime * dissolvingSpeed;
             float progress = transitionSpeedCurve.Evaluate(percentage);
-            bigEyeWorldMat.SetFloat("Effect_Radius", Mathf.Lerp(initialValue, targetValue, progress));
-            bigEyeWorldMat.SetVector("Effect_Center", transform.position);
+            clippyMat.SetFloat("Effect_Radius", Mathf.Lerp(initialValue, targetValue, progress));
+            clippyMat.SetVector("Effect_Center", transform.position);
             worldMat.SetFloat("Effect_Radius", Mathf.Lerp(initialValue, targetValue, progress));
             worldMat.SetVector("Effect_Center", transform.position);
             if (grassMat != null) 
@@ -127,8 +131,24 @@ public class WorldTransition : MonoBehaviour
             }
             yield return null;
         }
-        if (!expanding)
+        if (expanding)
+        {
+            //if (isInBigEyeWorld)
+                //UnityEngine.SceneManagement.SceneManager.LoadScene("Clippy");
+        }
+        else 
+        {
+            //if (!isInBigEyeWorld)
+               // UnityEngine.SceneManagement.SceneManager.LoadScene("Bliss");
             bigEyeWorld.SetActive(false);
+        }
+          
         isInTransition = false;
+    }
+
+    public void Load() 
+    {
+        
+        //UnityEngine.SceneManagement.SceneManager.UnloadScene("Bliss");
     }
 }

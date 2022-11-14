@@ -26,6 +26,7 @@ Material:
   m_Name: M_BlissLand
   m_Shader: {fileID: -6465566751694194690, guid: a2fc50fefaa6a184099636fe0b0a772e, type: 3}
   m_ValidKeywords:
+  - TERRAINCOMPATIBLE_TRUE
   - _ALPHATEST_ON
   - _ALPHATOMASK_ON
   - _DISABLE_SSR_TRANSPARENT
@@ -65,7 +66,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Effect_Radius: 30
+    - Effect_Radius: 0
+    - TERRAINCOMPATIBLE: 0
     - _AddPrecomputedVelocity: 0
     - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
@@ -119,7 +121,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Effect_Center: {r: 450.54993, g: 83.27699, b: 100.86882, a: 0}
+    - Effect_Center: {r: 480.13348, g: 98.380554, b: 49.411377, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EffectCenter: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
