@@ -264,11 +264,11 @@ ENDHLSL
 		SubShader
 		{
 			
-			Tags{"DisableBatching" = "true" }
+			Tags{"DisableBatching" = "true" "TerrainCompatible" = "True"}
 			pass
 			{
 			Name "GBuffer"
-			Tags{ "RenderPipeline" = "HDRenderPipeline" "RenderType" = "HDLitShader"  "LightMode" = "GBuffer"}
+			Tags{ "RenderPipeline" = "HDRenderPipeline" "RenderType" = "HDLitShader"  "LightMode" = "GBuffer" "TerrainCompatible" = "True"}
 			//Tags{ "LightMode" = "GBuffer"}
 
 			// I highly doubt this is the right way to avoid z-fighting but it does help people avoid getting epilepsy
@@ -864,7 +864,7 @@ ENDHLSL
 		Pass
 		{
 			Name "DepthOnly"
-			Tags{ "LightMode" = "DepthOnly" }
+			Tags{ "LightMode" = "DepthOnly" "TerrainCompatible" = "True"}
 			//Tags{"RenderPipeline" = "HDRenderPipeline" "RenderType" = "HDLitShader" "LightMode" = "DepthOnly" }
 
 
@@ -1311,7 +1311,7 @@ ENDHLSL
 		{
 			Name "ShadowCaster"
 			//Tags{"RenderPipeline" = "HDRenderPipeline" "RenderType" = "HDLitShader" "LightMode" = "ShadowCaster" }
-			Tags{"LightMode" = "ShadowCaster" }
+			Tags{"LightMode" = "ShadowCaster" "TerrainCompatible" = "True"}
 
 
 			// To be able to tag stencil with disableSSR information for forward
