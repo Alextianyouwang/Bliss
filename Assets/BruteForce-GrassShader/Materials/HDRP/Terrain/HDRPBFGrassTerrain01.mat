@@ -10,7 +10,6 @@ Material:
   m_Name: HDRPBFGrassTerrain01
   m_Shader: {fileID: 4800000, guid: 06d919d7eebd56c419ffb0af64b8f5b7, type: 3}
   m_ValidKeywords:
-  - USE_BMP
   - USE_CS
   - USE_RT
   - USE_SC
@@ -270,7 +269,7 @@ Material:
     - _TransparentZWrite: 0
     - _UVSec: 0
     - _UseAmbientLight: 0
-    - _UseBetterModelPrecision: 1
+    - _UseBetterModelPrecision: 0
     - _UseBiplanar: 0
     - _UseCS: 1
     - _UsePR: 0
