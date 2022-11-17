@@ -1,12 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 --- !u!114 &-7504341338148626203
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -390,20 +383,6 @@ MonoBehaviour:
   gradientDiffusion:
     m_OverrideState: 1
     m_Value: 1
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,29 +404,8 @@ MonoBehaviour:
   - {fileID: 448115243408767295}
   - {fileID: 8928271893571875973}
   - {fileID: 6654835732121970945}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   - {fileID: -7504341338148626203}
   - {fileID: -4157974485240709629}
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
-=======
->>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
 --- !u!114 &448115243408767295
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -463,13 +421,13 @@ MonoBehaviour:
   active: 1
   rotation:
     m_OverrideState: 1
-    m_Value: 67
+    m_Value: 0
   skyIntensityMode:
     m_OverrideState: 1
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 13.7
+    m_Value: 11.25
   multiplier:
     m_OverrideState: 1
     m_Value: 335
@@ -498,23 +456,23 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 0
   flowmap:
-    m_OverrideState: 0
-    m_Value: {fileID: 0}
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: c169c5ae2c8938049b33237c0d1b34e3, type: 3}
   upperHemisphereOnly:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   scrollOrientation:
     m_OverrideState: 1
     m_Value:
-      mode: 1
+      mode: 0
       customValue: 0
       additiveValue: 0
       multiplyValue: 1
   scrollSpeed:
     m_OverrideState: 1
     m_Value:
-      mode: 1
-      customValue: 100
+      mode: 0
+      customValue: 212.1
       additiveValue: 0
       multiplyValue: 1
   enableBackplate:
@@ -581,7 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f077503be6ae942a1e1245dbd53ea9, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   quality:
     m_OverrideState: 1
     m_Value: 2
@@ -812,19 +770,19 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 0.67
   contrast:
     m_OverrideState: 1
-    m_Value: 32.1
+    m_Value: 15.3
   colorFilter:
-    m_OverrideState: 1
-    m_Value: {r: 0.8915094, g: 0.89864016, b: 1, a: 1}
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     m_OverrideState: 1
-    m_Value: -1.2
+    m_Value: -4.8
   saturation:
     m_OverrideState: 1
-    m_Value: -1.4
+    m_Value: 5.5
 --- !u!114 &7542669330009093999
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -889,10 +847,10 @@ MonoBehaviour:
     m_Value: 4
   cascadeShadowSplit0:
     m_OverrideState: 1
-    m_Value: 0.09256194
+    m_Value: 0.13606279
   cascadeShadowSplit1:
     m_OverrideState: 1
-    m_Value: 0.3149576
+    m_Value: 0.31274998
   cascadeShadowSplit2:
     m_OverrideState: 1
     m_Value: 0.572
