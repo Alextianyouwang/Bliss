@@ -16,8 +16,8 @@ MonoBehaviour:
     supportShadowMask: 1
     supportSSR: 0
     supportSSRTransparent: 1
-    supportSSAO: 0
-    supportSSGI: 0
+    supportSSAO: 1
+    supportSSGI: 1
     supportSubsurfaceScattering: 1
     sssSampleBudget:
       m_Values: 140000002800000050000000
@@ -25,7 +25,7 @@ MonoBehaviour:
         m_Id: With3Levels
     supportVolumetrics: 1
     supportVolumetricClouds: 1
-    supportLightLayers: 0
+    supportLightLayers: 1
     supportDistortion: 1
     supportTransparentBackface: 0
     supportTransparentDepthPrepass: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
     supportRayTracing: 0
     supportedRayTracingMode: 3
     lightLoopSettings:
-      cookieAtlasSize: 2048
+      cookieAtlasSize: 4096
       cookieFormat: 74
       cookieAtlasLastValidMip: 0
       cookieTexArraySize: 1
@@ -75,7 +75,7 @@ MonoBehaviour:
       maxPlanarReflectionOnScreen: 16
       maxLightsPerClusterCell: 8
       maxLocalVolumetricFogSize: 64
-      maxLocalVolumetricFogOnScreen: 64
+      maxLocalVolumetricFogOnScreen: 144
     hdShadowInitParams:
       maxShadowRequests: 300
       directionalShadowsDepthBits: 32
