@@ -53,11 +53,13 @@
     <UnityVersion>2021.3.6f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\SceneManage\SceneDataObject.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\ThreeDUI.cs" />
+    <Compile Include="Assets\Scripts\SceneManage\BlissWrapper.cs" />
     <Compile Include="Assets\Scripts\Portal.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\TemporalReprojection.cs" />
     <Compile Include="Assets\Scripts\NumberBlocks.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_AssetManager.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_BallPlayer.cs" />
     <Compile Include="Assets\Scripts\FirstPersonController.cs" />
+    <Compile Include="Assets\Scripts\SceneManage\ClippyWrapper.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\Extensions.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\FrustumJitter.cs" />
     <Compile Include="Assets\Scripts\FolderOpen.cs" />
@@ -97,9 +100,10 @@
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_FxOnMouseClick.cs" />
     <Compile Include="Assets\Scripts\Loader.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MeshExtrusion.cs" />
-    <Compile Include="Assets\Scripts\WorldTransition.cs" />
+    <Compile Include="Assets\Scripts\SceneManage\WorldTransition.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_Terrain.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\SceneManage\ClippyLoadpoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BruteForce-GrassShader\Extra\VertexColor.shader" />
@@ -392,12 +396,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Android.Types">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.6f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Android.Gradle">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.6f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Gradle.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:\Programs\Unity\Hub\Editor\2021.3.6f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>

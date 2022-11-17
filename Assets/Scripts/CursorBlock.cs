@@ -20,13 +20,13 @@ public class CursorBlock : NumberBlocks
     {
         if (collision.gameObject.tag.Equals("Quit")) 
         {
-            Application.Quit();
+            //Application.Quit();
         }
         if (collision.gameObject.tag.Equals("Restart")) 
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-            Cursor.lockState = CursorLockMode.None;
-            AudioManager.instance.StopAllSound();
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+           // Cursor.lockState = CursorLockMode.None;
+           // AudioManager.instance.StopAllSound();
         }
 
         if (collision.gameObject.tag.Equals("Application") ||
@@ -35,8 +35,8 @@ public class CursorBlock : NumberBlocks
         {
             if (!hasCollided)
             {
-                AudioManager.instance.Play("Click");
-                hasCollided = true;
+               // AudioManager.instance.Play("Click");
+                //hasCollided = true;
             }
         }
     }
