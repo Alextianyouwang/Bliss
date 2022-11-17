@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/AllSkyFree/_AllSkyFreeDemoEnvironment/Materials/AllSkyDemoEnv_TreeLeaves.mat.meta
 guid: 2f31f4440de60444b8dd94d4d64b3c00
-========
-guid: 55c04ce684cb542debc357409498bc4e
->>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a:Assets/AllSkyFree/_AllSkyFreeDemoEnvironment/AdditiveSprite.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 0

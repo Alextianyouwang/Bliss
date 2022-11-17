@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/AllSkyFree/_AllSkyFreeDemoEnvironment/Materials/AllSkyDemoEnv_TreeTrunk.mat.meta
 guid: 52d55542834f2465eb9aed460fd370de
-========
-guid: 4ecd3f24879b0402c92f21617e3db5e1
->>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a:Assets/AllSkyFree/_AllSkyFreeDemoEnvironment/Materials/AllSkyDemoEnv_Building.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 0
