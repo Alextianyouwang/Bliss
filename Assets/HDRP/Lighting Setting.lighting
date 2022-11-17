@@ -17,7 +17,35 @@ LightingSettings:
   m_IndirectOutputScale: 1
   m_UsingShadowmask: 1
   m_BakeBackend: 2
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
   m_LightmapMaxSize: 512
+=======
+  m_LightmapMaxSize: 2048
+>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
+=======
+  m_LightmapMaxSize: 2048
+>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
+=======
+  m_LightmapMaxSize: 2048
+>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
+=======
+  m_LightmapMaxSize: 2048
+>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
+=======
+  m_LightmapMaxSize: 2048
+>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
+=======
+  m_LightmapMaxSize: 2048
+>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
+=======
+  m_LightmapMaxSize: 2048
+>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
   m_BakeResolution: 100
   m_Padding: 10
   m_LightmapCompression: 0
@@ -45,8 +73,8 @@ LightingSettings:
   m_PVREnvironmentSampleCount: 256
   m_PVREnvironmentReferencePointCount: 2048
   m_LightProbeSampleCountMultiplier: 4
-  m_PVRBounces: 6
-  m_PVRMinBounces: 4
+  m_PVRBounces: 5
+  m_PVRMinBounces: 3
   m_PVREnvironmentMIS: 1
   m_PVRFilteringMode: 1
   m_PVRDenoiserTypeDirect: 1

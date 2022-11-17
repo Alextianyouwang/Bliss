@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/AllSkyFree/_AllSkyFreeDemoEnvironment/Materials/AllSkyDemoEnv_MountainGlow.mat.meta
+guid: 1d924399aa96d4378b9c507b7669a4f4
+========
+guid: 4ecd3f24879b0402c92f21617e3db5e1
+>>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a:Assets/AllSkyFree/_AllSkyFreeDemoEnvironment/Materials/AllSkyDemoEnv_Building.mat.meta
+=======
+guid: 1d924399aa96d4378b9c507b7669a4f4
+>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

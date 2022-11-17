@@ -63,7 +63,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GrassTex:
-        m_Texture: {fileID: 2800000, guid: b97e4be25c3932344b0b5b0ffe62377d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5ddef0977dde72343992a79d27da33fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GroundTex:
@@ -155,7 +155,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat5:
-        m_Texture: {fileID: 2800000, guid: 5c8999ac245bff34dab5fd31757ced45, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat6:
@@ -223,7 +223,7 @@ Material:
     - _Metallic2: 0
     - _Metallic3: 0
     - _Metallic4: 0
-    - _Metallic5: 1
+    - _Metallic5: 0
     - _Metallic6: 0
     - _Metallic7: 0
     - _MinimumNumberStacks: 1
@@ -291,10 +291,10 @@ Material:
     - _ZWrite: 1
     - __NumberOfStacks: 17
     m_Colors:
-    - _Color: {r: 0.7581916, g: 0.9254902, b: 0.38039216, a: 1}
+    - _Color: {r: 0.7659353, g: 0.9245283, b: 0.39684942, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GroundColor: {r: 1, g: 0.88, b: 0.75, a: 1}
+    - _GroundColor: {r: 1, g: 0.85605836, b: 0.7028302, a: 1}
     - _OffsetVector: {r: 0, g: 0, b: 0, a: 0}
     - _PJShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ProjectedShadowColor: {r: 0.509434, g: 0.33235958, b: 0.18983625, a: 1}
@@ -305,11 +305,11 @@ Material:
     - _Specular2: {r: 1, g: 1, b: 1, a: 1}
     - _Specular3: {r: 1, g: 1, b: 1, a: 1}
     - _Specular4: {r: 0, g: 0, b: 0, a: 1}
-    - _Specular5: {r: 1, g: 1, b: 1, a: 0}
+    - _Specular5: {r: 1, g: 1, b: 1, a: 1}
     - _Specular6: {r: 1, g: 1, b: 1, a: 1}
     - _Specular7: {r: 1, g: 1, b: 1, a: 1}
     - _Splat4_STn: {r: 0, g: 0, b: 2, a: 2}
-    - _Splat5_STn: {r: 5, g: 5, b: 3, a: 3}
+    - _Splat5_STn: {r: 1, g: 1, b: 0, a: 1}
     - _Splat6_STn: {r: 1, g: 1, b: 0, a: 1}
     - _Splat7_STn: {r: 1, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []

@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/AllSkyFree.meta
+guid: 6fed542a4c9c7cc438c25e3b5ec50b2c
+========
+guid: 4392334f044e44affbf9f5162eb718ae
+>>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a:Assets/AllSkyFree/_AllSkyFreeDemoEnvironment.meta
+=======
+<<<<<<<< HEAD:Assets/StreamingAssets.meta
+guid: c1854904c4a3cf7419bf97c3c9183562
+========
+guid: 6fed542a4c9c7cc438c25e3b5ec50b2c
+>>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a:Assets/AllSkyFree.meta
+>>>>>>> f99cadbb916b7b3a82f64ef74faecf6da384798a
+folderAsset: yes
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
