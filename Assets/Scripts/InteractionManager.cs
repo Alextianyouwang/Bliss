@@ -32,17 +32,27 @@ public class InteractionManager : MonoBehaviour
     public LayerMask interactionMask;
 
     public bool canStartControl;
+    bool isInClippy;
 
 
     private void OnEnable()
     {
         SceneManager.OnGameStart += ToggleStart;
+        WorldTransition.OnClippyToggle += SetIsInClippy;
     }
     private void OnDisable()
     {
         SceneManager.OnGameStart -= ToggleStart;
+        WorldTransition.OnClippyToggle -= SetIsInClippy;
+
 
     }
+
+    void SetIsInClippy(bool _clippy)
+    {
+        isInClippy = _clippy;
+    }
+
     void Start()
     {
         lr = GetComponent<LineRenderer>();
@@ -128,6 +138,15 @@ public class InteractionManager : MonoBehaviour
                 currentNumber = Instantiate(numbers[i]).GetComponent<NumberBlocks>();
                 currentNumber.transform.position = throwPoint.position;
                 prepareToThrow = true;
+
+                if (isInClippy)
+                {
+                    currentNumber.transform.parent = FindObjectOfType<ClippyWrapper>().transform;
+                }
+                else
+                {
+                    currentNumber.transform.parent = FindObjectOfType<BlissWrapper>().transform;
+                }
             }
             
             if (Input.GetKeyUp(alphaKeys[i]) && prepareToThrow && currentKey == alphaKeys[i] )

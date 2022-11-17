@@ -3293,7 +3293,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &3587485518795672778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3407,3 +3407,7 @@ MonoBehaviour:
     m_Bits: 128
   bigEyeRoomYOffset: 3.5
   dolleyDepth: 30
+  sceneDataObj: {fileID: 0}
+  blissVolume: {fileID: 0}
+  clippyVolume: {fileID: 0}
+  localVolume: {fileID: 0}

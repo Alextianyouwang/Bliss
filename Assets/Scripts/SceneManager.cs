@@ -39,8 +39,8 @@ public class SceneManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         OnGameStart?.Invoke();
-        AudioManager.instance.Play("P1Music");
-        AudioManager.instance.Play("P1Ambience");
+       // AudioManager.instance.Play("P1Music");
+        //AudioManager.instance.Play("P1Ambience");
     }
 
     void LoadScene(int scene) 

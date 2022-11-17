@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System.Linq;
+using UnityEngine.Rendering;
 
 public class WorldTransition : MonoBehaviour
 {
@@ -14,11 +16,22 @@ public class WorldTransition : MonoBehaviour
     public Camera cam;
     public LayerMask groundMask;
     public float bigEyeRoomYOffset,dolleyDepth;
+
+    public SceneDataObject sceneDataObj;
     // private Rigidbody rb;
 
     private Material bigEyeWorldMat;
 
-    private bool isFloating = false, isInTransition = false, isInBigEyeWorld = false;
+    private bool isFloating = false, isInTransition = false, isInClippy = false;
+
+    private List<GameObject> blissGameObjects = new List<GameObject>(), clippyGameObjects = new List<GameObject>();
+    private Vector3 previousBlissPosition,previousClippyPosition;
+    private GameObject blizzWrapper, clippyWrapper, clippyLoadPoint;
+
+    public VolumeProfile blissVolume, clippyVolume;
+    public Volume localVolume;
+
+    public static Action<bool> OnClippyToggle;
 
     
     void Start()
@@ -29,34 +42,96 @@ public class WorldTransition : MonoBehaviour
             return;
         }
         rb = GetComponent<Rigidbody>();*/
-        bigEyeWorld.SetActive(false);
         //bigEyeWorldMat = bigEyeWorld.GetComponent<MeshRenderer>().material;
+
+        StartCoroutine(WaitUntilSceneLoad());
+       
     }
 
+    IEnumerator WaitUntilSceneLoad() 
+    {
+        blizzWrapper = FindObjectOfType<BlissWrapper>().gameObject;
+        AsyncOperation load = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Clippy", LoadSceneMode.Additive);
+        while (!load.isDone) 
+        {
+            yield return null;
+        }
+        clippyWrapper = FindObjectOfType<ClippyWrapper>().gameObject;
+        clippyLoadPoint = FindObjectOfType<ClippyLoadpoint>().gameObject; ;
+        clippyWrapper.SetActive(false);
+    }
+    private void OnEnable()
+    {
+        //sceneDataObj.isInClippyWorld = true;
+    }
+    private void OnDisable()
+    {
+        
+    }
+    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && !isFloating && !isInTransition) 
+        SceneSwithcer();
+        //OldScenenSwithcer();
+    }
+    void OldScenenSwithcer() 
+    {
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            if (!isInBigEyeWorld)
+            if (!sceneDataObj.isInClippyWorld)
             {
-                isInBigEyeWorld = true;
-                //ground.GetComponent<Collider>().enabled = false;
+                sceneDataObj.isInClippyWorld = true;
+                UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Clippy");
             }
 
 
             else
             {
-                isInBigEyeWorld = false;
-                // ground.GetComponent<Collider>().enabled = true;
+                sceneDataObj.isInClippyWorld = false;
+                UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Bliss");
             }
-                
-            InitiateWorldTransition();
+        }
+    }
+    void SceneSwithcer() 
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (!isInClippy)
+            {
+                isInClippy = true;
+                previousBlissPosition = transform.position;
+                transform.position = clippyLoadPoint.transform.position;
+                localVolume.profile = clippyVolume;
+                blizzWrapper.SetActive(false);
+                clippyWrapper.SetActive(true);
+               
+
+
+                //UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Clippy");
+            }
+
+
+            else
+            {
+                isInClippy = false;
+                clippyLoadPoint.transform.position = transform.position;
+                transform.position = previousBlissPosition;
+                localVolume.profile = blissVolume;
+
+                clippyWrapper.SetActive(false);
+                blizzWrapper.SetActive(true);
+
+
+                //UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Bliss");
+            }
+            OnClippyToggle?.Invoke(isInClippy);
+            //InitiateWorldTransition();
         }
     }
     void InitiateWorldTransition() 
     {
         StartCoroutine(TransitionAnimation(1f));
-        StartCoroutine(TransitionEffect(1f, isInBigEyeWorld));
+        StartCoroutine(TransitionEffect(1f, isInClippy));
         StartCoroutine(CameraEffect(1f));
     }
 
