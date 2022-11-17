@@ -57,7 +57,7 @@ public class WorldTransition : MonoBehaviour
             yield return null;
         }
         clippyWrapper = FindObjectOfType<ClippyWrapper>().gameObject;
-        clippyLoadPoint = FindObjectOfType<ClippyLoadpoint>().gameObject; ;
+        clippyLoadPoint = FindObjectOfType<ClippyLoadpoint>().gameObject;
         clippyWrapper.SetActive(false);
     }
     private void OnEnable()
