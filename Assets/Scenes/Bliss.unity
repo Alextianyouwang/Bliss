@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 502.36902, g: 519.62695, b: 706.44604, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1430,9 +1430,6 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1307551568}
   playerAnchor: {fileID: 1897120257}
   deletePos: {fileID: 1679484326}
-  clippyGroundMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &224225870
 GameObject:
   m_ObjectHideFlags: 0
@@ -6940,31 +6937,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.16304159
+      value: 0.1712549
       objectReference: {fileID: 0}
     - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.033142533
       objectReference: {fileID: 0}
     - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.98661923
+      value: -0.9838339
       objectReference: {fileID: 0}
     - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.040547937
       objectReference: {fileID: 0}
     - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -5.229
       objectReference: {fileID: 0}
     - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -161.233
+      value: -160.386
       objectReference: {fileID: 0}
     - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 2.954
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
@@ -9239,7 +9236,6 @@ MonoBehaviour:
     m_Bits: 128
   bigEyeRoomYOffset: -1
   dolleyDepth: 30
-  sceneDataObj: {fileID: 11400000, guid: 8172a3bf8ebbce742b500a0f64bc2e0e, type: 2}
   blissVolume: {fileID: 11400000, guid: a123fc0ac58cb774e8592c925f167e7c, type: 2}
   clippyVolume: {fileID: 11400000, guid: 8cebde13d86cb4043936ff5cb9e2377d, type: 2}
   localVolume: {fileID: 1946047578}

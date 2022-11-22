@@ -13,7 +13,6 @@ using Unity.VisualScripting.Antlr3.Runtime.Tree;
 public class WorldTransition : MonoBehaviour
 {
 
-    private SelfSpinning turnTable;
     public GameObject bigEyeWorld ;
     public GameObject ground;
     public Material worldMat,grassMat,clippyMat;
@@ -22,30 +21,24 @@ public class WorldTransition : MonoBehaviour
     public LayerMask groundMask;
     public float bigEyeRoomYOffset,dolleyDepth;
 
-    public SceneDataObject sceneDataObj;
-    // private Rigidbody rb;
 
-    private Material bigEyeWorldMat;
+    private bool isInClippy = false;
 
-    private bool isFloating = false, isInTransition = false, isInClippy = false;
-
-    private List<GameObject> blissGameObjects = new List<GameObject>(), clippyGameObjects = new List<GameObject>();
-    private Vector3 previousBlissPosition,previousClippyPosition;
+    private Vector3 previousBlissPosition;
     private GameObject blizzWrapper, clippyWrapper, clippyLoadPoint;
 
     public VolumeProfile blissVolume, clippyVolume;
     public Volume localVolume;
 
     public static Action<bool> OnClippyToggle;
-    public static Action OnSelectedFileChange;
+    public static Action<FileObject,FileObject> OnSelectedFileChange;
 
-
-
-    private FileObject currentFile,previousFile;
 
     // ClippyFileSyatem
+
+    private FileObject prevFile, currFile;
     private ClippyFileSystem clippyFileSystem;
-    private List<Transform> clippyFileList;
+    private List<Transform> clippyFileLoadPosition;
     private List<FileObject> clippyFileLoaded = new List<FileObject>();
     private int fileIndex = 0;
 
@@ -69,8 +62,7 @@ public class WorldTransition : MonoBehaviour
         clippyWrapper = FindObjectOfType<ClippyWrapper>().gameObject;
         clippyLoadPoint = FindObjectOfType<ClippyLoadpoint>().gameObject;
         clippyFileSystem = FindObjectOfType<ClippyFileSystem>();
-        turnTable = FindObjectOfType<SelfSpinning>();
-        clippyFileList = clippyFileSystem.fileTransform;
+        clippyFileLoadPosition = clippyFileSystem.fileTransform;
         clippyWrapper.SetActive(false);
     }
     private void OnEnable()
@@ -105,14 +97,12 @@ public class WorldTransition : MonoBehaviour
         FirstPersonController player = GetComponent<FirstPersonController>();
         player.playerCanMove = false;
         player.GetComponent<Rigidbody>().isKinematic = true;
-        //player.transform.position = target.position;
 
         anchorCo = StartCoroutine(PlayerAnchorAnimation(target.position, target.eulerAngles, 1.2f, player));
     }
 
     IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Vector3 targetRot,float speed ,FirstPersonController player) 
     {
-       // OnToggleDeleteButton?.Invoke(true);
         isAnchoring = true;
         float percent = 0;
         Vector3 initialPos = player.transform.position;
@@ -131,12 +121,9 @@ public class WorldTransition : MonoBehaviour
     }
     private void DisablePlayerAnchor() 
     {
-      
-
         FirstPersonController player = GetComponent<FirstPersonController>();
         player.playerCanMove = true;
         player.GetComponent<Rigidbody>().isKinematic = false;
-        //OnToggleDeleteButton?.Invoke(false);
         isAnchoring = false;
         player.transform.parent = null;
         StopCoroutine(anchorCo);
@@ -144,33 +131,33 @@ public class WorldTransition : MonoBehaviour
 
     void GetFileObject(FileObject file) 
     {
-        previousFile = file;
-        if (previousFile != currentFile && currentFile != null) 
+        currFile = file;
+        if (currFile != prevFile && prevFile != null) 
         {
-            OnSelectedFileChange?.Invoke();
+            OnSelectedFileChange?.Invoke(currFile,prevFile);
             print("You have changed File");
         }
-        currentFile = previousFile;
-        print("You have got " + currentFile.name + "selected");
+        prevFile = currFile;
+        print("You have got " + prevFile.name + "selected");
     }
 
     void SaveCurrentFile()
     {
-        print("You have Saved " + currentFile.name + "Congratulations!");
-        if (!Array.Find(clippyFileLoaded.ToArray(),x => x.name == currentFile.name +  "(Clone)")) 
+        print("You have Saved " + prevFile.name + "Congratulations!");
+        if (!Array.Find(clippyFileLoaded.ToArray(),x => x.name == prevFile.name +  "(Clone)")) 
         {
            
-            if (fileIndex <= clippyFileList.Count - 1)
+            if (fileIndex <= clippyFileLoadPosition.Count - 1)
             {
-                FileObject f = Instantiate(currentFile);
+                FileObject f = Instantiate(prevFile);
                 f.SwitchToClippyWorld();
                 clippyFileLoaded.Add(f);
-                f.transform.position = clippyFileList[fileIndex].position;
+                f.transform.position = clippyFileLoadPosition[fileIndex].position;
                 
                 f.transform.parent = clippyFileSystem.transform;
                 f.transform.forward = (clippyLoadPoint.transform.position - f.transform.position).normalized;
                 f.transform.localScale *= 0.8f;
-                
+                f.ResetIsAnchoredInClippy();
                 f.SetCloseButtonPosition(clippyFileSystem.transform);
                 fileIndex += 1;
             }
@@ -185,26 +172,8 @@ public class WorldTransition : MonoBehaviour
     void Update()
     {
         SceneSwithcer();
-        //OldScenenSwithcer();
     }
-    void OldScenenSwithcer() 
-    {
-        if (Input.GetKeyDown(KeyCode.F) && !isAnchoring)
-        {
-            if (!sceneDataObj.isInClippyWorld)
-            {
-                sceneDataObj.isInClippyWorld = true;
-                UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Clippy");
-            }
 
-
-            else
-            {
-                sceneDataObj.isInClippyWorld = false;
-                UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Bliss");
-            }
-        }
-    }
     void SceneSwithcer() 
     {
         if (Input.GetKeyDown(KeyCode.F) && !isAnchoring)
@@ -217,8 +186,6 @@ public class WorldTransition : MonoBehaviour
                 localVolume.profile = clippyVolume;
                 blizzWrapper.SetActive(false);
                 clippyWrapper.SetActive(true);
-
-                //UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Clippy");
             }
 
 
@@ -228,15 +195,10 @@ public class WorldTransition : MonoBehaviour
                 clippyLoadPoint.transform.position = transform.position;
                 transform.position = previousBlissPosition;
                 localVolume.profile = blissVolume;
-
                 clippyWrapper.SetActive(false);
                 blizzWrapper.SetActive(true);
-
-
-                //UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Bliss");
             }
             OnClippyToggle?.Invoke(isInClippy);
-            //InitiateWorldTransition();
         }
     }
     void InitiateWorldTransition() 
@@ -262,7 +224,7 @@ public class WorldTransition : MonoBehaviour
 
     IEnumerator TransitionAnimation(float floatingSpeed) 
     {
-        isFloating = true;
+
         float percentage = 0;
         if (GetComponent<CharacterController>())
             GetComponent<CharacterController>().enabled = false;
@@ -280,25 +242,19 @@ public class WorldTransition : MonoBehaviour
             GetComponent<CharacterController>().enabled = true;
         if (GetComponent<Rigidbody>())
             GetComponent<Rigidbody>().isKinematic = false;
-        isFloating = false;
+
     }
 
     IEnumerator TransitionEffect(float dissolvingSpeed, bool expanding) 
     {
-        isInTransition = true;
+
         float percentage = 0;
         float initialValue = expanding ? 0 : 200;
         float targetValue = expanding ? 200 : 0;
         if (expanding) 
         {
             bigEyeWorld.SetActive(true);
-            /*
-            Ray groundRay = new Ray(transform.position, Vector3.down);
-            RaycastHit hit;
-            if (Physics.Raycast(groundRay, out hit, 100f, groundMask)) 
-            {
-                bigEyeWorld.transform.position = hit.point + new Vector3 (0,-transform.position.y + bigEyeRoomYOffset,0);
-            } */
+
             bigEyeWorld.transform.position = transform.position + new Vector3(0, bigEyeRoomYOffset, 0);
         };
            
@@ -319,22 +275,14 @@ public class WorldTransition : MonoBehaviour
         }
         if (expanding)
         {
-            //if (isInBigEyeWorld)
-                //UnityEngine.SceneManagement.SceneManager.LoadScene("Clippy");
+
         }
         else 
         {
-            //if (!isInBigEyeWorld)
-               // UnityEngine.SceneManagement.SceneManager.LoadScene("Bliss");
+
             bigEyeWorld.SetActive(false);
         }
-          
-        isInTransition = false;
     }
 
-    public void Load() 
-    {
-        
-        //UnityEngine.SceneManagement.SceneManager.UnloadScene("Bliss");
-    }
+
 }

@@ -12,13 +12,13 @@ public class QuitButton : MonoBehaviour
     {
         SaveButton.OnSaveCurrentFile += RemoveSelfFromScene;
         OnQuitCurrentFile += RemoveSelfFromScene;
-        WorldTransition.OnSelectedFileChange += RemoveSelfFromScene;
+        WorldTransition.OnSelectedFileChange += RemoveFromScene_FileChange;
     }
     private void OnDisable()
     {
         SaveButton.OnSaveCurrentFile -= RemoveSelfFromScene;
         OnQuitCurrentFile -= RemoveSelfFromScene;
-        WorldTransition.OnSelectedFileChange -= RemoveSelfFromScene;
+        WorldTransition.OnSelectedFileChange -= RemoveFromScene_FileChange;
 
 
     }
@@ -39,10 +39,13 @@ public class QuitButton : MonoBehaviour
             }
         }
     }
+    void RemoveFromScene_FileChange(FileObject newFile, FileObject prevFile)
+    {
+        RemoveSelfFromScene();
 
+    }
     void RemoveSelfFromScene()
     {
-        print("QuitButtonHasBeenDestroyed");
 
         Destroy(gameObject);
     }

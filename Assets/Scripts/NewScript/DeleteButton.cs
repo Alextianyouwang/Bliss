@@ -19,17 +19,13 @@ public class DeleteButton : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<CursorBlock>())
             {
-                print("HasClicked");
                 if (collision.gameObject.GetComponent<CursorBlock>().clickTimes == 1) 
                 {
                     if (!hasBeenClicked)
                     {
-                        print("File" + pairedFile.name + "Has been deleted");
-                        
                         Destroy(pairedFile.gameObject);
                         Destroy(gameObject);
                         OnDeleteObject?.Invoke(pairedFile);
-                        print(pairedFile.name);
                         hasBeenClicked = true;
                     }
                 }

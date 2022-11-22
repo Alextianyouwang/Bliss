@@ -20,7 +20,7 @@ public class FileObject : MonoBehaviour
     public static Action<Transform> OnPlayerAnchored;
     public static Action OnPlayerReleased;
 
-    public LayerMask clippyGroundMask;
+    //public LayerMask clippyGroundMask;
     void Start()
     {
         
@@ -35,14 +35,14 @@ public class FileObject : MonoBehaviour
     {
         QuitButton.OnQuitCurrentFile += ResetClick;
         SaveButton.OnSaveCurrentFile += ResetClick;
-        WorldTransition.OnSelectedFileChange +=  ResetClick;
+        WorldTransition.OnSelectedFileChange +=  ResetAnchorFlag;
 
     }
     private void OnDisable()
     {
         QuitButton.OnQuitCurrentFile -= ResetClick;
         SaveButton.OnSaveCurrentFile -= ResetClick;
-        WorldTransition.OnSelectedFileChange -= ResetClick;
+        WorldTransition.OnSelectedFileChange -= ResetAnchorFlag;
 
     }
 
@@ -55,7 +55,10 @@ public class FileObject : MonoBehaviour
     {
         isInClippyWorld = true;
     }
-
+    public void ResetIsAnchoredInClippy() 
+    {
+        isAnchoredInClippy = false;
+    }
     public void SetCloseButtonPosition(Transform clippySystemTransform) 
     {
   /*      Ray downRay = new Ray(transform.position, Vector3.down);
@@ -75,6 +78,14 @@ public class FileObject : MonoBehaviour
 
         delete_instance.transform.parent = clippySystemTransform;
         delete_instance.SetPariedFile(this);
+    }
+
+    public void ResetAnchorFlag(FileObject newFile,FileObject prevFile) 
+    {
+        prevFile.isAnchoredInClippy = false;
+        newFile.isAnchoredInClippy = true;
+        if (isInClippyWorld)
+            delete_instance.gameObject.SetActive(true);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -107,6 +118,7 @@ public class FileObject : MonoBehaviour
                         if (!isAnchoredInClippy)
                         {
                             isAnchoredInClippy = true;
+                            OnFlieCollected?.Invoke(this);
                             OnPlayerAnchored?.Invoke(playerAnchor);
                             delete_instance.gameObject.SetActive(false);
 
