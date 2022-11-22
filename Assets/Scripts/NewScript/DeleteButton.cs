@@ -13,32 +13,23 @@ public class DeleteButton : MonoBehaviour
     {
         pairedFile = file;
     }
-    private void OnEnable()
-    {
-
-    }
-    private void OnDisable()
-    {
-
-    }
-    void ToggleVisibility(bool isAnchoring) 
-    {
-        gameObject.SetActive(!isAnchoring);
-    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Equals("Cursor"))
         {
             if (collision.gameObject.GetComponent<CursorBlock>())
             {
+                print("HasClicked");
                 if (collision.gameObject.GetComponent<CursorBlock>().clickTimes == 1) 
                 {
                     if (!hasBeenClicked)
                     {
                         print("File" + pairedFile.name + "Has been deleted");
-                        OnDeleteObject?.Invoke(pairedFile);
+                        
                         Destroy(pairedFile.gameObject);
                         Destroy(gameObject);
+                        OnDeleteObject?.Invoke(pairedFile);
+                        print(pairedFile.name);
                         hasBeenClicked = true;
                     }
                 }

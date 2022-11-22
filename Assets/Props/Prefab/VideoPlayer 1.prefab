@@ -151,7 +151,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117350139072654009}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.0018444957, y: -0.00031858057, z: 0.009016213}
+  m_LocalPosition: {x: 0.0018, y: -0.00031858057, z: 0.0092}
   m_LocalScale: {x: 1.7162979, y: 1.7162979, z: 1.7162979}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1185,12 +1185,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2036108009476034543, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
-  delete: {fileID: 4028233132991739792, guid: 17f1c7b5d21f7e64f95501c29c187490, type: 3}
+  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
+  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 22936514}
   closeLoadPoint: {fileID: 38467180}
   playerAnchor: {fileID: 344634690}
-  deletePos: {fileID: 0}
+  deletePos: {fileID: 172005803}
   clippyGroundMask:
     serializedVersion: 2
     m_Bits: 128

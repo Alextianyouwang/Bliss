@@ -56,7 +56,7 @@ public class FileObject : MonoBehaviour
         isInClippyWorld = true;
     }
 
-    public void SetCloseButtonPosition() 
+    public void SetCloseButtonPosition(Transform clippySystemTransform) 
     {
   /*      Ray downRay = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
@@ -72,7 +72,8 @@ public class FileObject : MonoBehaviour
 */
         delete_instance = Instantiate(delete);
         delete_instance.transform.position = deletePos.position;
-        //delete.transform.parent = transform;
+
+        delete_instance.transform.parent = clippySystemTransform;
         delete_instance.SetPariedFile(this);
     }
 

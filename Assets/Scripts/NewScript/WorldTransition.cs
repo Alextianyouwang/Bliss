@@ -8,10 +8,13 @@ using System.Linq;
 using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
 using Unity.VisualScripting.FullSerializer;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 public class WorldTransition : MonoBehaviour
 {
-    public GameObject bigEyeWorld;
+
+    private SelfSpinning turnTable;
+    public GameObject bigEyeWorld ;
     public GameObject ground;
     public Material worldMat,grassMat,clippyMat;
     public AnimationCurve floatAnimationCurve,transitionSpeedCurve,cameraDolleyCurve,AnchorAnimationCurve;
@@ -46,6 +49,8 @@ public class WorldTransition : MonoBehaviour
     private List<FileObject> clippyFileLoaded = new List<FileObject>();
     private int fileIndex = 0;
 
+    private Coroutine anchorCo;
+
 
     private bool isAnchoring = false;
     void Start()
@@ -56,7 +61,7 @@ public class WorldTransition : MonoBehaviour
     IEnumerator WaitUntilSceneLoad() 
     {
         blizzWrapper = FindObjectOfType<BlissWrapper>().gameObject;
-        AsyncOperation load = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Clippy", LoadSceneMode.Additive);
+        AsyncOperation load = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Floppy", LoadSceneMode.Additive);
         while (!load.isDone) 
         {
             yield return null;
@@ -64,6 +69,7 @@ public class WorldTransition : MonoBehaviour
         clippyWrapper = FindObjectOfType<ClippyWrapper>().gameObject;
         clippyLoadPoint = FindObjectOfType<ClippyLoadpoint>().gameObject;
         clippyFileSystem = FindObjectOfType<ClippyFileSystem>();
+        turnTable = FindObjectOfType<SelfSpinning>();
         clippyFileList = clippyFileSystem.fileTransform;
         clippyWrapper.SetActive(false);
     }
@@ -101,7 +107,7 @@ public class WorldTransition : MonoBehaviour
         player.GetComponent<Rigidbody>().isKinematic = true;
         //player.transform.position = target.position;
 
-        StartCoroutine(PlayerAnchorAnimation(target.position, target.eulerAngles, 1.2f, player));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.position, target.eulerAngles, 1.2f, player));
     }
 
     IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Vector3 targetRot,float speed ,FirstPersonController player) 
@@ -115,21 +121,25 @@ public class WorldTransition : MonoBehaviour
         {
             float progress = AnchorAnimationCurve.Evaluate(percent);
             player.transform.position = Vector3.Lerp(initialPos, targetPos, progress);
-            //player.transform.eulerAngles = Vector3.Lerp(initialRot, targetRot, progress);
 
             percent += Time.deltaTime * speed;
             yield return null;
         }
+        if (isInClippy)
+            player.transform.parent = clippyFileSystem.transform;
         
     }
     private void DisablePlayerAnchor() 
     {
+      
 
         FirstPersonController player = GetComponent<FirstPersonController>();
         player.playerCanMove = true;
         player.GetComponent<Rigidbody>().isKinematic = false;
         //OnToggleDeleteButton?.Invoke(false);
         isAnchoring = false;
+        player.transform.parent = null;
+        StopCoroutine(anchorCo);
     }
 
     void GetFileObject(FileObject file) 
@@ -157,9 +167,11 @@ public class WorldTransition : MonoBehaviour
                 clippyFileLoaded.Add(f);
                 f.transform.position = clippyFileList[fileIndex].position;
                 
-                f.transform.parent = clippyWrapper.transform;
-                f.transform.forward = Vector3.right;
-                f.SetCloseButtonPosition();
+                f.transform.parent = clippyFileSystem.transform;
+                f.transform.forward = (clippyLoadPoint.transform.position - f.transform.position).normalized;
+                f.transform.localScale *= 0.8f;
+                
+                f.SetCloseButtonPosition(clippyFileSystem.transform);
                 fileIndex += 1;
             }
         }

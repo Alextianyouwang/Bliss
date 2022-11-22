@@ -31,7 +31,7 @@ public class NumberBlocks : MonoBehaviour
         {
             if (!hasCollided)
             {
-                AudioManager.instance.Play("Click");
+                //AudioManager.instance.Play("Click");
                 hasCollided = true;
             }
         }
