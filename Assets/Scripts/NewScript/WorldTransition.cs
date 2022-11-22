@@ -6,13 +6,15 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine.Rendering;
+using static UnityEngine.GraphicsBuffer;
+using Unity.VisualScripting.FullSerializer;
 
 public class WorldTransition : MonoBehaviour
 {
     public GameObject bigEyeWorld;
     public GameObject ground;
     public Material worldMat,grassMat,clippyMat;
-    public AnimationCurve floatAnimationCurve,transitionSpeedCurve,cameraDolleyCurve;
+    public AnimationCurve floatAnimationCurve,transitionSpeedCurve,cameraDolleyCurve,AnchorAnimationCurve;
     public Camera cam;
     public LayerMask groundMask;
     public float bigEyeRoomYOffset,dolleyDepth;
@@ -32,20 +34,23 @@ public class WorldTransition : MonoBehaviour
     public Volume localVolume;
 
     public static Action<bool> OnClippyToggle;
+    public static Action OnSelectedFileChange;
 
-    
+
+
+    private FileObject currentFile,previousFile;
+
+    // ClippyFileSyatem
+    private ClippyFileSystem clippyFileSystem;
+    private List<Transform> clippyFileList;
+    private List<FileObject> clippyFileLoaded = new List<FileObject>();
+    private int fileIndex = 0;
+
+
+    private bool isAnchoring = false;
     void Start()
     {
-        /*if (!GetComponent<Rigidbody>())
-        {
-            Debug.LogWarning("Please Attach Rigidbody to player");
-            return;
-        }
-        rb = GetComponent<Rigidbody>();*/
-        //bigEyeWorldMat = bigEyeWorld.GetComponent<MeshRenderer>().material;
-
         StartCoroutine(WaitUntilSceneLoad());
-       
     }
 
     IEnumerator WaitUntilSceneLoad() 
@@ -58,15 +63,111 @@ public class WorldTransition : MonoBehaviour
         }
         clippyWrapper = FindObjectOfType<ClippyWrapper>().gameObject;
         clippyLoadPoint = FindObjectOfType<ClippyLoadpoint>().gameObject;
+        clippyFileSystem = FindObjectOfType<ClippyFileSystem>();
+        clippyFileList = clippyFileSystem.fileTransform;
         clippyWrapper.SetActive(false);
     }
     private void OnEnable()
     {
-        //sceneDataObj.isInClippyWorld = true;
+        FileObject.OnFlieCollected += GetFileObject;
+        SaveButton.OnSaveCurrentFile += SaveCurrentFile;
+
+        SaveButton.OnSaveCurrentFile += DisablePlayerAnchor;
+        QuitButton.OnQuitCurrentFile += DisablePlayerAnchor;
+
+        FileObject.OnPlayerAnchored += AnchorPlayer;
+        DeleteButton.OnDeleteObject += RemoveFile;
+        FileObject.OnPlayerReleased += DisablePlayerAnchor;
+            
     }
     private void OnDisable()
     {
+        FileObject.OnFlieCollected -= GetFileObject;
+        SaveButton.OnSaveCurrentFile -= SaveCurrentFile;
+
+        SaveButton.OnSaveCurrentFile -= DisablePlayerAnchor;
+        QuitButton.OnQuitCurrentFile -= DisablePlayerAnchor;
+
+        FileObject.OnPlayerAnchored -= AnchorPlayer;
+        DeleteButton.OnDeleteObject -= RemoveFile;
+        FileObject.OnPlayerReleased -= DisablePlayerAnchor;
+
+    }
+
+    private void AnchorPlayer(Transform target) 
+    {
+        FirstPersonController player = GetComponent<FirstPersonController>();
+        player.playerCanMove = false;
+        player.GetComponent<Rigidbody>().isKinematic = true;
+        //player.transform.position = target.position;
+
+        StartCoroutine(PlayerAnchorAnimation(target.position, target.eulerAngles, 1.2f, player));
+    }
+
+    IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Vector3 targetRot,float speed ,FirstPersonController player) 
+    {
+       // OnToggleDeleteButton?.Invoke(true);
+        isAnchoring = true;
+        float percent = 0;
+        Vector3 initialPos = player.transform.position;
+        Vector3 initialRot = player.transform.eulerAngles;
+        while (percent < 1) 
+        {
+            float progress = AnchorAnimationCurve.Evaluate(percent);
+            player.transform.position = Vector3.Lerp(initialPos, targetPos, progress);
+            //player.transform.eulerAngles = Vector3.Lerp(initialRot, targetRot, progress);
+
+            percent += Time.deltaTime * speed;
+            yield return null;
+        }
         
+    }
+    private void DisablePlayerAnchor() 
+    {
+
+        FirstPersonController player = GetComponent<FirstPersonController>();
+        player.playerCanMove = true;
+        player.GetComponent<Rigidbody>().isKinematic = false;
+        //OnToggleDeleteButton?.Invoke(false);
+        isAnchoring = false;
+    }
+
+    void GetFileObject(FileObject file) 
+    {
+        previousFile = file;
+        if (previousFile != currentFile && currentFile != null) 
+        {
+            OnSelectedFileChange?.Invoke();
+            print("You have changed File");
+        }
+        currentFile = previousFile;
+        print("You have got " + currentFile.name + "selected");
+    }
+
+    void SaveCurrentFile()
+    {
+        print("You have Saved " + currentFile.name + "Congratulations!");
+        if (!Array.Find(clippyFileLoaded.ToArray(),x => x.name == currentFile.name +  "(Clone)")) 
+        {
+           
+            if (fileIndex <= clippyFileList.Count - 1)
+            {
+                FileObject f = Instantiate(currentFile);
+                f.SwitchToClippyWorld();
+                clippyFileLoaded.Add(f);
+                f.transform.position = clippyFileList[fileIndex].position;
+                
+                f.transform.parent = clippyWrapper.transform;
+                f.transform.forward = Vector3.right;
+                f.SetCloseButtonPosition();
+                fileIndex += 1;
+            }
+        }
+    }
+ 
+    void RemoveFile(FileObject fileToRemove) 
+    {
+        clippyFileLoaded.Remove(fileToRemove);
     }
     
     void Update()
@@ -76,7 +177,7 @@ public class WorldTransition : MonoBehaviour
     }
     void OldScenenSwithcer() 
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && !isAnchoring)
         {
             if (!sceneDataObj.isInClippyWorld)
             {
@@ -94,7 +195,7 @@ public class WorldTransition : MonoBehaviour
     }
     void SceneSwithcer() 
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && !isAnchoring)
         {
             if (!isInClippy)
             {
@@ -104,8 +205,6 @@ public class WorldTransition : MonoBehaviour
                 localVolume.profile = clippyVolume;
                 blizzWrapper.SetActive(false);
                 clippyWrapper.SetActive(true);
-               
-
 
                 //UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Clippy");
             }

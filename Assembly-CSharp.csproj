@@ -56,10 +56,10 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\SceneManage\SceneDataObject.cs" />
+    <Compile Include="Assets\Scripts\NewScript\SceneDataObject.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\ThreeDUI.cs" />
-    <Compile Include="Assets\Scripts\SceneManage\BlissWrapper.cs" />
+    <Compile Include="Assets\Scripts\NewScript\BlissWrapper.cs" />
     <Compile Include="Assets\Scripts\Portal.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\TemporalReprojection.cs" />
     <Compile Include="Assets\Scripts\NumberBlocks.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_AssetManager.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_BallPlayer.cs" />
     <Compile Include="Assets\Scripts\FirstPersonController.cs" />
-    <Compile Include="Assets\Scripts\SceneManage\ClippyWrapper.cs" />
+    <Compile Include="Assets\Scripts\NewScript\ClippyWrapper.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\Extensions.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\FrustumJitter.cs" />
     <Compile Include="Assets\Scripts\FolderOpen.cs" />
@@ -100,10 +100,15 @@
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_FxOnMouseClick.cs" />
     <Compile Include="Assets\Scripts\Loader.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MeshExtrusion.cs" />
-    <Compile Include="Assets\Scripts\SceneManage\WorldTransition.cs" />
+    <Compile Include="Assets\Scripts\NewScript\WorldTransition.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_Terrain.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
-    <Compile Include="Assets\Scripts\SceneManage\ClippyLoadpoint.cs" />
+    <Compile Include="Assets\Scripts\NewScript\ClippyLoadpoint.cs" />
+    <Compile Include="Assets\Scripts\NewScript\FileObject.cs" />
+    <Compile Include="Assets\Scripts\NewScript\SaveButton.cs" />
+    <Compile Include="Assets\Scripts\NewScript\QuitButton.cs" />
+    <Compile Include="Assets\Scripts\NewScript\ClippyFileSystem.cs" />
+    <Compile Include="Assets\Scripts\NewScript\DeleteButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BruteForce-GrassShader\Extra\VertexColor.shader" />

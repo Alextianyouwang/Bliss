@@ -9,6 +9,8 @@ TagManager:
   - Ground
   - Quit
   - Restart
+  - FileSave
+  - FileQuit
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Unity;
 
 public class Loader : MonoBehaviour
 {
@@ -9,11 +11,27 @@ public class Loader : MonoBehaviour
     public ThreeDUI quitObject;
     public ThreeDUI restartObject;
 
+
+    public bool willPlayStartScreen;
+    public FirstPersonController player;
+    public GameObject loadScreen;
+
     bool escPressed;
 
     public static event System.Action OnPressEsc;
 
     bool isInClippy;
+
+    private void Awake()
+    {
+        if (willPlayStartScreen) 
+        {
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            player.playerCanMove = false;
+            player.cameraCanMove = false;
+            loadScreen.SetActive(true);
+        }
+    }
     void Start()
     {
         
@@ -27,7 +45,7 @@ public class Loader : MonoBehaviour
     private void OnDisable()
     {
         WorldTransition.OnClippyToggle -= SetIsInClippy;
-
+        
     }
 
     void SetIsInClippy(bool _clippy) 
@@ -35,6 +53,13 @@ public class Loader : MonoBehaviour
         isInClippy = _clippy;
     }
 
+    public void StartGame() 
+    {
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        player.playerCanMove = true;
+        player.cameraCanMove = true;
+        loadScreen.SetActive(false);
+    }
     // Update is called once per frame
     void Update()
     {

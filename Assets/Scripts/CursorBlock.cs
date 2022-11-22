@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CursorBlock : NumberBlocks
 {
-    
+    public int clickTimes = 0;
     void Start()
     {
         
@@ -18,15 +18,17 @@ public class CursorBlock : NumberBlocks
 
     private void OnCollisionEnter(Collision collision)
     {
+        clickTimes += 1;
+       
         if (collision.gameObject.tag.Equals("Quit")) 
         {
-            //Application.Quit();
+            Application.Quit();
         }
         if (collision.gameObject.tag.Equals("Restart")) 
         {
-            //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-           // Cursor.lockState = CursorLockMode.None;
-           // AudioManager.instance.StopAllSound();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Bliss");
+            Cursor.lockState = CursorLockMode.None;
+            //AudioManager.instance.StopAllSound();
         }
 
         if (collision.gameObject.tag.Equals("Application") ||
@@ -35,7 +37,7 @@ public class CursorBlock : NumberBlocks
         {
             if (!hasCollided)
             {
-               // AudioManager.instance.Play("Click");
+                //AudioManager.instance.Play("Click");
                 //hasCollided = true;
             }
         }

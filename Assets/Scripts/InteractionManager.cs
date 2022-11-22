@@ -62,9 +62,10 @@ public class InteractionManager : MonoBehaviour
 
     void Update()
     {
-        
-       
-        
+        if (canStartControl)
+        {
+            TrailUpdate();
+        }
     }
 
     void ToggleStart() 
@@ -72,12 +73,10 @@ public class InteractionManager : MonoBehaviour
         canStartControl = true;
     }
 
+    
     private void LateUpdate()
     {
-        if (canStartControl) 
-        {
-            TrailUpdate();
-        }
+
 
     }
 
@@ -89,7 +88,7 @@ public class InteractionManager : MonoBehaviour
         if (Physics.Raycast(camRay, out hit, 30f, interactionMask))
         {
             lr.enabled = true;
-            targetVelocity = CalculateVelocity(hit.point, throwPoint.position, 1f);
+            targetVelocity = CalculateVelocity(hit.point, throwPoint.position, 0.6f);
             GetNumber(targetVelocity);
         }
         else 
@@ -169,9 +168,7 @@ public class InteractionManager : MonoBehaviour
                 //currentNumber.transform.position = Vector3.SmoothDamp(currentNumber.transform.position, throwPoint.position, ref refVel, 0.1f);
                 currentNumber.transform.position = throwPoint.position;
                 currentNumber.transform.eulerAngles = transform.eulerAngles - new Vector3(0, 180, 0);
-            }
-            
-           
+            }   
         }
 
     }
