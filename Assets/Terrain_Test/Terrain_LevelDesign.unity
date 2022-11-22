@@ -6619,11 +6619,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameters:
     albedo: {r: 1, g: 0.8273415, b: 0.7028302, a: 1}
-    meanFreePath: 40.12
+    meanFreePath: 200
     anisotropy: 0
     volumeMask: {fileID: 11700000, guid: b4d956b02d409b142b639ee82c78c89b, type: 3}
     textureScrollingSpeed: {x: 0.3, y: 0.1, z: 0}
-    textureTiling: {x: 8, y: 8, z: 8}
+    textureTiling: {x: 5, y: 5, z: 5}
     positiveFade: {x: 0.06587061, y: 0.17845279, z: 0.042866282}
     negativeFade: {x: 0.06587061, y: 0.17845279, z: 0.042866282}
     m_EditorUniformFade: 24.7
@@ -6664,7 +6664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsGlobal: 0
   priority: 1
-  blendDistance: 3
+  blendDistance: 50
   weight: 1
   sharedProfile: {fileID: 11400000, guid: dba70069d33ec4143b900bba198d028f, type: 2}
 --- !u!4 &1237531031
