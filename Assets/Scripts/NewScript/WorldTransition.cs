@@ -106,35 +106,35 @@ public class WorldTransition : MonoBehaviour
         player.playerCanMove = false;
         player.GetComponent<Rigidbody>().isKinematic = true;
 
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.position, target.rotation, target.eulerAngles, 1.2f, player));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.position, target, 1.2f, player));
     }
 
-    IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Quaternion targetRot,Vector3 targetEuler, float speed ,FirstPersonController player) 
+    IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Transform target, float speed ,FirstPersonController player) 
     {
         isAnchoring = true;
         float percent = 0;
         Vector3 initialPos = player.transform.position;
         Quaternion initialCamRot = player.playerCamera.transform.localRotation;
-        float initialPitch = player.playerCamera.transform.localEulerAngles.x;
-        float initialYaw = player.transform.eulerAngles.y;
+        Quaternion initialPlayerRot = player.transform.localRotation;
+
+        player.followTransfrom = target;
+        player.transform.position = target.transform.position;
+        player.transform.rotation = target.transform.rotation;
+
         player.FreezeCamera();
         while (percent < 1) 
         {
             float progress = AnchorAnimationCurve.Evaluate(percent);
             player.transform.position = Vector3.Lerp(initialPos, targetPos, progress);
-            Vector3 targetYawPitch = Vector3.Slerp(new Vector3(initialPitch, initialYaw, 0), new Vector3(targetEuler.x, targetEuler.y, 0), percent);
             player.playerCamera.transform.localRotation = Quaternion.Slerp(initialCamRot, Quaternion.identity, percent);
-            player.transform.eulerAngles = new Vector3(0, targetYawPitch.y, 0);            
+            player.transform.localRotation = Quaternion.Slerp(initialPlayerRot, target.rotation, percent);
+            player.transform.localEulerAngles = new Vector3(0, player.transform.localEulerAngles.y, 0);            
             percent += Time.deltaTime * speed;
             yield return null;
         }
         
-        player.UnFreezeCamera(player.transform.eulerAngles.y,0);
-
-
-        if (isInClippy)
-            player.transform.parent = clippyFileSystem.transform;
-        
+        player.UnFreezeCamera(player.transform.localEulerAngles.y,0);
+  
     }
     private void DisablePlayerAnchor() 
     {
@@ -142,7 +142,7 @@ public class WorldTransition : MonoBehaviour
         player.playerCanMove = true;
         player.GetComponent<Rigidbody>().isKinematic = false;
         isAnchoring = false;
-        player.transform.parent = null;
+        player.followTransfrom = null;
         StopCoroutine(anchorCo);
     }
 

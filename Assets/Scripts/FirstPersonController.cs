@@ -39,6 +39,9 @@ public class FirstPersonController : MonoBehaviour
     private float pitch = 0.0f ,storedPitch, finalPitch;
     private Image crosshairObject;
 
+    //Bliss Specific
+    public Transform followTransfrom;
+
     #region Camera Zoom Variables
 
     public bool enableZoom = true;
@@ -202,8 +205,6 @@ public class FirstPersonController : MonoBehaviour
 
     public void FreezeCamera() 
     {
-        yaw = transform.localEulerAngles.y;
-        pitch = playerCamera.transform.localEulerAngles.x;
         cameraCanMove = false;
         
     }
@@ -232,33 +233,12 @@ public class FirstPersonController : MonoBehaviour
                 // Inverted Y
                 storedPitch += mouseSensitivity * Input.GetAxis("Mouse Y");
             }
-            //storedPitch -= pitch;
-            
+
 
             storedPitch = Mathf.Clamp(storedPitch, -maxLookAngle, maxLookAngle);
 
             transform.localEulerAngles = new Vector3(0, storedYaw, 0);
             playerCamera.transform.localEulerAngles = new Vector3(storedPitch, 0, 0);
-        }
-
-        // Control camera movement
-        if(cameraCanMove)
-        {
-           /* yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
-
-            if (!invertCamera)
-            {
-                pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
-            }
-            else
-            {
-                // Inverted Y
-                pitch += mouseSensitivity * Input.GetAxis("Mouse Y");
-            }*/
-
-            // Clamp pitch between lookAngle
-        
-
         }
         
 
