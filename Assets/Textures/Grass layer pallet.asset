@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c509dbaa7b6f416409e3195321a2187e, type: 3}
+  m_Name: Grass layer pallet
+  m_EditorClassIdentifier: 
+  PaletteLayers:
+  - {fileID: 8574412962073106934, guid: 4020cda9eb49f30428e9806bc0abf85b, type: 2}
+  - {fileID: 8574412962073106934, guid: 0d990098fedb9f546b6faaf4cab95d35, type: 2}
+  - {fileID: 8574412962073106934, guid: 90aa6482efebc3c4fba4085f24c39815, type: 2}
+  - {fileID: 8574412962073106934, guid: bdc9a4ed18eca6e4d8a4b33a81e3368b, type: 2}
+  - {fileID: 8574412962073106934, guid: b01a305f754e3234894a32d4741b029b, type: 2}
