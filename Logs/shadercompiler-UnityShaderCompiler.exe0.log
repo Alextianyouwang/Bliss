@@ -308,3 +308,4 @@ Cmd: compileSnippet
  ok=1 outsize=8374
 
 
+Cmd: shutdown
