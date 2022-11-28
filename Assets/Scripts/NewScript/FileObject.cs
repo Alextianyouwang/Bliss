@@ -33,20 +33,21 @@ public class FileObject : MonoBehaviour
 
     private void OnEnable()
     {
-        QuitButton.OnQuitCurrentFile += ResetClick;
-        SaveButton.OnSaveCurrentFile += ResetClick;
+        QuitButton.OnQuitCurrentFile += ResetIsClickedInBliss;
+        SaveButton.OnSaveCurrentFile += ResetIsClickedInBliss;
         WorldTransition.OnSelectedFileChange +=  ResetAnchorFlag;
 
     }
     private void OnDisable()
     {
-        QuitButton.OnQuitCurrentFile -= ResetClick;
-        SaveButton.OnSaveCurrentFile -= ResetClick;
+        QuitButton.OnQuitCurrentFile -= ResetIsClickedInBliss;
+        SaveButton.OnSaveCurrentFile -= ResetIsClickedInBliss;
         WorldTransition.OnSelectedFileChange -= ResetAnchorFlag;
 
     }
 
-    void ResetClick() 
+
+    void ResetIsClickedInBliss() 
     {
         hasBeenClickedMenuActivated = false;
     }
@@ -82,6 +83,7 @@ public class FileObject : MonoBehaviour
 
     public void ResetAnchorFlag(FileObject newFile,FileObject prevFile) 
     {
+        prevFile.hasBeenClickedMenuActivated = false;
         prevFile.isAnchoredInClippy = false;
         newFile.isAnchoredInClippy = true;
         if (isInClippyWorld)

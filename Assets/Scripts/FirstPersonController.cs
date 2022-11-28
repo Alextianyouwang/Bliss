@@ -35,8 +35,8 @@ public class FirstPersonController : MonoBehaviour
     public Color crosshairColor = Color.white;
 
     // Internal Variables
-    private float yaw = 0.0f;
-    private float pitch = 0.0f;
+    private float yaw = 0.0f, storedYaw, finalYaw;
+    private float pitch = 0.0f ,storedPitch, finalPitch;
     private Image crosshairObject;
 
     #region Camera Zoom Variables
@@ -200,14 +200,51 @@ public class FirstPersonController : MonoBehaviour
 
     float camRotation;
 
+    public void FreezeCamera() 
+    {
+        yaw = transform.localEulerAngles.y;
+        pitch = playerCamera.transform.localEulerAngles.x;
+        cameraCanMove = false;
+        
+    }
+    public void UnFreezeCamera(float newYaw, float newPitch) 
+    {
+        storedYaw = newYaw;
+        storedPitch = newPitch;
+        cameraCanMove = true;
+    }
+
     private void LateUpdate()
     {
         #region Camera
 
+        if (cameraCanMove) 
+        {
+            storedYaw +=  Input.GetAxis("Mouse X") * mouseSensitivity;
+            //storedYaw -= yaw;
+            
+            if (!invertCamera)
+            {
+                storedPitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
+            }
+            else
+            {
+                // Inverted Y
+                storedPitch += mouseSensitivity * Input.GetAxis("Mouse Y");
+            }
+            //storedPitch -= pitch;
+            
+
+            storedPitch = Mathf.Clamp(storedPitch, -maxLookAngle, maxLookAngle);
+
+            transform.localEulerAngles = new Vector3(0, storedYaw, 0);
+            playerCamera.transform.localEulerAngles = new Vector3(storedPitch, 0, 0);
+        }
+
         // Control camera movement
         if(cameraCanMove)
         {
-            yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
+           /* yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
 
             if (!invertCamera)
             {
@@ -217,14 +254,13 @@ public class FirstPersonController : MonoBehaviour
             {
                 // Inverted Y
                 pitch += mouseSensitivity * Input.GetAxis("Mouse Y");
-            }
+            }*/
 
             // Clamp pitch between lookAngle
-            pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
+        
 
-            transform.localEulerAngles = new Vector3(0, yaw, 0);
-            playerCamera.transform.localEulerAngles = new Vector3(pitch, 0, 0);
         }
+        
 
         #region Camera Zoom
 

@@ -23,9 +23,10 @@ public class DeleteButton : MonoBehaviour
                 {
                     if (!hasBeenClicked)
                     {
+                        OnDeleteObject?.Invoke(pairedFile);
                         Destroy(pairedFile.gameObject);
                         Destroy(gameObject);
-                        OnDeleteObject?.Invoke(pairedFile);
+                        
                         hasBeenClicked = true;
                     }
                 }

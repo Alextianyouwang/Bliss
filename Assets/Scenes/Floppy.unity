@@ -1693,6 +1693,37 @@ Transform:
   m_Father: {fileID: 685159538290028557}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 70.866, y: 185.616, z: 4.434}
+--- !u!1 &810407240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 810407241}
+  m_Layer: 0
+  m_Name: File_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &810407241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810407240}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.2922, y: 0.0694, z: 0.1011}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1819593248}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &836440643
 GameObject:
   m_ObjectHideFlags: 19
@@ -4098,6 +4129,7 @@ Transform:
   - {fileID: 89355700}
   - {fileID: 1187985408}
   - {fileID: 1533534569}
+  - {fileID: 810407241}
   m_Father: {fileID: 4422384970218957465}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18351,7 +18383,6 @@ MonoBehaviour:
     m_Bits: 128
   bigEyeRoomYOffset: 3.5
   dolleyDepth: 30
-  sceneDataObj: {fileID: 0}
   blissVolume: {fileID: 0}
   clippyVolume: {fileID: 0}
   localVolume: {fileID: 0}

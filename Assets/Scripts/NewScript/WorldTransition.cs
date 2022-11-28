@@ -25,6 +25,7 @@ public class WorldTransition : MonoBehaviour
     private bool isInClippy = false;
 
     private Vector3 previousBlissPosition;
+    private Vector3 cameraFollowRef;
     private GameObject blizzWrapper, clippyWrapper, clippyLoadPoint;
 
     public VolumeProfile blissVolume, clippyVolume;
@@ -39,7 +40,7 @@ public class WorldTransition : MonoBehaviour
     private FileObject prevFile, currFile;
     private ClippyFileSystem clippyFileSystem;
     private List<Transform> clippyFileLoadPosition;
-    private List<FileObject> clippyFileLoaded = new List<FileObject>();
+    private FileObject[] clippyFileLoaded;
     private int fileIndex = 0;
 
     private Coroutine anchorCo;
@@ -48,6 +49,7 @@ public class WorldTransition : MonoBehaviour
     private bool isAnchoring = false;
     void Start()
     {
+       
         StartCoroutine(WaitUntilSceneLoad());
     }
 
@@ -64,6 +66,12 @@ public class WorldTransition : MonoBehaviour
         clippyFileSystem = FindObjectOfType<ClippyFileSystem>();
         clippyFileLoadPosition = clippyFileSystem.fileTransform;
         clippyWrapper.SetActive(false);
+        InitiateStuffAfterLoad();
+    }
+    void InitiateStuffAfterLoad() 
+    {
+        clippyFileLoaded = new FileObject[clippyFileSystem.transform.childCount];
+        for (int i = 0; i < clippyFileLoaded.Length; i++) { clippyFileLoaded[i] = null; }
     }
     private void OnEnable()
     {
@@ -98,23 +106,32 @@ public class WorldTransition : MonoBehaviour
         player.playerCanMove = false;
         player.GetComponent<Rigidbody>().isKinematic = true;
 
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.position, target.eulerAngles, 1.2f, player));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.position, target.rotation, target.eulerAngles, 1.2f, player));
     }
 
-    IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Vector3 targetRot,float speed ,FirstPersonController player) 
+    IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Quaternion targetRot,Vector3 targetEuler, float speed ,FirstPersonController player) 
     {
         isAnchoring = true;
         float percent = 0;
         Vector3 initialPos = player.transform.position;
-        Vector3 initialRot = player.transform.eulerAngles;
+        Quaternion initialCamRot = player.playerCamera.transform.localRotation;
+        float initialPitch = player.playerCamera.transform.localEulerAngles.x;
+        float initialYaw = player.transform.eulerAngles.y;
+        player.FreezeCamera();
         while (percent < 1) 
         {
             float progress = AnchorAnimationCurve.Evaluate(percent);
             player.transform.position = Vector3.Lerp(initialPos, targetPos, progress);
-
+            Vector3 targetYawPitch = Vector3.Slerp(new Vector3(initialPitch, initialYaw, 0), new Vector3(targetEuler.x, targetEuler.y, 0), percent);
+            player.playerCamera.transform.localRotation = Quaternion.Slerp(initialCamRot, Quaternion.identity, percent);
+            player.transform.eulerAngles = new Vector3(0, targetYawPitch.y, 0);            
             percent += Time.deltaTime * speed;
             yield return null;
         }
+        
+        player.UnFreezeCamera(player.transform.eulerAngles.y,0);
+
+
         if (isInClippy)
             player.transform.parent = clippyFileSystem.transform;
         
@@ -135,6 +152,7 @@ public class WorldTransition : MonoBehaviour
         if (currFile != prevFile && prevFile != null) 
         {
             OnSelectedFileChange?.Invoke(currFile,prevFile);
+            
             print("You have changed File");
         }
         prevFile = currFile;
@@ -143,30 +161,47 @@ public class WorldTransition : MonoBehaviour
 
     void SaveCurrentFile()
     {
-        print("You have Saved " + prevFile.name + "Congratulations!");
-        if (!Array.Find(clippyFileLoaded.ToArray(),x => x.name == prevFile.name +  "(Clone)")) 
         {
-           
-            if (fileIndex <= clippyFileLoadPosition.Count - 1)
+            if (!Array.Find(clippyFileLoaded,  x => x != null && x.name == prevFile.name + "(Clone)" ))
             {
-                FileObject f = Instantiate(prevFile);
-                f.SwitchToClippyWorld();
-                clippyFileLoaded.Add(f);
-                f.transform.position = clippyFileLoadPosition[fileIndex].position;
-                
-                f.transform.parent = clippyFileSystem.transform;
-                f.transform.forward = (clippyLoadPoint.transform.position - f.transform.position).normalized;
-                f.transform.localScale *= 0.8f;
-                f.ResetIsAnchoredInClippy();
-                f.SetCloseButtonPosition(clippyFileSystem.transform);
-                fileIndex += 1;
+               
+                fileIndex = GetFirstNullIndexInList(clippyFileLoaded);
+                if (fileIndex < clippyFileLoaded.Length) 
+                {
+                    FileObject f = Instantiate(currFile);
+                    f.SwitchToClippyWorld();
+
+                    f.transform.position = clippyFileLoadPosition[fileIndex].position;
+                    f.transform.parent = clippyFileSystem.transform;
+                    f.transform.forward = (clippyLoadPoint.transform.position - f.transform.position).normalized;
+                    f.transform.localScale *= 0.8f;
+                    f.ResetIsAnchoredInClippy();
+                    f.SetCloseButtonPosition(clippyFileSystem.transform);
+                    clippyFileLoaded[fileIndex] = f;
+                    print("You have Saved " + prevFile.name + "Congratulations!");
+
+                }
             }
         }
     }
- 
+    int GetFirstNullIndexInList<T>(T[] array)
+    {
+        foreach (T t in array) 
+        {
+            if (t == null)
+                return Array.IndexOf(array, t);
+        }
+        return array.Count();
+    }
     void RemoveFile(FileObject fileToRemove) 
     {
-        clippyFileLoaded.Remove(fileToRemove);
+        for (int i = 0; i < clippyFileLoaded.Length; i++) {
+
+            if (clippyFileLoaded[i] == fileToRemove) 
+            {
+                clippyFileLoaded[i] = null;
+            }
+        }
     }
     
     void Update()

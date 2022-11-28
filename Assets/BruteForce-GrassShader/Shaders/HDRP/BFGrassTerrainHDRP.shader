@@ -845,6 +845,7 @@ ENDHLSL
 				col.xyz += _RimColor.rgb * pow(abs(rimLight), _RimPower);
 
 				surfaceData.baseColor = col.rgb;
+				
 				builtinData.emissiveColor = _RimColor.rgb * pow(abs(rimLight), _RimPower)*10+ col.rgb* _ProjectedShadowColor;
 				builtinData.bakeDiffuseLighting = _RimColor.rgb * pow(abs(rimLight), _RimPower) * 10;
 				//surfaceData.ambientOcclusion = 0;
