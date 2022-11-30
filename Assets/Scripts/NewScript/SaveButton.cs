@@ -6,6 +6,7 @@ using System;
 public class SaveButton : MonoBehaviour
 {
     public static Action OnSaveCurrentFile;
+    public static Action<Vector3,Quaternion> OnInitiateSaveAnimation;
     private bool hasBeenClicked = false;
 
     private void OnEnable()
@@ -37,6 +38,7 @@ public class SaveButton : MonoBehaviour
                     if (!hasBeenClicked)
                     {
                         OnSaveCurrentFile?.Invoke();
+                        OnInitiateSaveAnimation?.Invoke(transform.position + Vector3.up * 5 , Quaternion.LookRotation(Vector3.down,Vector3.up));
                     }
                 }
             }

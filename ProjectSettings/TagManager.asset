@@ -20,9 +20,9 @@ TagManager:
   - UI
   - Interactive
   - Ground
-  - 
-  - 
-  - 
+  - IgnorePlayer
+  - Player
+  - Interactive_IgnorePlayer
   - 
   - 
   - 

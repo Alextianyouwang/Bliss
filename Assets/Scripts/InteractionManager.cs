@@ -88,7 +88,7 @@ public class InteractionManager : MonoBehaviour
         if (Physics.Raycast(camRay, out hit, 30f, interactionMask))
         {
             lr.enabled = true;
-            targetVelocity = CalculateVelocity(hit.point, throwPoint.position, 0.6f);
+            targetVelocity = CalculateVelocity(hit.point, throwPoint.position, 0.4f);
             GetNumber(targetVelocity);
         }
         else 
@@ -167,7 +167,7 @@ public class InteractionManager : MonoBehaviour
                 currentNumRb?.Sleep();
                 //currentNumber.transform.position = Vector3.SmoothDamp(currentNumber.transform.position, throwPoint.position, ref refVel, 0.1f);
                 currentNumber.transform.position = throwPoint.position;
-                currentNumber.transform.eulerAngles = transform.eulerAngles - new Vector3(0, 180, 0);
+                currentNumber.transform.eulerAngles = transform.eulerAngles ;
             }   
         }
 

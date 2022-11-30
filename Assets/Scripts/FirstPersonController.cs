@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 #if UNITY_EDITOR
     using UnityEditor;
@@ -26,7 +27,7 @@ public class FirstPersonController : MonoBehaviour
     public bool invertCamera = false;
     public bool cameraCanMove = true;
     public float mouseSensitivity = 2f;
-    public float maxLookAngle = 50f;
+    public float maxLookAngle = 80f;
 
     // Crosshair
     public bool lockCursor = true;
@@ -41,6 +42,10 @@ public class FirstPersonController : MonoBehaviour
 
     //Bliss Specific
     public Transform followTransfrom;
+
+    public static Action<float> OnPitchChange;
+
+    public bool zeroPlayerXZ = true;
 
     #region Camera Zoom Variables
 
@@ -208,10 +213,11 @@ public class FirstPersonController : MonoBehaviour
         cameraCanMove = false;
         
     }
-    public void UnFreezeCamera(float newYaw, float newPitch) 
+    public void UnFreezeCamera(float newYaw, float newPitch,bool zeroXZ) 
     {
         storedYaw = newYaw;
         storedPitch = newPitch;
+        zeroPlayerXZ = zeroXZ;
         cameraCanMove = true;
     }
 
@@ -236,8 +242,18 @@ public class FirstPersonController : MonoBehaviour
 
 
             storedPitch = Mathf.Clamp(storedPitch, -maxLookAngle, maxLookAngle);
+            OnPitchChange?.Invoke(storedPitch);
 
-            transform.localEulerAngles = new Vector3(0, storedYaw, 0);
+            if (zeroPlayerXZ)
+            {
+                transform.localEulerAngles = new Vector3(0, storedYaw, 0);
+            }
+
+            else 
+            {
+                transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, storedYaw, transform.localEulerAngles.z);
+            }
+                
             playerCamera.transform.localEulerAngles = new Vector3(storedPitch, 0, 0);
         }
         

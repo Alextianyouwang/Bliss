@@ -13,17 +13,19 @@ public class FileObject : MonoBehaviour
     private DeleteButton delete_instance;
 
     public Transform saveLoadPoint, closeLoadPoint, playerAnchor, deletePos;
+    public Vector3 groundPositionInClippy, groundPositionInBliss;
     private bool hasBeenClickedMenuActivated = false, isInClippyWorld = false, isAnchoredInClippy = false, isNotAnchoredInClippy = true;
     
     public static Action OnClickReset;
     public static Action<FileObject> OnFlieCollected;
-    public static Action<Transform> OnPlayerAnchored;
+    public static Action<FileObject> OnPlayerAnchored;
     public static Action OnPlayerReleased;
 
-    //public LayerMask clippyGroundMask;
+    private RaycastHit hit;
+    public LayerMask groundMask;
     void Start()
     {
-        
+        SetGroundPosition();
     }
 
     void Update()
@@ -59,6 +61,26 @@ public class FileObject : MonoBehaviour
     public void ResetIsAnchoredInClippy() 
     {
         isAnchoredInClippy = false;
+    }
+    public void SetGroundPosition() 
+    {
+        Ray groundRay = new Ray(transform.position, Vector3.down);
+        if (Physics.Raycast(groundRay, out hit, 100f, groundMask)) 
+        {
+            groundPositionInBliss = hit.point;
+            //print(groundPositionInBliss);
+        }
+    }
+    public void SetGroundPositioninClippy() 
+    {
+        Ray groundRay = new Ray(transform.position, Vector3.down);
+        if (Physics.Raycast(groundRay, out hit, 100f, groundMask))
+        {
+            groundPositionInClippy = hit.point;
+            //print(groundPositionInClippy);
+
+
+        }
     }
     public void SetCloseButtonPosition(Transform clippySystemTransform) 
     {
@@ -112,7 +134,7 @@ public class FileObject : MonoBehaviour
                             QuitButton newQuit = Instantiate(quit);
                             newQuit.transform.position = closeLoadPoint.position;
                             newQuit.transform.forward = transform.forward;
-                            OnPlayerAnchored?.Invoke(playerAnchor);
+                            OnPlayerAnchored?.Invoke(this);
                         }
                     }
                     else
@@ -121,7 +143,7 @@ public class FileObject : MonoBehaviour
                         {
                             isAnchoredInClippy = true;
                             OnFlieCollected?.Invoke(this);
-                            OnPlayerAnchored?.Invoke(playerAnchor);
+                            OnPlayerAnchored?.Invoke(this);
                             delete_instance.gameObject.SetActive(false);
 
                         }
@@ -138,5 +160,10 @@ public class FileObject : MonoBehaviour
                    
            
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(groundPositionInBliss, 3f);
     }
 }

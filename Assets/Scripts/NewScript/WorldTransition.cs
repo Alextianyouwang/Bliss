@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 using static UnityEngine.GraphicsBuffer;
 using Unity.VisualScripting.FullSerializer;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using UnityEngine.Animations;
 
 public class WorldTransition : MonoBehaviour
 {
@@ -33,10 +34,12 @@ public class WorldTransition : MonoBehaviour
 
     public static Action<bool> OnClippyToggle;
     public static Action<FileObject,FileObject> OnSelectedFileChange;
+    public static Action<Vector3> OnStageFile;
+    public static Action OnStageFileEnd;
 
 
     // ClippyFileSyatem
-
+    FirstPersonController player;
     private FileObject prevFile, currFile;
     private ClippyFileSystem clippyFileSystem;
     private List<Transform> clippyFileLoadPosition;
@@ -45,11 +48,15 @@ public class WorldTransition : MonoBehaviour
 
     private Coroutine anchorCo;
 
+    // SaveFileAnimation
+
+    
 
     private bool isAnchoring = false;
     void Start()
     {
-       
+
+        player = GetComponent<FirstPersonController>();
         StartCoroutine(WaitUntilSceneLoad());
     }
 
@@ -78,7 +85,8 @@ public class WorldTransition : MonoBehaviour
         FileObject.OnFlieCollected += GetFileObject;
         SaveButton.OnSaveCurrentFile += SaveCurrentFile;
 
-        SaveButton.OnSaveCurrentFile += DisablePlayerAnchor;
+        //SaveButton.OnSaveCurrentFile += DisablePlayerAnchor;
+        SaveButton.OnInitiateSaveAnimation += InitiateSaveAnimation;
         QuitButton.OnQuitCurrentFile += DisablePlayerAnchor;
 
         FileObject.OnPlayerAnchored += AnchorPlayer;
@@ -91,7 +99,9 @@ public class WorldTransition : MonoBehaviour
         FileObject.OnFlieCollected -= GetFileObject;
         SaveButton.OnSaveCurrentFile -= SaveCurrentFile;
 
-        SaveButton.OnSaveCurrentFile -= DisablePlayerAnchor;
+        //SaveButton.OnSaveCurrentFile -= DisablePlayerAnchor;
+        SaveButton.OnInitiateSaveAnimation -= InitiateSaveAnimation;
+
         QuitButton.OnQuitCurrentFile -= DisablePlayerAnchor;
 
         FileObject.OnPlayerAnchored -= AnchorPlayer;
@@ -100,16 +110,13 @@ public class WorldTransition : MonoBehaviour
 
     }
 
-    private void AnchorPlayer(Transform target) 
+    private void AnchorPlayer(FileObject target) 
     {
-        FirstPersonController player = GetComponent<FirstPersonController>();
-        player.playerCanMove = false;
-        player.GetComponent<Rigidbody>().isKinematic = true;
-
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.position, target, 1.2f, player));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.playerAnchor.position, target.playerAnchor.rotation, 1.2f, player,true,null));
+        OnStageFile?.Invoke(target.groundPositionInBliss);
     }
 
-    IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Transform target, float speed ,FirstPersonController player) 
+    IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Quaternion targetRot, float speed ,FirstPersonController player,bool zeroXZEuler,Action next) 
     {
         isAnchoring = true;
         float percent = 0;
@@ -117,9 +124,8 @@ public class WorldTransition : MonoBehaviour
         Quaternion initialCamRot = player.playerCamera.transform.localRotation;
         Quaternion initialPlayerRot = player.transform.localRotation;
 
-        player.followTransfrom = target;
-        player.transform.position = target.transform.position;
-        player.transform.rotation = target.transform.rotation;
+        player.playerCanMove = false;
+        player.GetComponent<Rigidbody>().isKinematic = true;
 
         player.FreezeCamera();
         while (percent < 1) 
@@ -127,23 +133,31 @@ public class WorldTransition : MonoBehaviour
             float progress = AnchorAnimationCurve.Evaluate(percent);
             player.transform.position = Vector3.Lerp(initialPos, targetPos, progress);
             player.playerCamera.transform.localRotation = Quaternion.Slerp(initialCamRot, Quaternion.identity, percent);
-            player.transform.localRotation = Quaternion.Slerp(initialPlayerRot, target.rotation, percent);
-            player.transform.localEulerAngles = new Vector3(0, player.transform.localEulerAngles.y, 0);            
+            player.transform.localRotation = Quaternion.Slerp(initialPlayerRot, targetRot, percent);
+            if (zeroXZEuler)
+                player.transform.localEulerAngles = new Vector3(0, player.transform.localEulerAngles.y, 0);            
             percent += Time.deltaTime * speed;
             yield return null;
         }
-        
-        player.UnFreezeCamera(player.transform.localEulerAngles.y,0);
+
+        player.UnFreezeCamera(player.transform.localEulerAngles.y,0,zeroXZEuler);
+        next?.Invoke();
   
     }
     private void DisablePlayerAnchor() 
     {
-        FirstPersonController player = GetComponent<FirstPersonController>();
         player.playerCanMove = true;
         player.GetComponent<Rigidbody>().isKinematic = false;
         isAnchoring = false;
-        player.followTransfrom = null;
-        StopCoroutine(anchorCo);
+        if (anchorCo != null) 
+        {
+            StopCoroutine(anchorCo);
+
+        }
+
+
+        player.zeroPlayerXZ = true;
+        OnStageFileEnd?.Invoke();
     }
 
     void GetFileObject(FileObject file) 
@@ -177,12 +191,29 @@ public class WorldTransition : MonoBehaviour
                     f.transform.localScale *= 0.8f;
                     f.ResetIsAnchoredInClippy();
                     f.SetCloseButtonPosition(clippyFileSystem.transform);
+                    
                     clippyFileLoaded[fileIndex] = f;
                     print("You have Saved " + prevFile.name + "Congratulations!");
 
                 }
             }
         }
+    }
+
+    void InitiateSaveAnimation(Vector3 targetPosition, Quaternion lookDirection) 
+    {
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position + Vector3.up * 7,Quaternion.LookRotation(Vector3.down,Vector3.left),1.5f,player,false,InitiateDiveAnimation));
+    }
+
+    void InitiateDiveAnimation() 
+    {
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position - Vector3.up * 3, Quaternion.LookRotation(Vector3.down, Vector3.left), 1.5f, player, false,SwitchSceneAndResetPlayer));
+    }
+    void SwitchSceneAndResetPlayer() 
+    {
+        SwitchScene();
+        DisablePlayerAnchor();
+        
     }
     int GetFirstNullIndexInList<T>(T[] array)
     {
@@ -209,31 +240,41 @@ public class WorldTransition : MonoBehaviour
         SceneSwithcer();
     }
 
+    void SwitchScene() 
+    {
+        if (!isInClippy)
+        {
+            isInClippy = true;
+            previousBlissPosition = transform.position;
+            transform.position = clippyLoadPoint.transform.position;
+            localVolume.profile = clippyVolume;
+            blizzWrapper.SetActive(false);
+            clippyWrapper.SetActive(true);
+            foreach (FileObject f in clippyFileLoaded)
+            {
+                if (f != null)
+                    f.SetGroundPositioninClippy();
+            }
+        }
+
+
+        else
+        {
+            isInClippy = false;
+            clippyLoadPoint.transform.position = transform.position;
+            transform.position = previousBlissPosition;
+            localVolume.profile = blissVolume;
+            clippyWrapper.SetActive(false);
+            blizzWrapper.SetActive(true);
+
+        }
+        OnClippyToggle?.Invoke(isInClippy);
+    }
     void SceneSwithcer() 
     {
         if (Input.GetKeyDown(KeyCode.F) && !isAnchoring)
         {
-            if (!isInClippy)
-            {
-                isInClippy = true;
-                previousBlissPosition = transform.position;
-                transform.position = clippyLoadPoint.transform.position;
-                localVolume.profile = clippyVolume;
-                blizzWrapper.SetActive(false);
-                clippyWrapper.SetActive(true);
-            }
-
-
-            else
-            {
-                isInClippy = false;
-                clippyLoadPoint.transform.position = transform.position;
-                transform.position = previousBlissPosition;
-                localVolume.profile = blissVolume;
-                clippyWrapper.SetActive(false);
-                blizzWrapper.SetActive(true);
-            }
-            OnClippyToggle?.Invoke(isInClippy);
+            SwitchScene();
         }
     }
     void InitiateWorldTransition() 
