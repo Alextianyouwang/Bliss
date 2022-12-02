@@ -1,15 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.Rendering;
-using static UnityEngine.GraphicsBuffer;
-using Unity.VisualScripting.FullSerializer;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using UnityEngine.Animations;
+using UnityEngine.SceneManagement;
 
 public class WorldTransition : MonoBehaviour
 {
@@ -112,7 +107,7 @@ public class WorldTransition : MonoBehaviour
 
     private void AnchorPlayer(FileObject target) 
     {
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.playerAnchor.position, target.playerAnchor.rotation, 1.2f, player,true,null));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.playerAnchor.position, target.playerAnchor.rotation, 1.2f, player,false,null));
         OnStageFile?.Invoke(target.groundPositionInBliss);
     }
 
@@ -152,12 +147,37 @@ public class WorldTransition : MonoBehaviour
         if (anchorCo != null) 
         {
             StopCoroutine(anchorCo);
-
         }
-
-
-        player.zeroPlayerXZ = true;
+       
         OnStageFileEnd?.Invoke();
+        StartCoroutine(ReturnPlayerToNormalXZRot());
+    }
+
+    IEnumerator ReturnPlayerToNormalXZRot() 
+    {
+        float percent = 0;
+        Vector3 currentEuler = player.transform.eulerAngles;
+        while (percent < 1) 
+        {
+            player.transform.rotation = Quaternion.Slerp(
+                Quaternion.Euler(
+                    currentEuler.x,
+                    player.transform.eulerAngles.y,
+                    currentEuler.z
+                ),
+                Quaternion.Euler(
+                     0,
+                    player.transform.eulerAngles.y,
+                    0
+                    ),
+                percent
+
+                );
+                            
+            percent += Time.deltaTime * 3f;
+            yield return null;
+        }
+        player.zeroPlayerXZ = true;
     }
 
     void GetFileObject(FileObject file) 
@@ -187,7 +207,7 @@ public class WorldTransition : MonoBehaviour
 
                     f.transform.position = clippyFileLoadPosition[fileIndex].position;
                     f.transform.parent = clippyFileSystem.transform;
-                    f.transform.forward = (clippyLoadPoint.transform.position - f.transform.position).normalized;
+                    f.transform.forward = (clippyFileSystem.transform.position - f.transform.position).normalized;
                     f.transform.localScale *= 0.8f;
                     f.ResetIsAnchoredInClippy();
                     f.SetCloseButtonPosition(clippyFileSystem.transform);

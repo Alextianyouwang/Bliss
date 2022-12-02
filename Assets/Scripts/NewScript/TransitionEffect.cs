@@ -7,10 +7,12 @@ using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class TransitionEffect : MonoBehaviour
 {
     public GameObject tile;
+    public GameObject saveButton;
     public Queue<Tile> tilePool = new Queue<Tile>();
     public Tile[,] tileMatrixRefPool;
     private Dictionary<Vector2, Tile> tileDict = new Dictionary<Vector2, Tile>();
@@ -26,8 +28,6 @@ public class TransitionEffect : MonoBehaviour
     
 
     public LayerMask groundMask;
-
-    float scaleAnimation = 0;
     RaycastHit playerGroundHit;
     private Coroutine fileStagingCo;
     public enum TileStates {NormalFollow, Staging }
@@ -61,14 +61,18 @@ public class TransitionEffect : MonoBehaviour
         originalTileBound = tile.GetComponent<Renderer>().bounds.size;
         formationSideLength = maximumTileDiemnsion * originalTileBound.x;
         formationOffset = new Vector3(formationSideLength / 2 - originalTileBound.x / 2, 0, formationSideLength / 2 - originalTileBound.y / 2);
+        int itemBelowMiddle = (int)Mathf.Floor(maximumTileDiemnsion / 2);
+        int itemAboveMiddle = (int)Mathf.Ceil(maximumTileDiemnsion / 2);
         for (int i = 0; i < maximumTileDiemnsion; i++)
         {
             for (int j = 0; j < maximumTileDiemnsion; j++)
             {
-                tileMatrixRefPool[i,j] = new Tile(tile,groundMask);
-                tileMatrixRefPool[i, j].InstantiateTile(Vector3.zero, null);
+                tileMatrixRefPool[i, j] = new Tile(groundMask);
+                tileMatrixRefPool[i, j].InstantiateTile(tile, Vector3.zero, null);
                 tileMatrixRefPool[i, j].TileSetActive(false);
-                tilePool.Enqueue(tileMatrixRefPool[i, j]);             
+                tilePool.Enqueue(tileMatrixRefPool[i, j]);
+                //tileMatrixRefPool[i, j].localIndex = new Vector2(i, j);
+                //tileMatrixRefPool[i, j].SetDebugText( "( " +i.ToString() + "," + j.ToString() + " )");
             }
         }
     }
@@ -82,45 +86,60 @@ public class TransitionEffect : MonoBehaviour
     void RecycleTile(Tile toRecycle)
     {
         toRecycle.TileSetActive(false);
-        toRecycle.finalPosition = Vector3.zero;
-        toRecycle.tileCoord = Vector2.zero;
+        toRecycle.formationFinalPosition = Vector3.zero;
+        toRecycle.localTileCoord = Vector2.zero;
         toRecycle.tileObject_instance.transform.localScale = toRecycle.originalScale;
         tilePool.Enqueue(toRecycle);
     }
 
+    void SwapTileFormationFinalPosition() 
+    {
+    
+    }
+
     public class Tile
     {
-        public GameObject tileObject;
+        
         public GameObject tileObject_instance;
-        public Vector3 finalPosition;
-        public Vector2 tileCoord;
+        public Text debugText;
+        public Vector3 formationFinalPosition;
+        public Vector2 localTileCoord;
         private RaycastHit botHit;
         private LayerMask groundMask;
         public Vector3 originalScale;
-        public Vector3 tileRefSpeed,targetPos = Vector3.zero;
+        public Vector3 tileRefSpeed,tileFinalPosition = Vector3.zero;
+        public Vector2 localIndex;
 
-        public Tile(GameObject _tileObject, LayerMask _groundMask)
+        public Tile( LayerMask _groundMask)
         {
-            tileObject = _tileObject;
+
             groundMask = _groundMask;
         }
 
-        public void InstantiateTile(Vector3 position, Transform parent)
+        public void InstantiateTile(GameObject reference, Vector3 position, Transform parent)
         {
-            tileObject_instance = Instantiate(tileObject);
+            tileObject_instance = Instantiate(reference);
             tileObject_instance.transform.position = position;
             tileObject_instance.transform.parent = parent;
             originalScale = tileObject_instance.transform.localScale;
+            debugText = reference.GetComponentInChildren<Text>();
+        }
+        public void SetDebugText( string content) 
+        {
+            //print(content);
+
+            if(tileObject_instance.GetComponentInChildren<Text>()!=null)
+                tileObject_instance.GetComponentInChildren<Text>().text = content;
+            //print(tileObject_instance.GetComponent<Text>().text);
         }
         public void SetTilePosition(Vector3 position, bool setFinalPosition)
         {
             tileObject_instance.transform.position = position;
+            tileFinalPosition = position;
             if (setFinalPosition)
             {
-                finalPosition = position;
-                targetPos = position;
+                formationFinalPosition = position;  
             }
-
         }
         public void SetTileLocalScale(Vector3 localScale)
         {
@@ -128,25 +147,22 @@ public class TransitionEffect : MonoBehaviour
         }
         public void StickTileToGround()
         {
-            SetTilePosition(finalPosition + Vector3.up * 80, true);
-            Ray botRay = new Ray(finalPosition, Vector3.down);
+            SetTilePosition(formationFinalPosition + Vector3.up * 80, true);
+            Ray botRay = new Ray(formationFinalPosition, Vector3.down);
             if (Physics.Raycast(botRay, out botHit, 100f, groundMask))
             {
-                finalPosition.y = botHit.point.y;
-                SetTilePosition(finalPosition, true);
+                formationFinalPosition.y = botHit.point.y;
+                SetTilePosition(formationFinalPosition, true);
             }
         }
         public Vector3 GetGroundPosition()
         {
-            Vector3 initlalPos = finalPosition;
-            Vector3 groundPos = finalPosition;
-            SetTilePosition(groundPos + Vector3.up * 80, false);
-            Ray botRay = new Ray(groundPos, Vector3.down);
+            Vector3 groundPos = formationFinalPosition;
+            Ray botRay = new Ray(groundPos + Vector3.up * 80, Vector3.down);
             if (Physics.Raycast(botRay, out botHit, 100f, groundMask))
             {
                 groundPos = botHit.point;
             }
-            SetTilePosition(initlalPos, false);
             return groundPos;
         }
         public void TileSetActive(bool active)
@@ -165,7 +181,7 @@ public class TransitionEffect : MonoBehaviour
         for (int i = 0; i < tileDict.Values.Count; i++)
         {
             var t = tileDict.ElementAt(i);
-            if (Vector3.Distance(t.Value.finalPosition, groundPos) >= radius)
+            if (Vector3.Distance(t.Value.formationFinalPosition, groundPos) >= radius)
             {
                 tileDict.Remove(t.Key);
                 RecycleTile(t.Value);
@@ -177,14 +193,19 @@ public class TransitionEffect : MonoBehaviour
             {
                 Vector3 tileVirtualPosition = groundPos + new Vector3(i * originalTileBound.x, 0, j * originalTileBound.z) - formationOffset;
                 Vector2 tileCoord = new Vector2(Mathf.Floor((tileVirtualPosition.x - startPosition.x) / originalTileBound.x), Mathf.Floor((tileVirtualPosition.z - startPosition.z) / originalTileBound.z));
+                Vector2 localTileCoord = new Vector2(Mathf.Floor((tileVirtualPosition.x - transform.position.x) / originalTileBound.x), Mathf.Floor((tileVirtualPosition.z - transform.position.z) / originalTileBound.z));
                 Vector3 finalPosition = new Vector3(tileCoord.x * originalTileBound.x, 0, tileCoord.y * originalTileBound.z) + new Vector3(startPosition.x, groundPos.y, startPosition.z);
+                
                 if (!tileDict.ContainsKey(tileCoord) && Vector3.Distance(finalPosition, groundPos) < radius && tilePool.Count > 0)
                 {
                     Tile localTile = GetNextTile(finalPosition);
-                    localTile.tileCoord = tileCoord;
+                    localTile.localTileCoord = localTileCoord;
+                    
                     tileDict.Add(tileCoord, localTile);
-                    //localTile.StickTileToGround();
+
+                   
                 }
+          
             }
         }
     }
@@ -195,21 +216,25 @@ public class TransitionEffect : MonoBehaviour
         {
             for (int j = 0; j < maximumTileDiemnsion; j++)
             {
-
                 Tile localTile = tileMatrixRefPool[i, j];
                 if (localTile.tileObject_instance.activeSelf)
                 {
-                    float distanceToCenter = Vector3.Distance(localTile.finalPosition, centerPosition);
+
+                    float distanceToCenter = Vector3.Distance(localTile.formationFinalPosition, centerPosition);
                     float highRiseInfluence = Mathf.InverseLerp(innerRadius, outerRadius, distanceToCenter);
-                    float noise = Mathf.PerlinNoise(localTile.finalPosition.x / 10 + Time.time / 3, localTile.finalPosition.z / 10 + Time.time / 3);
+                    float noise = Mathf.PerlinNoise(localTile.formationFinalPosition.x / 10 + Time.time / 3, localTile.formationFinalPosition.z / 10 + Time.time / 3);
                     Vector3 groundPosition = localTile.GetGroundPosition();
-                    //Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y + highRiseInfluence * multiplier + noise * noiseWeight, groundPosition.z);
-                    Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y , groundPosition.z);
+                    Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y + highRiseInfluence * multiplier + noise * noiseWeight, groundPosition.z);
+                    localTile.tileFinalPosition = Vector3.SmoothDamp(localTile.tileFinalPosition,newPos, ref localTile.tileRefSpeed,dampSpeed);
 
-                    //localTile.finalPosition = Vector3.SmoothDamp(localTile.finalPosition,newPos, ref localTile.tileRefSpeed,dampSpeed);
-                    //localTile.tileObject_instance.transform.position = Vector3.SmoothDamp(localTile.tileObject_instance.transform.position, newPos, ref localTile.tileRefSpeed, dampSpeed);
+                    localTile.SetTilePosition(localTile.tileFinalPosition, false);
 
-                    localTile.SetTilePosition(newPos, false);
+                    Vector2 localTileCoord = new Vector2(
+                        Mathf.Floor((localTile.formationFinalPosition.x - transform.position.x + originalTileBound.x/2) / originalTileBound.x), 
+                        Mathf.Floor((localTile.formationFinalPosition.z - transform.position.z + originalTileBound.z/2) / originalTileBound.z));
+                    localTile.localTileCoord = localTileCoord;
+                    localTile.SetDebugText("( " + localTile.localTileCoord.x.ToString() + "," + localTile.localTileCoord.y.ToString() + " )");
+
                 }
             }
         }
@@ -229,7 +254,7 @@ public class TransitionEffect : MonoBehaviour
             case TileStates.NormalFollow:
                 UpdatePlayerGroundRay();
                 UpdateTiles(playerGroundPosition,varyingRadius);
-                UpdateTilesStatusPerFrame(0,originalRadius,varyingRadius/2,0.5f,0.3f);
+                UpdateTilesStatusPerFrame(0,originalRadius,varyingRadius/2,0.5f,0.7f);
                 centerPosition = playerGroundPosition;
                 currentRadius = varyingRadius;
                 break;
@@ -281,11 +306,10 @@ public class TransitionEffect : MonoBehaviour
             yield return null;
         }
         float innerRadius = targetRadius * 0.5f;
-        float highRiseMultipler = 2f;
+        float highRiseMultipler = 0.5f;
         while (fileStagingCo!= null) 
         {
-            
-            UpdateTilesStatusPerFrame(innerRadius, targetRadius, highRiseMultipler, 2,0.3f);
+            UpdateTilesStatusPerFrame(innerRadius, targetRadius, highRiseMultipler, 0.5f,0.3f);
             yield return null;
         }
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 502.36902, g: 519.62695, b: 706.44604, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16031,6 +16031,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 989011830}
     m_Modifications:
+    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.015254078
+      objectReference: {fileID: 0}
+    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0037873085
+      objectReference: {fileID: 0}
+    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.97041434
+      objectReference: {fileID: 0}
+    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.24093357
+      objectReference: {fileID: 0}
+    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 27.887
+      objectReference: {fileID: 0}
     - target: {fileID: 6939336521225209531, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -20079,6 +20099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 6856693992804422360, guid: 9914ea86b6286364abd407b95891f2a2, type: 3}
+  saveButton: {fileID: 189248007588826995, guid: e37abfbdb4a86e943a8e58066668f2fd, type: 3}
   maximumTileDiemnsion: 10
   originalRadius: 3.5
   groundMask:
