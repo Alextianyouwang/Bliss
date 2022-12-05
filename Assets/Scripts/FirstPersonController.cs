@@ -47,6 +47,15 @@ public class FirstPersonController : MonoBehaviour
 
     public bool zeroPlayerXZ = true;
 
+    private bool hasPitchEnterTrigger = false, hasPitchExitTrigger = true, hasAnimationTriggered = false;
+    private float animationActivationTimer = 0, timerBeforeAnimation = 0;
+
+    public static Action<float> OnEnterThreshold;
+    public static Action<float> OnExitThreshold;
+    public static Action<FirstPersonController> OnTeleporting;
+    public static Action<float> OnIncreaseAnimationTime;
+
+
     #region Camera Zoom Variables
 
     public bool enableZoom = true;
@@ -64,7 +73,8 @@ public class FirstPersonController : MonoBehaviour
     #region Movement Variables
 
     public bool playerCanMove = true;
-    public float walkSpeed = 5f;
+    public float varyingWalkSpeed = 5f;
+    public float originalWalkSpeed;
     public float maxVelocityChange = 10f;
 
     // Internal Variables
@@ -141,6 +151,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void Awake()
     {
+        originalWalkSpeed = varyingWalkSpeed;
         rb = GetComponent<Rigidbody>();
 
         crosshairObject = GetComponentInChildren<Image>();
@@ -221,6 +232,51 @@ public class FirstPersonController : MonoBehaviour
         cameraCanMove = true;
     }
 
+    private void Update()
+    {
+    }
+    void PitchActivation()
+    {
+        if (!isGrounded)
+            return;
+        if (storedPitch > 75f && !hasPitchEnterTrigger)
+        {
+            hasPitchEnterTrigger = true;
+            OnEnterThreshold?.Invoke(4);
+            hasPitchExitTrigger = false;
+
+        }
+        else if (storedPitch <= 75f && !hasPitchExitTrigger)
+        {
+            hasPitchExitTrigger = true;
+            hasPitchEnterTrigger = false;
+            animationActivationTimer = 0;
+            timerBeforeAnimation = 0;
+            OnExitThreshold?.Invoke(0);
+            hasAnimationTriggered = false;
+            varyingWalkSpeed = originalWalkSpeed;
+
+        }
+
+        if (hasPitchEnterTrigger)
+        {
+            if(timerBeforeAnimation<1f)
+                timerBeforeAnimation += Time.deltaTime;
+        }
+        if (timerBeforeAnimation >= 0.5f)
+        {
+            varyingWalkSpeed = Mathf.Lerp(9f, 1, animationActivationTimer);
+            animationActivationTimer += Time.deltaTime;
+            if (animationActivationTimer >= 1f)
+                animationActivationTimer = 1f;
+            OnIncreaseAnimationTime?.Invoke(animationActivationTimer);
+        }
+        if (animationActivationTimer == 1f && !hasAnimationTriggered)
+        {
+            hasAnimationTriggered = true;
+            OnTeleporting?.Invoke(this);
+        }
+    }
     private void LateUpdate()
     {
         #region Camera
@@ -255,8 +311,11 @@ public class FirstPersonController : MonoBehaviour
             }
                 
             playerCamera.transform.localEulerAngles = new Vector3(storedPitch, 0, 0);
+            PitchActivation();
+
         }
-        
+
+
 
         #region Camera Zoom
 
@@ -457,7 +516,7 @@ public class FirstPersonController : MonoBehaviour
                     sprintBarCG.alpha -= 3 * Time.deltaTime;
                 }
 
-                targetVelocity = transform.TransformDirection(targetVelocity) * walkSpeed;
+                targetVelocity = transform.TransformDirection(targetVelocity) * varyingWalkSpeed;
 
                 // Apply a force that attempts to reach our target velocity
                 Vector3 velocity = rb.velocity;
@@ -478,7 +537,7 @@ public class FirstPersonController : MonoBehaviour
     {
         Vector3 origin = new Vector3(transform.position.x, transform.position.y - (transform.localScale.y * .5f), transform.position.z);
         Vector3 direction = transform.TransformDirection(Vector3.down);
-        float distance = .75f;
+        float distance = 1.75f;
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
@@ -514,7 +573,7 @@ public class FirstPersonController : MonoBehaviour
         if(isCrouched)
         {
             transform.localScale = new Vector3(originalScale.x, originalScale.y, originalScale.z);
-            walkSpeed /= speedReduction;
+            varyingWalkSpeed /= speedReduction;
 
             isCrouched = false;
         }
@@ -523,7 +582,7 @@ public class FirstPersonController : MonoBehaviour
         else
         {
             transform.localScale = new Vector3(originalScale.x, crouchHeight, originalScale.z);
-            walkSpeed *= speedReduction;
+            varyingWalkSpeed *= speedReduction;
 
             isCrouched = true;
         }
@@ -590,7 +649,7 @@ public class FirstPersonController : MonoBehaviour
         GUILayout.Label("version 1.0.1", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Normal, fontSize = 12 });
         EditorGUILayout.Space();
 
-        #region Camera Setup
+#region Camera Setup
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         GUILayout.Label("Camera Setup", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
@@ -627,7 +686,7 @@ public class FirstPersonController : MonoBehaviour
 
         EditorGUILayout.Space();
 
-        #region Camera Zoom Setup
+#region Camera Zoom Setup
 
         GUILayout.Label("Zoom", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
 
@@ -640,11 +699,11 @@ public class FirstPersonController : MonoBehaviour
         fpc.zoomStepTime = EditorGUILayout.Slider(new GUIContent("Step Time", "Determines how fast the FOV transitions while zooming in."), fpc.zoomStepTime, .1f, 10f);
         GUI.enabled = true;
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Movement Setup
+#region Movement Setup
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         GUILayout.Label("Movement Setup", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
@@ -653,12 +712,12 @@ public class FirstPersonController : MonoBehaviour
         fpc.playerCanMove = EditorGUILayout.ToggleLeft(new GUIContent("Enable Player Movement", "Determines if the player is allowed to move."), fpc.playerCanMove);
 
         GUI.enabled = fpc.playerCanMove;
-        fpc.walkSpeed = EditorGUILayout.Slider(new GUIContent("Walk Speed", "Determines how fast the player will move while walking."), fpc.walkSpeed, .1f, fpc.sprintSpeed);
+        fpc.varyingWalkSpeed = EditorGUILayout.Slider(new GUIContent("Walk Speed", "Determines how fast the player will move while walking."), fpc.varyingWalkSpeed, .1f, fpc.sprintSpeed);
         GUI.enabled = true;
 
         EditorGUILayout.Space();
 
-        #region Sprint
+#region Sprint
 
         GUILayout.Label("Sprint", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
 
@@ -667,7 +726,7 @@ public class FirstPersonController : MonoBehaviour
         GUI.enabled = fpc.enableSprint;
         fpc.unlimitedSprint = EditorGUILayout.ToggleLeft(new GUIContent("Unlimited Sprint", "Determines if 'Sprint Duration' is enabled. Turning this on will allow for unlimited sprint."), fpc.unlimitedSprint);
         fpc.sprintKey = (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Sprint Key", "Determines what key is used to sprint."), fpc.sprintKey);
-        fpc.sprintSpeed = EditorGUILayout.Slider(new GUIContent("Sprint Speed", "Determines how fast the player will move while sprinting."), fpc.sprintSpeed, fpc.walkSpeed, 50f);
+        fpc.sprintSpeed = EditorGUILayout.Slider(new GUIContent("Sprint Speed", "Determines how fast the player will move while sprinting."), fpc.sprintSpeed, fpc.varyingWalkSpeed, 50f);
 
         //GUI.enabled = !fpc.unlimitedSprint;
         fpc.sprintDuration = EditorGUILayout.Slider(new GUIContent("Sprint Duration", "Determines how long the player can sprint while unlimited sprint is disabled."), fpc.sprintDuration, 1f, 20f);
@@ -712,9 +771,9 @@ public class FirstPersonController : MonoBehaviour
 
         EditorGUILayout.Space();
 
-        #endregion
+#endregion
 
-        #region Jump
+#region Jump
 
         GUILayout.Label("Jump", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
 
@@ -727,9 +786,9 @@ public class FirstPersonController : MonoBehaviour
 
         EditorGUILayout.Space();
 
-        #endregion
+#endregion
 
-        #region Crouch
+#region Crouch
 
         GUILayout.Label("Crouch", new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 }, GUILayout.ExpandWidth(true));
 
@@ -742,11 +801,11 @@ public class FirstPersonController : MonoBehaviour
         fpc.speedReduction = EditorGUILayout.Slider(new GUIContent("Speed Reduction", "Determines the percent 'Walk Speed' is reduced by. 1 being no reduction, and .5 being half."), fpc.speedReduction, .1f, 1);
         GUI.enabled = true;
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Head Bob
+#region Head Bob
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -762,7 +821,7 @@ public class FirstPersonController : MonoBehaviour
         fpc.bobAmount = EditorGUILayout.Vector3Field(new GUIContent("Bob Amount", "Determines the amount the joint moves in both directions on every axes."), fpc.bobAmount);
         GUI.enabled = true;
 
-        #endregion
+#endregion
 
         //Sets any changes from the prefab
         if(GUI.changed)

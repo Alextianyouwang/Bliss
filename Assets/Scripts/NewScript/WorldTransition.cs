@@ -12,7 +12,8 @@ public class WorldTransition : MonoBehaviour
     public GameObject bigEyeWorld ;
     public GameObject ground;
     public Material worldMat,grassMat,clippyMat;
-    public AnimationCurve floatAnimationCurve,transitionSpeedCurve,cameraDolleyCurve,AnchorAnimationCurve;
+    public AnimationCurve floatAnimationCurve,transitionSpeedCurve,cameraDolleyCurve,AnchorAnimationCurve
+        ;
     public Camera cam;
     public LayerMask groundMask;
     public float bigEyeRoomYOffset,dolleyDepth;
@@ -30,7 +31,7 @@ public class WorldTransition : MonoBehaviour
     public static Action<bool> OnClippyToggle;
     public static Action<FileObject,FileObject> OnSelectedFileChange;
     public static Action<Vector3> OnStageFile;
-    public static Action OnStageFileEnd;
+    public static Action OnPlayerExitAnchor;
 
 
     // ClippyFileSyatem
@@ -42,6 +43,9 @@ public class WorldTransition : MonoBehaviour
     private int fileIndex = 0;
 
     private Coroutine anchorCo;
+
+    private Vector3 playerPosRef,playerCamRotRef,playerRotRef,playerCamPosRef;
+    private Vector3 playerPositionBeforeAnchorAnimation;
 
     // SaveFileAnimation
 
@@ -87,6 +91,8 @@ public class WorldTransition : MonoBehaviour
         FileObject.OnPlayerAnchored += AnchorPlayer;
         DeleteButton.OnDeleteObject += RemoveFile;
         FileObject.OnPlayerReleased += DisablePlayerAnchor;
+
+        ModularMatrix.OnInitiateTeleportFromMatrix += InitiateDiveAnimation;
             
     }
     private void OnDisable()
@@ -103,38 +109,64 @@ public class WorldTransition : MonoBehaviour
         DeleteButton.OnDeleteObject -= RemoveFile;
         FileObject.OnPlayerReleased -= DisablePlayerAnchor;
 
+        ModularMatrix.OnInitiateTeleportFromMatrix -= InitiateDiveAnimation;
+
+
     }
 
     private void AnchorPlayer(FileObject target) 
     {
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.playerAnchor.position, target.playerAnchor.rotation, 1.2f, player,false,null));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.playerAnchor.position, target.playerAnchor.rotation, 1.2f, 0.2f, player,false,false,false,null));
         OnStageFile?.Invoke(target.groundPositionInBliss);
     }
 
-    IEnumerator PlayerAnchorAnimation(Vector3 targetPos,Quaternion targetRot, float speed ,FirstPersonController player,bool zeroXZEuler,Action next) 
+    IEnumerator PlayerAnchorAnimation(
+        Vector3 targetPos, Quaternion targetRot, float speed, float dampSpeed,
+        FirstPersonController player,
+        bool zeroXZEuler,bool restorePlayerPos,bool cameraCenter,
+        Action next) 
     {
         isAnchoring = true;
         float percent = 0;
+        float progress = 0;
         Vector3 initialPos = player.transform.position;
+        Vector3 camInitialLocalPos = player.playerCamera.transform.localPosition;
+        Vector3 camInitialPos = player.playerCamera.transform.position;
         Quaternion initialCamRot = player.playerCamera.transform.localRotation;
         Quaternion initialPlayerRot = player.transform.localRotation;
+        playerPositionBeforeAnchorAnimation = initialPos;
 
         player.playerCanMove = false;
         player.GetComponent<Rigidbody>().isKinematic = true;
 
         player.FreezeCamera();
-        while (percent < 1) 
+
+        float distanceToTarget = Vector3.Distance(initialPos, targetPos);
+        while (percent < 1 || (player.transform.position - targetPos).magnitude >= 0.02f) 
         {
-            float progress = AnchorAnimationCurve.Evaluate(percent);
-            player.transform.position = Vector3.Lerp(initialPos, targetPos, progress);
-            player.playerCamera.transform.localRotation = Quaternion.Slerp(initialCamRot, Quaternion.identity, percent);
-            player.transform.localRotation = Quaternion.Slerp(initialPlayerRot, targetRot, percent);
+            if (percent < 1) 
+            {
+               progress = AnchorAnimationCurve.Evaluate(percent);
+            }
+            Vector3 playerTargetPosition  = Vector3.Lerp(initialPos, targetPos, progress);
+            player.transform.position = Vector3.SmoothDamp(player.transform.position, playerTargetPosition, ref playerPosRef, dampSpeed);
+            Quaternion playerTargerRotation = Quaternion.Slerp(initialPlayerRot, targetRot, percent);
+            player.transform.localRotation = Utility.SmoothDampQuaternion(player.transform.localRotation, playerTargerRotation, ref playerRotRef, dampSpeed, 100f, Time.deltaTime);
+            Quaternion cameraTargetRotation = Quaternion.Slerp(initialCamRot, Quaternion.identity, percent);
+            player.playerCamera.transform.localRotation = Utility.SmoothDampQuaternion(player.playerCamera.transform.localRotation, cameraTargetRotation, ref playerCamRotRef, dampSpeed, 100f, Time.deltaTime);
+            if (cameraCenter) 
+            {
+                Vector3 cameraTargetPosition = Vector3.Lerp(camInitialPos, targetPos, progress);
+                player.playerCamera.transform.position = Vector3.SmoothDamp(player.playerCamera.transform.position, cameraTargetPosition, ref playerCamPosRef, dampSpeed);
+            }
             if (zeroXZEuler)
                 player.transform.localEulerAngles = new Vector3(0, player.transform.localEulerAngles.y, 0);            
             percent += Time.deltaTime * speed;
             yield return null;
         }
-
+        if (restorePlayerPos)
+            player.transform.position = playerPositionBeforeAnchorAnimation;
+        player.playerCamera.transform.localPosition = camInitialLocalPos;
         player.UnFreezeCamera(player.transform.localEulerAngles.y,0,zeroXZEuler);
         next?.Invoke();
   
@@ -149,7 +181,7 @@ public class WorldTransition : MonoBehaviour
             StopCoroutine(anchorCo);
         }
        
-        OnStageFileEnd?.Invoke();
+        OnPlayerExitAnchor?.Invoke();
         StartCoroutine(ReturnPlayerToNormalXZRot());
     }
 
@@ -187,10 +219,10 @@ public class WorldTransition : MonoBehaviour
         {
             OnSelectedFileChange?.Invoke(currFile,prevFile);
             
-            print("You have changed File");
+            //print("You have changed File");
         }
         prevFile = currFile;
-        print("You have got " + prevFile.name + "selected");
+        //print("You have got " + prevFile.name + "selected");
     }
 
     void SaveCurrentFile()
@@ -213,7 +245,7 @@ public class WorldTransition : MonoBehaviour
                     f.SetCloseButtonPosition(clippyFileSystem.transform);
                     
                     clippyFileLoaded[fileIndex] = f;
-                    print("You have Saved " + prevFile.name + "Congratulations!");
+                    //print("You have Saved " + prevFile.name + "Congratulations!");
 
                 }
             }
@@ -222,12 +254,17 @@ public class WorldTransition : MonoBehaviour
 
     void InitiateSaveAnimation(Vector3 targetPosition, Quaternion lookDirection) 
     {
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position + Vector3.up * 7,Quaternion.LookRotation(Vector3.down,Vector3.left),1.5f,player,false,InitiateDiveAnimation));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position + Vector3.up * 7,Quaternion.LookRotation(Vector3.down,Vector3.left),1.5f,0.2f,player,false,false,false,InitiateDiveAnimationFromFile));
     }
 
-    void InitiateDiveAnimation() 
+    void InitiateDiveAnimationFromFile() 
     {
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position - Vector3.up * 3, Quaternion.LookRotation(Vector3.down, Vector3.left), 1.5f, player, false,SwitchSceneAndResetPlayer));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position - Vector3.up * 3, Quaternion.LookRotation(Vector3.down, Vector3.left), 1.5f,0.2f, player, false,false,false,SwitchSceneAndResetPlayer));
+    }
+
+    void InitiateDiveAnimation(Vector3 targetPosition, Quaternion lookDirection) 
+    {
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(targetPosition, lookDirection, 0.6f, 0.02f, player, false, true, true,SwitchSceneAndResetPlayer));
     }
     void SwitchSceneAndResetPlayer() 
     {
