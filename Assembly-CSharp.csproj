@@ -96,6 +96,7 @@
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_RainActivator.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_SubShowcase.cs" />
     <Compile Include="Assets\Scripts\NewScript\SaveButton.cs" />
+    <Compile Include="Assets\PureNature\Scripts\EnvironmentManager.cs" />
     <Compile Include="Assets\Scripts\Rendering\CamFilter.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\InputSystemSwitcher.cs" />
     <Compile Include="Assets\Scripts\InteractionManager.cs" />
@@ -103,23 +104,22 @@
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MowingManager.cs" />
     <Compile Include="Assets\Scripts\NewScript\ModularMatrix.cs" />
     <Compile Include="Assets\Scripts\NewScript\FileTurnTable.cs" />
+    <Compile Include="Assets\PureNature\Scripts\FreeCamera.cs" />
     <Compile Include="Assets\Scripts\Sound.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MowingTool.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\Bloom\Bloom.cs" />
     <Compile Include="Assets\Scripts\PlaySound.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_TractorController.cs" />
+    <Compile Include="Assets\PureNature\Scripts\CloudsVolume.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_FxOnMouseClick.cs" />
     <Compile Include="Assets\Scripts\Loader.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MeshExtrusion.cs" />
     <Compile Include="Assets\Scripts\NewScript\WorldTransition.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_Terrain.cs" />
+    <Compile Include="Assets\PureNature\Scripts\WaterReflection.cs" />
     <Compile Include="Assets\Scripts\NewScript\Utility.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\NewScript\ClippyLoadpoint.cs" />
-    <Compile Include="Assets\PureNature\Scripts\CloudsVolume.cs" />
-    <Compile Include="Assets\PureNature\Scripts\EnvironmentManager.cs" />
-    <Compile Include="Assets\PureNature\Scripts\FreeCamera.cs" />
-    <Compile Include="Assets\PureNature\Scripts\WaterReflection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BruteForce-GrassShader\Extra\VertexColor.shader" />
