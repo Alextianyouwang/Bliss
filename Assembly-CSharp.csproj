@@ -116,21 +116,38 @@
     <Compile Include="Assets\Scripts\NewScript\Utility.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\NewScript\ClippyLoadpoint.cs" />
+    <Compile Include="Assets\PureNature\Scripts\CloudsVolume.cs" />
+    <Compile Include="Assets\PureNature\Scripts\EnvironmentManager.cs" />
+    <Compile Include="Assets\PureNature\Scripts\FreeCamera.cs" />
+    <Compile Include="Assets\PureNature\Scripts\WaterReflection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BruteForce-GrassShader\Extra\VertexColor.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\BFGrassTerrain.shader" />
+    <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxCore.cginc" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\Debug\BFGrassGeoDebug.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\Shaders\IncNoise.cginc" />
+    <None Include="Assets\PureNature\Shaders\Billboards.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\BFGrassMobile.shader" />
     <None Include="Assets\Shader\ShaderLab\HLSL\RayMarch.hlsl" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\BFGrassLiteURP.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\HDRP\BFGrassMobileHDRP.shader" />
+    <None Include="Assets\PureNature\Shaders\Water.shader" />
+    <None Include="Assets\PureNature\Shaders\GrassMesh.shader" />
+    <None Include="Assets\polyquest_v1_cliffs\scenes\Cliffs_Scenes\Cliffs_Textured_lightmapped_scenes\Troubleshooting_lightmap_issues_LM.txt" />
+    <None Include="Assets\PureNature\Shaders\StandardLayer_ObjectSpace.shader" />
+    <None Include="Assets\PureNature\Shaders\StandardLayer.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\HDRP\BFGrassTerrainHDRP.shader" />
+    <None Include="Assets\PureNature\Shaders\WaterFall.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\HDRP\BFGrassHDRP.shader" />
+    <None Include="Assets\polyquest_v1_cliffs\scenes\Cliffs_Scenes\Cliffs_Textured_lightmapped_scenes\Troubleshooting_textured_scenes_TX.txt" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\BFGrassTerrainURP.shader" />
+    <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxStandard.shader" />
+    <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxCoreForward.cginc" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\Shaders\IncDepth.cginc" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\Debug\BFGrassMobileDebugURP.shader" />
+    <None Include="Assets\PureNature\Shaders\Clouds.shader" />
+    <None Include="Assets\PureNature\Shaders\VegetationTrunk.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\Debug\BFGrassMobileDebug.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\Bloom\Shader\Bloom.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\Bloom\Shader\Bloom.cginc" />
@@ -142,8 +159,11 @@
     <None Include="Assets\BruteForce-GrassShader\Extra\SkyboxGradient.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\LICENSE.txt" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\Shaders\VelocityBuffer.shader" />
+    <None Include="Assets\PureNature\Shaders\GrassTerrain.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\BFGrassLite.shader" />
     <None Include="Assets\Shader\ShaderLab\HLSL\Utility.hlsl" />
+    <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxCoreForwardSimple.cginc" />
+    <None Include="Assets\PureNature\Shaders\VegetationLeaves.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\Debug\BFGrassGeoDebugURP.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\BFGrassMobileURP.shader" />
   </ItemGroup>

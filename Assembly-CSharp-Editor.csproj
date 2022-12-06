@@ -59,7 +59,9 @@
     <Compile Include="Assets\BruteForce-GrassShader\Extra\Bloom\Editor\BloomGraphDrawer.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Editor\BF_TerrainEditor.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\Bloom\Editor\BloomEditor.cs" />
+    <Compile Include="Assets\polyquest_v1_cliffs\shaders\Editor\PolyboxShaderGUI.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Editor\BF_MowingManagerEditor.cs" />
+    <Compile Include="Assets\PureNature\Scripts\Editor\Screenshot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
