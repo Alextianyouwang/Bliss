@@ -151,7 +151,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 1}
     - _Splat4:
-        m_Texture: {fileID: -3007912332207823270, guid: 6a31ca4986adfbc46804e7cf27065603, type: 2}
+        m_Texture: {fileID: 2800000, guid: 3bdb253988c80934a896d3e88de65024, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat5:
@@ -214,7 +214,7 @@ Material:
     - _GlossyReflections: 1
     - _GrassCut: 0
     - _GrassSaturation: 2.72
-    - _GrassShading: 0.098
+    - _GrassShading: 0.138
     - _GrassThinness: 0.88
     - _GrassThinnessIntersection: 0.01
     - _Metallic: 0
