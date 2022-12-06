@@ -17,7 +17,7 @@ public class CamEffect : MonoBehaviour
     private float originalVignette, targetVignette, vignetteSpeedRef;
     private float originalExposure, targetExposure, exposureSpeedRef;
     float preTeleportFOVMultiplier = 1.5f;
-    float stageModeChromatic = 0.5f ,stageModeVignette = 0.5f;
+    float stageModeChromatic = 1f ,stageModeVignette = 0.6f;
 
     Coroutine waitEmergeCo;
 
@@ -36,6 +36,9 @@ public class CamEffect : MonoBehaviour
         FirstPersonController.OnEnterThreshold -= EnlargeFOV;
         FirstPersonController.OnExitThreshold -= ShrinkFOV;
         FirstPersonController.OnTeleporting -= DiveIn;
+
+        v.intensity.value = 0;
+        ca.intensity.value = 0;
 
 
     }

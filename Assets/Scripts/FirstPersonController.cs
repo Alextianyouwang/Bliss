@@ -55,6 +55,8 @@ public class FirstPersonController : MonoBehaviour
     public static Action<FirstPersonController> OnTeleporting;
     public static Action<float> OnIncreaseAnimationTime;
 
+    public Vector3 groundPos;
+
 
     #region Camera Zoom Variables
 
@@ -271,7 +273,7 @@ public class FirstPersonController : MonoBehaviour
                 animationActivationTimer = 1f;
             OnIncreaseAnimationTime?.Invoke(animationActivationTimer);
         }
-        if (animationActivationTimer == 1f && !hasAnimationTriggered)
+        if ((animationActivationTimer == 1f || timerBeforeAnimation >= 0.5f && Input.GetMouseButton(0)) && !hasAnimationTriggered)
         {
             hasAnimationTriggered = true;
             OnTeleporting?.Invoke(this);

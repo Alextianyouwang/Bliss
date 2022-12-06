@@ -10,6 +10,8 @@ using UnityEngine.UIElements;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using System;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 public class ModularMatrix : MonoBehaviour
 {
@@ -20,27 +22,34 @@ public class ModularMatrix : MonoBehaviour
     private Dictionary<Vector2, Tile> tileDict = new Dictionary<Vector2, Tile>();
     private Dictionary<Vector2, Tile> tileOrderedDict = new Dictionary<Vector2, Tile>();
     private Tile[] windowTiles = new Tile[4];
-    private Vector3 originalTileBound,varyingTileBound;
-    private Vector3 originalScale;
+    private Vector3 originalTileBound;
     private Vector3 globalPositionOffset;
-    private float highRiseMultiplierBoost,groundLevelMultiplier,noiseWeight = 0.5f,dampSpeed = 0.18f;
+    private float highRiseMultiplierBoost,groundLevelMultiplier,noiseWeight = 0.5f,defaultDampspeed = 0.12f;
 
     public int maximumTileDiemnsion = 7;
     public float originalRadius = 15;
-    private float varyingRadius, currentRadius;
+    private float varyingRadius, currentRadius, activationRange;
 
     private float formationSideLength;
-    private Vector3 formationOffset,startPosition,playerGroundPosition,centerPosition;
-    
+    private Vector3 formationOffset,startPosition,centerPosition;
+    public static Vector3 playerGroundPosition;
 
     public LayerMask groundMask;
+    public GameObject diveVolume,diveScenes;
+    private GameObject diveVolume_instance,diveScenes_instance;
+    private AmbientOcclusion ao;
+    
     RaycastHit playerGroundHit;
     private Coroutine fileStagingCo;
-    public enum TileStates {NormalFollow, Staging }
+    public enum TileStates {NormalFollow, Staging,Landing,PrepareLanding }
     public TileStates state;
 
     private bool isInClippy = false;
     private bool isInDiveFormation = false;
+    private bool activateWindowsIndependance = false;
+    private bool hasTriggeredLandingGathering = false;
+    private bool hasWindowsDetached = false;
+    private float windowsTargetYPos;
     public static Action<Vector3, Quaternion> OnInitiateTeleportFromMatrix;
 
     
@@ -50,11 +59,13 @@ public class ModularMatrix : MonoBehaviour
         FirstPersonController.OnPitchChange += ChangeRadius;
         WorldTransition.OnStageFile += StartStagingFile;
         WorldTransition.OnPlayerExitAnchor += EndStagingFile;
-        WorldTransition.OnPlayerExitAnchor += SetIsInDiveForamtionFalse;
+        WorldTransition.OnPlayerExitAnchor += EndLandingAnimation;
         WorldTransition.OnClippyToggle += ReceiveToggleClippy;
         FirstPersonController.OnIncreaseAnimationTime += ReceiveGlobalPositionOffset;
         FirstPersonController.OnExitThreshold += ResetGlobalPositionOffset;
-        FirstPersonController.OnTeleporting += PrepareDiveAnimationPositionAndRotation;
+        FirstPersonController.OnTeleporting += StartLandingAnimation;
+
+        WorldTransition.OnLanding += LandingAnimation;
 
     }
     private void OnDisable()
@@ -62,11 +73,15 @@ public class ModularMatrix : MonoBehaviour
         FirstPersonController.OnPitchChange -= ChangeRadius;
         WorldTransition.OnStageFile -= StartStagingFile;
         WorldTransition.OnPlayerExitAnchor -= EndStagingFile;
-        WorldTransition.OnPlayerExitAnchor -= SetIsInDiveForamtionFalse;
+        WorldTransition.OnPlayerExitAnchor -= EndLandingAnimation;
         WorldTransition.OnClippyToggle -= ReceiveToggleClippy;
         FirstPersonController.OnIncreaseAnimationTime -= ReceiveGlobalPositionOffset;
         FirstPersonController.OnExitThreshold -= ResetGlobalPositionOffset;
-        FirstPersonController.OnTeleporting -= PrepareDiveAnimationPositionAndRotation;
+        FirstPersonController.OnTeleporting -= StartLandingAnimation;
+
+        WorldTransition.OnLanding -= LandingAnimation;
+
+
 
 
     }
@@ -75,7 +90,6 @@ public class ModularMatrix : MonoBehaviour
     {
         tileMatrixRefPool = new Tile[maximumTileDiemnsion, maximumTileDiemnsion];
         tileMatrixRefPoolOrdered = new Tile[maximumTileDiemnsion, maximumTileDiemnsion];
-        originalScale = tile.transform.localScale;
         startPosition = transform.position;
         originalTileBound = tile.GetComponent<Renderer>().bounds.size;
         formationSideLength = maximumTileDiemnsion * originalTileBound.x;
@@ -92,6 +106,7 @@ public class ModularMatrix : MonoBehaviour
                 tilePool.Enqueue(tileMatrixRefPool[i, j]);
             }
         }
+        state = TileStates.NormalFollow;
     }
     Tile GetNextTile(Vector3 position)
     {
@@ -119,10 +134,11 @@ public class ModularMatrix : MonoBehaviour
         private RaycastHit botHit;
         private LayerMask groundMask;
         public Vector3 originalScale;
-        public Vector3 tileRefSpeed,tileFinalPosition = Vector3.zero,groundPosition =Vector3.zero;
+        public Vector3 tileRefSpeed,tileFinalPosition = Vector3.zero,targetPosition =Vector3.zero;
         public Vector2 localIndex;
         private float yOffset;
         public bool isWindows = false;
+        public float dampSpeed;
 
         public Tile( LayerMask _groundMask,float _yOffset)
         {
@@ -187,7 +203,7 @@ public class ModularMatrix : MonoBehaviour
         
     }
 
-    void UpdateTiles(Vector3 groundPos, float radius)
+    void UpdateTileSetActive(Vector3 groundPos, float radius)
     {
         for (int i = 0; i < tileDict.Values.Count; i++)
         {
@@ -222,7 +238,6 @@ public class ModularMatrix : MonoBehaviour
             for (int j = 0; j < maximumTileDiemnsion; j++)
             {
                 Tile localTile = tileMatrixRefPool[i, j];
-
                 if (localTile.tileObject_instance.activeSelf) 
                 {
                     Vector2 localTileCoord = new Vector2(
@@ -236,30 +251,54 @@ public class ModularMatrix : MonoBehaviour
             }
         }
     }
-    void UpdateTilesStatusPerFrame(float innerRadius, float outerRadius, float multiplier, float noiseWeight, float dampSpeed, Vector3 centerPosition)
+
+    void UpdateTileDampSpeedTogether(float dampSpeed) 
     {
-        for (int i = 0; i < maximumTileDiemnsion; i++)
+        foreach (Tile localTile in tileOrderedDict.Values)
         {
-            for (int j = 0; j < maximumTileDiemnsion; j++)
-            {
-                Tile localTile = tileMatrixRefPool[i, j];
-                
-                if (localTile.tileObject_instance.activeSelf)
-                {
-                    
-                    float distanceToCenter = Vector3.Distance(localTile.formationFinalPosition, centerPosition);
-                    float highRiseInfluence = Mathf.InverseLerp(innerRadius, outerRadius, distanceToCenter);
-                    float noise = Mathf.PerlinNoise(localTile.formationFinalPosition.x / 10 + Time.time / 3, localTile.formationFinalPosition.z / 10 + Time.time / 3);
-                    Vector3 groundPosition = localTile.GetGroundPosition();
-                    Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y + highRiseInfluence * multiplier + noise * noiseWeight, groundPosition.z)+globalPositionOffset;
-                    localTile.groundPosition = newPos;
-                    localTile.tileFinalPosition = Vector3.SmoothDamp(localTile.tileFinalPosition,newPos, ref localTile.tileRefSpeed,dampSpeed);
-                    localTile.SetTilePosition(localTile.tileFinalPosition, false);     
-                }
-                
-            }
+            localTile.dampSpeed = dampSpeed;
         }
-       
+    }
+
+    void UpdateTielDampSpeedForLanding() 
+    {
+        foreach (Tile localTile in tileDict.Values)
+        {
+            float distanceToCenter = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(localTile.formationFinalPosition.x, localTile.formationFinalPosition.z));
+            float dampMask = Mathf.InverseLerp(0, 7, distanceToCenter);
+            localTile.dampSpeed = Mathf.Lerp(0.02f,0.5f,dampMask);
+        }
+    }
+
+    void UpdateTilesStatusPerFrame(float innerRadius, float outerRadius, float multiplier, float noiseWeight, Vector3 centerPosition)
+    {
+        foreach (Tile localTile in tileOrderedDict.Values) 
+        {
+            localTile.isWindows = windowTiles.Contains(localTile);
+
+            float distanceToCenter = Vector3.Distance(localTile.formationFinalPosition, centerPosition);
+            float highRiseInfluence = Mathf.InverseLerp(innerRadius, outerRadius, distanceToCenter);
+            float noise = Mathf.PerlinNoise(localTile.formationFinalPosition.x / 10 + Time.time / 3, localTile.formationFinalPosition.z / 10 + Time.time / 3);
+            Vector3 groundPosition = localTile.GetGroundPosition();
+            Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y + highRiseInfluence * multiplier + noise * noiseWeight, groundPosition.z) + globalPositionOffset;
+
+            if (activateWindowsIndependance && localTile.isWindows)
+            {
+                newPos = new Vector3(groundPosition.x, windowsTargetYPos, groundPosition.z);
+            }
+
+            localTile.targetPosition = newPos;
+            localTile.tileFinalPosition = Vector3.SmoothDamp(localTile.tileFinalPosition, newPos, ref localTile.tileRefSpeed, localTile.dampSpeed,10000f);
+            localTile.SetTilePosition(localTile.tileFinalPosition, false);
+        }
+    }
+    void TeleportMatrixAlongY(float yOffset)
+    {
+        foreach (Tile localTile in tileOrderedDict.Values)
+        {
+            Vector3 currentFormation = localTile.formationFinalPosition;
+            localTile.SetTilePosition(new Vector3(currentFormation.x, yOffset, currentFormation.z), false);
+        }
     }
 
     void UpdateWindowTile(Vector3 comparePos)
@@ -315,12 +354,19 @@ public class ModularMatrix : MonoBehaviour
 
             }
         }
-    }
 
+    }
     #endregion
 
     void Start()
     {
+        diveVolume_instance = Instantiate(diveVolume);
+        diveVolume_instance.SetActive(false);
+        diveScenes_instance = Instantiate(diveScenes);
+        diveScenes_instance.SetActive(false);
+        diveVolume_instance.GetComponent<Volume>().profile.TryGet(out ao);
+
+
         Initialize();
     }
     void Update()
@@ -329,20 +375,34 @@ public class ModularMatrix : MonoBehaviour
         {
             switch (state) 
             {
-            case TileStates.NormalFollow:
-                UpdatePlayerGroundRay();
-                UpdateTiles(playerGroundPosition,varyingRadius);
-                UpdateTileOrderedCoordinate(transform.position);
-                UpdateWindowTile(transform.position);
-                UpdateTilesStatusPerFrame(0,originalRadius,varyingRadius/2 + highRiseMultiplierBoost,noiseWeight,dampSpeed,playerGroundPosition);
+                case TileStates.NormalFollow:
+                    UpdatePlayerGroundRay();
 
-                    centerPosition = playerGroundPosition;
-                    currentRadius = varyingRadius;
-
+                    UpdateTileSetActive(playerGroundPosition, varyingRadius);
+                    UpdateTileOrderedCoordinate(transform.position);
+                    UpdateTileDampSpeedTogether(defaultDampspeed);
+                    UpdateWindowTile(transform.position);
+                    UpdateTilesStatusPerFrame(0, originalRadius, varyingRadius / 2 + highRiseMultiplierBoost, noiseWeight, playerGroundPosition);
 
                     break;
-            case TileStates.Staging:
-                break;
+                case TileStates.Staging:
+                    break;
+                case TileStates.Landing:
+                    UpdateTileSetActive(playerGroundPosition, 6f);
+                    UpdateTileOrderedCoordinate(transform.position);
+                    UpdateTielDampSpeedForLanding();
+                    UpdateWindowTile(transform.position);
+                    UpdateTilesStatusPerFrame(0, originalRadius, varyingRadius / 2 + highRiseMultiplierBoost, noiseWeight, playerGroundPosition);
+                    break;
+
+                case TileStates.PrepareLanding:
+                    UpdateTileSetActive(playerGroundPosition, 6f);
+                    UpdateTileOrderedCoordinate(transform.position);
+                    UpdateTileDampSpeedTogether(defaultDampspeed);
+                    UpdateWindowTile(transform.position);
+                    UpdateTilesStatusPerFrame(0, originalRadius, varyingRadius / 2 + highRiseMultiplierBoost, noiseWeight, playerGroundPosition);
+                    break;
+
             }
         }
     }
@@ -358,55 +418,57 @@ public class ModularMatrix : MonoBehaviour
     {
         isInClippy = inClippy;
     }
-    public void StartStagingFile(Vector3 target) 
+
+    void ReceiveGlobalPositionOffset(float y) 
+    {
+        globalPositionOffset.y = -y * 4;
+        highRiseMultiplierBoost = y * 4;
+        defaultDampspeed = Mathf.Lerp(0.12f, .7f, y);
+    }
+
+    void ResetGlobalPositionOffset(float number)
+    {
+        if (!isInDiveFormation)
+        {
+            globalPositionOffset.y = 0;
+            highRiseMultiplierBoost = 0;
+            defaultDampspeed = 0.12f;
+        }
+    }
+    void DiveFormation(float globalOffset,float curvatureOffset ) 
+    {
+            globalPositionOffset.y = -globalOffset;
+            highRiseMultiplierBoost = curvatureOffset ;
+    }
+
+    void SetWindowsIndependance(bool flag) 
+    {
+        activateWindowsIndependance = flag;
+    }
+    
+    public void StartStagingFile(Vector3 target)
     {
         if (!isInClippy)
             fileStagingCo = StartCoroutine(FileStagingAnimation(target));
     }
-    public void EndStagingFile() 
+    public void EndStagingFile()
     {
         if (fileStagingCo != null)
             StopCoroutine(fileStagingCo);
         fileStagingCo = null;
         state = TileStates.NormalFollow;
     }
-    void ReceiveGlobalPositionOffset(float y) 
-    {
-        globalPositionOffset.y = -y * 4;
-        highRiseMultiplierBoost = y * 4;
-        dampSpeed = Mathf.Lerp(0.18f, .7f, y);
-    }
-    void DiveFormation(float number) 
-    {
-            globalPositionOffset.y = -number;
-            highRiseMultiplierBoost = number * 1.2f;
-    }
-    void ResetGlobalPositionOffset(float number) 
-    {
-        if (!isInDiveFormation) 
-        {
-            globalPositionOffset.y = 0;
-            highRiseMultiplierBoost = 0;
-            dampSpeed = 0.18f;
 
-        }
-
-    }
-
-    void SetIsInDiveForamtionFalse() 
+    void StartLandingAnimation(FirstPersonController player) 
     {
-        isInDiveFormation = false;
-        dampSpeed = 0.18f;
-    }
-    void PrepareDiveAnimationPositionAndRotation(FirstPersonController player) 
-    {
+        state = TileStates.PrepareLanding;
         Vector3 divePosition = Vector3.zero;
         for (int i= 0; i < windowTiles.Length; i++) 
         {
-            divePosition += windowTiles[i].groundPosition;
+            divePosition += windowTiles[i].targetPosition;
         }
         divePosition /= windowTiles.Length;
-        divePosition.y -=15f;
+        divePosition.y -=70f;
 
         float yRot = player.transform.eulerAngles.y;
         Vector3 finalEuler = Vector3.zero;
@@ -426,16 +488,55 @@ public class ModularMatrix : MonoBehaviour
         {
             finalEuler = Vector3.left;
         }
-        print(divePosition);
         Quaternion finalRot = Quaternion.LookRotation(Vector3.down, finalEuler);
         if (!isInClippy) 
         {
             OnInitiateTeleportFromMatrix?.Invoke(divePosition, finalRot); 
             isInDiveFormation = true;
-            DiveFormation(32);
+            diveVolume_instance.SetActive(true);
+            diveVolume_instance.transform.position = divePosition;
+            diveScenes_instance.SetActive(true);
+            diveScenes_instance.transform.position = divePosition;
             
+            DiveFormation(30,36);
+            if (ao != null)
+                ao.intensity.value = 0;
+        }   
+    }
+    void LandingAnimation(float timePercent, float distancePercent)
+    {
+        if (ao!= null && distancePercent <0.9f)
+            ao.intensity.value = (1 - distancePercent) * 8;
+        if (distancePercent < 0.9f && !hasWindowsDetached) 
+        {
+            hasWindowsDetached = true;
+            SetWindowsIndependance(true);
+            windowsTargetYPos = transform.position.y - 100f;
+           
         }
-            
+        if (distancePercent < 0.65f && !hasTriggeredLandingGathering)
+        {
+            state = TileStates.Landing;
+            hasTriggeredLandingGathering = true;
+            TeleportMatrixAlongY(transform.position.y - 1000f);
+            SetWindowsIndependance(false);
+        }
+        if (distancePercent < 0.65f)
+        {
+            DiveFormation(Mathf.Lerp(85, 20, distancePercent), -varyingRadius / 2);
+        }
+    }
+    void EndLandingAnimation()
+    {
+        diveVolume_instance.SetActive(false);
+        diveScenes_instance.SetActive(false);
+        isInDiveFormation = false;
+        defaultDampspeed = 0.12f;
+        SetWindowsIndependance(false);
+        windowsTargetYPos = 0;
+        hasTriggeredLandingGathering = false;
+        hasWindowsDetached = false;
+        state = TileStates.NormalFollow;
     }
 
     #endregion
@@ -443,21 +544,20 @@ public class ModularMatrix : MonoBehaviour
     {
         state = TileStates.Staging;
         float percent = 0;
-        float initialRaidius = currentRadius;
+        float initialRaidius = varyingRadius;
         float targetRadius = 5;
-        Vector3 currentPosition = centerPosition;
+        Vector3 currentPosition = playerGroundPosition;
         Vector3 path = Vector3.zero;
         while (percent < 1) 
         {
             percent += Time.deltaTime;
-            centerPosition = Vector3.Lerp(currentPosition, target, percent);
-            currentRadius = Mathf.Lerp(initialRaidius, targetRadius, percent);
             path = Vector3.Lerp(currentPosition, target, percent);
             float newRadius = Mathf.Lerp(initialRaidius, targetRadius, percent);
-            UpdateTiles(path, newRadius);
+            UpdateTileSetActive(path, newRadius);
             UpdateTileOrderedCoordinate(path);
+            UpdateTileDampSpeedTogether(defaultDampspeed);
             UpdateWindowTile(path);
-            UpdateTilesStatusPerFrame(0, newRadius, 0.3f, noiseWeight, dampSpeed,path);
+            UpdateTilesStatusPerFrame(0, newRadius, 0.3f, noiseWeight,path);
             yield return null;
         }
         float innerRadius = targetRadius * 0.5f;
@@ -465,10 +565,9 @@ public class ModularMatrix : MonoBehaviour
         while (fileStagingCo!= null) 
         {
             UpdateTileOrderedCoordinate(path);
+            UpdateTileDampSpeedTogether(defaultDampspeed);
             UpdateWindowTile(path);
-            UpdateTilesStatusPerFrame(innerRadius, targetRadius, highRiseMultipler, 1f,0.5f,path);
-      
-
+            UpdateTilesStatusPerFrame(innerRadius, targetRadius, highRiseMultipler,0.5f,path);
             yield return null;
         }
     }
@@ -476,10 +575,11 @@ public class ModularMatrix : MonoBehaviour
     
     void UpdatePlayerGroundRay() 
     {
-        Ray playerDownRay = new Ray(transform.position + Vector3.up * 800f, Vector3.down);
-        if (Physics.Raycast(playerDownRay, out playerGroundHit, 2000f, groundMask))
+        Ray playerDownRay = new Ray(transform.position + Vector3.up * 10000f, Vector3.down);
+        if (Physics.Raycast(playerDownRay, out playerGroundHit, float.MaxValue, groundMask))
         {
             playerGroundPosition = playerGroundHit.point;
+            
         }
 
     }
@@ -490,7 +590,7 @@ public class ModularMatrix : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, originalRadius);
         foreach (Tile t in tileOrderedDict.Values) 
         {
-            Gizmos.DrawSphere(t.groundPosition, 0.5f);
+            Gizmos.DrawSphere(t.targetPosition, 0.5f);
         }
     }
 }

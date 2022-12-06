@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -32,6 +33,7 @@ public class WorldTransition : MonoBehaviour
     public static Action<FileObject,FileObject> OnSelectedFileChange;
     public static Action<Vector3> OnStageFile;
     public static Action OnPlayerExitAnchor;
+    public static Action<float,float> OnLanding;
 
 
     // ClippyFileSyatem
@@ -116,7 +118,7 @@ public class WorldTransition : MonoBehaviour
 
     private void AnchorPlayer(FileObject target) 
     {
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.playerAnchor.position, target.playerAnchor.rotation, 1.2f, 0.2f, player,false,false,false,null));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(target.playerAnchor.position, target.playerAnchor.rotation, 1.2f, 0.2f, player,false,false,false,null,null));
         OnStageFile?.Invoke(target.groundPositionInBliss);
     }
 
@@ -124,7 +126,7 @@ public class WorldTransition : MonoBehaviour
         Vector3 targetPos, Quaternion targetRot, float speed, float dampSpeed,
         FirstPersonController player,
         bool zeroXZEuler,bool restorePlayerPos,bool cameraCenter,
-        Action next) 
+        Action next, Action<float,float> during) 
     {
         isAnchoring = true;
         float percent = 0;
@@ -162,6 +164,7 @@ public class WorldTransition : MonoBehaviour
             if (zeroXZEuler)
                 player.transform.localEulerAngles = new Vector3(0, player.transform.localEulerAngles.y, 0);            
             percent += Time.deltaTime * speed;
+            during?.Invoke(percent, (player.transform.position - targetPos).magnitude/distanceToTarget);
             yield return null;
         }
         if (restorePlayerPos)
@@ -180,7 +183,7 @@ public class WorldTransition : MonoBehaviour
         {
             StopCoroutine(anchorCo);
         }
-       
+        //player.transform.position = ModularMatrix.playerGroundPosition + Vector3.up;
         OnPlayerExitAnchor?.Invoke();
         StartCoroutine(ReturnPlayerToNormalXZRot());
     }
@@ -254,22 +257,27 @@ public class WorldTransition : MonoBehaviour
 
     void InitiateSaveAnimation(Vector3 targetPosition, Quaternion lookDirection) 
     {
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position + Vector3.up * 7,Quaternion.LookRotation(Vector3.down,Vector3.left),1.5f,0.2f,player,false,false,false,InitiateDiveAnimationFromFile));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position + Vector3.up * 7,Quaternion.LookRotation(Vector3.down,Vector3.left),1.5f,0.2f,player,false,false,false,InitiateDiveAnimationFromFile,null));
     }
 
     void InitiateDiveAnimationFromFile() 
     {
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position - Vector3.up * 3, Quaternion.LookRotation(Vector3.down, Vector3.left), 1.5f,0.2f, player, false,false,false,SwitchSceneAndResetPlayer));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(currFile.transform.position - Vector3.up * 3, Quaternion.LookRotation(Vector3.down, Vector3.left), 1.5f,0.2f, player, false,false,false, SwitchSceneAndResetPlayer,null));
     }
 
+    void DuringLanding(float timePercent, float distancePercent) 
+    {
+        OnLanding?.Invoke(timePercent, distancePercent);
+    }
     void InitiateDiveAnimation(Vector3 targetPosition, Quaternion lookDirection) 
     {
-        anchorCo = StartCoroutine(PlayerAnchorAnimation(targetPosition, lookDirection, 0.6f, 0.02f, player, false, true, true,SwitchSceneAndResetPlayer));
+        anchorCo = StartCoroutine(PlayerAnchorAnimation(targetPosition, lookDirection, 0.3f, 0.02f, player, false,true, true, SwitchSceneAndResetPlayer,DuringLanding));
     }
     void SwitchSceneAndResetPlayer() 
     {
-        SwitchScene();
         DisablePlayerAnchor();
+        SwitchScene();
+       
         
     }
     int GetFirstNullIndexInList<T>(T[] array)
