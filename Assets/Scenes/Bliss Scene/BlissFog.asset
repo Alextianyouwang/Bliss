@@ -272,6 +272,31 @@ MonoBehaviour:
   m_ObsoleteScrollSpeed:
     m_OverrideState: 0
     m_Value: 2
+--- !u!114 &-1482014667362251792
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598e2d32e2c7b0c418e030c3236d663a, type: 3}
+  m_Name: ChromaticAberration
+  m_EditorClassIdentifier: 
+  active: 1
+  quality:
+    m_OverrideState: 0
+    m_Value: 3
+  spectralLut:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  m_MaxSamples:
+    m_OverrideState: 0
+    m_Value: 3
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +316,8 @@ MonoBehaviour:
   - {fileID: 5604916939888443032}
   - {fileID: -9044908329101560172}
   - {fileID: 918885371092438901}
+  - {fileID: 1442215377175649616}
+  - {fileID: -1482014667362251792}
 --- !u!114 &918885371092438901
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -336,6 +363,46 @@ MonoBehaviour:
     m_Value: 1
   m_HighQualityFiltering:
     m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &1442215377175649616
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c1be1b6c95cd2e41b27903b9270817f, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 0
+    m_Value: 0
+  color:
+    m_OverrideState: 0
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+  center:
+    m_OverrideState: 0
+    m_Value: {x: 0.5, y: 0.5}
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  smoothness:
+    m_OverrideState: 0
+    m_Value: 0.182
+  roundness:
+    m_OverrideState: 1
+    m_Value: 1
+  rounded:
+    m_OverrideState: 0
+    m_Value: 0
+  mask:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  opacity:
+    m_OverrideState: 0
     m_Value: 1
 --- !u!114 &3912485203739470195
 MonoBehaviour:
@@ -394,7 +461,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: {r: 0.73344606, g: 0.76751775, b: 0.7735849, a: 1}
   tint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 1.474093, g: 2.314872, b: 1.4941256, a: 1}
   maxFogDistance:
     m_OverrideState: 1

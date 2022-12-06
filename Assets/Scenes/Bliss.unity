@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 502.36902, g: 519.62695, b: 706.44604, a: 1}
+  m_IndirectSpecularColor: {r: 7772.832, g: 8166.9297, b: 11603.391, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2675,7 +2675,7 @@ Terrain:
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
   m_HeightmapMaximumLOD: 0
-  m_ShadowCastingMode: 2
+  m_ShadowCastingMode: 0
   m_DrawHeightmap: 1
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
@@ -14703,7 +14703,7 @@ Terrain:
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
   m_HeightmapMaximumLOD: 0
-  m_ShadowCastingMode: 2
+  m_ShadowCastingMode: 0
   m_DrawHeightmap: 1
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
@@ -19153,6 +19153,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
   m_PrefabInstance: {fileID: 1803596515}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1805337850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2408143696354270598, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
+  m_PrefabInstance: {fileID: 1911615234}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1817267770
 GameObject:
   m_ObjectHideFlags: 0
@@ -19777,6 +19782,10 @@ PrefabInstance:
       propertyPath: sprintDuration
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2408143695032088346, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
+      propertyPath: varyingWalkSpeed
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2408143695032088347, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
       propertyPath: m_Constraints
       value: 112
@@ -20043,10 +20052,10 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      time: 0.9916687
+      value: 1.0188675
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -20086,7 +20095,7 @@ MonoBehaviour:
   - {fileID: 1488654342}
   - {fileID: 1928958213}
   - {fileID: 682307216}
---- !u!114 &1911615248
+--- !u!114 &1911615241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20098,14 +20107,104 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe3c9f15f7e62e4a981fec9ccc2b234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 6856693992804422360, guid: 9914ea86b6286364abd407b95891f2a2, type: 3}
-  saveButton: {fileID: 189248007588826995, guid: e37abfbdb4a86e943a8e58066668f2fd, type: 3}
-  maximumTileDiemnsion: 10
-  originalRadius: 3.5
+  tile: {fileID: 7835130833996489204, guid: 42f0c9ec4a7f90a48a9eab7a2e63a240, type: 3}
+  saveButton: {fileID: 0}
+  maximumTileDiemnsion: 13
+  originalRadius: 4
   groundMask:
     serializedVersion: 2
     m_Bits: 128
+  diveVolume: {fileID: 8351976072721494441, guid: 18c66508fbcaeb140b57376292aa5d40, type: 3}
+  diveScenes: {fileID: 4366868693756307906, guid: 10c0b8c03ec1e9e4b8eeb36dfb96f1ca, type: 3}
   state: 0
+--- !u!114 &1911615246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805337850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d175a1b920879c44cbdeb8554e52837f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1911615237}
+  volume: {fileID: 0}
+  profile: {fileID: 11400000, guid: a123fc0ac58cb774e8592c925f167e7c, type: 2}
+  pass: {fileID: 1911615247}
+--- !u!114 &1911615247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805337850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d6499a6bd256e47b859377446493a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  fadeRadius: 0
+  priority: 0
+  customPasses:
+  - rid: 13005135966633986
+  - rid: 13005135966633987
+  injectionPoint: 1
+  m_TargetCamera: {fileID: 0}
+  useTargetCamera: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 13005135966633986
+      type: {class: DrawRenderersCustomPass, ns: UnityEngine.Rendering.HighDefinition, asm: Unity.RenderPipelines.HighDefinition.Runtime}
+      data:
+        m_Name: DrawOnTop_Always
+        enabled: 0
+        targetColorBuffer: 0
+        targetDepthBuffer: 0
+        clearFlags: 0
+        passFoldout: 0
+        m_Version: 0
+        filterFoldout: 1
+        rendererFoldout: 1
+        renderQueueType: 10
+        layerMask:
+          serializedVersion: 2
+          m_Bits: 2048
+        sortingCriteria: 59
+        overrideMaterial: {fileID: 0}
+        overrideMaterialPassIndex: 0
+        overrideMaterialPassName: Forward
+        overrideDepthState: 1
+        depthCompareFunction: 8
+        depthWrite: 1
+        shaderPass: 0
+    - rid: 13005135966633987
+      type: {class: DrawRenderersCustomPass, ns: UnityEngine.Rendering.HighDefinition, asm: Unity.RenderPipelines.HighDefinition.Runtime}
+      data:
+        m_Name: DrawOnTop_LessEqual
+        enabled: 0
+        targetColorBuffer: 0
+        targetDepthBuffer: 0
+        clearFlags: 0
+        passFoldout: 0
+        m_Version: 0
+        filterFoldout: 1
+        rendererFoldout: 1
+        renderQueueType: 2
+        layerMask:
+          serializedVersion: 2
+          m_Bits: 2048
+        sortingCriteria: 59
+        overrideMaterial: {fileID: 0}
+        overrideMaterialPassIndex: 0
+        overrideMaterialPassName: Forward
+        overrideDepthState: 1
+        depthCompareFunction: 4
+        depthWrite: 1
+        shaderPass: 0
 --- !u!1 &1914229804
 GameObject:
   m_ObjectHideFlags: 0

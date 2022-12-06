@@ -164,6 +164,6 @@ public class FileObject : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(groundPositionInBliss, 3f);
+        //Gizmos.DrawSphere(groundPositionInBliss, 3f);
     }
 }
