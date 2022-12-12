@@ -56,10 +56,10 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\NewScript\SceneDataObject.cs" />
+    <Compile Include="Assets\Scripts\NewScript\SceneData.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\ThreeDUI.cs" />
-    <Compile Include="Assets\Scripts\NewScript\BlissWrapper.cs" />
+    <Compile Include="Assets\Scripts\NewScript\Anchors\BlissWrapper.cs" />
     <Compile Include="Assets\Scripts\NewScript\FileObject.cs" />
     <Compile Include="Assets\Scripts\Portal.cs" />
     <Compile Include="Assets\Scripts\TestTeleportation.cs" />
@@ -67,31 +67,33 @@
     <Compile Include="Assets\Scripts\NumberBlocks.cs" />
     <Compile Include="Assets\Scripts\PlayerLook.cs" />
     <Compile Include="Assets\Scripts\PlayerMove.cs" />
-    <Compile Include="Assets\Scripts\NewScript\QuitButton.cs" />
     <Compile Include="Assets\Scripts\SimpleCameraController.cs" />
+    <Compile Include="Assets\Scripts\NewScript\SceneSwitcher.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_AssetManager.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_BallPlayer.cs" />
     <Compile Include="Assets\Scripts\FirstPersonController.cs" />
-    <Compile Include="Assets\Scripts\NewScript\ClippyWrapper.cs" />
+    <Compile Include="Assets\Scripts\NewScript\Anchors\ClippyWrapper.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\Extensions.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\FrustumJitter.cs" />
     <Compile Include="Assets\Scripts\FolderOpen.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_SetInteractiveShaderEffectsTriplanar.cs" />
     <Compile Include="Assets\Scripts\GameStart.cs" />
+    <Compile Include="Assets\Scripts\NewScript\TileMatrix\TileMatrixFunctions.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_BallPlayerTriplanar.cs" />
     <Compile Include="Assets\Scripts\LookWithMouse.cs" />
     <Compile Include="Assets\Scripts\NewScript\DeleteButton.cs" />
     <Compile Include="Assets\Scripts\CursorBlock.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_TractorCamera.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\EffectBase.cs" />
-    <Compile Include="Assets\FloppyWorld\SelfSpinning.cs" />
+    <Compile Include="Assets\Scripts\NewScript\Others\SelfSpinning.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_SetInteractiveShaderEffects.cs" />
     <Compile Include="Assets\Scripts\SceneManager.cs" />
-    <Compile Include="Assets\Scripts\NewScript\CamEffect.cs" />
-    <Compile Include="Assets\Scripts\NewScript\ClippyFileSystem.cs" />
+    <Compile Include="Assets\Scripts\NewScript\PostAndScenery.cs" />
+    <Compile Include="Assets\Scripts\NewScript\Anchors\ClippyFileSystem.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MowingUI.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\VelocityBuffer.cs" />
+    <Compile Include="Assets\Scripts\NewScript\TileMatrix\TileBase.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\VelocityBufferTag.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_RainActivator.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_SubShowcase.cs" />
@@ -101,8 +103,8 @@
     <Compile Include="Assets\Scripts\InteractionManager.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_RotatorDisplay.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MowingManager.cs" />
-    <Compile Include="Assets\Scripts\NewScript\ModularMatrix.cs" />
-    <Compile Include="Assets\Scripts\NewScript\FileTurnTable.cs" />
+    <Compile Include="Assets\Scripts\NewScript\TileMatrix\TileMatrixManager.cs" />
+    <Compile Include="Assets\Scripts\NewScript\FileManager.cs" />
     <Compile Include="Assets\Scripts\Sound.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MowingTool.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\Bloom\Bloom.cs" />
@@ -111,12 +113,11 @@
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_FxOnMouseClick.cs" />
     <Compile Include="Assets\Scripts\Loader.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MeshExtrusion.cs" />
-    <Compile Include="Assets\Scripts\NewScript\WorldTransition.cs" />
+    <Compile Include="Assets\Scripts\NewScript\PlayerAnchorAnimation.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_Terrain.cs" />
-    <Compile Include="Assets\Scripts\NewScript\Utility.cs" />
+    <Compile Include="Assets\Scripts\NewScript\Others\Utility.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
-    <Compile Include="Assets\Scripts\NewScript\ClippyLoadpoint.cs" />
-    <Compile Include="Assets\Scripts\NewScript\CamEffect.cs" />
+    <Compile Include="Assets\Scripts\NewScript\Anchors\ClippyLoadpoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BruteForce-GrassShader\Extra\VertexColor.shader" />

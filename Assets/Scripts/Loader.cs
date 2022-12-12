@@ -39,12 +39,12 @@ public class Loader : MonoBehaviour
 
     private void OnEnable()
     {
-        WorldTransition.OnClippyToggle += SetIsInClippy;
+        SceneSwitcher.OnClippyToggle += SetIsInClippy;
     }
 
     private void OnDisable()
     {
-        WorldTransition.OnClippyToggle -= SetIsInClippy;
+        SceneSwitcher.OnClippyToggle -= SetIsInClippy;
         
     }
 
@@ -72,14 +72,14 @@ public class Loader : MonoBehaviour
                 
                 ThreeDUI quit = Instantiate(quitObject);
                 quit.isDisplayed = true;
-                quit.transform.position = loadPoint.position;
+                quit.transform.position = loadPoint.position + Vector3.up * 8f;
                 quit.transform.rotation = loadPoint.rotation;
                 
 
                 ThreeDUI restart = Instantiate(restartObject);
                 
                 restart.isDisplayed = true;
-                restart.transform.position = loadPoint.position;
+                restart.transform.position = loadPoint.position + Vector3.up * 8f;
                 restart.transform.rotation = loadPoint.rotation;
 
                 if (isInClippy)

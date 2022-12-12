@@ -18,7 +18,26 @@ using System;
 public class FirstPersonController : MonoBehaviour
 {
     private Rigidbody rb;
+    //Bliss Specific
 
+    RaycastHit playerGroundHit;
+    public LayerMask groundMask;
+
+    public static Action<float> OnPitchChange;
+
+    public bool zeroPlayerXZ = true;
+
+    private bool hasPitchEnterTrigger = false, hasPitchExitTrigger = true, hasAnimationTriggered = false;
+    private float animationActivationTimer = 0, timerBeforeAnimation = 0;
+
+    public static Action<float> OnEnterThreshold;
+    public static Action<float> OnExitThreshold;
+    public static Action<FirstPersonController> OnStartDiving;
+    public static Action<FirstPersonController> OnStartSoaring;
+    public static Action<float> OnIncreaseDownAnimationTime;
+    public static Action<float> OnIncreaseUpAnimationTime;
+
+    public static Vector3 playerGroundPosition;
     #region Camera Movement Variables
 
     public Camera playerCamera;
@@ -40,22 +59,7 @@ public class FirstPersonController : MonoBehaviour
     private float pitch = 0.0f ,storedPitch, finalPitch;
     private Image crosshairObject;
 
-    //Bliss Specific
-    public Transform followTransfrom;
-
-    public static Action<float> OnPitchChange;
-
-    public bool zeroPlayerXZ = true;
-
-    private bool hasPitchEnterTrigger = false, hasPitchExitTrigger = true, hasAnimationTriggered = false;
-    private float animationActivationTimer = 0, timerBeforeAnimation = 0;
-
-    public static Action<float> OnEnterThreshold;
-    public static Action<float> OnExitThreshold;
-    public static Action<FirstPersonController> OnTeleporting;
-    public static Action<float> OnIncreaseAnimationTime;
-
-    public Vector3 groundPos;
+   
 
 
     #region Camera Zoom Variables
@@ -153,6 +157,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void Awake()
     {
+        groundMask = LayerMask.GetMask("Ground");
         originalWalkSpeed = varyingWalkSpeed;
         rb = GetComponent<Rigidbody>();
 
@@ -236,19 +241,32 @@ public class FirstPersonController : MonoBehaviour
 
     private void Update()
     {
+        UpdatePlayerGroundRay();
+    }
+
+
+    void UpdatePlayerGroundRay()
+    {
+        Ray playerDownRay = new Ray(transform.position + Vector3.up * 10000f, Vector3.down);
+        if (Physics.Raycast(playerDownRay, out playerGroundHit, float.MaxValue, groundMask))
+        {
+            playerGroundPosition = playerGroundHit.point;
+
+        }
+
     }
     void PitchActivation()
     {
         if (!isGrounded)
             return;
-        if (storedPitch > 75f && !hasPitchEnterTrigger)
+        if (!SceneSwitcher.isInClippy? storedPitch  > 75f: storedPitch < -75 && !hasPitchEnterTrigger)
         {
             hasPitchEnterTrigger = true;
             OnEnterThreshold?.Invoke(4);
             hasPitchExitTrigger = false;
 
         }
-        else if (storedPitch <= 75f && !hasPitchExitTrigger)
+        else if (!SceneSwitcher.isInClippy ? storedPitch <= 75f : storedPitch >= -75 && !hasPitchExitTrigger)
         {
             hasPitchExitTrigger = true;
             hasPitchEnterTrigger = false;
@@ -271,16 +289,23 @@ public class FirstPersonController : MonoBehaviour
             animationActivationTimer += Time.deltaTime;
             if (animationActivationTimer >= 1f)
                 animationActivationTimer = 1f;
-            OnIncreaseAnimationTime?.Invoke(animationActivationTimer);
+            if (!SceneSwitcher.isInClippy)
+                OnIncreaseDownAnimationTime?.Invoke(animationActivationTimer);
+            else
+                OnIncreaseUpAnimationTime?.Invoke(animationActivationTimer);
         }
         if ((animationActivationTimer == 1f || timerBeforeAnimation >= 0.5f && Input.GetMouseButton(0)) && !hasAnimationTriggered)
         {
             hasAnimationTriggered = true;
-            OnTeleporting?.Invoke(this);
+            if (!SceneSwitcher.isInClippy)
+                OnStartDiving?.Invoke(this);
+            else
+                OnStartSoaring?.Invoke(this);
         }
     }
     private void LateUpdate()
     {
+
         #region Camera
 
         if (cameraCanMove) 

@@ -38,19 +38,12 @@ public class InteractionManager : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.OnGameStart += ToggleStart;
-        WorldTransition.OnClippyToggle += SetIsInClippy;
     }
     private void OnDisable()
     {
         SceneManager.OnGameStart -= ToggleStart;
-        WorldTransition.OnClippyToggle -= SetIsInClippy;
 
 
-    }
-
-    void SetIsInClippy(bool _clippy)
-    {
-        isInClippy = _clippy;
     }
 
     void Start()
@@ -101,13 +94,10 @@ public class InteractionManager : MonoBehaviour
         {
             float timeBetweenEachIncrement = 0.05f;
             Vector3 straightLineVelocity = targetVelocity * i * timeBetweenEachIncrement;
-            Vector3 downVelocity = 0.5f * 9.81f * i * timeBetweenEachIncrement * i * timeBetweenEachIncrement * Vector3.down;
+            Vector3 downVelocity = 0.5f * Mathf.Abs(Physics.gravity.y) * i * timeBetweenEachIncrement * i * timeBetweenEachIncrement * Vector3.down;
             lr.SetPosition(i, lrStartPoint.position + straightLineVelocity + downVelocity);
         }
     }
-
-    
-
     Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time) 
     {
         Vector3 distance = target - origin;
@@ -138,7 +128,7 @@ public class InteractionManager : MonoBehaviour
                 currentNumber.transform.position = throwPoint.position;
                 prepareToThrow = true;
 
-                if (isInClippy)
+                if (SceneSwitcher.isInClippy)
                 {
                     currentNumber.transform.parent = FindObjectOfType<ClippyWrapper>().transform;
                 }
