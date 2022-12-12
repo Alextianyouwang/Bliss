@@ -26,12 +26,10 @@ public class SceneSwitcher : MonoBehaviour
     private void Awake()
     {
         sd = new SceneData();
-        OnSceneDataCreated?.Invoke(sd);
+
     }
     private void Start()
     {
-      
-
         StartCoroutine(WaitUntilSceneLoad());
     }
 
@@ -52,12 +50,9 @@ public class SceneSwitcher : MonoBehaviour
         sd.clippyFileSystem = FindObjectOfType<ClippyFileSystem>();
         sd.clippyFileLoadPosition = sd.clippyFileSystem.fileTransform;
         sd.clippyWrapper.SetActive(false);
-        InitiateStuffAfterLoad();
-    }
-    void InitiateStuffAfterLoad()
-    {
         sd.clippyFileLoaded = new FileObject[sd.clippyFileSystem.transform.childCount];
         for (int i = 0; i < sd.clippyFileLoaded.Length; i++) { sd.clippyFileLoaded[i] = null; }
+        OnSceneDataCreated?.Invoke(sd);
     }
     void SwitchScene()
     {

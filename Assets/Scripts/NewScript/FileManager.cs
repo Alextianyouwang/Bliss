@@ -22,7 +22,7 @@ public class FileManager : MonoBehaviour
         SaveButton.OnSaveCurrentFile -= SaveCurrentFile;
         DeleteButton.OnDeleteObject -= DeleteCurrentFile;
         FileObject.OnFlieCollected -= GetFileObject;
-        SceneSwitcher.OnSceneDataCreated += ReceiveSceneData;
+        SceneSwitcher.OnSceneDataCreated -= ReceiveSceneData;
 
     }
 
