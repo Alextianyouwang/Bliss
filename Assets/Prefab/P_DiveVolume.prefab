@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95271258219631729}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -20.2, z: 0}
+  m_LocalPosition: {x: 0, y: -26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsGlobal: 0
   priority: 2
-  blendDistance: 28
+  blendDistance: 40
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 78e6335601f8f2a4eaa861d250e31b99, type: 2}
 --- !u!65 &546205516962288409
@@ -58,11 +58,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95271258219631729}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 1, z: 20}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 20, y: 41.61444, z: 20}
+  m_Center: {x: 0, y: -20.30722, z: 0}
 --- !u!1 &8351976072721494441
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 8351976072721494443}
   - component: {fileID: 8351976072721494442}
   m_Layer: 0
-  m_Name: DiveVolume
+  m_Name: P_DiveVolume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsGlobal: 0
   priority: 1
-  blendDistance: 17
+  blendDistance: 18
   weight: 1
   sharedProfile: {fileID: 11400000, guid: fd9ef896d1026fe4fa11ebaa2b6abb94, type: 2}
 --- !u!65 &8351976072721494442
@@ -125,5 +125,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 60.18402, z: 20}
-  m_Center: {x: 0, y: 29.59201, z: 0}
+  m_Size: {x: 20, y: 71.9577, z: 20}
+  m_Center: {x: 0, y: 35.47885, z: 0}

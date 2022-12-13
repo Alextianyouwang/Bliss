@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: -2.5
+    m_Value: -10
   contrast:
     m_OverrideState: 0
     m_Value: -9.6
@@ -313,14 +313,14 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   top:
-    m_OverrideState: 0
-    m_Value: {r: 0.3796995, g: 1.3832655, b: 5.1801887, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 1.4987328, g: 2.9042563, b: 0.17809126, a: 1}
   middle:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   bottom:
     m_OverrideState: 1
-    m_Value: {r: 3.9533494, g: 1.7243732, b: 0, a: 1}
+    m_Value: {r: 0.13449706, g: 10.49077, b: 12.844469, a: 1}
   gradientDiffusion:
     m_OverrideState: 1
     m_Value: 20

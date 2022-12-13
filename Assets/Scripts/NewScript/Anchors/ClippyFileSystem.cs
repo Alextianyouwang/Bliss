@@ -12,13 +12,4 @@ public class ClippyFileSystem : MonoBehaviour
         fileTransform = gameObject.GetComponentsInChildren<Transform>().ToList();
         fileTransform.Remove(transform);
     }
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }
