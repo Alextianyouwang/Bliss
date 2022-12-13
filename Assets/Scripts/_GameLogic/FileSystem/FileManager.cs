@@ -1,10 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.HighDefinition;
-using UnityEngine.SceneManagement;
 public class FileManager : MonoBehaviour
 {
     private SceneData sd;
@@ -15,28 +10,32 @@ public class FileManager : MonoBehaviour
         SaveButton.OnSaveCurrentFile += SaveCurrentFile;
         DeleteButton.OnDeleteObject += DeleteCurrentFile;
         FileObject.OnFlieCollected += GetFileObject;
-        SceneSwitcher.OnSceneDataCreated += ReceiveSceneData;
+        SceneSwitcher.OnSceneDataLoaded += GetSceneData;
+        SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
     }
     private void OnDisable()
     {
         SaveButton.OnSaveCurrentFile -= SaveCurrentFile;
         DeleteButton.OnDeleteObject -= DeleteCurrentFile;
         FileObject.OnFlieCollected -= GetFileObject;
-        SceneSwitcher.OnSceneDataCreated -= ReceiveSceneData;
+        SceneSwitcher.OnSceneDataLoaded -= GetSceneData;
+        SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
 
     }
 
-    void ReceiveSceneData(SceneData _sd) 
+    void GetSceneData() 
     {
-        sd = _sd;
+        sd = SceneSwitcher.sd;
     }
+
     void SaveCurrentFile()
     {
-        if (!Array.Find(sd.clippyFileLoaded, x => x != null && x.name == sd.prevFile.name + "(Clone)"))
+        if (!Array.Find(SceneSwitcher.sd.clippyFileLoaded, x => x != null && x.name == sd.prevFile.name + "(Clone)"))
         {
             sd.fileIndex = GetFirstNullIndexInList(sd.clippyFileLoaded);
             if (sd.fileIndex < sd.clippyFileLoaded.Length)
             {
+                sd.currFile.ResetIsAnchored();
                 FileObject f = Instantiate(sd.currFile);
                 f.SwitchToClippyWorld();
 
@@ -44,7 +43,7 @@ public class FileManager : MonoBehaviour
                 f.transform.parent = sd.clippyFileSystem.transform;
                 f.transform.forward = (sd.clippyFileSystem.transform.position - f.transform.position).normalized;
                 f.transform.localScale *= 0.8f;
-                f.ResetIsAnchoredInClippy();
+                f.ResetIsAnchored();
                 f.isAnchored = false;
                 sd.clippyFileLoaded[sd.fileIndex] = f;
             }
@@ -75,6 +74,10 @@ public class FileManager : MonoBehaviour
                 sd.clippyFileLoaded[i] = null;
             }
         }
+    }
+    void InitiateCurrentFileAnimation() 
+    {
+        sd.currFile.StartSaveEffect();
     }
     void GetFileObject(FileObject file)
     {

@@ -5,13 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
-    private SceneData sd;
-
+    public static SceneData sd;
 
     public static bool isInClippy = false;
 
     public static Action<bool> OnClippyToggle;
-    public static Action<SceneData> OnSceneDataCreated;
+    public static Action OnSceneDataLoaded;
 
     private void OnEnable()
     {
@@ -52,7 +51,7 @@ public class SceneSwitcher : MonoBehaviour
         sd.clippyWrapper.SetActive(false);
         sd.clippyFileLoaded = new FileObject[sd.clippyFileSystem.transform.childCount];
         for (int i = 0; i < sd.clippyFileLoaded.Length; i++) { sd.clippyFileLoaded[i] = null; }
-        OnSceneDataCreated?.Invoke(sd);
+        OnSceneDataLoaded?.Invoke();
     }
     void SwitchScene()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Unity;
 
-public class Loader : MonoBehaviour
+public class ExitLoader : MonoBehaviour
 {
     public Transform loadPoint;
 

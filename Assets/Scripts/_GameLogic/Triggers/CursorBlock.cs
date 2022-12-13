@@ -49,26 +49,7 @@ public class CursorBlock : NumberBlocks
         }
     }
 
-    async void CursorDissapearAnimation() 
-    {
-        float percent = 0;
-        gameObject.GetComponent<Renderer>().enabled = false;
-        cursorBlock_instance = Instantiate(cursorBlock);
-        cursorBlock_instance.transform.SetPositionAndRotation(gameObject.transform.position, gameObject.transform.rotation);
-        MeshRenderer mr = cursorBlock_instance.GetComponent<MeshRenderer>();
-        Vector3 initialScale = cursorBlock_instance.transform.localScale;
-        Vector3 targetScale = initialScale * 3f;
-        while (percent < 1) 
-        {
-            percent += Time.deltaTime;
-            cursorBlock_instance.transform.localScale = Vector3.Lerp(initialScale, targetScale, percent);
-            mr.material.SetFloat("_Alpha", 1 - percent);
-            await Task.Yield();
-        }
-        Destroy(cursorBlock_instance);
-        Destroy(gameObject);
-    }
-
+  
     
     private void OnCollisionEnter(Collision collision)
     {

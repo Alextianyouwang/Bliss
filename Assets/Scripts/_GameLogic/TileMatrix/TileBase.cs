@@ -5,6 +5,8 @@ public class TileBase
 {
     public GameObject display_instance;
     public GameObject tileObject_instance, saveButton_instance, deleteButton_instance;
+    private SaveButton save;
+    private DeleteButton delete;
     private float tileObjectYOffset, saveButtonYOffset,deleteButtonYOffset;
 
     public Text debugText;
@@ -31,8 +33,6 @@ public class TileBase
         deleteButton_instance = deleteButtonReference;
         deleteButtonYOffset = -deleteButton_instance.GetComponent<Renderer>().bounds.size.y / 2 + 0.2f;
 
-
-
         display_instance = new GameObject();
         display_instance.name = "TileComposit";
         tileObject_instance.transform.parent = display_instance.transform;
@@ -42,9 +42,18 @@ public class TileBase
         deleteButton_instance.transform.parent = display_instance.transform;
         deleteButton_instance.transform.localPosition = Vector3.zero + Vector3.up * deleteButtonYOffset;
 
+        save = saveButton_instance.GetComponent<SaveButton>();
+        delete = deleteButton_instance.GetComponent<DeleteButton>();
         debugText = mainReference.GetComponentInChildren<Text>();
     }
-
+    public void ToggleSaveButtonHasBeenClicked(bool b) 
+    {
+        save.hasBeenClicked = b;
+    }
+    public void ToggleDeleteButtonHasBeenClicked(bool b)
+    {
+        delete.hasBeenClicked = b;
+    }
     public void SetDisplay(DisplayState state) 
     {
         switch (state) 

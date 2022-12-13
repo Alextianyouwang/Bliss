@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 502.36902, g: 519.62695, b: 706.44604, a: 1}
+  m_IndirectSpecularColor: {r: 6802.6914, g: 7989.6094, b: 11617.234, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -651,6 +651,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1464527757}
   playerAnchor: {fileID: 896789889}
   deletePos: {fileID: 869230705}
+  saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -780,6 +781,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 2139709146}
   playerAnchor: {fileID: 934424397}
   deletePos: {fileID: 1779943422}
+  saveEffectReference: {fileID: 0}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -2088,6 +2090,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 786255772}
   playerAnchor: {fileID: 1752011821}
   deletePos: {fileID: 1730074735}
+  saveEffectReference: {fileID: 0}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -2534,6 +2537,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1307551568}
   playerAnchor: {fileID: 1897120257}
   deletePos: {fileID: 1679484326}
+  saveEffectReference: {fileID: 0}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -2769,6 +2773,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1611645727}
   playerAnchor: {fileID: 526197557}
   deletePos: {fileID: 2105783307}
+  saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -5439,6 +5444,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 2013869839}
   playerAnchor: {fileID: 87863136}
   deletePos: {fileID: 1642618324}
+  saveEffectReference: {fileID: 0}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -7830,6 +7836,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1443116798}
   playerAnchor: {fileID: 52488129}
   deletePos: {fileID: 1257339696}
+  saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -11428,6 +11435,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1416452352}
   playerAnchor: {fileID: 1742094838}
   deletePos: {fileID: 2013871928}
+  saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -11584,6 +11592,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 390906308}
   playerAnchor: {fileID: 1470188317}
   deletePos: {fileID: 1722363516}
+  saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -12031,6 +12040,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1016657729}
   playerAnchor: {fileID: 1914527500}
   deletePos: {fileID: 806931631}
+  saveEffectReference: {fileID: 0}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -14085,6 +14095,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1554505888}
   playerAnchor: {fileID: 1720401810}
   deletePos: {fileID: 264795983}
+  saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -14385,6 +14396,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1673961791}
   playerAnchor: {fileID: 126965440}
   deletePos: {fileID: 735599211}
+  saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -16024,26 +16036,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 989011830}
     m_Modifications:
-    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.015254078
-      objectReference: {fileID: 0}
-    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.0037873085
-      objectReference: {fileID: 0}
-    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.97041434
-      objectReference: {fileID: 0}
-    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.24093357
-      objectReference: {fileID: 0}
-    - target: {fileID: 2914138425806535127, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 27.887
-      objectReference: {fileID: 0}
     - target: {fileID: 6939336521225209531, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -16093,31 +16085,14 @@ PrefabInstance:
       value: Txt (1)
       objectReference: {fileID: 0}
     - target: {fileID: 8193064108743309191, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-      propertyPath: quit
+      propertyPath: saveEffectReference
       value: 
-      objectReference: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-    - target: {fileID: 8193064108743309191, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-      propertyPath: delete
-      value: 
-      objectReference: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
-    - target: {fileID: 8193064108743309191, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-      propertyPath: deletePos
-      value: 
-      objectReference: {fileID: 1542055293}
-    - target: {fileID: 8193064108743309191, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-      propertyPath: groundMask.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
 --- !u!4 &1542055292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6939336521225209531, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
-  m_PrefabInstance: {fileID: 1542055291}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1542055293 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 84696748, guid: c47e74fac9d238845ad59d7b483459b7, type: 3}
   m_PrefabInstance: {fileID: 1542055291}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1545556555
@@ -17526,14 +17501,6 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 842059508371009120, guid: dec6ae2aea435ab4098d8bf76654314b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 116.97721
-      objectReference: {fileID: 0}
-    - target: {fileID: 842059508371009120, guid: dec6ae2aea435ab4098d8bf76654314b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 116.9772
-      objectReference: {fileID: 0}
-    - target: {fileID: 842059508371009120, guid: dec6ae2aea435ab4098d8bf76654314b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 388.1
       objectReference: {fileID: 0}
@@ -17574,9 +17541,9 @@ PrefabInstance:
       value: -3.49
       objectReference: {fileID: 0}
     - target: {fileID: 7279146991527094293, guid: dec6ae2aea435ab4098d8bf76654314b, type: 3}
-      propertyPath: groundMask.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
+      propertyPath: saveEffectReference
+      value: 
+      objectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dec6ae2aea435ab4098d8bf76654314b, type: 3}
 --- !u!4 &1651867053 stripped
@@ -17591,38 +17558,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 989011830}
     m_Modifications:
-    - target: {fileID: 344634690, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.06555786
-      objectReference: {fileID: 0}
-    - target: {fileID: 344634690, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.039625354
-      objectReference: {fileID: 0}
-    - target: {fileID: 344634690, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.9153736
-      objectReference: {fileID: 0}
-    - target: {fileID: 344634690, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.39525077
-      objectReference: {fileID: 0}
-    - target: {fileID: 344634690, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 46.786
-      objectReference: {fileID: 0}
-    - target: {fileID: 344634690, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -187.443
-      objectReference: {fileID: 0}
-    - target: {fileID: 344634690, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 1.734
-      objectReference: {fileID: 0}
     - target: {fileID: 1359778158, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: groundMask.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
+      propertyPath: saveEffectReference
+      value: 
+      objectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
     - target: {fileID: 7095382364996889602, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_Name
       value: VideoPlayer (2)
@@ -17630,14 +17569,6 @@ PrefabInstance:
     - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 100.7986
-      objectReference: {fileID: 0}
-    - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 100.7986
       objectReference: {fileID: 0}
     - target: {fileID: 7582949099365054136, guid: 6e3bc6c60e9ac3046bc8003adce6be42, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20974,6 +20905,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 86215579}
   playerAnchor: {fileID: 1545556556}
   deletePos: {fileID: 1688073737}
+  saveEffectReference: {fileID: 0}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -21274,6 +21206,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 1302725841}
   playerAnchor: {fileID: 1082890148}
   deletePos: {fileID: 1600525194}
+  saveEffectReference: {fileID: 0}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -21637,6 +21570,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 891765274}
   playerAnchor: {fileID: 902005418}
   deletePos: {fileID: 663690343}
+  saveEffectReference: {fileID: 0}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0
@@ -23013,6 +22947,7 @@ MonoBehaviour:
   closeLoadPoint: {fileID: 73121875}
   playerAnchor: {fileID: 1534933818}
   deletePos: {fileID: 897883424}
+  saveEffectReference: {fileID: 0}
   groundPosition: {x: 0, y: 0, z: 0}
   groundPositionInBliss: {x: 0, y: 0, z: 0}
   isAnchored: 0

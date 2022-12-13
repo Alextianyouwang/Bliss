@@ -58,6 +58,19 @@ public static class Utility
         );
     }
 
+    public static Vector3 QuadraticBezier(Vector3 p0, Vector3 p1, Vector3 p2, float t)
+    {
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+
+        Vector3 p = new Vector3();
+        p.x = uu * p0.x + 2 * u * t * p1.x + tt * p2.x;
+        p.y = uu * p0.y + 2 * u * t * p1.y + tt * p2.y;
+        p.z = uu * p0.z + 2 * u * t * p1.z + tt * p2.z;
+        return p;
+    }
+
     public static float Remap(float value, float from1, float to1, float from2, float to2)
     {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;

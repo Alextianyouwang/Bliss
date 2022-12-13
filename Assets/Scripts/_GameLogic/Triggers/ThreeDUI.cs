@@ -8,11 +8,11 @@ public class ThreeDUI : MonoBehaviour
 
     private void OnEnable()
     {
-        Loader.OnPressEsc += Destroy;
+        ExitLoader.OnPressEsc += Destroy;
     }
     private void OnDisable()
     {
-        Loader.OnPressEsc -= Destroy;
+        ExitLoader.OnPressEsc -= Destroy;
 
     }
     void Start()

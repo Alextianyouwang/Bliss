@@ -22,7 +22,9 @@ public class TileMatrixFunctions
 
     // Public Parameters
     public bool activateWindowsIndependance = false;
+    public bool allowWindowsSetPrefabToButtons = true;
     public float changingWindowsYPos;
+    public float noiseTime;
 
     public TileMatrixFunctions(Transform _player,GameObject _tile,GameObject _saveButton,GameObject _deleteButton,int _maximumTile) 
     {
@@ -187,7 +189,7 @@ public class TileMatrixFunctions
 
             float distanceToCenter = Vector2.Distance(new Vector2(localTile.formationFinalPosition.x, localTile.formationFinalPosition.z), new Vector2(centerPosition.x, centerPosition.z));
             float highRiseInfluence = Mathf.InverseLerp(innerRadius, outerRadius, distanceToCenter);
-            float noise = Mathf.PerlinNoise(localTile.formationFinalPosition.x / 10 + Time.time / 3, localTile.formationFinalPosition.z / 10 + Time.time / 3);
+            float noise = Mathf.PerlinNoise(localTile.formationFinalPosition.x / 10 + noiseTime, localTile.formationFinalPosition.z / 10 + noiseTime);
             Vector3 groundPosition = localTile.GetGroundPosition();
             Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y + highRiseInfluence * multiplier + noise * noiseWeight, groundPosition.z) + Vector3.up *yPos;
 
@@ -200,7 +202,7 @@ public class TileMatrixFunctions
         }
     }
 
-    public void UpdateTielDampSpeedForLanding()
+    public void UpdateTileDampSpeedForLanding()
     {
         for (int i = 0; i < tileOrderedDict.Count; i++)
         {
@@ -229,6 +231,11 @@ public class TileMatrixFunctions
             TileBase t = windowTiles[i];
             if (t != null)
             {
+                if (!allowWindowsSetPrefabToButtons) 
+                {
+                    t.SetDisplay(TileBase.DisplayState.tile);
+                    continue;
+                }
                 t.SetDebugText("Window");
                 if (isInClippy)
                 {
@@ -240,6 +247,15 @@ public class TileMatrixFunctions
 
                 }
             }
+        }
+    }
+
+    public void ToggleSaveHasBeenClicked(bool b) 
+    {
+        for (int i = 0; i < tileOrderedDict.Count; i++) 
+        {
+            TileBase localTile = tileOrderedDict.ElementAt(i).Value;
+            localTile.ToggleSaveButtonHasBeenClicked(b);
         }
     }
 

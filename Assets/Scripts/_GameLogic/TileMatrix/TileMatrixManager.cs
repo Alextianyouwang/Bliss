@@ -33,7 +33,7 @@ public class TileMatrixManager : MonoBehaviour
         hasTriggeredLandingGathering = false,
         hasWindowsDetached = false;
 
-    private enum TileStates { NormalFollow, Staging, Landing, PrepareLanding }
+    private enum TileStates { NormalFollow, Staging, Landing, PrepareLanding, Staging_Diving,Staging_Deleting}
     private TileStates state;
 
     public static Action<Vector3, Quaternion> OnInitiateDivingFromMatrix;
@@ -56,7 +56,16 @@ public class TileMatrixManager : MonoBehaviour
         PlayerAnchorAnimation.OnDiving += DivingAnimation;
         PlayerAnchorAnimation.OnSoring += SoaringAnimation;
 
-        PlayerAnchorAnimation.OnStartDiving += StartDivingAnimation;
+        PlayerAnchorAnimation.OnRequestDive += StartDivingAnimation;
+        PlayerAnchorAnimation.OnRequestDive += SwitchToStageDiving_fromPlayerAnchroAnimation;
+
+        PlayerAnchorAnimation.OnToggleStagingDelete += ToggleStageDelete;
+        PlayerAnchorAnimation.OnPrepareDiving += ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
+
+        SaveButton.OnRetreatSaveButton += RetreatAndResetWindowsAnimation;
+
+
+
 
     }
     private void OnDisable()
@@ -76,7 +85,15 @@ public class TileMatrixManager : MonoBehaviour
         PlayerAnchorAnimation.OnDiving -= DivingAnimation;
         PlayerAnchorAnimation.OnSoring -= SoaringAnimation;
 
-        PlayerAnchorAnimation.OnStartDiving -= StartDivingAnimation;
+        PlayerAnchorAnimation.OnRequestDive -= StartDivingAnimation;
+        PlayerAnchorAnimation.OnRequestDive -= SwitchToStageDiving_fromPlayerAnchroAnimation;
+
+        PlayerAnchorAnimation.OnToggleStagingDelete -= ToggleStageDelete;
+        PlayerAnchorAnimation.OnPrepareDiving -= ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
+
+        SaveButton.OnRetreatSaveButton -= RetreatAndResetWindowsAnimation;
+
+
     }
 
     private void Awake()
@@ -86,6 +103,7 @@ public class TileMatrixManager : MonoBehaviour
     void Start()
     {
         t.Initialize();
+        t.noiseTime = Time.time / 3;
         varyingDampSpeed = defaultDampSpeed;
         state = TileStates.NormalFollow;
     }
@@ -105,22 +123,22 @@ public class TileMatrixManager : MonoBehaviour
             case TileStates.Staging:
                 break;
             case TileStates.Landing:
-                t.UpdateTileSetActive(playerGroundPosition, 6.5f);
+                t.UpdateTileSetActive(playerGroundPosition, 7f);
                 t.UpdateTileOrderedCoordinate(playerGroundPosition);
                 t.ResetWindowsTilePrefab();
-                t.UpdateTielDampSpeedForLanding();
+                t.UpdateTileDampSpeedForLanding();
                 t.UpdateWindowTile(playerGroundPosition);
 
-                t.UpdateTilesStatusPerFrame(0, 6.5f, changingHighRiseMultiplierBoost, changingMatrixYOffset, 0, playerGroundPosition);
+                t.UpdateTilesStatusPerFrame(0, 7f, changingHighRiseMultiplierBoost, changingMatrixYOffset, 0, playerGroundPosition);
                 break;
 
             case TileStates.PrepareLanding:
-                t.UpdateTileSetActive(playerGroundPosition, 6.5f);
+                t.UpdateTileSetActive(playerGroundPosition, 7f);
                 t.UpdateTileOrderedCoordinate(playerGroundPosition);
                 t.ResetWindowsTilePrefab();
                 t.UpdateTileDampSpeedTogether(varyingDampSpeed);
                 t.UpdateWindowTile(playerGroundPosition);
-                t.UpdateTilesStatusPerFrame(0, 6.5f, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset, 0, playerGroundPosition);
+                t.UpdateTilesStatusPerFrame(0, 7f, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset, 0, playerGroundPosition);
                 break;
         }
     }
@@ -132,7 +150,12 @@ public class TileMatrixManager : MonoBehaviour
         changingRadius = Mathf.Lerp(0, defaultRadius, percentage);
     }
 
-
+    void ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation(float time,float distance) 
+    {
+        changingMatrixYOffset = -time * 8 + 8f;
+        changingHighRiseMultiplierBoost = time * 8;
+        varyingDampSpeed = Mathf.Lerp(defaultDampSpeed, .01f, time);
+    }
     void ReceiveDownAnimationGlobalPositionOffset(float y)
     {
         state = TileStates.PrepareLanding;
@@ -187,6 +210,9 @@ public class TileMatrixManager : MonoBehaviour
         }
 
     }
+
+   
+
     public void EndStagingFile()
     {
         if (fileStagingCo != null)
@@ -194,15 +220,7 @@ public class TileMatrixManager : MonoBehaviour
         fileStagingCo = null;
         state = TileStates.NormalFollow;
     }
-    public void SetDeleteButtonReference(FileObject f) 
-    {
-        //print(f.name);
-        foreach (TileBase t in t.tileOrderedDict.Values) 
-        {
-           // t.SetFileReference(f);
-        }
-
-    }
+   
     Vector3 CheckPlayerProximateDirection(Transform t)
     {
         float yRot = t.eulerAngles.y;
@@ -226,6 +244,22 @@ public class TileMatrixManager : MonoBehaviour
         return finalEuler;
     }
 
+    Vector3 GetWindowsAveragePosition(bool formation) 
+    {
+        Vector3 divePosition = Vector3.zero;
+        for (int i = 0; i < t.windowTiles.Length; i++)
+        {
+            if (formation)
+                divePosition += t.windowTiles[i].formationFinalPosition;
+            else
+                divePosition += t.windowTiles[i].tileFinalPosition;
+
+        }
+        divePosition /= t.windowTiles.Length;
+        return divePosition;
+
+    }
+
     void StartSoaringAnimation(FirstPersonController player)
     {
         float playerPhysicalYPosEndPoint = 180f;
@@ -238,12 +272,7 @@ public class TileMatrixManager : MonoBehaviour
         state = TileStates.PrepareLanding;
 
         // Send position and rotation to playercontroller.
-        Vector3 divePosition = Vector3.zero;
-        for (int i = 0; i < t.windowTiles.Length; i++)
-        {
-            divePosition += t.windowTiles[i].formationFinalPosition;
-        }
-        divePosition /= t.windowTiles.Length;
+        Vector3 divePosition = GetWindowsAveragePosition(true);
         divePosition.y += playerPhysicalYPosEndPoint;
 
         Quaternion finalRot = Quaternion.LookRotation(CheckPlayerProximateDirection(player.transform), Vector3.up);
@@ -273,7 +302,7 @@ public class TileMatrixManager : MonoBehaviour
             ChangeFormation(Mathf.Lerp(planeCatchUpYPos, -100, distancePercent), 0);
         }
     }
-    void StartDivingAnimation(FirstPersonController player)
+    void StartDivingAnimation(FirstPersonController player, bool faceSide)
     {
         float playerPhysicalYPosEndPoint = -78f;
         float formationLowestPoint = 27f;
@@ -285,15 +314,12 @@ public class TileMatrixManager : MonoBehaviour
         state = TileStates.PrepareLanding;
 
         // Send position and rotation to playercontroller.
-        Vector3 divePosition = Vector3.zero;
-        for (int i = 0; i < t.windowTiles.Length; i++)
-        {
-            divePosition += t.windowTiles[i].formationFinalPosition;
-        }
-        divePosition /= t.windowTiles.Length;
+        Vector3 divePosition = GetWindowsAveragePosition(true);
         divePosition.y += playerPhysicalYPosEndPoint;
 
-        Quaternion finalRot = Quaternion.LookRotation(CheckPlayerProximateDirection(player.transform), Vector3.up);
+        Quaternion finalRot = faceSide ? 
+            Quaternion.LookRotation(CheckPlayerProximateDirection(player.transform), Vector3.up) :
+            Quaternion.LookRotation(Vector3.down, CheckPlayerProximateDirection(player.transform));
         // Activate volume and scenery, set plane target position to form a "V" shape.
         // The dive animation is officially started.
 
@@ -330,6 +356,7 @@ public class TileMatrixManager : MonoBehaviour
     }
     void EndAnimation()
     {
+        t.allowWindowsSetPrefabToButtons = true;
 
         isInDiveFormation = false;
         varyingDampSpeed = defaultDampSpeed;
@@ -338,16 +365,45 @@ public class TileMatrixManager : MonoBehaviour
         hasTriggeredLandingGathering = false;
         hasWindowsDetached = false;
         state = TileStates.NormalFollow;
+        changingMatrixYOffset = 0;
+        changingHighRiseMultiplierBoost = 0;
         EndStagingFile();
     }
 
+    void RetreatAndResetWindowsAnimation() 
+    {
+        StartCoroutine(WindowsClickedAnimation());
+    }
     #endregion
+
+    IEnumerator WindowsClickedAnimation() 
+    {
+        t.activateWindowsIndependance = true;
+        float percent = 0;
+        Vector3 initialAveragePosition = GetWindowsAveragePosition(false);
+        float waveScale = 3f;
+        t.ToggleSaveHasBeenClicked(true);
+        while (percent < 1) 
+        {
+            float interpolate = Mathf.Sin(percent * Mathf.PI / 2- Mathf.PI/4) * waveScale;
+            t.changingWindowsYPos = interpolate + initialAveragePosition.y;
+
+            percent += Time.deltaTime * 3f;
+            yield return null;
+        }
+        t.allowWindowsSetPrefabToButtons = false;
+        t.ToggleSaveHasBeenClicked(false);
+        t.changingWindowsYPos = initialAveragePosition.y;
+        yield return new WaitForSeconds(0.4f);
+        t.activateWindowsIndependance = false;
+
+    }
     IEnumerator FileStagingAnimation(Vector3 target)
     {
         state = TileStates.Staging;
         float percent = 0;
         float initialRaidius = changingRadius;
-        float targetRadius = 8;
+        float targetRadius = SceneSwitcher.isInClippy? 4.5f : 8;
         Vector3 currentPosition = FirstPersonController.playerGroundPosition;
         Vector3 path = Vector3.zero;
         while (percent < 1)
@@ -363,27 +419,64 @@ public class TileMatrixManager : MonoBehaviour
             t.UpdateTileDampSpeedTogether(varyingDampSpeed);
             t.UpdateWindowTile(path);
             t.UpdateWindowsTilePrefab(SceneSwitcher.isInClippy);
-            t.UpdateTilesStatusPerFrame(0, newRadius, 0.3f, changingMatrixYOffset, defaultNoiseWeight, path);
+            t.UpdateTilesStatusPerFrame(0, newRadius, 0.3f, 0.5f, defaultNoiseWeight, path);
             yield return null;
         }
         float innerRadius = targetRadius * 0.5f;
-        float highRiseMultipler = 1f;
         while (fileStagingCo != null)
         {
-            t.UpdateTileOrderedCoordinate(path);
-            t.ResetWindowsTilePrefab();
+            switch (state) 
+            {
+                case TileStates.Staging:
+                    t.noiseTime = Time.time / 3;
+                    t.UpdateTileOrderedCoordinate(path);
+                    t.ResetWindowsTilePrefab();
 
-            t.UpdateTileDampSpeedTogether(varyingDampSpeed);
-            t.UpdateWindowTile(path);
-            t.UpdateWindowsTilePrefab(SceneSwitcher.isInClippy);
-            t.UpdateTilesStatusPerFrame(innerRadius, targetRadius, highRiseMultipler, changingMatrixYOffset, 0.5f, path);
+                    t.UpdateTileDampSpeedTogether(varyingDampSpeed);
+                    t.UpdateWindowTile(path);
+                    t.UpdateWindowsTilePrefab(SceneSwitcher.isInClippy);
+                    t.UpdateTilesStatusPerFrame(innerRadius, targetRadius, changingHighRiseMultiplierBoost , changingMatrixYOffset + 1f, 0.5f, path);
+                    break;
+                case TileStates.Staging_Diving:
+                    Vector3 playerGroundPosition = FirstPersonController.playerGroundPosition;
+
+                    t.UpdateTileSetActive(playerGroundPosition, 10f);
+                    t.UpdateTileOrderedCoordinate(playerGroundPosition);
+                    t.ResetWindowsTilePrefab();
+                    t.UpdateTileDampSpeedForLanding();
+                    t.UpdateWindowTile(playerGroundPosition);
+
+                    t.UpdateTilesStatusPerFrame(0, 5f, changingHighRiseMultiplierBoost, changingMatrixYOffset , 0, playerGroundPosition);
+                    break;
+                case TileStates.Staging_Deleting:
+                    t.noiseTime = Time.time /2f ;
+                    t.UpdateTileOrderedCoordinate(path);
+                    t.ResetWindowsTilePrefab();
+
+                    t.UpdateTileDampSpeedTogether(0.2f);
+                    t.UpdateWindowTile(path);
+                    t.UpdateTilesStatusPerFrame(0, 4f, 2f, 5f, 12f, path);
+                    break;
+            }
+         
             yield return null;
         }
         state = TileStates.NormalFollow;
 
     }
 
+    void ToggleStageDelete(bool b) 
+    {
+        if (b)
+            state = TileStates.Staging_Deleting;
+        else
+            state = TileStates.Staging;
+    }
+    public void SwitchToStageDiving_fromPlayerAnchroAnimation(FirstPersonController f, bool b)
+    {
+        state = TileStates.Staging_Diving;
 
+    }
 
     private void OnDrawGizmos()
     {

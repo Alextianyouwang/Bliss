@@ -32,7 +32,7 @@ public class FirstPersonController : MonoBehaviour
 
     public static Action<float> OnEnterThreshold;
     public static Action<float> OnExitThreshold;
-    public static Action<FirstPersonController> OnStartDiving;
+    public static Action<FirstPersonController,bool> OnStartDiving;
     public static Action<FirstPersonController> OnStartSoaring;
     public static Action<float> OnIncreaseDownAnimationTime;
     public static Action<float> OnIncreaseUpAnimationTime;
@@ -55,8 +55,8 @@ public class FirstPersonController : MonoBehaviour
     public Color crosshairColor = Color.white;
 
     // Internal Variables
-    private float yaw = 0.0f, storedYaw, finalYaw;
-    private float pitch = 0.0f ,storedPitch, finalPitch;
+    private float storedYaw;
+    private float storedPitch;
     private Image crosshairObject;
 
    
@@ -298,7 +298,7 @@ public class FirstPersonController : MonoBehaviour
         {
             hasAnimationTriggered = true;
             if (!SceneSwitcher.isInClippy)
-                OnStartDiving?.Invoke(this);
+                OnStartDiving?.Invoke(this,true);
             else
                 OnStartSoaring?.Invoke(this);
         }

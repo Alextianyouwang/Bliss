@@ -5,7 +5,7 @@ public class DeleteButton : MonoBehaviour
 {
     public static Action OnDeleteObject;
     public static Action OnPlayerReleased;
-
+    public bool hasBeenClicked = false;
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Equals("Cursor"))
@@ -14,9 +14,11 @@ public class DeleteButton : MonoBehaviour
             {
                 if (collision.gameObject.GetComponent<CursorBlock>().clickTimes == 1)
                 {
-                    OnDeleteObject?.Invoke();
-                    OnPlayerReleased?.Invoke();
-
+                    if (!hasBeenClicked) 
+                    {
+                        OnDeleteObject?.Invoke();
+                        OnPlayerReleased?.Invoke();
+                    }
                 }
             }
         }

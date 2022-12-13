@@ -8,6 +8,8 @@ public class FileObject : MonoBehaviour
 {
 
     public Transform saveLoadPoint, closeLoadPoint, playerAnchor, deletePos;
+    public GameObject saveEffectReference;
+    private GameObject saveEffect_instance;
     public Vector3 groundPosition, groundPositionInBliss;
     public bool isAnchored = false;
     public static Action OnClickReset;
@@ -40,7 +42,7 @@ public class FileObject : MonoBehaviour
     {
         isAnchored = false;
     }
-    public void ResetIsAnchoredInClippy() 
+    public void ResetIsAnchored() 
     {
         isAnchored = false;
     }
@@ -63,6 +65,28 @@ public class FileObject : MonoBehaviour
         newFile.isAnchored = true;
     }
 
+    public void StartSaveEffect() 
+    {
+        if (saveEffectReference != null)
+            StartCoroutine(SaveEffectAnimation());
+    }
+    IEnumerator SaveEffectAnimation() 
+    {
+        saveEffect_instance = Instantiate(saveEffectReference);
+        Vector3 originalPos = transform.position;
+        saveEffect_instance.transform.position = originalPos;
+        Vector3 originalScale = saveEffect_instance.transform.localScale;
+        Vector3 targetScale = originalScale * 0.3f;
+        saveEffect_instance.transform.rotation = transform.rotation;
+        float percent = 0;
+        while (percent < 1) 
+        {
+            saveEffect_instance.transform.position = Vector3.Lerp(originalPos, groundPosition - Vector3.up * 3, percent);
+            saveEffect_instance.transform.localScale = Vector3.Lerp(originalScale, targetScale, percent);
+         percent += Time.deltaTime *3f;
+            yield return null;
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Equals("Cursor")) 

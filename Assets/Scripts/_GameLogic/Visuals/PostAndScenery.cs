@@ -45,8 +45,9 @@ public class PostAndScenery : MonoBehaviour
         PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished += DisableVolumenAndScene;
         PlayerAnchorAnimation.OnDiving += AdjustAOInDiveScene;
 
-        //PlayerAnchorAnimation.OnClippyToggle += ToggleClippyVolume;
         SceneSwitcher.OnClippyToggle += ToggleClippyVolume;
+        PlayerAnchorAnimation.OnRequestDive += EnlargeFOV_fromPlayerAnchorAnimation;
+        PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished += ShrinkFOV_fromPlayerAnchorAnimation;
     }
     private void OnDisable()
     {
@@ -58,8 +59,12 @@ public class PostAndScenery : MonoBehaviour
 
         PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished -= DisableVolumenAndScene;
         PlayerAnchorAnimation.OnDiving -= AdjustAOInDiveScene;
-        //PlayerAnchorAnimation.OnClippyToggle -= ToggleClippyVolume;
+
         SceneSwitcher.OnClippyToggle -= ToggleClippyVolume;
+
+        PlayerAnchorAnimation.OnRequestDive -= EnlargeFOV_fromPlayerAnchorAnimation;
+
+        PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished -= ShrinkFOV_fromPlayerAnchorAnimation;
 
 
 
@@ -158,7 +163,7 @@ public class PostAndScenery : MonoBehaviour
         diveScenes_instance.SetActive(true);
         diveScenes_instance.transform.position = divePosition;
         diveScenes_instance.transform.eulerAngles = new Vector3(180, 0, 0);
-        colorAdjDiveSoar.postExposure.value = -8f;
+        colorAdjDiveSoar.postExposure.value = -7f;
 
 
         ZeroAOInDiveScene();
@@ -170,6 +175,10 @@ public class PostAndScenery : MonoBehaviour
         diveScenes_instance.SetActive(false);
     }
 
+    void EnlargeFOV_fromPlayerAnchorAnimation(FirstPersonController p,bool b) 
+    {
+        EnlargeFOV(0);
+    }
     void EnlargeFOV(float f) 
     {
         targetFOV = originalFOV * preTeleportFOVMultiplier;
@@ -185,6 +194,10 @@ public class PostAndScenery : MonoBehaviour
             StopCoroutine(waitEmergeCo);
     }
 
+    void ShrinkFOV_fromPlayerAnchorAnimation() 
+    {
+        ShrinkFOV(0);
+    }
     void ShrinkFOV(float f) 
     {
         targetFOV = originalFOV;
