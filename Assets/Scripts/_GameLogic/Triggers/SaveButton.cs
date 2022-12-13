@@ -7,7 +7,7 @@ public class SaveButton : MonoBehaviour
 {
     public static Action OnSaveCurrentFile;
     public static Action OnRetreatSaveButton;
-    public static Action<Vector3,Quaternion> OnInitiateSaveAnimation;
+    public static Action OnInitiateSaveAnimation;
     public static Action OnStartSaveEffect;
     public bool hasBeenClicked = false;
     private void OnCollisionEnter(Collision collision)
@@ -33,7 +33,7 @@ public class SaveButton : MonoBehaviour
     async void WaitExecute() 
     {
         await Task.Delay(200);
-        OnInitiateSaveAnimation?.Invoke(transform.position + Vector3.up * 5, Quaternion.LookRotation(Vector3.down, Vector3.up));
+        OnInitiateSaveAnimation?.Invoke();
 
     }
 }

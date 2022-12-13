@@ -1,37 +1,42 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 
-
+// This class takes care of the procedural animation of player & camera movements.
+// All movements of player that is not conducted by the FPS controller is classified as an Anchoring Animation.
 public class PlayerAnchorAnimation : MonoBehaviour
 {
     public static bool isAnchoring = false;
 
-    public static Action<Vector3> OnStageFile;
-    public static Action OnPlayerTeleportAnimationFinished;
+    // Invoked when Player starts to perform an anchoring animation to a File.
+    public static Action<Vector3> OnPlayerStartAnchor;
+    // Invoked when Player are set free from an anchoring animation.
     public static Action OnPlayerExitAnchor;
-    public static Action<float, float> OnDiving;
-    public static Action<float, float> OnPrepareDiving;
-    public static Action<float, float> OnSoring;
-    public static Action OnRequestSceneSwitch;
-    public static Action<FirstPersonController,bool> OnRequestDive;
-    public static Action<bool> OnToggleStagingDelete;
+    // Invoked when Player just finished its teleporting anchoring animation.
+    public static Action OnPlayerTeleportAnimationFinished;
 
-    public FirstPersonController player;
+    // Invoked while Player is in Leaping into file, Diving to Floppy and Soaring to Bliss anchoring animation respectively.
+    public static Action<float, float> OnPrepareDiving;
+    public static Action<float, float> OnDiving;
+    public static Action<float, float> OnSoring;
+
+    // Invoke to request the TileMatrixManager class to perform the dive animation.
+    public static Action<FirstPersonController,bool> OnRequestDive;
+    // Invoke to request SceneSwith. Same as pressing F.
+    public static Action OnRequestSceneSwitch;
+
+    [SerializeField]private FirstPersonController player;
+    // A general animation curver controlling all Anchoring animation, will introduce more in the future.
     public AnimationCurve AnchorAnimationCurve;
 
+    // Each type of Anchoring Animation has its own cancellation token. Call the cancel methord on these to stop an animation.
     private CancellationTokenSource
     playerAnimationCTS,
-    playerZeroXZCTS;
+    playerZeroXZRotationCTS;
     private Vector3 playerPositionBeforeLastAnchor;
-    public enum playerAnimationState { none, anchoring, resetting, mostlyDone }
-    public playerAnimationState animationState;
+    public enum playerAnimationState { none, anchoring, resetting }
+    [HideInInspector] public playerAnimationState animationState;
 
     private void OnEnable()
     {
@@ -39,11 +44,10 @@ public class PlayerAnchorAnimation : MonoBehaviour
 
         FileObject.OnPlayerAnchored += InitiateAnchorPlayerAnimation;
         FileObject.OnPlayerReleased += InitiateDisableAnchorAnimation;
-        DeleteButton.OnPlayerReleased += InitiateDeleteAnchorAnimation;
 
         TileMatrixManager.OnInitiateDivingFromMatrix += InitiateDiveAnimation;
         TileMatrixManager.OnInitiateSoaringFromMatrix += InitiateSoarAnimation;
-
+        TileMatrixManager.OnFinishingDeleteFileAnimation += InitiateDisableAnchorAnimation;
     }
     private void OnDisable()
     {
@@ -51,12 +55,10 @@ public class PlayerAnchorAnimation : MonoBehaviour
 
         FileObject.OnPlayerAnchored -= InitiateAnchorPlayerAnimation;
         FileObject.OnPlayerReleased -= InitiateDisableAnchorAnimation;
-        DeleteButton.OnPlayerReleased -= InitiateDeleteAnchorAnimation;
-
 
         TileMatrixManager.OnInitiateDivingFromMatrix -= InitiateDiveAnimation;
         TileMatrixManager.OnInitiateSoaringFromMatrix -= InitiateSoarAnimation;
-
+        TileMatrixManager.OnFinishingDeleteFileAnimation -= InitiateDisableAnchorAnimation;
 
         isAnchoring = false;
     }
@@ -74,13 +76,14 @@ public class PlayerAnchorAnimation : MonoBehaviour
 
         float timeProgress = 0;
         float distanceProgress = 0;
+
         Vector3 camInitialLocalPos = player.playerCamera.transform.localPosition;
-        Vector3 playerInitialLocalPos = player.transform.position;
         Vector3 camInitialPos = player.playerCamera.transform.position;
         Quaternion camInitialLocalRot = player.playerCamera.transform.localRotation;
         Quaternion camInitialRot = player.playerCamera.transform.rotation;
+        Vector3 playerInitialLocalPos = player.transform.position;
         Quaternion playerInitialLocalRot = player.transform.localRotation;
-        float camInitialPitch = player.playerCamera.transform.localEulerAngles.x;
+
         playerPositionBeforeLastAnchor = playerInitialLocalPos;
         player.playerCanMove = false;
         player.GetComponent<Rigidbody>().isKinematic = true;
@@ -94,8 +97,10 @@ public class PlayerAnchorAnimation : MonoBehaviour
             {
                 float interpolate = timeProgress <= 1 ? AnchorAnimationCurve.Evaluate(timeProgress) : 1;
                 distanceProgress = (player.transform.position - targetPos).magnitude / distanceToTarget;
+                timeProgress += Time.deltaTime * speed;
+                during?.Invoke(timeProgress, distanceProgress);
 
-                Vector3 playerTargetPosition = Utility.QuadraticBezier(playerInitialLocalPos, (targetPos - playerInitialLocalPos).magnitude / 2 * (targetPos - playerInitialLocalPos).normalized + playerInitialLocalPos + curveControlPointOffset, targetPos, interpolate);
+                Vector3 playerTargetPosition = Utility.QuadraticBezier(playerInitialLocalPos, (targetPos + playerInitialLocalPos) / 2 + curveControlPointOffset, targetPos, interpolate);
                 player.transform.position = Vector3.SmoothDamp(player.transform.position, playerTargetPosition, ref playerPosRef, posDampSpeed, 1000f);
                 if (!onlyRotateCamera)
                 {
@@ -117,41 +122,37 @@ public class PlayerAnchorAnimation : MonoBehaviour
                     player.playerCamera.transform.position = Vector3.SmoothDamp(player.playerCamera.transform.position, cameraTargetPosition, ref playerCamPosRef, posDampSpeed);
                 }
 
-                timeProgress += Time.deltaTime * speed;
-                during?.Invoke(timeProgress, distanceProgress);
                 if (ct.IsCancellationRequested)
                     ct.ThrowIfCancellationRequested();
                 await Task.Yield();
             }
         }
-        catch (OperationCanceledException)
-        {
-
-        }
+        catch (OperationCanceledException) { }
         finally
         {
             if (restorePlayerPos)
                 player.transform.position = playerPositionBeforeLastAnchor;
             if (cameraCenter)
                 player.playerCamera.transform.localPosition = camInitialLocalPos;
+            // make sure the camera is remain Locked if the anchoring animation is cancelled. Since the next animation will be injected the next frame, this practice will prevent glitch.
             if (!ct.IsCancellationRequested)
                 player.UnFreezeCamera(player.transform.localEulerAngles.y, 0, zeroXZRot);
             animationState = playerAnimationState.none;
-
             next?.Invoke();
         }
     }
     async void ReturnPlayerToNormalXZRot()
     {
-        playerZeroXZCTS = new CancellationTokenSource();
-        CancellationToken ct = playerZeroXZCTS.Token;
+        playerZeroXZRotationCTS = new CancellationTokenSource();
+        CancellationToken ct = playerZeroXZRotationCTS.Token;
         float percent = 0;
         Vector3 currentEuler = player.transform.eulerAngles;
         Vector3 rotRef = Vector3.zero;
         animationState = playerAnimationState.resetting;
         float pitch = player.playerCamera.transform.localEulerAngles.x;
+        // this will ensure the camera is Unlocked and its eular angle value will be continuous to that stored in Player to give a smooth unlock.
+        // the pitch of camera get from Unity is in range of "-270 to -359" and "0 to 90". So need a bit of conversion.
         player.UnFreezeCamera(player.transform.localEulerAngles.y, pitch > 180 ? pitch - 360 : pitch, false);
-
         try
         {
             while (percent < 1 || Mathf.Abs(player.transform.eulerAngles.x) + Mathf.Abs(player.transform.eulerAngles.z) > 0.01f)
@@ -163,97 +164,73 @@ public class PlayerAnchorAnimation : MonoBehaviour
                     percent
                     );
                 player.transform.rotation = Utility.SmoothDampQuaternion(player.transform.rotation, target, ref rotRef, 0.1f, 100, Time.deltaTime);
-
-
                 if (ct.IsCancellationRequested)
-                {
                     ct.ThrowIfCancellationRequested();
-                }
                 await Task.Yield();
             }
         }
-        catch (OperationCanceledException)
-        {
-
-        }
+        catch (OperationCanceledException) { }
         finally
         {
             animationState = playerAnimationState.none;
-
             player.zeroPlayerXZ = true;
         }
     }
-
-
-
-    void InitiateAnchorPlayerAnimation(FileObject target)
-    {
-        playerAnimationCTS?.Cancel();
-        playerZeroXZCTS?.Cancel();
-        PlayerAnchorTask(target.playerAnchor.position, Vector3.up * 4f, target.playerAnchor.rotation, 1.5f, 0.1f, 0.1f, player, false, false, false,false, null, null);
-        OnStageFile?.Invoke(target.groundPosition);
-    }
-
-    void InitiateDisableAnchorAnimation()
-    {
-
-        playerAnimationCTS?.Cancel();
-        playerZeroXZCTS?.Cancel();
-        OnPlayerExitAnchor?.Invoke();
-        ReturnPlayerToNormalXZRot();
-        EndAnchor();
-    }
-
-    void InitiateDeleteAnchorAnimation() 
-    {
-        StartCoroutine(WaitMatrixDeleteAnimation());
-    }
-    IEnumerator WaitMatrixDeleteAnimation() 
-    {
-        OnToggleStagingDelete?.Invoke(true);
-        yield return new WaitForSeconds(0.8f);
-        OnToggleStagingDelete?.Invoke(false);
-        yield return new WaitForSeconds(0.2f);
-        InitiateDisableAnchorAnimation();
-    }
-   
-    void EndAnchor()
+    void KillAnchor()
     {
         player.playerCanMove = true;
         player.GetComponent<Rigidbody>().isKinematic = false;
         isAnchoring = false;
     }
-
-    void InitiateSaveAnimation(Vector3 targetPosition, Quaternion lookDirection)
+    // Lock player to a certain File Anchor.
+    void InitiateAnchorPlayerAnimation(FileObject target)
     {
         playerAnimationCTS?.Cancel();
-        playerZeroXZCTS?.Cancel();
-        PlayerAnchorTask(SceneSwitcher.sd.currFile.groundPosition + Vector3.up * 4f, Vector3.up * 25f, Quaternion.LookRotation(Vector3.down, transform.right), 0.7f, 0.01f, 0.2f, player, false, false, false,true, RequestDive_passive, DuringPrepareDiving);
-       
+        playerZeroXZRotationCTS?.Cancel();
+        PlayerAnchorTask(target.playerAnchor.position, Vector3.up * 4f, target.playerAnchor.rotation, 1.5f, 0.1f, 0.1f, player, false, false, false,false, null, null);
+
+        OnPlayerStartAnchor?.Invoke(target.groundPosition);
+    }
+    // Unlock player from a Anchoring situation.
+    void InitiateDisableAnchorAnimation()
+    {
+        playerAnimationCTS?.Cancel();
+        playerZeroXZRotationCTS?.Cancel();
+        ReturnPlayerToNormalXZRot();
+
+        OnPlayerExitAnchor?.Invoke();
+        KillAnchor();
+    }
+    // Player will leap into the ground position of the currently selected file. It will followed by the dive anchoring animation.
+    void InitiateSaveAnimation()
+    {
+        playerAnimationCTS?.Cancel();
+        playerZeroXZRotationCTS?.Cancel();
+        PlayerAnchorTask(SceneSwitcher.sd.currFile.groundPosition + Vector3.up * 4f, Vector3.up * 25f, Quaternion.LookRotation(Vector3.down, transform.right), 0.6f, 0.01f, 0.2f, player, false, false, false,true, RequestDive_passive, DuringPrepareDiving);
+    }
+    // Dive animation, will follow by scene swith and reset.
+    void InitiateDiveAnimation(Vector3 targetPosition, Quaternion lookDirection)
+    {
+        playerAnimationCTS?.Cancel();
+        playerZeroXZRotationCTS?.Cancel();
+        PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 0.3f, 0.02f, 0.7f, player, false, true, true, false, SwitchSceneAndResetPlayer, DuringDiving);
+    }
+    // Soar animation, will follow by scene swith and reset.
+    void InitiateSoarAnimation(Vector3 targetPosition, Quaternion lookDirection)
+    {
+        playerAnimationCTS?.Cancel();
+        playerZeroXZRotationCTS?.Cancel();
+        PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 0.25f, 0.02f, 0.99f, player, false, true, true, false, SwitchSceneAndResetPlayer, DuringSoring);
+    }
+    // Notify the TileMatrixManager to perform the animation simutaneously with the Player.
+    void RequestDive_passive()
+    {
+        OnRequestDive?.Invoke(GetComponent<FirstPersonController>(), false);
     }
     void DuringPrepareDiving(float timePercent, float distancePercent) 
     {
         OnPrepareDiving?.Invoke(timePercent,distancePercent);
     }
-
-    void RequestDive_passive()
-    {
-        OnRequestDive?.Invoke(GetComponent<FirstPersonController>(),false);
-    }
-    void InitiateDiveAnimation(Vector3 targetPosition, Quaternion lookDirection)
-    {
-        playerAnimationCTS?.Cancel();
-        playerZeroXZCTS?.Cancel();
-        PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 0.3f, 0.02f, 0.7f, player, false, true, true,false, SwitchSceneAndResetPlayer, DuringDiving);
-    }
-
-    void InitiateSoarAnimation(Vector3 targetPosition, Quaternion lookDirection)
-    {
-        playerAnimationCTS?.Cancel();
-        playerZeroXZCTS?.Cancel();
-        PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 0.25f, 0.02f, 0.99f, player, false, true, true,false, SwitchSceneAndResetPlayer, DuringSoring);
-    }
-
     void DuringDiving(float timePercent, float distancePercent)
     {
         OnDiving?.Invoke(timePercent, distancePercent);
@@ -262,16 +239,10 @@ public class PlayerAnchorAnimation : MonoBehaviour
     {
         OnSoring?.Invoke(timePercent, distancePercent);
     }
-
     void SwitchSceneAndResetPlayer()
     {
         OnRequestSceneSwitch?.Invoke();
         OnPlayerTeleportAnimationFinished?.Invoke();
-        playerAnimationCTS?.Cancel();
-        playerZeroXZCTS?.Cancel();
-        ReturnPlayerToNormalXZRot();
-        player.playerCanMove = true;
-        player.GetComponent<Rigidbody>().isKinematic = false;
-        isAnchoring = false;
+        InitiateDisableAnchorAnimation();
     }
 }

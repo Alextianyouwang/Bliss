@@ -24,7 +24,7 @@ public class TileMatrixFunctions
     public bool activateWindowsIndependance = false;
     public bool allowWindowsSetPrefabToButtons = true;
     public float changingWindowsYPos;
-    public float noiseTime;
+    public float varyingNoiseTime;
 
     public TileMatrixFunctions(Transform _player,GameObject _tile,GameObject _saveButton,GameObject _deleteButton,int _maximumTile) 
     {
@@ -53,6 +53,7 @@ public class TileMatrixFunctions
                 tilePool.Enqueue(tileMatrixRefPool[i, j]);
             }
         }
+        varyingNoiseTime = Time.time / 3;
     }
     public TileBase GetNextTile(Vector3 position)
     {
@@ -121,7 +122,7 @@ public class TileMatrixFunctions
     {
         for (int i = 0; i< windowTiles.Length;i++) 
         {
-            if (windowTiles[i] != null)
+            if (windowTiles[i] != null && windowTiles[i].displayState != TileBase.DisplayState.tile)
                 windowTiles[i].SetDisplay(TileBase.DisplayState.tile);
         }
     }
@@ -189,7 +190,7 @@ public class TileMatrixFunctions
 
             float distanceToCenter = Vector2.Distance(new Vector2(localTile.formationFinalPosition.x, localTile.formationFinalPosition.z), new Vector2(centerPosition.x, centerPosition.z));
             float highRiseInfluence = Mathf.InverseLerp(innerRadius, outerRadius, distanceToCenter);
-            float noise = Mathf.PerlinNoise(localTile.formationFinalPosition.x / 10 + noiseTime, localTile.formationFinalPosition.z / 10 + noiseTime);
+            float noise = Mathf.PerlinNoise(localTile.formationFinalPosition.x / 10 + varyingNoiseTime, localTile.formationFinalPosition.z / 10 + varyingNoiseTime);
             Vector3 groundPosition = localTile.GetGroundPosition();
             Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y + highRiseInfluence * multiplier + noise * noiseWeight, groundPosition.z) + Vector3.up *yPos;
 
@@ -233,18 +234,20 @@ public class TileMatrixFunctions
             {
                 if (!allowWindowsSetPrefabToButtons) 
                 {
-                    t.SetDisplay(TileBase.DisplayState.tile);
+                    if (t.displayState != TileBase.DisplayState.tile)
+                        t.SetDisplay(TileBase.DisplayState.tile);
                     continue;
                 }
                 t.SetDebugText("Window");
                 if (isInClippy)
                 {
-                    t.SetDisplay(TileBase.DisplayState.delete);
+                    if(t.displayState != TileBase.DisplayState.delete)
+                        t.SetDisplay(TileBase.DisplayState.delete);
                 }
                 else 
                 {
-                    t.SetDisplay(TileBase.DisplayState.save);
-
+                    if (t.displayState != TileBase.DisplayState.save)
+                        t.SetDisplay(TileBase.DisplayState.save);
                 }
             }
         }

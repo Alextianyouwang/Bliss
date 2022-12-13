@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -69,6 +70,15 @@ public static class Utility
         p.y = uu * p0.y + 2 * u * t * p1.y + tt * p2.y;
         p.z = uu * p0.z + 2 * u * t * p1.z + tt * p2.z;
         return p;
+    }
+    public static int GetFirstNullIndexInList<T>(T[] array)
+    {
+        foreach (T t in array)
+        {
+            if (t == null)
+                return Array.IndexOf(array, t);
+        }
+        return array.Length;
     }
 
     public static float Remap(float value, float from1, float to1, float from2, float to2)

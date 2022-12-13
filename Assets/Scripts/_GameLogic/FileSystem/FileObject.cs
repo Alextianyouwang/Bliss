@@ -1,17 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.VisualScripting;
-
 public class FileObject : MonoBehaviour
 {
-
-    public Transform saveLoadPoint, closeLoadPoint, playerAnchor, deletePos;
+    public Transform saveLoadPoint, closeLoadPoint, deletePos ,playerAnchor;
     public GameObject saveEffectReference;
     private GameObject saveEffect_instance;
-    public Vector3 groundPosition, groundPositionInBliss;
+    public Vector3 groundPosition;
     public bool isAnchored = false;
+
     public static Action OnClickReset;
     public static Action<FileObject> OnFlieCollected;
     public static Action<FileObject> OnPlayerAnchored;
@@ -23,24 +20,15 @@ public class FileObject : MonoBehaviour
     {
         SetGroundPos();
     }
-
     private void OnEnable()
     {
-
         FileManager.OnSelectedFileChange +=  ResetAnchorFlag;
         OnFlieCollected += SetGroundPosition_wrapper;
-
     }
     private void OnDisable()
     {
         FileManager.OnSelectedFileChange -= ResetAnchorFlag;
         OnFlieCollected -= SetGroundPosition_wrapper;
-
-    }
-
-    public void SwitchToClippyWorld() 
-    {
-        isAnchored = false;
     }
     public void ResetIsAnchored() 
     {
@@ -56,7 +44,6 @@ public class FileObject : MonoBehaviour
         if (Physics.Raycast(groundRay, out hit, 100f, groundMask))
         {
             groundPosition = hit.point;
-
         }
     }
     public void ResetAnchorFlag(FileObject newFile,FileObject prevFile) 
@@ -105,7 +92,6 @@ public class FileObject : MonoBehaviour
                     {
                         isAnchored = false;
                         OnPlayerReleased?.Invoke();
-
                     }
                 }
             }

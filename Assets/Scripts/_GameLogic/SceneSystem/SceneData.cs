@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+// A global-accessable data container.
 public class SceneData 
 {
     public Vector3 previousBlissPosition;

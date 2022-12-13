@@ -1,17 +1,21 @@
 using System;
 using UnityEngine;
+
+// This class manages the file system and implement specific methord for individual file.
 public class FileManager : MonoBehaviour
 {
     private SceneData sd;
+    // Invoked when the current file selection has been changed.
     public static Action<FileObject, FileObject> OnSelectedFileChange;
 
     private void OnEnable()
     {
+        SceneSwitcher.OnSceneDataLoaded += GetSceneData;
+        SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
+
         SaveButton.OnSaveCurrentFile += SaveCurrentFile;
         DeleteButton.OnDeleteObject += DeleteCurrentFile;
         FileObject.OnFlieCollected += GetFileObject;
-        SceneSwitcher.OnSceneDataLoaded += GetSceneData;
-        SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
     }
     private void OnDisable()
     {
@@ -19,34 +23,31 @@ public class FileManager : MonoBehaviour
         DeleteButton.OnDeleteObject -= DeleteCurrentFile;
         FileObject.OnFlieCollected -= GetFileObject;
         SceneSwitcher.OnSceneDataLoaded -= GetSceneData;
-        SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
-
+        SaveButton.OnStartSaveEffect -= InitiateCurrentFileAnimation;
     }
 
-    void GetSceneData() 
+    void GetSceneData()
     {
         sd = SceneSwitcher.sd;
     }
 
     void SaveCurrentFile()
     {
-        if (!Array.Find(SceneSwitcher.sd.clippyFileLoaded, x => x != null && x.name == sd.prevFile.name + "(Clone)"))
+        // only proceed to save if current list doesn't already contains it to prevent duplication.
+        if (Array.Find(SceneSwitcher.sd.clippyFileLoaded, x => x != null && x.name == sd.prevFile.name + "(Clone)"))
+            return;
+        sd.fileIndex = Utility.GetFirstNullIndexInList(sd.clippyFileLoaded);
+        if (sd.fileIndex < sd.clippyFileLoaded.Length)
         {
-            sd.fileIndex = GetFirstNullIndexInList(sd.clippyFileLoaded);
-            if (sd.fileIndex < sd.clippyFileLoaded.Length)
-            {
-                sd.currFile.ResetIsAnchored();
-                FileObject f = Instantiate(sd.currFile);
-                f.SwitchToClippyWorld();
-
-                f.transform.position = sd.clippyFileLoadPosition[sd.fileIndex].position;
-                f.transform.parent = sd.clippyFileSystem.transform;
-                f.transform.forward = (sd.clippyFileSystem.transform.position - f.transform.position).normalized;
-                f.transform.localScale *= 0.8f;
-                f.ResetIsAnchored();
-                f.isAnchored = false;
-                sd.clippyFileLoaded[sd.fileIndex] = f;
-            }
+            sd.currFile.ResetIsAnchored();
+            FileObject f = Instantiate(sd.currFile);
+            f.transform.position = sd.clippyFileLoadPosition[sd.fileIndex].position;
+            f.transform.parent = sd.clippyFileSystem.transform;
+            f.transform.forward = (sd.clippyFileSystem.transform.position - f.transform.position).normalized;
+            f.transform.localScale *= 0.8f;
+            f.ResetIsAnchored();
+            f.isAnchored = false;
+            sd.clippyFileLoaded[sd.fileIndex] = f;
         }
     }
     void DeleteCurrentFile()
@@ -54,28 +55,15 @@ public class FileManager : MonoBehaviour
         RemoveFile(sd.currFile);
         Destroy(sd.currFile.gameObject);
     }
-    int GetFirstNullIndexInList<T>(T[] array)
-    {
-        foreach (T t in array)
-        {
-            if (t == null)
-                return Array.IndexOf(array, t);
-        }
-        return array.Length;
-    }
-
     void RemoveFile(FileObject fileToRemove)
     {
         for (int i = 0; i < sd.clippyFileLoaded.Length; i++)
         {
-
             if (sd.clippyFileLoaded[i] == fileToRemove)
-            {
                 sd.clippyFileLoaded[i] = null;
-            }
         }
     }
-    void InitiateCurrentFileAnimation() 
+    void InitiateCurrentFileAnimation()
     {
         sd.currFile.StartSaveEffect();
     }

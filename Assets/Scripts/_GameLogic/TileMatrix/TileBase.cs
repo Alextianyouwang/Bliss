@@ -59,16 +59,19 @@ public class TileBase
         switch (state) 
         {
             case DisplayState.tile:
+                displayState = DisplayState.tile;
                 saveButton_instance.SetActive(false);
                 tileObject_instance.SetActive(true);
                 deleteButton_instance.SetActive(false);
                 break;
             case DisplayState.delete:
+                displayState = DisplayState.delete;
                 saveButton_instance.SetActive(false);
                 tileObject_instance.SetActive(false);
                 deleteButton_instance.SetActive(true);
                 break;
             case DisplayState.save:
+                displayState = DisplayState.save;
                 saveButton_instance.SetActive(true);
                 tileObject_instance.SetActive(false);
                 deleteButton_instance.SetActive(false);

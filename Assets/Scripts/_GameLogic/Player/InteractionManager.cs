@@ -32,9 +32,6 @@ public class InteractionManager : MonoBehaviour
     public LayerMask interactionMask;
 
     public bool canStartControl;
-    bool isInClippy;
-
-
     private void OnEnable()
     {
         SceneManager.OnGameStart += ToggleStart;
@@ -42,8 +39,6 @@ public class InteractionManager : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.OnGameStart -= ToggleStart;
-
-
     }
 
     void Start()
@@ -64,13 +59,6 @@ public class InteractionManager : MonoBehaviour
     void ToggleStart() 
     {
         canStartControl = true;
-    }
-
-    
-    private void LateUpdate()
-    {
-
-
     }
 
     private void TrailUpdate() 

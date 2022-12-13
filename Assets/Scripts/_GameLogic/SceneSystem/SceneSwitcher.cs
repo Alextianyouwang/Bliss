@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
+    // Create a static SceneData object.
     public static SceneData sd;
-
     public static bool isInClippy = false;
 
+    // Invoked when teleported between floppy and bliss.
     public static Action<bool> OnClippyToggle;
+    // Invoke to notify other class to set a local reference of the SceneData object.
     public static Action OnSceneDataLoaded;
 
     private void OnEnable()
@@ -25,7 +27,6 @@ public class SceneSwitcher : MonoBehaviour
     private void Awake()
     {
         sd = new SceneData();
-
     }
     private void Start()
     {
@@ -36,6 +37,7 @@ public class SceneSwitcher : MonoBehaviour
     {
         SceneSwitchingCheck();
     }
+    // Set reference for all the members of the SceneData Object.
     IEnumerator WaitUntilSceneLoad()
     {
         sd.blizzWrapper = FindObjectOfType<BlissWrapper>().gameObject;
@@ -55,7 +57,6 @@ public class SceneSwitcher : MonoBehaviour
     }
     void SwitchScene()
     {
-
         if (!isInClippy)
         {
             isInClippy = true;
@@ -64,7 +65,6 @@ public class SceneSwitcher : MonoBehaviour
 
             sd.blizzWrapper.SetActive(false);
             sd.clippyWrapper.SetActive(true);
-
         }
 
         else
@@ -75,7 +75,6 @@ public class SceneSwitcher : MonoBehaviour
             transform.position = sd.previousBlissPosition;
             sd.clippyWrapper.SetActive(false);
             sd.blizzWrapper.SetActive(true);
-
         }
         OnClippyToggle?.Invoke(isInClippy);
 
