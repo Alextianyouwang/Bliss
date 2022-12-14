@@ -155,7 +155,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat5:
-        m_Texture: {fileID: 2800000, guid: 5c8999ac245bff34dab5fd31757ced45, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3bdb253988c80934a896d3e88de65024, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat6:
@@ -309,7 +309,7 @@ Material:
     - _Specular6: {r: 1, g: 1, b: 1, a: 1}
     - _Specular7: {r: 1, g: 1, b: 1, a: 1}
     - _Splat4_STn: {r: 0, g: 0, b: 2, a: 2}
-    - _Splat5_STn: {r: 5, g: 5, b: 3, a: 3}
+    - _Splat5_STn: {r: 5, g: 5, b: 2, a: 2}
     - _Splat6_STn: {r: 1, g: 1, b: 0, a: 1}
     - _Splat7_STn: {r: 1, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []
