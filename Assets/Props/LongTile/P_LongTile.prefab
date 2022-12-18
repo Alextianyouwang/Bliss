@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8165087707957402799}
   - component: {fileID: 5183999524175934145}
   - component: {fileID: 1922007497478566076}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 814223616511250931}
   - component: {fileID: 4854690100982455855}
   - component: {fileID: 2101167262666403489}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 7489531636835580750}
   - component: {fileID: 5791614564846892267}
   - component: {fileID: 8627495605846769697}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: P_LongTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

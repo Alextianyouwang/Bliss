@@ -23,10 +23,10 @@ TagManager:
   - IgnorePlayer
   - Player
   - Interactive_IgnorePlayer
+  - Interactive_Glitch
+  - StencilScreen
+  - StencilObject
   - ModularMatrix
-  - 
-  - 
-  - 
   - 
   - 
   - 
