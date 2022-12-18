@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Floppy.unity
     guid: 4f79d2d2f14289f4598e824c795f4000
+  - enabled: 1
+    path: Assets/Scenes/Floppy_IK.unity
+    guid: 239ff85ead6c5cc44b75653d282fbf83
   m_configObjects: {}

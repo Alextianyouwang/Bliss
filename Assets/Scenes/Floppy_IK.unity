@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0.010625672, b: 0.053223565, a: 1}
+  m_IndirectSpecularColor: {r: 0.18532735, g: 0.1492703, b: 0.23059627, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1233,7 +1233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsGlobal: 1
-  priority: 0
+  priority: -10000
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 8cebde13d86cb4043936ff5cb9e2377d, type: 2}
@@ -2319,7 +2319,15 @@ MonoBehaviour:
   m_RigLayers:
   - m_Rig: {fileID: 175646808}
     m_Active: 1
-  m_Effectors: []
+  m_Effectors:
+  - m_Transform: {fileID: 877345307}
+    m_Style:
+      shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}
+      color: {r: 1, g: 0, b: 0, a: 0.5}
+      size: 0.1
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0}
+    m_Visible: 1
 --- !u!95 &877345309
 Animator:
   serializedVersion: 4
@@ -5157,6 +5165,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4999377692720397643}
     m_Modifications:
+    - target: {fileID: 2324114491557528815, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
+      propertyPath: FileSaveDebugger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4158242074344857143, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -5910,6 +5922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8937862930087326746}
+  - component: {fileID: 8937862930087326747}
   m_Layer: 0
   m_Name: FloppyRim
   m_TagString: Untagged
@@ -8179,7 +8192,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &3587485518795672778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8192,116 +8205,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310a0fa05a9213b43ab8bdb17a2e99b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bigEyeWorld: {fileID: 0}
-  ground: {fileID: 0}
-  worldMat: {fileID: 2100000, guid: 92370dd1fc627584ebbc4576b316ae12, type: 2}
-  grassMat: {fileID: 0}
-  clippyMat: {fileID: 0}
-  floatAnimationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.48686007
-      value: 0.50119746
-      inSlope: 0.017106121
-      outSlope: 0.017106121
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9958191
-      value: 0.000011444092
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  transitionSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cameraDolleyCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5065941
-      value: 0.99009866
-      inSlope: 0.09745959
-      outSlope: 0.09745959
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9827881
-      value: 0.009536743
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  player: {fileID: 0}
   AnchorAnimationCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cam: {fileID: 3587485517657565957}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 128
-  bigEyeRoomYOffset: 3.5
-  dolleyDepth: 30
-  blissVolume: {fileID: 0}
-  clippyVolume: {fileID: 0}
-  localVolume: {fileID: 0}
+  animationState: 0
 --- !u!4 &3612312592549641199
 Transform:
   m_ObjectHideFlags: 0
@@ -10719,7 +10630,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8024415579477424523}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64ba0f1ae9b28a74a8feb50dcd49bd1e, type: 3}
   m_Name: 
@@ -11229,6 +11140,19 @@ Transform:
   m_Father: {fileID: 7936109390271298448}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8937862930087326747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604426963769895635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ba0f1ae9b28a74a8feb50dcd49bd1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 0.01
 --- !u!1 &9024372409674716993
 GameObject:
   m_ObjectHideFlags: 0

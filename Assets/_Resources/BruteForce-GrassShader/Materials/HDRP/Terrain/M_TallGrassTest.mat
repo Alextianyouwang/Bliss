@@ -35,11 +35,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Control0:
-        m_Texture: {fileID: 5260701334192633708, guid: ca480eec3821b9746a66644fa477514f, type: 2}
+        m_Texture: {fileID: -3007912332207823270, guid: 6a31ca4986adfbc46804e7cf27065603, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Control1:
-        m_Texture: {fileID: -584995179879542323, guid: ca480eec3821b9746a66644fa477514f, type: 2}
+        m_Texture: {fileID: 8502747289048329919, guid: 6a31ca4986adfbc46804e7cf27065603, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -304,11 +304,11 @@ Material:
     - _Specular1: {r: 1, g: 1, b: 1, a: 1}
     - _Specular2: {r: 1, g: 1, b: 1, a: 1}
     - _Specular3: {r: 1, g: 1, b: 1, a: 1}
-    - _Specular4: {r: 0, g: 0, b: 0, a: 0}
+    - _Specular4: {r: 0, g: 0, b: 0, a: 1}
     - _Specular5: {r: 1, g: 1, b: 1, a: 0}
     - _Specular6: {r: 1, g: 1, b: 1, a: 1}
     - _Specular7: {r: 1, g: 1, b: 1, a: 1}
-    - _Splat4_STn: {r: 0, g: 0, b: 15, a: 15}
+    - _Splat4_STn: {r: 0, g: 0, b: 2, a: 2}
     - _Splat5_STn: {r: 5, g: 5, b: 3, a: 3}
     - _Splat6_STn: {r: 1, g: 1, b: 0, a: 1}
     - _Splat7_STn: {r: 1, g: 1, b: 0, a: 1}

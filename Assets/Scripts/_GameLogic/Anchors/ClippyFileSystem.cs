@@ -11,6 +11,6 @@ public class ClippyFileSystem : MonoBehaviour
     private void Awake()
     {
         fileTransform = gameObject.GetComponentsInChildren<Transform>().ToList();
-        fileTransform.Remove(transform);
+        fileTransform = fileTransform.Where(x => x.parent == gameObject.transform).ToList();
     }
 }

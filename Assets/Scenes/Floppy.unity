@@ -4105,7 +4105,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1819593248}
-  - component: {fileID: 1819593249}
   m_Layer: 0
   m_Name: FileHolder
   m_TagString: Untagged
@@ -4133,19 +4132,6 @@ Transform:
   m_Father: {fileID: 4422384970218957465}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1819593249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1819593247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 805e07846613ac04985517b47228f80a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fileTransform: []
 --- !u!1 &1820320810
 GameObject:
   m_ObjectHideFlags: 0
@@ -18276,116 +18262,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310a0fa05a9213b43ab8bdb17a2e99b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bigEyeWorld: {fileID: 0}
-  ground: {fileID: 0}
-  worldMat: {fileID: 2100000, guid: 92370dd1fc627584ebbc4576b316ae12, type: 2}
-  grassMat: {fileID: 0}
-  clippyMat: {fileID: 0}
-  floatAnimationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.48686007
-      value: 0.50119746
-      inSlope: 0.017106121
-      outSlope: 0.017106121
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9958191
-      value: 0.000011444092
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  transitionSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cameraDolleyCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5065941
-      value: 0.99009866
-      inSlope: 0.09745959
-      outSlope: 0.09745959
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9827881
-      value: 0.009536743
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  player: {fileID: 0}
   AnchorAnimationCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cam: {fileID: 3587485517657565957}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 128
-  bigEyeRoomYOffset: 3.5
-  dolleyDepth: 30
-  blissVolume: {fileID: 0}
-  clippyVolume: {fileID: 0}
-  localVolume: {fileID: 0}
+  animationState: 0
 --- !u!4 &3589225697193619577
 Transform:
   m_ObjectHideFlags: 0

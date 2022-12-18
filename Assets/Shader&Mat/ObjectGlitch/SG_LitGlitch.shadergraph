@@ -1165,10 +1165,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1785.0,
-            "y": -77.99999237060547,
+            "x": -1790.0,
+            "y": -132.0,
             "width": 208.0,
-            "height": 301.9999694824219
+            "height": 302.0
         }
     },
     "m_Slots": [
@@ -3817,7 +3817,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "e00": 5.0,
+        "e00": 80.0,
         "e01": 2.0,
         "e02": 2.0,
         "e03": 2.0,

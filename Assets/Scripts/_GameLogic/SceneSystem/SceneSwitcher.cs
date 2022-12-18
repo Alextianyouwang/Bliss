@@ -41,7 +41,7 @@ public class SceneSwitcher : MonoBehaviour
     IEnumerator WaitUntilSceneLoad()
     {
         sd.blizzWrapper = FindObjectOfType<BlissWrapper>().gameObject;
-        AsyncOperation load = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Floppy", LoadSceneMode.Additive);
+        AsyncOperation load = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Floppy_IK", LoadSceneMode.Additive);
         while (!load.isDone)
         {
             yield return null;

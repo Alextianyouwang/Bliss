@@ -85,4 +85,15 @@ public static class Utility
     {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
+
+    public static float LerpHelper(ref float defaultValue, float targetValue, float Multiplier)
+    {
+        bool isPositive = defaultValue - targetValue > 0 ? true : false;
+        if (isPositive)
+            defaultValue -= defaultValue > targetValue ? Time.deltaTime * Multiplier : 0;
+        else
+            defaultValue += defaultValue < targetValue ? Time.deltaTime * Multiplier : 0;
+
+        return defaultValue;
+    }
 }

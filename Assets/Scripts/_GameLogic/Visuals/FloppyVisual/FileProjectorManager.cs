@@ -18,7 +18,7 @@ public class FileProjectorManager : MonoBehaviour
     //Animation parameters
     string s_Saved = "FileSaved", s_Null = "FileNull";
     //Material parameters
-    string s_ProjectorLights = "M_ProjectorLights";
+    string s_ProjectorLights = "ProjectorLights";
 
     [Header("RingsGroup")]
     public Transform RingParent;
@@ -82,9 +82,10 @@ public class FileProjectorManager : MonoBehaviour
 
     public void FileSavedState(float animMultiplier, float TargetValue, bool animState)
     {
-        foreach(Transform Child in AllRings)
+        LerperVar = Utility.LerpHelper(ref LerperVar, TargetValue, LerpMultiplier);
+        foreach (Transform Child in AllRings)
         {
-            LerperVar = Utilities.LerpHelper(ref LerperVar, TargetValue, LerpMultiplier);
+           
             Color c_MatSavedColor = Color.Lerp(MatNullColor, MatSavedColor, LerperVar);
             Child.GetComponent<MeshRenderer>().materials[1].SetColor("_EmissiveColor", c_MatSavedColor);
         }
@@ -92,6 +93,7 @@ public class FileProjectorManager : MonoBehaviour
         {
             Color c_LightColor = Color.Lerp(LightsNullColor, LightsSavedColor, LerperVar);
             Child.GetComponent<HDAdditionalLightData>().SetColor(c_LightColor, 5626);
+            //print(c_LightColor);
         }
         foreach (Transform Child in AnimRings)
         {
@@ -107,26 +109,4 @@ public class FileProjectorManager : MonoBehaviour
         }
     }
 
-/*    public void FileDeletedState()
-    {
-        foreach (Transform Child in AnimRings)
-        {
-            Animator a_Anim;
-            a_Anim = Child.gameObject.GetComponent<Animator>();
-
-            //a_Anim.SetBool(s_Saved.ToString(), false);
-            a_Anim.SetFloat(s_Null.ToString(), -1f);
-        }
-        foreach (Transform Child in AllRings)
-        {
-            LerperVar = Utilities.LerpHelper(ref LerperVar, 0, LerpMultiplier);
-            Color c_MatDeletedColor = Color.Lerp(MatNullColor, MatSavedColor, LerperVar);
-            Child.GetComponent<MeshRenderer>().materials[1].SetColor("_EmissiveColor", c_MatDeletedColor);
-        }
-        foreach (Transform Child in AnimLights)
-        {
-            Color c_LightColor = Color.Lerp(LightsNullColor, LightsSavedColor, LerperVar);
-            Child.GetComponent<HDAdditionalLightData>().SetColor(c_LightColor, 5626);
-        }
-    }*/
 }
