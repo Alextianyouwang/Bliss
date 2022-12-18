@@ -53,126 +53,180 @@
     <UnityVersion>2021.3.6f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\NewScript\SceneDataObject.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\SceneSystem\SceneData.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_FPSDisplay.cs" />
-    <Compile Include="Assets\Scripts\ThreeDUI.cs" />
-    <Compile Include="Assets\Scripts\NewScript\BlissWrapper.cs" />
-    <Compile Include="Assets\Scripts\NewScript\FileObject.cs" />
-    <Compile Include="Assets\Scripts\Portal.cs" />
-    <Compile Include="Assets\GPT_Dump\BezierTest.cs" />
-    <Compile Include="Assets\Scripts\TestTeleportation.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Triggers\ThreeDUI.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Anchors\BlissWrapper.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\FileSystem\FileObject.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\Portal.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
+    <Compile Include="Assets\Scripts\Testing\TestTeleportation.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\TemporalReprojection.cs" />
-    <Compile Include="Assets\GPT_Dump\ProjectileTest.cs" />
-    <Compile Include="Assets\Scripts\NumberBlocks.cs" />
-    <Compile Include="Assets\Scripts\PlayerLook.cs" />
-    <Compile Include="Assets\Scripts\PlayerMove.cs" />
-    <Compile Include="Assets\Scripts\NewScript\QuitButton.cs" />
-    <Compile Include="Assets\Scripts\SimpleCameraController.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\NumberBlocks.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\PlayerLook.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\PlayerMove.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\SimpleCameraController.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\SceneSystem\SceneSwitcher.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_AssetManager.cs" />
-    <Compile Include="Assets\FloppyWorld\Scripts\Utilities.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_BallPlayer.cs" />
-    <Compile Include="Assets\Scripts\FirstPersonController.cs" />
-    <Compile Include="Assets\Scripts\NewScript\ClippyWrapper.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Player\FirstPersonController.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyWrapper.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\Extensions.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\FrustumJitter.cs" />
-    <Compile Include="Assets\Scripts\FolderOpen.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\FolderOpen.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_SetInteractiveShaderEffectsTriplanar.cs" />
-    <Compile Include="Assets\Scripts\GameStart.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\GameStart.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixFunctions.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_BallPlayerTriplanar.cs" />
-    <Compile Include="Assets\Scripts\LookWithMouse.cs" />
-    <Compile Include="Assets\Scripts\NewScript\DeleteButton.cs" />
-    <Compile Include="Assets\Scripts\CursorBlock.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\LookWithMouse.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Triggers\DeleteButton.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Triggers\CursorBlock.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_TractorCamera.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\EffectBase.cs" />
-    <Compile Include="Assets\FloppyWorld\Scripts\SelfSpinning.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\_Others\SelfSpinning.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_SetInteractiveShaderEffects.cs" />
-    <Compile Include="Assets\Scripts\SceneManager.cs" />
-    <Compile Include="Assets\Scripts\NewScript\CamEffect.cs" />
-    <Compile Include="Assets\FloppyWorld\Scripts\FileProjectorManager.cs" />
-    <Compile Include="Assets\Scripts\NewScript\ClippyFileSystem.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\SceneManager.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Visuals\PostAndScenery.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyFileSystem.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MowingUI.cs" />
-    <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\PlayerMovement.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\VelocityBuffer.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileBase.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\AA\Scripts\VelocityBufferTag.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_RainActivator.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_SubShowcase.cs" />
-    <Compile Include="Assets\Scripts\NewScript\SaveButton.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Triggers\SaveButton.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
     <Compile Include="Assets\PureNature\Scripts\EnvironmentManager.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\Scripts\Rendering\CamFilter.cs" />
+    <Compile Include="Assets\Main Menu Office\Enter to play.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\InputSystemSwitcher.cs" />
-    <Compile Include="Assets\Scripts\InteractionManager.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Player\InteractionManager.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_RotatorDisplay.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MowingManager.cs" />
-    <Compile Include="Assets\Scripts\NewScript\ModularMatrix.cs" />
-    <Compile Include="Assets\Scripts\NewScript\FileTurnTable.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixManager.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\FileSystem\FileManager.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\PureNature\Scripts\FreeCamera.cs" />
-    <Compile Include="Assets\Scripts\Sound.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\Sound.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MowingTool.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Extra\Bloom\Bloom.cs" />
-    <Compile Include="Assets\Scripts\PlaySound.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\PlaySound.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_TractorController.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\PureNature\Scripts\CloudsVolume.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_FxOnMouseClick.cs" />
-    <Compile Include="Assets\Scripts\Loader.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\_Others\ExitLoader.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_MeshExtrusion.cs" />
-    <Compile Include="Assets\Scripts\NewScript\WorldTransition.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Animations\PlayerAnchorAnimation.cs" />
     <Compile Include="Assets\BruteForce-GrassShader\Scripts\BF_Terrain.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\PureNature\Scripts\WaterReflection.cs" />
-    <Compile Include="Assets\Scripts\NewScript\Utility.cs" />
-    <Compile Include="Assets\Scripts\AudioManager.cs" />
-    <Compile Include="Assets\Scripts\NewScript\ClippyLoadpoint.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\_Others\Utility.cs" />
+    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\Scripts\Deprecated\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyLoadpoint.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\VertexColor.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\BFGrassTerrain.shader" />
     <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxCore.cginc" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\Debug\BFGrassGeoDebug.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\Shaders\IncNoise.cginc" />
     <None Include="Assets\PureNature\Shaders\Billboards.shader" />
-    <None Include="Assets\Stencil_test\Stencil_Lit.shader" />
+    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\BFGrassMobile.shader" />
     <None Include="Assets\Shader\ShaderLab\HLSL\RayMarch.hlsl" />
+    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\BFGrassLiteURP.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\HDRP\BFGrassMobileHDRP.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\PureNature\Shaders\Water.shader" />
     <None Include="Assets\PureNature\Shaders\GrassMesh.shader" />
     <None Include="Assets\polyquest_v1_cliffs\scenes\Cliffs_Scenes\Cliffs_Textured_lightmapped_scenes\Troubleshooting_lightmap_issues_LM.txt" />
     <None Include="Assets\PureNature\Shaders\StandardLayer_ObjectSpace.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\PureNature\Shaders\StandardLayer.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\HDRP\BFGrassTerrainHDRP.shader" />
     <None Include="Assets\PureNature\Shaders\WaterFall.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\HDRP\BFGrassHDRP.shader" />
     <None Include="Assets\polyquest_v1_cliffs\scenes\Cliffs_Scenes\Cliffs_Textured_lightmapped_scenes\Troubleshooting_textured_scenes_TX.txt" />
-    <None Include="Assets\Stencil_test\Stencil_test.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\BFGrassTerrainURP.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxStandard.shader" />
     <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxCoreForward.cginc" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\Shaders\IncDepth.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\Debug\BFGrassMobileDebugURP.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\PureNature\Shaders\Clouds.shader" />
     <None Include="Assets\PureNature\Shaders\VegetationTrunk.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\Debug\BFGrassMobileDebug.shader" />
-    <None Include="Assets\Stencil_test\Stencil.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\Bloom\Shader\Bloom.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\BruteForce-GrassShader\Extra\Bloom\Shader\Bloom.cginc" />
     <None Include="Assets\BruteForce-GrassShader\ReadMe.txt" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\BFGrassURP.shader" />
     <None Include="Assets\Shader\ShaderLab\S_Test.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\BFGrass.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\Shaders\TemporalReprojection.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\SkyboxGradient.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\LICENSE.txt" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\Shaders\VelocityBuffer.shader" />
     <None Include="Assets\PureNature\Shaders\GrassTerrain.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\BFGrassLite.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\Shader\ShaderLab\HLSL\Utility.hlsl" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxCoreForwardSimple.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\PureNature\Shaders\VegetationLeaves.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\Debug\BFGrassGeoDebugURP.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\BFGrassMobileURP.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -438,12 +492,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Android.Types">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.6f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Android.Gradle">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.6f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Gradle.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.6f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
@@ -844,12 +892,6 @@
     <Reference Include="Unity.ShaderGraph.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Cinemachine">
-      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-      <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Formats.Alembic.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.Formats.Alembic.Runtime.dll</HintPath>
     </Reference>
@@ -861,9 +903,6 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.HighDefinition.Config.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.HighDefinition.Config.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Animation.Rigging.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
@@ -918,9 +957,6 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Core">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Animation.Rigging">
-      <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>

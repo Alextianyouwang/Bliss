@@ -298,7 +298,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6939336521225209531}
-  - component: {fileID: 131781114}
   - component: {fileID: 2091191001}
   - component: {fileID: 8193064108743309191}
   m_Layer: 6
@@ -329,22 +328,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -121.449, z: 0}
---- !u!54 &131781114
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7712037643281128449}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &2091191001
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -370,14 +353,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2036108009476034543, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
-  delete: {fileID: 4028233132991739792, guid: 17f1c7b5d21f7e64f95501c29c187490, type: 3}
   saveLoadPoint: {fileID: 4637608104606275075}
   closeLoadPoint: {fileID: 5372292357335517107}
   playerAnchor: {fileID: 2914138425806535127}
-  deletePos: {fileID: 0}
-  clippyGroundMask:
+  deletePos: {fileID: 84696748}
+  groundPosition: {x: 0, y: 0, z: 0}
+  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  isAnchored: 0
+  groundMask:
     serializedVersion: 2
     m_Bits: 128
 --- !u!1 &7801230390345031994
@@ -403,11 +386,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7801230390345031994}
-  m_LocalRotation: {x: -0, y: 0.9998765, z: -0, w: 0.015717175}
+  m_LocalRotation: {x: 0.0037873085, y: 0.97041434, z: -0.24093357, w: 0.015254078}
   m_LocalPosition: {x: 0.0039, y: 0.0172, z: 0.1054}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6939336521225209531}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 178.199, z: 0}
+  m_LocalEulerAnglesHint: {x: 27.887, y: 178.199, z: 0}
