@@ -132,6 +132,7 @@
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\Debug\BFGrassGeoDebug.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\AA\Shaders\IncNoise.cginc" />
     <None Include="Assets\PureNature\Shaders\Billboards.shader" />
+    <None Include="Assets\Stencil_test\Stencil_Lit.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\BFGrassMobile.shader" />
     <None Include="Assets\Shader\ShaderLab\HLSL\RayMarch.hlsl" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\BFGrassLiteURP.shader" />
@@ -145,6 +146,7 @@
     <None Include="Assets\PureNature\Shaders\WaterFall.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\HDRP\BFGrassHDRP.shader" />
     <None Include="Assets\polyquest_v1_cliffs\scenes\Cliffs_Scenes\Cliffs_Textured_lightmapped_scenes\Troubleshooting_textured_scenes_TX.txt" />
+    <None Include="Assets\Stencil_test\Stencil_test.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\URP\BFGrassTerrainURP.shader" />
     <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxStandard.shader" />
     <None Include="Assets\polyquest_v1_cliffs\shaders\PolyboxCoreForward.cginc" />
@@ -153,6 +155,7 @@
     <None Include="Assets\PureNature\Shaders\Clouds.shader" />
     <None Include="Assets\PureNature\Shaders\VegetationTrunk.shader" />
     <None Include="Assets\BruteForce-GrassShader\Shaders\Standard\Debug\BFGrassMobileDebug.shader" />
+    <None Include="Assets\Stencil_test\Stencil.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\Bloom\Shader\Bloom.shader" />
     <None Include="Assets\BruteForce-GrassShader\Extra\Bloom\Shader\Bloom.cginc" />
     <None Include="Assets\BruteForce-GrassShader\ReadMe.txt" />
