@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using System.Xml.Schema;
 using UnityEngine;
-
 public class TileMatrixManager : MonoBehaviour
 {
     // Changing: The value does not has a default, will be assigned later.
@@ -10,12 +8,14 @@ public class TileMatrixManager : MonoBehaviour
     // Default: The value will not change.
 
     [SerializeField] private GameObject tile;
-    [SerializeField] private GameObject saveButton;
-    [SerializeField] private GameObject deleteButton;
+    [SerializeField] private SaveButton saveButton;
+    [SerializeField] private DeleteButton deleteButton;
     [SerializeField] private int defaultTileDimension = 7;
     [SerializeField] private float defaultRadius = 15;
+    [SerializeField] private bool isEnabled = true;
 
-    private TileMatrixFunctions t;
+    //private TileMatrixFunctions t;
+    private TileDrawInstance t;
 
     private Coroutine fileStagingCo;
 
@@ -86,7 +86,8 @@ public class TileMatrixManager : MonoBehaviour
 
     private void Awake()
     {
-        t = new TileMatrixFunctions(transform, tile, saveButton, deleteButton, defaultTileDimension);
+        //t = new TileMatrixFunctions(tile, saveButton, deleteButton, defaultTileDimension);
+        t = new TileDrawInstance(tile, saveButton,deleteButton, defaultTileDimension);
     }
     void Start()
     {
@@ -140,6 +141,10 @@ public class TileMatrixManager : MonoBehaviour
     void Update()
     {
         Vector3 playerGroundPosition = FirstPersonController.playerGroundPosition;
+        if (!isEnabled)
+            return;
+        t.UpdateButtonPosition(TileDrawInstance.ButtonTile.DisplayState.off);
+
         switch (state)
         {
             case TileStates.NormalFollow:
@@ -149,6 +154,8 @@ public class TileMatrixManager : MonoBehaviour
                 t.UpdateTileDampSpeedTogether(varyingDampSpeed);
                 t.UpdateWindowTile(playerGroundPosition);
                 t.UpdateTilesStatusPerFrame(0, defaultRadius, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset, defaultNoiseWeight, playerGroundPosition);
+                t.DrawTileInstanceCurrentFrame(false);
+
                 break;
             case TileStates.Landing:
                 t.UpdateTileSetActive(playerGroundPosition, 7f);
@@ -157,6 +164,8 @@ public class TileMatrixManager : MonoBehaviour
                 t.UpdateTileDampSpeedForLanding();
                 t.UpdateWindowTile(playerGroundPosition);
                 t.UpdateTilesStatusPerFrame(0, 7f, changingHighRiseMultiplierBoost, changingMatrixYOffset, 0, playerGroundPosition);
+                t.DrawTileInstanceCurrentFrame(false);
+
                 break;
 
             case TileStates.PrepareLanding:
@@ -166,6 +175,8 @@ public class TileMatrixManager : MonoBehaviour
                 t.UpdateTileDampSpeedTogether(varyingDampSpeed);
                 t.UpdateWindowTile(playerGroundPosition);
                 t.UpdateTilesStatusPerFrame(0, 7f, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset, 0, playerGroundPosition);
+                t.DrawTileInstanceCurrentFrame(false);
+
                 break;
         }
     }
@@ -188,7 +199,11 @@ public class TileMatrixManager : MonoBehaviour
             t.UpdateTileDampSpeedTogether(varyingDampSpeed);
             t.UpdateWindowTile(path);
             t.UpdateWindowsTilePrefab(SceneSwitcher.isInClippy);
-            t.UpdateTilesStatusPerFrame(0, newRadius, 0.3f, 0.5f, defaultNoiseWeight, path);
+            t.UpdateTilesStatusPerFrame(0, newRadius, 0.0f, 0.5f, defaultNoiseWeight, path);
+            t.UpdateButtonPosition(SceneSwitcher.isInClippy ? TileDrawInstance.ButtonTile.DisplayState.delete : TileDrawInstance.ButtonTile.DisplayState.save);
+            //t.UpdateButtonPosition(TileDrawInstance.ButtonTile.DisplayState.off);
+            t.DrawTileInstanceCurrentFrame(true);
+
             yield return null;
         }
         float innerRadius = targetRadius * 0.5f;
@@ -205,6 +220,10 @@ public class TileMatrixManager : MonoBehaviour
                     t.UpdateWindowTile(path);
                     t.UpdateWindowsTilePrefab(SceneSwitcher.isInClippy);
                     t.UpdateTilesStatusPerFrame(innerRadius, targetRadius, changingHighRiseMultiplierBoost, changingMatrixYOffset + 1f, 0.5f, path);
+                    t.UpdateButtonPosition(SceneSwitcher.isInClippy ? TileDrawInstance.ButtonTile.DisplayState.delete : TileDrawInstance.ButtonTile.DisplayState.save);
+
+                    t.DrawTileInstanceCurrentFrame(true);
+
                     break;
                 case TileStates.Staging_Diving:
                     Vector3 playerGroundPosition = FirstPersonController.playerGroundPosition;
@@ -216,6 +235,10 @@ public class TileMatrixManager : MonoBehaviour
                     t.UpdateWindowTile(playerGroundPosition);
 
                     t.UpdateTilesStatusPerFrame(0, 5f, changingHighRiseMultiplierBoost, changingMatrixYOffset, 0, playerGroundPosition);
+                    t.UpdateButtonPosition(TileDrawInstance.ButtonTile.DisplayState.off);
+
+                    t.DrawTileInstanceCurrentFrame(false);
+
                     break;
                 case TileStates.Staging_Deleting:
                     t.varyingNoiseTime = Time.time / 2f;
@@ -225,7 +248,12 @@ public class TileMatrixManager : MonoBehaviour
                     t.UpdateTileDampSpeedTogether(0.2f);
                     t.UpdateWindowTile(path);
                     t.UpdateTilesStatusPerFrame(0, 4f, 2f, 5f, 12f, path);
+                    t.UpdateButtonPosition(SceneSwitcher.isInClippy ? TileDrawInstance.ButtonTile.DisplayState.delete : TileDrawInstance.ButtonTile.DisplayState.save);
+
+                    t.DrawTileInstanceCurrentFrame(true);
+
                     break;
+
             }
 
             yield return null;
@@ -238,14 +266,14 @@ public class TileMatrixManager : MonoBehaviour
         t.activateWindowsIndependance = true;
         float percent = 0;
         Vector3 initialAveragePosition = GetWindowsAveragePosition(false);
-        float waveScale = 3f;
+        float waveScale = 4f;
         t.ToggleSaveHasBeenClicked(true);
         while (percent < 1)
         {
-            float interpolate = Mathf.Sin(percent * Mathf.PI / 2 - Mathf.PI / 4) * waveScale;
+            float interpolate =  Mathf.Sin(percent * Mathf.PI / 2 - Mathf.PI / 4) * waveScale ;
             t.changingWindowsYPos = interpolate + initialAveragePosition.y;
 
-            percent += Time.deltaTime * 3f;
+            percent += Time.deltaTime * 2f;
             yield return null;
         }
         t.allowWindowsSetPrefabToButtons = false;
@@ -292,10 +320,12 @@ public class TileMatrixManager : MonoBehaviour
         Vector3 divePosition = Vector3.zero;
         for (int i = 0; i < t.windowTiles.Length; i++)
         {
+            if (t.windowTiles[i] == null)
+                continue;
             if (formation)
-                divePosition += t.windowTiles[i].formationFinalPosition;
+                divePosition += t.windowTiles[i].initialXZPosition;
             else
-                divePosition += t.windowTiles[i].tileFinalPosition;
+                divePosition += t.windowTiles[i].smoothedFinalXYZPosition;
 
         }
         divePosition /= t.windowTiles.Length;
@@ -389,7 +419,7 @@ public class TileMatrixManager : MonoBehaviour
         state = TileStates.PrepareLanding;
 
         // Send position and rotation to playercontroller.
-        Vector3 divePosition = GetWindowsAveragePosition(true);
+        Vector3 divePosition = isEnabled ? GetWindowsAveragePosition(true) : FirstPersonController.playerGroundPosition;
         divePosition.y += playerPhysicalYPosEndPoint;
 
         Quaternion finalRot = Quaternion.LookRotation(CheckPlayerProximateDirection(player.transform), Vector3.up);
@@ -423,7 +453,6 @@ public class TileMatrixManager : MonoBehaviour
     {
         float playerPhysicalYPosEndPoint = -78f;
         float formationLowestPoint = 27f;
-
         //if (state == TileStates.Staging)
         //return;
 
@@ -431,7 +460,7 @@ public class TileMatrixManager : MonoBehaviour
         state = TileStates.PrepareLanding;
 
         // Send position and rotation to playercontroller.
-        Vector3 divePosition = GetWindowsAveragePosition(true);
+        Vector3 divePosition = isEnabled? GetWindowsAveragePosition(true) : FirstPersonController.playerGroundPosition;
         divePosition.y += playerPhysicalYPosEndPoint;
 
         Quaternion finalRot = faceSide ?
@@ -515,10 +544,10 @@ public class TileMatrixManager : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, defaultRadius);
-        if (t != null)
-            foreach (TileBase t in t.tileOrderedDict.Values)
+        //if (t != null)
+          /*  foreach (TileData t in t.tileOrderedDict.Values)
             {
-                Gizmos.DrawSphere(t.formationFinalPosition, 0.5f);
-            }
+                Gizmos.DrawSphere(t., 0.5f);
+            }*/
     }
 }

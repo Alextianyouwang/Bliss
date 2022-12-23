@@ -14,7 +14,6 @@ public class TileMatrixFunctions
     public TileBase[] windowTiles = new TileBase[4];
 
     // Global References
-    private Transform player;
     private Vector3 originalTileBound;
     private Vector3 formationOffset, startPosition;
     private float formationSideLength;
@@ -25,10 +24,8 @@ public class TileMatrixFunctions
     public bool allowWindowsSetPrefabToButtons = true;
     public float changingWindowsYPos;
     public float varyingNoiseTime;
-
-    public TileMatrixFunctions(Transform _player,GameObject _tile,GameObject _saveButton,GameObject _deleteButton,int _maximumTile) 
+    public TileMatrixFunctions(GameObject _tile,GameObject _saveButton,GameObject _deleteButton,int _maximumTile) 
     {
-        player = _player;
         tile = _tile;
         saveButton = _saveButton;
         deleteButton = _deleteButton;
@@ -38,7 +35,7 @@ public class TileMatrixFunctions
     public void Initialize()
     {
         tileMatrixRefPool = new TileBase[defaultTileDimension, defaultTileDimension];
-        startPosition = player.position;
+        startPosition = FirstPersonController.playerGroundPosition;
         originalTileBound = tile.GetComponent<Renderer>().bounds.size;
         formationSideLength = defaultTileDimension * originalTileBound.x;
         formationOffset = new Vector3(formationSideLength / 2 - originalTileBound.x / 2, 0, formationSideLength / 2 - originalTileBound.z / 2);
@@ -65,7 +62,7 @@ public class TileMatrixFunctions
     public void RecycleTile(TileBase toRecycle)
     {
         toRecycle.TileSetActive(false);
-        toRecycle.formationFinalPosition = Vector3.zero;
+        toRecycle.initialXZPosition = Vector3.zero;
         toRecycle.localTileCoord = Vector2.zero;
         tilePool.Enqueue(toRecycle);
     }
@@ -74,7 +71,7 @@ public class TileMatrixFunctions
         for (int i = 0; i < tileDict.Values.Count; i++)
         {
             var t = tileDict.ElementAt(i);
-            if (Vector3.Distance(t.Value.formationFinalPosition, groundPos) >= radius)
+            if (Vector3.Distance(t.Value.initialXZPosition, groundPos) >= radius)
             {
                 tileDict.Remove(t.Key);
                 RecycleTile(t.Value);
@@ -107,8 +104,8 @@ public class TileMatrixFunctions
                 if (localTile.display_instance.activeSelf)
                 {
                     Vector2 localTileCoord = new Vector2(
-                 (int)Mathf.Floor((localTile.formationFinalPosition.x - centerPosition.x + originalTileBound.x / 2) / originalTileBound.x),
-                 (int)Mathf.Floor((localTile.formationFinalPosition.z - centerPosition.z + originalTileBound.z / 2) / originalTileBound.z));
+                 (int)Mathf.Floor((localTile.initialXZPosition.x - centerPosition.x + originalTileBound.x / 2) / originalTileBound.x),
+                 (int)Mathf.Floor((localTile.initialXZPosition.z - centerPosition.z + originalTileBound.z / 2) / originalTileBound.z));
                     localTile.localTileCoord = localTileCoord;
                     localTile.SetDebugText("( " + localTile.localTileCoord.x.ToString() + "," + localTile.localTileCoord.y.ToString() + " )");
 
@@ -154,25 +151,25 @@ public class TileMatrixFunctions
         if (center == null)
             return;
 
-        if (comparePos.x > center.formationFinalPosition.x && comparePos.z > center.formationFinalPosition.z)
+        if (comparePos.x > center.initialXZPosition.x && comparePos.z > center.initialXZPosition.z)
         {
             windowTiles[1] = up;
             windowTiles[2] = right;
             windowTiles[3] = upRight;
         }
-        else if (comparePos.x > center.formationFinalPosition.x && comparePos.z < center.formationFinalPosition.z)
+        else if (comparePos.x > center.initialXZPosition.x && comparePos.z < center.initialXZPosition.z)
         {
             windowTiles[1] = bot;
             windowTiles[2] = right;
             windowTiles[3] = botRight;
         }
-        else if (comparePos.x < center.formationFinalPosition.x && comparePos.z > center.formationFinalPosition.z)
+        else if (comparePos.x < center.initialXZPosition.x && comparePos.z > center.initialXZPosition.z)
         {
             windowTiles[1] = left;
             windowTiles[2] = up;
             windowTiles[3] = upLeft;
         }
-        else if (comparePos.x < center.formationFinalPosition.x && comparePos.z < center.formationFinalPosition.z)
+        else if (comparePos.x < center.initialXZPosition.x && comparePos.z < center.initialXZPosition.z)
         {
             windowTiles[1] = bot;
             windowTiles[2] = left;
@@ -188,9 +185,9 @@ public class TileMatrixFunctions
             TileBase localTile = tileOrderedDict.ElementAt(i).Value;
             localTile.isWindows = windowTiles.Contains(localTile);
 
-            float distanceToCenter = Vector2.Distance(new Vector2(localTile.formationFinalPosition.x, localTile.formationFinalPosition.z), new Vector2(centerPosition.x, centerPosition.z));
+            float distanceToCenter = Vector2.Distance(new Vector2(localTile.initialXZPosition.x, localTile.initialXZPosition.z), new Vector2(centerPosition.x, centerPosition.z));
             float highRiseInfluence = Mathf.InverseLerp(innerRadius, outerRadius, distanceToCenter);
-            float noise = Mathf.PerlinNoise(localTile.formationFinalPosition.x / 10 + varyingNoiseTime, localTile.formationFinalPosition.z / 10 + varyingNoiseTime);
+            float noise = Mathf.PerlinNoise(localTile.initialXZPosition.x / 10 + varyingNoiseTime, localTile.initialXZPosition.z / 10 + varyingNoiseTime);
             Vector3 groundPosition = localTile.GetGroundPosition();
             Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y + highRiseInfluence * multiplier + noise * noiseWeight, groundPosition.z) + Vector3.up *yPos;
 
@@ -208,7 +205,7 @@ public class TileMatrixFunctions
         for (int i = 0; i < tileOrderedDict.Count; i++)
         {
             TileBase localTile = tileOrderedDict.ElementAt(i).Value;
-            float distanceToCenter = Vector2.Distance(new Vector2(player.position.x, player.position.z), new Vector2(localTile.formationFinalPosition.x, localTile.formationFinalPosition.z));
+            float distanceToCenter = Vector2.Distance(new Vector2(FirstPersonController.playerGroundPosition.x, FirstPersonController.playerGroundPosition.z), new Vector2(localTile.initialXZPosition.x, localTile.initialXZPosition.z));
             float dampMask = Mathf.InverseLerp(0, 7, distanceToCenter);
             localTile.dampSpeed = Mathf.Lerp(0.5f, 0.15f, dampMask);
         }
@@ -219,11 +216,10 @@ public class TileMatrixFunctions
         for (int i = 0; i < tileOrderedDict.Count; i++)
         {
             TileBase localTile = tileOrderedDict.ElementAt(i).Value;
-            Vector3 currentFormation = localTile.formationFinalPosition;
+            Vector3 currentFormation = localTile.initialXZPosition;
             localTile.SetTilePosition(new Vector3(currentFormation.x, yOffset, currentFormation.z), false);
         }
     }
-
    
     public void UpdateWindowsTilePrefab(bool isInClippy)
     {

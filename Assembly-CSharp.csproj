@@ -88,6 +88,7 @@
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Extra\AA\Scripts\Extensions.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Extra\AA\Scripts\FrustumJitter.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileDrawInstance.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\Scripts\Deprecated\FolderOpen.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Scripts\BF_SetInteractiveShaderEffectsTriplanar.cs" />
