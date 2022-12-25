@@ -21,7 +21,7 @@ public class PostAndScenery : MonoBehaviour
     private float originalChromaticClippy, targetChromaticClippy, chromSpeedRefClippy;
     private float originalVignetteClippy, targetVignetteClippy, vignetteSpeedRefClippy;
     float preTeleportFOVMultiplier = 1.5f;
-    float stageModeChromatic = 1f ,stageModeVignette = 0.4f;
+    float stageModeChromatic = 1f ,stageModeVignette = 0.44f;
 
     Coroutine waitEmergeCo;
     ChromaticAberration caBliss,caClippy;

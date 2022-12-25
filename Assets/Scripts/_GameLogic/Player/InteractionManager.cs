@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
 {
+    private bool isRayHit = false;
+    RaycastHit hit;
     public GameObject[] numbers;
     private KeyCode[] alphaKeys = {
         KeyCode.Alpha0,
@@ -48,12 +50,30 @@ public class InteractionManager : MonoBehaviour
         currentKey = KeyCode.None;
     }
 
-    void Update()
+    private void Update()
+    {
+        if (isRayHit && canStartControl)
+        {
+            Vector3 targetVelocity = CalculateVelocity(hit.point, throwPoint.position, 0.4f);
+            GetNumber(targetVelocity);
+
+            for (int i = 0; i < trPointNumber; i++)
+            {
+                float timeBetweenEachIncrement = 0.05f;
+                Vector3 straightLineVelocity = targetVelocity * i * timeBetweenEachIncrement;
+                Vector3 downVelocity = 0.5f * Mathf.Abs(Physics.gravity.y) * i * timeBetweenEachIncrement * i * timeBetweenEachIncrement * Vector3.down;
+                lr.SetPosition(i, lrStartPoint.position + straightLineVelocity + downVelocity);
+            }
+        }
+    }
+
+    void FixedUpdate()
     {
         if (canStartControl)
         {
             TrailUpdate();
         }
+     
     }
 
     void ToggleStart() 
@@ -64,13 +84,14 @@ public class InteractionManager : MonoBehaviour
     private void TrailUpdate() 
     {
         Ray camRay = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+       
         Vector3 targetVelocity = Vector3.zero;
+        isRayHit = false;
         if (Physics.Raycast(camRay, out hit, 30f, interactionMask))
         {
             lr.enabled = true;
-            targetVelocity = CalculateVelocity(hit.point, throwPoint.position, 0.4f);
-            GetNumber(targetVelocity);
+            
+            isRayHit = true;
         }
         else 
         {
@@ -78,13 +99,7 @@ public class InteractionManager : MonoBehaviour
             currentNumber = null;
         }
 
-        for (int i = 0; i < trPointNumber; i++)
-        {
-            float timeBetweenEachIncrement = 0.05f;
-            Vector3 straightLineVelocity = targetVelocity * i * timeBetweenEachIncrement;
-            Vector3 downVelocity = 0.5f * Mathf.Abs(Physics.gravity.y) * i * timeBetweenEachIncrement * i * timeBetweenEachIncrement * Vector3.down;
-            lr.SetPosition(i, lrStartPoint.position + straightLineVelocity + downVelocity);
-        }
+        
     }
     Vector3 CalculateVelocity(Vector3 target, Vector3 origin, float time) 
     {
@@ -109,7 +124,7 @@ public class InteractionManager : MonoBehaviour
         
         for (int i = 0; i < 11; i++) 
         {
-            if (Input.GetKeyDown(alphaKeys[i]) && !prepareToThrow) 
+            if (Input.GetKeyDown(alphaKeys[i]) && !prepareToThrow && !PlayerAnchorAnimation.isInTeleporting) 
             {
                 currentKey = alphaKeys[i];
                 currentNumber = Instantiate(numbers[i]).GetComponent<NumberBlocks>();
@@ -126,7 +141,7 @@ public class InteractionManager : MonoBehaviour
                 }
             }
             
-            if (Input.GetKeyUp(alphaKeys[i]) && prepareToThrow && currentKey == alphaKeys[i] )
+            if (Input.GetKeyUp(alphaKeys[i]) && prepareToThrow && currentKey == alphaKeys[i] && !PlayerAnchorAnimation.isInTeleporting)
             {
                 prepareToThrow = false;
                 if (currentNumber != null) 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 189248007588826993}
   - component: {fileID: 189248007588826994}
   - component: {fileID: 2020070663865798753}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: P_DownloadM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,3 +110,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e291ad1e6a98e44428948d4bd68a6d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasBeenClicked: 0

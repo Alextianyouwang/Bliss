@@ -1,36 +1,32 @@
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class TileDrawInstance
 {
     public GameObject tile;
-    public SaveButton saveButton;
-    public DeleteButton deleteButton;
+
     private Mesh tileMesh;
     private Material tileMat;
     private Vector3 originalTileBound, formationOffset, startPosition;
     private Dictionary<Vector2, TileData> tileDict = new Dictionary<Vector2, TileData>();
-    public Dictionary<Vector2, TileData> tileOrderedDict = new Dictionary<Vector2, TileData>();
+    private Dictionary<Vector2, TileData> tileOrderedDict = new Dictionary<Vector2, TileData>();
     private Queue<TileData> tileQueue = new Queue<TileData>();
     private TileData[,] tilePool;
     public TileData[] windowTiles = new TileData[4];
-    public ButtonTile[] buttonArray = new ButtonTile[4];
-    int dimension;
 
-
+    private int dimension;
     public bool activateWindowsIndependance = false;
     public bool allowWindowsSetPrefabToButtons = true;
     public float changingWindowsYPos;
     public float varyingNoiseTime;
 
-    public TileDrawInstance(GameObject _tile, SaveButton _saveButton, DeleteButton _deleteButton, int _maximumTile)
+
+    public TileDrawInstance(GameObject _tile, int _maximumTile)
     {
         tile = _tile;
-        saveButton = _saveButton;
-        deleteButton = _deleteButton;
         dimension = _maximumTile;
     }
 
@@ -53,38 +49,9 @@ public class TileDrawInstance
                 tileQueue.Enqueue(tilePool[i, j]);
             }
         }
-        InitializeButtonArray();
     }
 
-    private void InitializeButtonArray() 
-    {
-        for (int i = 0; i < 4; i++) 
-        {
-            buttonArray[i] = new ButtonTile(Object.Instantiate(saveButton), Object.Instantiate(deleteButton));
-        }
-    }
-    public void UpdateButtonPosition(ButtonTile.DisplayState state) 
-    {
-        int counter = 0;
-        for (int i = 0; i < 4; i++)
-        {
-            if (windowTiles[i] == null)
-            {
-                counter += 1;
-            }
-                
-        }
-        if (counter == 0) 
-        {
-            for (int i = 0; i < 4; i++) 
-            {
-                buttonArray[i].SetPosition(windowTiles[i].smoothedFinalXYZPosition);
-                if (buttonArray[i].displayState != state)
-                    buttonArray[i].SetDisplay(state);
-            }       
-        }
-    }
-
+  
 
     public void UpdateTileSetActive(Vector3 groundPos, float radius)
     {
@@ -123,16 +90,16 @@ public class TileDrawInstance
         for (int i = 0; i < tileDict.Values.Count; i++)
         {
             TileData localTile = tileDict.ElementAt(i).Value;
-            if (localTile.isInDisplay)
-            {
-                Vector2 localTileCoord = new Vector2(
+            if (!localTile.isInDisplay)
+                continue;
+            Vector2 localTileCoord = new Vector2(
              (int)Mathf.Floor((localTile.initialXZPosition.x - centerPosition.x + originalTileBound.x / 2) / originalTileBound.x),
              (int)Mathf.Floor((localTile.initialXZPosition.z - centerPosition.z + originalTileBound.z / 2) / originalTileBound.z));
-                localTile.localTileCoord = localTileCoord;
+            localTile.localTileCoord = localTileCoord;
 
-                if (!tileOrderedDict.ContainsKey(localTileCoord))
-                    tileOrderedDict.Add(localTileCoord, localTile);
-            }
+            if (!tileOrderedDict.ContainsKey(localTileCoord))
+                tileOrderedDict.Add(localTileCoord, localTile);
+
         }
     }
 
@@ -186,6 +153,8 @@ public class TileDrawInstance
         for (int i = 0; i < tileOrderedDict.Count; i++)
         {
             TileData localTile = tileOrderedDict.ElementAt(i).Value;
+            if (!localTile.isInDisplay)
+                continue;
             localTile.isWindows = windowTiles.Contains(localTile);
 
             float distanceToCenter = Vector2.Distance(new Vector2(localTile.initialXZPosition.x, localTile.initialXZPosition.z), new Vector2(centerPosition.x, centerPosition.z));
@@ -204,14 +173,6 @@ public class TileDrawInstance
 
         }
     }
-    public void ResetWindowsTilePrefab()
-    {
-        for (int i = 0; i < windowTiles.Length; i++)
-        {
-            if (windowTiles[i] != null && windowTiles[i].displayState != TileData.DisplayState.tile)
-                windowTiles[i].SetDisplay(TileData.DisplayState.tile);
-        }
-    }
     public void UpdateTileDampSpeedTogether(float dampSpeed)
     {
         for (int i = 0; i < tileOrderedDict.Count; i++)
@@ -225,6 +186,8 @@ public class TileDrawInstance
         for (int i = 0; i < tileOrderedDict.Count; i++)
         {
             TileData localTile = tileOrderedDict.ElementAt(i).Value;
+            if (!localTile.isInDisplay)
+                continue;
             float distanceToCenter = Vector2.Distance(new Vector2(FirstPersonController.playerGroundPosition.x, FirstPersonController.playerGroundPosition.z), new Vector2(localTile.initialXZPosition.x, localTile.initialXZPosition.z));
             float dampMask = Mathf.InverseLerp(0, 7, distanceToCenter);
             localTile.dampSpeed = Mathf.Lerp(0.5f, 0.15f, dampMask);
@@ -239,40 +202,6 @@ public class TileDrawInstance
             Vector3 currentFormation = localTile.initialXZPosition;
             localTile.OverwriteTileSmoothDampPos(new Vector3(currentFormation.x, yOffset, currentFormation.z));
             localTile.GetTransformMatFromPos(localTile.finalXYZPosition, Vector3.one * originalTileBound.x * 0.01f);
-        }
-    }
-    public void UpdateWindowsTilePrefab(bool isInClippy)
-    {
-        for (int i = 0; i < windowTiles.Length; i++)
-        {
-            TileData t = windowTiles[i];
-            if (t != null)
-            {
-                if (!allowWindowsSetPrefabToButtons)
-                {
-                    if (t.displayState != TileData.DisplayState.tile)
-                        t.SetDisplay(TileData.DisplayState.tile);
-                    continue;
-                }
-                if (isInClippy)
-                {
-                    if (t.displayState != TileData.DisplayState.delete)
-                        t.SetDisplay(TileData.DisplayState.delete);
-                }
-                else
-                {
-                    if (t.displayState != TileData.DisplayState.save)
-                        t.SetDisplay(TileData.DisplayState.save);
-                }
-            }
-        }
-    }
-
-    public void ToggleSaveHasBeenClicked(bool b)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            buttonArray[i].save.hasBeenClicked = b;
         }
     }
 
@@ -294,57 +223,7 @@ public class TileDrawInstance
             14);
     }
 
-    public class ButtonTile 
-    {
-        public SaveButton save;
-        public DeleteButton delete;
-        private GameObject buttonComposite;
-        private Vector3 bounds;
-
-        public enum DisplayState {off , save, delete}
-        public DisplayState displayState;
-
-        public ButtonTile(SaveButton _save, DeleteButton _delete ) 
-        {
-            save = _save;
-            delete = _delete;
-            buttonComposite = new GameObject("ButtonComposite");
-            save.transform.parent = buttonComposite.transform;
-            save.transform.localPosition = Vector3.zero;
-            save.gameObject.SetActive(false);
-            delete.transform.parent = buttonComposite.transform;
-            delete.transform.localPosition = Vector3.zero;
-            delete.gameObject.SetActive(false);
-            bounds = save.GetComponent<MeshRenderer>().bounds.size;
-        }
-
-        public void SetPosition(Vector3 pos) 
-        {
-            buttonComposite.transform.position = pos - Vector3.up* (bounds.y/2 - 0.5f);
-        }
-        public void SetDisplay(DisplayState state)
-        {
-            switch (state) 
-            {
-                case DisplayState.save:
-                    save.gameObject.SetActive(true);
-                    delete.gameObject.SetActive(false);
-                    break;
-                case DisplayState.delete:
-                    save.gameObject.SetActive(false);
-                    delete.gameObject.SetActive(true);
-
-                    break;
-                case DisplayState.off:
-                    save.gameObject.SetActive(false);
-                    delete.gameObject.SetActive(false);
-                    break;
-            }
-            displayState = state;
-
-        }
-
-    }
+   
     public class TileData
     {
         public Vector3 initialXZPosition, finalXYZPosition;
@@ -392,11 +271,11 @@ public class TileDrawInstance
             smoothedFinalXYZPosition = _newPos;
         }
 
-        public void SetTileFinalPosition(Vector3 _newPos) 
+        public void SetTileFinalPosition(Vector3 _newPos)
         {
             finalXYZPosition = _newPos;
         }
-        public void SetDisplay(DisplayState state) 
+        public void SetDisplay(DisplayState state)
         {
             displayState = state;
         }

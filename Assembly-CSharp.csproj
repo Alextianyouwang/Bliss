@@ -151,6 +151,7 @@
     <Compile Include="Assets\_Resources\PureNature\Scripts\CloudsVolume.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Scripts\BF_FxOnMouseClick.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileButtons.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\_Others\ExitLoader.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Scripts\BF_MeshExtrusion.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
