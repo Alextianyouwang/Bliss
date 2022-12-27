@@ -642,7 +642,7 @@ ENDHLSL
 							float3 n2 = v2.normalOS;
 
 							o.texCoord1 = float4(GetAbsolutePositionWS(TransformObjectToWorld(p0)).x, GetAbsolutePositionWS(TransformObjectToWorld(p0)).z, 0,0);
-							//o.texCoord2 = float4(GetAbsolutePositionWS(TransformObjectToWorld(p0)).y, 0, 0,0);
+							o.texCoord2 = float4(GetAbsolutePositionWS(TransformObjectToWorld(p0)).y, 0, 0,0);
 
 
 							tristream.Append(VertexOutput(v0, p0, p0_prev, n0));
@@ -852,14 +852,15 @@ ENDHLSL
 				}
 				col.xyz += _RimColor.rgb * pow(abs(rimLight), _RimPower);
 
-				
+				float3 positionWS = float3 (input.texCoord1.x, input.texCoord2.x, input.texCoord1.y);
 
 				//dist(posInput.positionWS, _CutoutPosition.xyz);
-			    half threshold = step(500,distance(input.positionRWS, _CutoutPosition));
-				//if (threshold == 0) discard;
+			    half threshold = step(_CutoutRadius,distance(positionWS, float3 (_CutoutPosition.x,0,_CutoutPosition.z)));
+				if (threshold == 0) discard;
 
+				
 				surfaceData.baseColor = col.rgb;
-				//surfaceData.baseColor = mul(UNITY_MATRIX_MV,posInput.positionWS);
+				//surfaceData.baseColor = positionWS;
 				
 				builtinData.emissiveColor = _RimColor.rgb * pow(abs(rimLight), _RimPower)*10+ col.rgb* _ProjectedShadowColor;
 				builtinData.bakeDiffuseLighting = _RimColor.rgb * pow(abs(rimLight), _RimPower) * 10;
