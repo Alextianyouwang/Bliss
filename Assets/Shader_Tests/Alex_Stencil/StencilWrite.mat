@@ -8,12 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: StencilWrite
-  m_Shader: {fileID: 4800000, guid: 667669ae894134b4ca562ba23b4517fd, type: 3}
+  m_Shader: {fileID: 4800000, guid: 6edc58a7ea50b094ea1370e99217ec11, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
@@ -201,7 +201,7 @@ Material:
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
     - _SrcBlend: 1
-    - _StencilMask: 1
+    - _StencilMask: 8
     - _StencilMaskBit: 16
     - _StencilRef: 0
     - _StencilRefMV: 32

@@ -242,6 +242,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void Update()
     {
+        
         UpdatePlayerGroundRay();
     }
 
@@ -304,6 +305,7 @@ public class FirstPersonController : MonoBehaviour
                 OnStartSoaring?.Invoke(this);
         }
     }
+    
     private void LateUpdate()
     {
 

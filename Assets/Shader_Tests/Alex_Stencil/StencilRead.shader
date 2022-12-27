@@ -1,4 +1,4 @@
-Shader "Custom/StencilWriteShader"
+Shader "Custom/StencilReadShader"
 {
     Properties
     {
@@ -23,25 +23,26 @@ Shader "Custom/StencilWriteShader"
     {
         Tags{ "RenderPipeline" = "HDRenderPipeline"
         "RenderType" = "HDUnlitShader"
-        "Queue" = "Geometry+1"
+          "Queue" = "Geometry+2"
          }
 
         Pass
         {
             Name "Forward Unlit"
             Tags { "LightMode" = "ForwardOnly" }
-
-            ZWrite Off
-            ColorMask 0
-
-            Stencil
+  
+      
+     ZWrite On
+     ColorMask RGB
+     Stencil
             {
-                WriteMask[_StencilMask]
                 Ref[_StencilMask]
-                Comp Always
+                 Comp Always
                 Pass Replace
                 Fail Keep
             }
+
+
 
             HLSLPROGRAM
 

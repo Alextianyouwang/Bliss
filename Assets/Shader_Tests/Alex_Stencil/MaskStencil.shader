@@ -8,8 +8,13 @@ Shader "Custom/Stencil/MaskStencil"
  
         // Don't draw in the RGBA channels; just the depth buffer
  
-        ColorMask 0
-        ZWrite On
+            ZWrite On
+            ColorMask 0
+            Stencil
+            {
+                Ref 2
+                Comp Always
+            }
  
         // Do nothing specific in the pass:
  

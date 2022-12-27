@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestTeleportation : MonoBehaviour
 {
     public GameObject[] Destinations;
+    public Material grassMat;
 
     private KeyCode[] alphaKeys = {
         KeyCode.Alpha0,
@@ -22,6 +23,8 @@ public class TestTeleportation : MonoBehaviour
 
     void Update()
     {
+        grassMat.SetVector("_CutoutPosition", new Vector4(FirstPersonController.playerGroundPosition.x, FirstPersonController.playerGroundPosition.y, FirstPersonController.playerGroundPosition.z,0) );
+        grassMat.SetFloat("_CutoutRadius", 10f);
         if (Input.GetKey(KeyCode.LeftShift))
         {
             for (int i = 0; i < 10; i++)
