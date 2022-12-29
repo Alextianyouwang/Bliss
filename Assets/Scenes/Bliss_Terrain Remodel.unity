@@ -489,15 +489,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 785176559}
   closeLoadPoint: {fileID: 1464527757}
-  playerAnchor: {fileID: 896789889}
   deletePos: {fileID: 869230705}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 896789889}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 128
@@ -620,15 +618,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 2012477960}
   closeLoadPoint: {fileID: 2139709146}
-  playerAnchor: {fileID: 934424397}
   deletePos: {fileID: 1779943422}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 934424397}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 0
@@ -2067,15 +2063,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 708947290}
   closeLoadPoint: {fileID: 786255772}
-  playerAnchor: {fileID: 1752011821}
   deletePos: {fileID: 1730074735}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 1752011821}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 0
@@ -2507,15 +2501,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 750850220}
   closeLoadPoint: {fileID: 1307551568}
-  playerAnchor: {fileID: 1897120257}
   deletePos: {fileID: 1679484326}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 1897120257}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 0
@@ -2571,15 +2563,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 2069210050}
   closeLoadPoint: {fileID: 1611645727}
-  playerAnchor: {fileID: 526197557}
   deletePos: {fileID: 2105783307}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 526197557}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 128
@@ -5654,15 +5644,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 2112248050}
   closeLoadPoint: {fileID: 2013869839}
-  playerAnchor: {fileID: 87863136}
   deletePos: {fileID: 1642618324}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 87863136}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 0
@@ -6617,7 +6605,7 @@ RectTransform:
   - {fileID: 1031643082}
   - {fileID: 1147234101}
   m_Father: {fileID: 1911615239}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7814,7 +7802,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 692876259}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Loader, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
@@ -7924,17 +7912,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5056419664380548727, guid: f9f4ad5831f55b74182e1c5c32c2cc69, type: 3}
   m_PrefabInstance: {fileID: 241106192}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &692876259 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1335724581, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
-  m_PrefabInstance: {fileID: 1911615234}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5070bc683b1cb20489e10148157d859b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &708149735
 GameObject:
   m_ObjectHideFlags: 0
@@ -8232,15 +8209,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 381327188}
   closeLoadPoint: {fileID: 1443116798}
-  playerAnchor: {fileID: 52488129}
   deletePos: {fileID: 1257339696}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 52488129}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 128
@@ -10446,7 +10421,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 989011829}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.4, z: -136.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11865,15 +11840,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 540708597}
   closeLoadPoint: {fileID: 1416452352}
-  playerAnchor: {fileID: 1742094838}
   deletePos: {fileID: 2013871928}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 1742094838}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 128
@@ -12023,15 +11996,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 482332782}
   closeLoadPoint: {fileID: 390906308}
-  playerAnchor: {fileID: 1470188317}
   deletePos: {fileID: 1722363516}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 1470188317}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 128
@@ -12463,15 +12434,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 1224358429}
   closeLoadPoint: {fileID: 1016657729}
-  playerAnchor: {fileID: 1914527500}
   deletePos: {fileID: 806931631}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 1914527500}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 0
@@ -14148,15 +14117,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 2095536312}
   closeLoadPoint: {fileID: 1554505888}
-  playerAnchor: {fileID: 1720401810}
   deletePos: {fileID: 264795983}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 1720401810}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 128
@@ -14372,15 +14339,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 1583490096}
   closeLoadPoint: {fileID: 1673961791}
-  playerAnchor: {fileID: 126965440}
   deletePos: {fileID: 735599211}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 126965440}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 128
@@ -16593,7 +16558,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1911615239}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1588713236
 MonoBehaviour:
@@ -19761,6 +19726,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 2408143695032088336, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2408143695032088346, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
       propertyPath: fov
       value: 60
@@ -19962,11 +19931,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2408143696354270595, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
   m_PrefabInstance: {fileID: 1911615234}
   m_PrefabAsset: {fileID: 0}
---- !u!20 &1911615237 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 2408143696354270596, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
-  m_PrefabInstance: {fileID: 1911615234}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1911615238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19979,101 +19943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310a0fa05a9213b43ab8bdb17a2e99b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bigEyeWorld: {fileID: 0}
-  ground: {fileID: 0}
-  worldMat: {fileID: 2100000, guid: 92370dd1fc627584ebbc4576b316ae12, type: 2}
-  grassMat: {fileID: 2100000, guid: 5c559b8844fb1944b9ed51042eb8391b, type: 2}
-  clippyMat: {fileID: 2100000, guid: ab54674ad685dc54bbd39d849c203c3f, type: 2}
-  floatAnimationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.48542508
-      value: 1.4010707
-      inSlope: 0.017106121
-      outSlope: 0.017106121
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9958191
-      value: 0.000011444092
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  transitionSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cameraDolleyCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5065941
-      value: 0.99009866
-      inSlope: 0.09745959
-      outSlope: 0.09745959
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9827881
-      value: 0.009536743
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  player: {fileID: 0}
   AnchorAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -20098,15 +19968,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cam: {fileID: 1911615237}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 128
-  bigEyeRoomYOffset: -1
-  dolleyDepth: 30
-  blissVolume: {fileID: 11400000, guid: a123fc0ac58cb774e8592c925f167e7c, type: 2}
-  clippyVolume: {fileID: 11400000, guid: 8cebde13d86cb4043936ff5cb9e2377d, type: 2}
-  localVolume: {fileID: 1946047578}
+  animationState: 0
 --- !u!4 &1911615239 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2408143695032088348, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
@@ -20149,14 +20011,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 6856693992804422360, guid: 9914ea86b6286364abd407b95891f2a2, type: 3}
   saveButton: {fileID: 189248007588826995, guid: e37abfbdb4a86e943a8e58066668f2fd, type: 3}
-  maximumTileDiemnsion: 10
-  originalRadius: 3.5
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 128
-  diveVolume: {fileID: 0}
-  diveScenes: {fileID: 0}
-  state: 0
+  deleteButton: {fileID: 0}
+  defaultTileDimension: 7
+  defaultRadius: 15
 --- !u!1 &1914229804
 GameObject:
   m_ObjectHideFlags: 0
@@ -21039,15 +20896,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 2127632399}
   closeLoadPoint: {fileID: 86215579}
-  playerAnchor: {fileID: 1545556556}
   deletePos: {fileID: 1688073737}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 1545556556}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 0
@@ -21263,15 +21118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 1776075790}
   closeLoadPoint: {fileID: 1302725841}
-  playerAnchor: {fileID: 1082890148}
   deletePos: {fileID: 1600525194}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 1082890148}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 0
@@ -21685,15 +21538,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 1581164641}
   closeLoadPoint: {fileID: 891765274}
-  playerAnchor: {fileID: 902005418}
   deletePos: {fileID: 663690343}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 902005418}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 0
@@ -23206,15 +23057,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2921707465269005010, guid: 1c5f8073ef16d3d4ca0a45b6c4106d5a, type: 3}
-  delete: {fileID: 1788451796285713186, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
   saveLoadPoint: {fileID: 1286332066}
   closeLoadPoint: {fileID: 73121875}
-  playerAnchor: {fileID: 1534933818}
   deletePos: {fileID: 897883424}
-  groundPositionInClippy: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
+  playerAnchor: {fileID: 1534933818}
+  saveEffectReference: {fileID: 0}
+  groundPosition: {x: 0, y: 0, z: 0}
+  isAnchored: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 0
