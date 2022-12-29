@@ -197,7 +197,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _2ndNormalPower: 0
-    - _AORemapMax: 1
+    - _AORemapMax: 0.44172272
     - _AORemapMin: 0
     - _ATDistance: 1
     - _AddPrecomputedVelocity: 0
@@ -288,7 +288,7 @@ Material:
     - _Metallic: 1
     - _MetallicPower: 0.5
     - _MetallicRemapMax: 1
-    - _MetallicRemapMin: 0
+    - _MetallicRemapMin: 0.78158826
     - _Mode: 0
     - _NormalMapSpace: 0
     - _NormalPower: 1
@@ -312,7 +312,7 @@ Material:
     - _SeeVertexColor1: 0
     - _Smoothness: 0.5
     - _SmoothnessPower: 1
-    - _SmoothnessRemapMax: 1
+    - _SmoothnessRemapMax: 0.202461
     - _SmoothnessRemapMin: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularAAScreenSpaceVariance: 0.1

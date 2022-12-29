@@ -311,7 +311,7 @@ Material:
     - _RefractionModel: 0
     - _SeeVertexColor: 0
     - _SeeVertexColor1: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessPower: 0.5
     - _SmoothnessRemapMax: 0.5
     - _SmoothnessRemapMin: 0
