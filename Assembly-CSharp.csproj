@@ -105,7 +105,7 @@
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Scripts\BF_SetInteractiveShaderEffects.cs" />
-    <Compile Include="Assets\Scripts\Deprecated\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\SceneSystem\SceneManager.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Visuals\SceneTransitionVisual\PostAndScenery.cs" />
@@ -155,7 +155,7 @@
     <Compile Include="Assets\Scripts\_GameLogic\_Others\ExitLoader.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Scripts\BF_MeshExtrusion.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\Animations\PlayerAnchorAnimation.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Animations\PlayerAnimationManager.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Scripts\BF_Terrain.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\_Resources\PureNature\Scripts\WaterReflection.cs" />

@@ -11,8 +11,8 @@ public class TileDrawInstance
     private Mesh tileMesh;
     private Material tileMat;
     private Vector3 originalTileBound, formationOffset, startPosition;
-    private Dictionary<Vector2, TileData> tileDict = new Dictionary<Vector2, TileData>();
-    private Dictionary<Vector2, TileData> tileOrderedDict = new Dictionary<Vector2, TileData>();
+    public Dictionary<Vector2, TileData> tileDict = new Dictionary<Vector2, TileData>();
+    public Dictionary<Vector2, TileData> tileOrderedDict = new Dictionary<Vector2, TileData>();
     private Queue<TileData> tileQueue = new Queue<TileData>();
     private TileData[,] tilePool;
     public TileData[] windowTiles = new TileData[4];
@@ -148,6 +148,8 @@ public class TileDrawInstance
         }
     }
 
+
+
     public void UpdateTilesStatusPerFrame(float innerRadius, float outerRadius, float multiplier, float yPos, float noiseWeight, Vector3 centerPosition)
     {
         for (int i = 0; i < tileOrderedDict.Count; i++)
@@ -161,6 +163,7 @@ public class TileDrawInstance
             float highRiseInfluence = Mathf.InverseLerp(innerRadius, outerRadius, distanceToCenter);
             float noise = Mathf.PerlinNoise(localTile.initialXZPosition.x / 10 + varyingNoiseTime, localTile.initialXZPosition.z / 10 + varyingNoiseTime);
             Vector3 groundPosition = localTile.GetGroundPosition();
+            localTile.SetgroundPosition(groundPosition);
             Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y + highRiseInfluence * multiplier + noise * noiseWeight, groundPosition.z) + Vector3.up * yPos;
 
             if (activateWindowsIndependance && localTile.isWindows)
@@ -223,10 +226,11 @@ public class TileDrawInstance
             14);
     }
 
-   
+
+    
     public class TileData
     {
-        public Vector3 initialXZPosition, finalXYZPosition;
+        public Vector3 initialXZPosition, groundXYZPosition, finalXYZPosition;
         public Vector3 smoothedFinalXYZPosition, refPos;
         public Vector2 globalTileCoord, localTileCoord;
         public Vector3 tileBound;
@@ -245,6 +249,7 @@ public class TileDrawInstance
         {
             initialXZPosition = Vector3.zero;
             smoothedFinalXYZPosition = Vector3.zero;
+            groundXYZPosition = Vector3.zero;
             finalXYZPosition = Vector3.zero;
             globalTileCoord = Vector2.zero;
             localTileCoord = Vector2.zero;
@@ -265,6 +270,10 @@ public class TileDrawInstance
         public void UpdateTileSmoothDampPos()
         {
             smoothedFinalXYZPosition = Vector3.SmoothDamp(smoothedFinalXYZPosition, finalXYZPosition, ref refPos, dampSpeed, 10000f);
+        }
+        public void SetgroundPosition(Vector3 _newPos) 
+        {
+            groundXYZPosition = _newPos;
         }
         public void OverwriteTileSmoothDampPos(Vector3 _newPos)
         {
