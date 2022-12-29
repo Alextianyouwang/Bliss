@@ -3,44 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class SceneManager : MonoBehaviour
 {
+    //public RectTransform loadBar;
+
+    private bool isGameStartScreenLoaded = false;
+
+
     public GameObject loadSceneScreen;
-    public RectTransform loadBar;
-
     public FirstPersonController fps;
-    public bool isGameStarted;
+    public GameObject zoomTarget;
 
-    public static event System.Action OnGameStart;
+    public static event Action<Vector3,Quaternion> OnZoomingToScreenRequested;
+
     private void OnEnable()
     {
-        Portal.OnEnterPortal += LoadScene;
+       // Portal.OnEnterPortal += LoadScene;
     }
     private void OnDisable()
     {
-        Portal.OnEnterPortal -= LoadScene;
+       // Portal.OnEnterPortal -= LoadScene;
 
     }
     void Start()
     {
-        
+        loadSceneScreen.SetActive(false);
     }
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Return) && !isGameStartScreenLoaded) 
+        {
+            isGameStartScreenLoaded = true;
+            //OnZoomingToScreenRequested?.Invoke(zoomTarget.transform.position,zoomTarget.transform.rotation);
+            StartLoadScreen();
+        }
     }
 
-    public void StartGame() 
+    public void StartLoadScreen() 
     {
-        fps.playerCanMove = true;
-        fps.cameraCanMove = true;
-        Cursor.lockState = CursorLockMode.Locked;
+        loadSceneScreen.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        fps.cameraCanMove = false;
+        // Do load Animation
 
-        OnGameStart?.Invoke();
-       // AudioManager.instance.Play("P1Music");
-        //AudioManager.instance.Play("P1Ambience");
+    }
+
+    public void OnClickSwitchToBliss() 
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Bliss");
     }
 
     void LoadScene(int scene) 
@@ -60,7 +73,7 @@ public class SceneManager : MonoBehaviour
             operation.allowSceneActivation = true;
             float progress = percentage / 0.9f;
             float loadBarX = Mathf.Lerp(-140f, 140f, progress);
-            loadBar.position = new Vector2(loadBarX, loadBar.position.y);
+
             print(percentage);
             yield return null;
         }

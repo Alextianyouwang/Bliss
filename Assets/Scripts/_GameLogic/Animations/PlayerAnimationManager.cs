@@ -5,7 +5,7 @@ using UnityEngine;
 
 // This class takes care of the procedural animation of player & camera movements.
 // All movements of player that is not conducted by the FPS controller is classified as an Anchoring Animation.
-public class PlayerAnchorAnimation : MonoBehaviour
+public class PlayerAnimationManager : MonoBehaviour
 {
     public static bool isAnchoring = false, isInTeleporting = false;
 
@@ -48,6 +48,10 @@ public class PlayerAnchorAnimation : MonoBehaviour
         TileMatrixManager.OnInitiateDivingFromMatrix += InitiateDiveAnimation;
         TileMatrixManager.OnInitiateSoaringFromMatrix += InitiateSoarAnimation;
         TileMatrixManager.OnFinishingDeleteFileAnimation += InitiateDisableAnchorAnimation;
+
+        SceneManager.OnZoomingToScreenRequested += InitiateZoomToScreen;
+
+        
     }
     private void OnDisable()
     {
@@ -59,6 +63,9 @@ public class PlayerAnchorAnimation : MonoBehaviour
         TileMatrixManager.OnInitiateDivingFromMatrix -= InitiateDiveAnimation;
         TileMatrixManager.OnInitiateSoaringFromMatrix -= InitiateSoarAnimation;
         TileMatrixManager.OnFinishingDeleteFileAnimation -= InitiateDisableAnchorAnimation;
+
+        SceneManager.OnZoomingToScreenRequested -= InitiateZoomToScreen;
+
 
         isAnchoring = false;
     }
@@ -226,6 +233,13 @@ public class PlayerAnchorAnimation : MonoBehaviour
         PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 0.25f, 0.02f, 0.99f, player, slowFastCurve, false, true, true, false,true, SwitchSceneAndResetPlayer, DuringSoring);
     }
     // Notify the TileMatrixManager to perform the animation simutaneously with the Player.
+
+    void InitiateZoomToScreen(Vector3 targetPosition, Quaternion lookDirection) 
+    {
+        playerAnimationCTS?.Cancel();
+        playerZeroXZRotationCTS?.Cancel();
+        PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 1.5f, 0.1f, 0.001f, player, fastSlowCurve, false, false, false, true, false, null, null);
+    }
     void RequestDive_passive()
     {
         OnRequestDive?.Invoke(GetComponent<FirstPersonController>(), false);

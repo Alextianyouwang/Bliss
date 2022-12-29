@@ -1,39 +1,42 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
-using UnityEngine.SceneManagement;
 
 public class PostAndScenery : MonoBehaviour
 {
+
     #region SceneTransitionSceneriesAndAnimations
     public Camera cam;
     public Volume localVolume;
-    public VolumeProfile blissProfile,clippyProfile;
+    public VolumeProfile blissProfile, clippyProfile;
     public CustomPassVolume pass;
     public Material grassMat;
     [SerializeField] private GameObject diveVolume, diveScenes;
 
-    private float originalFOV,targetFOV, camFOVSpeedRef;
+    private float originalFOV, targetFOV, camFOVSpeedRef;
     private float originalChromaticBliss, targetChromaticBliss, chromSpeedRefBliss;
-    private float originalVignetteBliss, targetVignetteBliss, vignetteSpeedRefBliss;  
+    private float originalVignetteBliss, targetVignetteBliss, vignetteSpeedRefBliss;
     private float originalChromaticClippy, targetChromaticClippy, chromSpeedRefClippy;
     private float originalVignetteClippy, targetVignetteClippy, vignetteSpeedRefClippy;
     float preTeleportFOVMultiplier = 1.5f;
-    float stageModeChromatic = 1f ,stageModeVignette = 0.44f;
+    float stageModeChromatic = 1f, stageModeVignette = 0.44f;
 
-    Coroutine waitEmergeCo;
-    ChromaticAberration caBliss,caClippy;
-    Vignette vBliss,vClippy;
-    CustomPass always,lessEqual;
+    Coroutine cutoutShrinkCo , cutoutCreateCo;
+    ChromaticAberration caBliss, caClippy;
+    Vignette vBliss, vClippy;
+    CustomPass always, lessEqual;
     ColorAdjustments colorAdjDiveSoar;
 
     private GameObject
         diveVolume_instance,
         diveScenes_instance;
     private AmbientOcclusion ao;
+
+
+    public static Func<bool> OnTestingWindowsAboveGround;
+    public static Func<float> OnGettingUndergroundTileRadius;
     #endregion
 
     private void OnEnable()
@@ -45,14 +48,14 @@ public class PostAndScenery : MonoBehaviour
 
         TileMatrixManager.OnInitiateDivingFromMatrix += EnableDiveVolumeAndScene;
         TileMatrixManager.OnInitiateSoaringFromMatrix += EnableSoarVolumeAndScene;
-        PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished += DisableVolumenAndScene;
-        PlayerAnchorAnimation.OnDiving += AdjustAOInDiveScene;
+        PlayerAnimationManager.OnPlayerTeleportAnimationFinished += DisableVolumenAndScene;
+        PlayerAnimationManager.OnDiving += AdjustAOInDiveScene;
 
         SceneSwitcher.OnClippyToggle += ToggleClippyVolume;
-        PlayerAnchorAnimation.OnRequestDive += EnlargeFOV_fromPlayerAnchorAnimation;
-        PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished += ShrinkFOV_fromPlayerAnchorAnimation;
+        PlayerAnimationManager.OnRequestDive += EnlargeFOV_fromPlayerAnchorAnimation;
+        PlayerAnimationManager.OnPlayerTeleportAnimationFinished += ShrinkFOV_fromPlayerAnchorAnimation;
 
-       
+
     }
     private void OnDisable()
     {
@@ -62,16 +65,14 @@ public class PostAndScenery : MonoBehaviour
         TileMatrixManager.OnInitiateDivingFromMatrix -= EnableDiveVolumeAndScene;
         TileMatrixManager.OnInitiateSoaringFromMatrix -= EnableSoarVolumeAndScene;
 
-        PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished -= DisableVolumenAndScene;
-        PlayerAnchorAnimation.OnDiving -= AdjustAOInDiveScene;
+        PlayerAnimationManager.OnPlayerTeleportAnimationFinished -= DisableVolumenAndScene;
+        PlayerAnimationManager.OnDiving -= AdjustAOInDiveScene;
 
         SceneSwitcher.OnClippyToggle -= ToggleClippyVolume;
 
-        PlayerAnchorAnimation.OnRequestDive -= EnlargeFOV_fromPlayerAnchorAnimation;
+        PlayerAnimationManager.OnRequestDive -= EnlargeFOV_fromPlayerAnchorAnimation;
 
-        PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished -= ShrinkFOV_fromPlayerAnchorAnimation;
-
-
+        PlayerAnimationManager.OnPlayerTeleportAnimationFinished -= ShrinkFOV_fromPlayerAnchorAnimation;
 
         vBliss.intensity.value = 0;
         caBliss.intensity.value = 0;
@@ -89,7 +90,7 @@ public class PostAndScenery : MonoBehaviour
         InitializePostprocessings();
     }
 
-    void ToggleClippyVolume(bool isInClippy) 
+    void ToggleClippyVolume(bool isInClippy)
     {
         if (isInClippy)
         {
@@ -102,13 +103,13 @@ public class PostAndScenery : MonoBehaviour
         }
     }
 
-    void GrassCutout(float radius, Vector3 position) 
+    void GrassCutout(float radius, Vector3 position)
     {
         grassMat.SetVector("_CutoutPosition", new Vector4(position.x, position.y, position.z, 0));
         grassMat.SetFloat("_CutoutRadius", radius);
     }
     #region SceneTransitionSceneriesAndAnimations
-    void InitializePostprocessings() 
+    void InitializePostprocessings()
     {
         originalFOV = cam.fieldOfView;
         targetFOV = originalFOV;
@@ -142,17 +143,17 @@ public class PostAndScenery : MonoBehaviour
         lessEqual = pass.customPasses[1];
     }
 
-    void AdjustAOInDiveScene(float timeValue,float distValue) 
+    void AdjustAOInDiveScene(float timeValue, float distValue)
     {
         if (ao != null)
-            ao.intensity.value = (1- distValue) * 8;
+            ao.intensity.value = (1 - distValue) * 8;
     }
-    void ZeroAOInDiveScene() 
+    void ZeroAOInDiveScene()
     {
         if (ao != null)
             ao.intensity.value = 0;
     }
-    void EnableDiveVolumeAndScene(Vector3 divePosition,Quaternion diveRot) 
+    void EnableDiveVolumeAndScene(Vector3 divePosition, Quaternion diveRot)
     {
         diveVolume_instance.SetActive(true);
         diveVolume_instance.transform.position = divePosition;
@@ -167,7 +168,7 @@ public class PostAndScenery : MonoBehaviour
         ZeroAOInDiveScene();
     }
 
-    void EnableSoarVolumeAndScene(Vector3 divePosition, Quaternion diveRot) 
+    void EnableSoarVolumeAndScene(Vector3 divePosition, Quaternion diveRot)
     {
         diveVolume_instance.SetActive(true);
         diveVolume_instance.transform.position = divePosition;
@@ -181,58 +182,68 @@ public class PostAndScenery : MonoBehaviour
         ZeroAOInDiveScene();
     }
 
-    void DisableVolumenAndScene() 
+    void DisableVolumenAndScene()
     {
         diveVolume_instance.SetActive(false);
         diveScenes_instance.SetActive(false);
     }
 
-    void EnlargeFOV_fromPlayerAnchorAnimation(FirstPersonController p,bool b) 
+    void EnlargeFOV_fromPlayerAnchorAnimation(FirstPersonController p, bool b)
     {
         EnlargeFOV(0);
     }
-    void EnlargeFOV(float f) 
+    void EnlargeFOV(float f)
     {
+
         targetFOV = originalFOV * preTeleportFOVMultiplier;
         targetChromaticBliss = stageModeChromatic;
         targetVignetteBliss = stageModeVignette;
         targetChromaticClippy = stageModeChromatic;
         targetVignetteClippy = stageModeVignette;
 
-        //always.enabled = true;
-        //lessEqual.enabled = true;
+        if (cutoutShrinkCo != null)
+            StopCoroutine(cutoutShrinkCo);
+        GrassCutout(20f, FirstPersonController.playerGroundPosition);
 
-        GrassCutout(10, FirstPersonController.playerGroundPosition);
-
-        //if (waitEmergeCo != null)
-            //StopCoroutine(waitEmergeCo);
     }
 
-    void ShrinkFOV_fromPlayerAnchorAnimation() 
+    void ShrinkFOV_fromPlayerAnchorAnimation()
     {
         ShrinkFOV(0);
     }
-    void ShrinkFOV(float f) 
+    void ShrinkFOV(float f)
     {
+
         targetFOV = originalFOV;
         targetChromaticBliss = originalVignetteBliss;
         targetVignetteBliss = originalVignetteBliss;
         targetChromaticClippy = originalChromaticClippy;
-        targetVignetteClippy =originalVignetteClippy;
+        targetVignetteClippy = originalVignetteClippy;
 
-        GrassCutout(0, FirstPersonController.playerGroundPosition);
 
-        //waitEmergeCo = StartCoroutine(WaitUntilAllBlocksEmerge());
+
+        cutoutShrinkCo = StartCoroutine(CutoutShrinkAccordingToTile());
+
     }
 
-    IEnumerator WaitUntilAllBlocksEmerge() 
+    IEnumerator CutoutShrinkAccordingToTile()
     {
-        yield return new WaitForSeconds(0.5f);
-        always.enabled = false;
-        lessEqual.enabled = false;
+
+        float percentage = 0;
+        while (percentage < 1)
+        {
+            percentage += Time.deltaTime *2f;
+            
+            float liveRadius = OnGettingUndergroundTileRadius();
+            liveRadius = liveRadius > 2 ? liveRadius : 0;
+            GrassCutout(liveRadius, FirstPersonController.playerGroundPosition);
+
+            yield return null;
+        }
+        GrassCutout(0, FirstPersonController.playerGroundPosition);
     }
- 
-    void UpdatePostprocessingValue() 
+
+    void UpdatePostprocessingValue()
     {
         cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView, targetFOV, ref camFOVSpeedRef, 0.15f);
         if (caBliss != null)
