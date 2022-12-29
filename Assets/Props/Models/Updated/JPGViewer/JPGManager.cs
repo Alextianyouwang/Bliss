@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JPGManager : MonoBehaviour, IClickable
 {
-    public bool FileDebugger = false;
+    public bool FileDebugger = false, IndividualDebugger = false;
 
     string s_OpenFile = "OpenFile";
 
@@ -43,11 +43,8 @@ public class JPGManager : MonoBehaviour, IClickable
     // Update is called once per frame
     void Update()
     {
-        //Debugging section. Use Interface in build
-        if (FileDebugger)
-            FileClickControl(true, 1);
-        else
-            FileClickControl(false, 0);
+        if(IndividualDebugger)
+            Debugger();
     }
 
     public void FileClickControl(bool animState, float targetValue)
@@ -82,5 +79,13 @@ public class JPGManager : MonoBehaviour, IClickable
 
         matHolder[0].GetComponent<MeshRenderer>().material.SetFloat("_WaveDistance", fadeDistanceMatrix);
         matHolder[1].GetComponent<MeshRenderer>().material.SetFloat("_WaveDistance", fadeDistance);
+    }
+    void Debugger()
+    {
+        //Debugging section. Use Interface in build
+        if (FileDebugger)
+            FileClickControl(true, 1f);
+        else
+            FileClickControl(false, 0);
     }
 }

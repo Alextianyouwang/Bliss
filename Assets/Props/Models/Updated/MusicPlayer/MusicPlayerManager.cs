@@ -6,7 +6,7 @@ public class MusicPlayerManager : MonoBehaviour, IClickable
 {
 
     [SerializeField]
-    private bool FileDebugger = false;
+    private bool FileDebugger = false, IndividualDebugger = false;
 
     [SerializeField]
     private AnimationCurve CDAnimCurve;
@@ -49,26 +49,37 @@ public class MusicPlayerManager : MonoBehaviour, IClickable
 
     // Update is called once per frame
     void Update()
-    {       
+    {          
+        if (IndividualDebugger)
+            Debugger();
+    }
+
+    public void FileClickControl(bool animState, float targetValue)
+    {
+        float alphaValue = targetValue == 0 ? 1 : 0;
+        lerperVar = Utility.LerpHelper(ref lerperVar, alphaValue, lerpMultiplier);
+        lerperVar = lerperVar <= 0 ? 0 : lerperVar;
+        NoteVFX.material.SetFloat("_AlphaThreshold", lerperVar);
+
+        CDRotation(animState);
+    }
+
+    void CDRotation(bool rotState)
+    {
+        FileDebugger = IndividualDebugger ? FileDebugger : rotState;
         float targetValue = FileDebugger ? 1 : 0;
         float rotationLerp = FileDebugger ? rotationLerpTime : rotationStopLerpTime;
 
         CD.transform.Rotate(0, 0, CDAnimCurve.Evaluate(
-            Utility.LerpHelper(ref rotationIncre, targetValue, rotationLerp)) * rotationMultiplier);
+        Utility.LerpHelper(ref rotationIncre, targetValue, rotationLerp)) * rotationMultiplier);
+    }    
 
+    void Debugger()
+    {
         //Debugging section. Use Interface in build
         if (FileDebugger)
             FileClickControl(FileDebugger, 0);
         else
             FileClickControl(FileDebugger, 1f);
-
-    }
-
-
-    public void FileClickControl(bool animState, float targetValue)
-    {
-        lerperVar = Utility.LerpHelper(ref lerperVar, targetValue, lerpMultiplier);
-        lerperVar = lerperVar <= 0 ? 0 : lerperVar;
-        NoteVFX.material.SetFloat("_AlphaThreshold", lerperVar);
     }
 }
