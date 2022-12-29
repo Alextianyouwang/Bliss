@@ -124,7 +124,7 @@ public class InteractionManager : MonoBehaviour
         
         for (int i = 0; i < 11; i++) 
         {
-            if (Input.GetKeyDown(alphaKeys[i]) && !prepareToThrow && !PlayerAnimationManager.isInTeleporting) 
+            if (Input.GetKeyDown(alphaKeys[i]) && !prepareToThrow && !AM_BlissMain.isInTeleporting) 
             {
                 currentKey = alphaKeys[i];
                 currentNumber = Instantiate(numbers[i]).GetComponent<NumberBlocks>();
@@ -141,7 +141,7 @@ public class InteractionManager : MonoBehaviour
                 }
             }
             
-            if (Input.GetKeyUp(alphaKeys[i]) && prepareToThrow && currentKey == alphaKeys[i] && !PlayerAnimationManager.isInTeleporting)
+            if (Input.GetKeyUp(alphaKeys[i]) && prepareToThrow && currentKey == alphaKeys[i] && !AM_BlissMain.isInTeleporting)
             {
                 prepareToThrow = false;
                 if (currentNumber != null) 

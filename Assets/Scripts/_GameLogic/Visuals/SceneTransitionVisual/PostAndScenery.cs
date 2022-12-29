@@ -48,13 +48,14 @@ public class PostAndScenery : MonoBehaviour
 
         TileMatrixManager.OnInitiateDivingFromMatrix += EnableDiveVolumeAndScene;
         TileMatrixManager.OnInitiateSoaringFromMatrix += EnableSoarVolumeAndScene;
-        PlayerAnimationManager.OnPlayerTeleportAnimationFinished += DisableVolumenAndScene;
-        PlayerAnimationManager.OnDiving += AdjustAOInDiveScene;
+        AM_BlissMain.OnPlayerTeleportAnimationFinished += DisableVolumenAndScene;
+        AM_BlissMain.OnDiving += AdjustAOInDiveScene;
 
         SceneSwitcher.OnClippyToggle += ToggleClippyVolume;
-        PlayerAnimationManager.OnRequestDive += EnlargeFOV_fromPlayerAnchorAnimation;
-        PlayerAnimationManager.OnPlayerTeleportAnimationFinished += ShrinkFOV_fromPlayerAnchorAnimation;
+        AM_BlissMain.OnRequestDive += EnlargeFOV_fromPlayerAnchorAnimation;
+        AM_BlissMain.OnPlayerTeleportAnimationFinished += ShrinkFOV_fromPlayerAnchorAnimation;
 
+        FileObject.OnPlayerAnchored += ShrinkFOV_fromFileObject;
 
     }
     private void OnDisable()
@@ -65,14 +66,16 @@ public class PostAndScenery : MonoBehaviour
         TileMatrixManager.OnInitiateDivingFromMatrix -= EnableDiveVolumeAndScene;
         TileMatrixManager.OnInitiateSoaringFromMatrix -= EnableSoarVolumeAndScene;
 
-        PlayerAnimationManager.OnPlayerTeleportAnimationFinished -= DisableVolumenAndScene;
-        PlayerAnimationManager.OnDiving -= AdjustAOInDiveScene;
+        AM_BlissMain.OnPlayerTeleportAnimationFinished -= DisableVolumenAndScene;
+        AM_BlissMain.OnDiving -= AdjustAOInDiveScene;
 
         SceneSwitcher.OnClippyToggle -= ToggleClippyVolume;
 
-        PlayerAnimationManager.OnRequestDive -= EnlargeFOV_fromPlayerAnchorAnimation;
+        AM_BlissMain.OnRequestDive -= EnlargeFOV_fromPlayerAnchorAnimation;
+        AM_BlissMain.OnPlayerTeleportAnimationFinished -= ShrinkFOV_fromPlayerAnchorAnimation;
 
-        PlayerAnimationManager.OnPlayerTeleportAnimationFinished -= ShrinkFOV_fromPlayerAnchorAnimation;
+        FileObject.OnPlayerAnchored -= ShrinkFOV_fromFileObject;
+
 
         vBliss.intensity.value = 0;
         caBliss.intensity.value = 0;
@@ -210,6 +213,17 @@ public class PostAndScenery : MonoBehaviour
     void ShrinkFOV_fromPlayerAnchorAnimation()
     {
         ShrinkFOV(0);
+    }
+    void ShrinkFOV_fromFileObject(FileObject f)
+    {
+        targetFOV = originalFOV;
+        targetChromaticBliss = originalVignetteBliss;
+        targetVignetteBliss = originalVignetteBliss;
+        targetChromaticClippy = originalChromaticClippy;
+        targetVignetteClippy = originalVignetteClippy;
+
+        GrassCutout(0, FirstPersonController.playerGroundPosition);
+
     }
     void ShrinkFOV(float f)
     {
