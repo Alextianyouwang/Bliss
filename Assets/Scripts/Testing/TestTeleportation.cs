@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestTeleportation : MonoBehaviour
 {
     public GameObject[] Destinations;
+    
 
     private KeyCode[] alphaKeys = {
         KeyCode.Alpha0,
@@ -22,6 +23,7 @@ public class TestTeleportation : MonoBehaviour
 
     void Update()
     {
+        
         if (Input.GetKey(KeyCode.LeftShift))
         {
             for (int i = 0; i < 10; i++)

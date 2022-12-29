@@ -7,7 +7,7 @@ using UnityEngine;
 // All movements of player that is not conducted by the FPS controller is classified as an Anchoring Animation.
 public class PlayerAnchorAnimation : MonoBehaviour
 {
-    public static bool isAnchoring = false;
+    public static bool isAnchoring = false, isInTeleporting = false;
 
     // Invoked when Player starts to perform an anchoring animation to a File.
     public static Action<Vector3> OnPlayerStartAnchor;
@@ -28,7 +28,7 @@ public class PlayerAnchorAnimation : MonoBehaviour
 
     [SerializeField]private FirstPersonController player;
     // A general animation curver controlling all Anchoring animation, will introduce more in the future.
-    public AnimationCurve AnchorAnimationCurve;
+    public AnimationCurve slowFastCurve,fastSlowCurve;
 
     // Each type of Anchoring Animation has its own cancellation token. Call the cancel methord on these to stop an animation.
     private CancellationTokenSource
@@ -66,7 +66,8 @@ public class PlayerAnchorAnimation : MonoBehaviour
     async void PlayerAnchorTask(
         Vector3 targetPos,Vector3 curveControlPointOffset, Quaternion targetRot, float speed, float posDampSpeed, float rotDampSpeed,
         FirstPersonController player,
-        bool zeroXZRot, bool restorePlayerPos, bool cameraCenter, bool onlyRotateCamera,
+        AnimationCurve curve,
+        bool zeroXZRot, bool restorePlayerPos, bool cameraCenter, bool onlyRotateCamera, bool teleporting,
         Action next, Action<float, float> during)
     {
         animationState = playerAnimationState.anchoring;
@@ -91,11 +92,12 @@ public class PlayerAnchorAnimation : MonoBehaviour
         float distanceToTarget = Vector3.Distance(playerInitialLocalPos, targetPos);
 
         isAnchoring = true;
+        isInTeleporting = teleporting;
         try
         {
             while (timeProgress < 1 || (player.transform.position - targetPos).magnitude >= 0.02f)
             {
-                float interpolate = timeProgress <= 1 ? AnchorAnimationCurve.Evaluate(timeProgress) : 1;
+                float interpolate = timeProgress <= 1 ? curve.Evaluate(timeProgress) : 1;
                 distanceProgress = (player.transform.position - targetPos).magnitude / distanceToTarget;
                 timeProgress += Time.deltaTime * speed;
                 during?.Invoke(timeProgress, distanceProgress);
@@ -138,6 +140,7 @@ public class PlayerAnchorAnimation : MonoBehaviour
             if (!ct.IsCancellationRequested)
                 player.UnFreezeCamera(player.transform.localEulerAngles.y, 0, zeroXZRot);
             animationState = playerAnimationState.none;
+            isInTeleporting = false;
             next?.Invoke();
         }
     }
@@ -187,7 +190,7 @@ public class PlayerAnchorAnimation : MonoBehaviour
     {
         playerAnimationCTS?.Cancel();
         playerZeroXZRotationCTS?.Cancel();
-        PlayerAnchorTask(target.playerAnchor.position, Vector3.up * 4f, target.playerAnchor.rotation, 1.5f, 0.1f, 0.1f, player, false, false, false,false, null, null);
+        PlayerAnchorTask(target.playerAnchor.position, Vector3.up * 4f, target.playerAnchor.rotation, 1.5f, 0.1f, 0.1f, player,slowFastCurve, false, false, false,false, false, null, null);
 
         OnPlayerStartAnchor?.Invoke(target.groundPosition);
     }
@@ -206,21 +209,21 @@ public class PlayerAnchorAnimation : MonoBehaviour
     {
         playerAnimationCTS?.Cancel();
         playerZeroXZRotationCTS?.Cancel();
-        PlayerAnchorTask(SceneSwitcher.sd.currFile.groundPosition + Vector3.up * 4f, Vector3.up * 25f, Quaternion.LookRotation(Vector3.down, transform.right), 0.6f, 0.01f, 0.2f, player, false, false, false,true, RequestDive_passive, DuringPrepareDiving);
+        PlayerAnchorTask(SceneSwitcher.sd.currFile.groundPosition + Vector3.up * 4f, Vector3.up * 25f, Quaternion.LookRotation(Vector3.down, transform.right), 0.6f, 0.01f, 0.2f, player, fastSlowCurve, false, false, false,true,true, RequestDive_passive, DuringPrepareDiving);
     }
     // Dive animation, will follow by scene swith and reset.
     void InitiateDiveAnimation(Vector3 targetPosition, Quaternion lookDirection)
     {
         playerAnimationCTS?.Cancel();
         playerZeroXZRotationCTS?.Cancel();
-        PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 0.3f, 0.02f, 0.7f, player, false, true, true, false, SwitchSceneAndResetPlayer, DuringDiving);
+        PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 0.3f, 0.02f, 0.7f, player, slowFastCurve, false, true, true, false,true, SwitchSceneAndResetPlayer, DuringDiving);
     }
     // Soar animation, will follow by scene swith and reset.
     void InitiateSoarAnimation(Vector3 targetPosition, Quaternion lookDirection)
     {
         playerAnimationCTS?.Cancel();
         playerZeroXZRotationCTS?.Cancel();
-        PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 0.25f, 0.02f, 0.99f, player, false, true, true, false, SwitchSceneAndResetPlayer, DuringSoring);
+        PlayerAnchorTask(targetPosition, Vector3.zero, lookDirection, 0.25f, 0.02f, 0.99f, player, slowFastCurve, false, true, true, false,true, SwitchSceneAndResetPlayer, DuringSoring);
     }
     // Notify the TileMatrixManager to perform the animation simutaneously with the Player.
     void RequestDive_passive()

@@ -10,12 +10,12 @@ public class TileBase
     private float tileObjectYOffset, saveButtonYOffset,deleteButtonYOffset;
 
     public Text debugText;
-    public Vector3 formationFinalPosition;
+    public Vector3 initialXZPosition;
     public Vector2 localTileCoord;
     private RaycastHit botHit;
     private LayerMask groundMask = LayerMask.GetMask("Ground");
 
-    public Vector3 tileRefSpeed, tileFinalPosition = Vector3.zero, targetPosition = Vector3.zero;
+    public Vector3 tileRefSpeed, smoothedFinalXYZPosition = Vector3.zero, targetPosition = Vector3.zero;
     public bool isWindows = false;
     public float dampSpeed;
 
@@ -46,6 +46,7 @@ public class TileBase
         delete = deleteButton_instance.GetComponent<DeleteButton>();
         debugText = mainReference.GetComponentInChildren<Text>();
     }
+
     public void ToggleSaveButtonHasBeenClicked(bool b) 
     {
         save.hasBeenClicked = b;
@@ -87,21 +88,21 @@ public class TileBase
     public void SetTilePosition(Vector3 position, bool setFinalPosition)
     {
         display_instance.transform.position = position;
-        tileFinalPosition = position;
+        smoothedFinalXYZPosition = position;
         if (setFinalPosition)
         {
-            formationFinalPosition = position;
+            initialXZPosition = position;
         }
     }
     public void SetTileSmoothDampPos(Vector3 target)
     {
-        tileFinalPosition = Vector3.SmoothDamp(tileFinalPosition, target, ref tileRefSpeed, dampSpeed, 10000f);
-        SetTilePosition(tileFinalPosition, false);
+        smoothedFinalXYZPosition = Vector3.SmoothDamp(smoothedFinalXYZPosition, target, ref tileRefSpeed, dampSpeed, 10000f);
+        SetTilePosition(smoothedFinalXYZPosition, false);
     }
 
     public void StickTileToGround()
     {
-        Ray botRay = new Ray(formationFinalPosition, Vector3.down);
+        Ray botRay = new Ray(initialXZPosition, Vector3.down);
         if (Physics.Raycast(botRay, out botHit, 1000f, groundMask))
         {
             SetTilePosition(botHit.point, false);
@@ -109,7 +110,7 @@ public class TileBase
     }
     public Vector3 GetGroundPosition()
     {
-        Vector3 groundPos = formationFinalPosition;
+        Vector3 groundPos = initialXZPosition;
         Ray botRay = new Ray(groundPos + Vector3.up * 10000f, Vector3.down);
         if (Physics.Raycast(botRay, out botHit, float.MaxValue, groundMask))
         {

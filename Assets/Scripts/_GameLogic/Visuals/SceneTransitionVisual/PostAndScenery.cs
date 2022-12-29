@@ -13,6 +13,7 @@ public class PostAndScenery : MonoBehaviour
     public Volume localVolume;
     public VolumeProfile blissProfile,clippyProfile;
     public CustomPassVolume pass;
+    public Material grassMat;
     [SerializeField] private GameObject diveVolume, diveScenes;
 
     private float originalFOV,targetFOV, camFOVSpeedRef;
@@ -21,7 +22,7 @@ public class PostAndScenery : MonoBehaviour
     private float originalChromaticClippy, targetChromaticClippy, chromSpeedRefClippy;
     private float originalVignetteClippy, targetVignetteClippy, vignetteSpeedRefClippy;
     float preTeleportFOVMultiplier = 1.5f;
-    float stageModeChromatic = 1f ,stageModeVignette = 0.4f;
+    float stageModeChromatic = 1f ,stageModeVignette = 0.44f;
 
     Coroutine waitEmergeCo;
     ChromaticAberration caBliss,caClippy;
@@ -37,6 +38,8 @@ public class PostAndScenery : MonoBehaviour
 
     private void OnEnable()
     {
+        GrassCutout(0, Vector3.zero);
+
         FirstPersonController.OnEnterThreshold += EnlargeFOV;
         FirstPersonController.OnExitThreshold += ShrinkFOV;
 
@@ -48,6 +51,8 @@ public class PostAndScenery : MonoBehaviour
         SceneSwitcher.OnClippyToggle += ToggleClippyVolume;
         PlayerAnchorAnimation.OnRequestDive += EnlargeFOV_fromPlayerAnchorAnimation;
         PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished += ShrinkFOV_fromPlayerAnchorAnimation;
+
+       
     }
     private void OnDisable()
     {
@@ -73,6 +78,7 @@ public class PostAndScenery : MonoBehaviour
         vClippy.intensity.value = 0;
         caClippy.intensity.value = 0;
         colorAdjDiveSoar.postExposure.value = -2.5f;
+        GrassCutout(0, Vector3.zero);
     }
     private void Update()
     {
@@ -94,6 +100,12 @@ public class PostAndScenery : MonoBehaviour
         {
             localVolume.profile = blissProfile;
         }
+    }
+
+    void GrassCutout(float radius, Vector3 position) 
+    {
+        grassMat.SetVector("_CutoutPosition", new Vector4(position.x, position.y, position.z, 0));
+        grassMat.SetFloat("_CutoutRadius", radius);
     }
     #region SceneTransitionSceneriesAndAnimations
     void InitializePostprocessings() 
@@ -187,11 +199,13 @@ public class PostAndScenery : MonoBehaviour
         targetChromaticClippy = stageModeChromatic;
         targetVignetteClippy = stageModeVignette;
 
-        always.enabled = true;
-        lessEqual.enabled = true;
+        //always.enabled = true;
+        //lessEqual.enabled = true;
 
-        if (waitEmergeCo != null)
-            StopCoroutine(waitEmergeCo);
+        GrassCutout(10, FirstPersonController.playerGroundPosition);
+
+        //if (waitEmergeCo != null)
+            //StopCoroutine(waitEmergeCo);
     }
 
     void ShrinkFOV_fromPlayerAnchorAnimation() 
@@ -206,7 +220,9 @@ public class PostAndScenery : MonoBehaviour
         targetChromaticClippy = originalChromaticClippy;
         targetVignetteClippy =originalVignetteClippy;
 
-        waitEmergeCo = StartCoroutine(WaitUntilAllBlocksEmerge());
+        GrassCutout(0, FirstPersonController.playerGroundPosition);
+
+        //waitEmergeCo = StartCoroutine(WaitUntilAllBlocksEmerge());
     }
 
     IEnumerator WaitUntilAllBlocksEmerge() 

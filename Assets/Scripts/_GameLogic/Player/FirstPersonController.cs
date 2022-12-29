@@ -162,6 +162,7 @@ public class FirstPersonController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         crosshairObject = GetComponentInChildren<Image>();
+        UpdatePlayerGroundRay();
 
         // Set internal variables
         playerCamera.fieldOfView = fov;
@@ -241,6 +242,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void Update()
     {
+        
         UpdatePlayerGroundRay();
     }
 
@@ -303,6 +305,7 @@ public class FirstPersonController : MonoBehaviour
                 OnStartSoaring?.Invoke(this);
         }
     }
+    
     private void LateUpdate()
     {
 

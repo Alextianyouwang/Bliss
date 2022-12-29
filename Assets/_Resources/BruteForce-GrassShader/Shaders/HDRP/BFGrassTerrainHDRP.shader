@@ -119,6 +119,9 @@ Shader "BruteForceHDRP/InteractiveGrassTerrainHDRP"
 			
 		[Space]
 
+		_CutoutPosition("CutoutCenter", Vector) = (0, 0, 0, 0)
+			_CutoutRadius("CutoutRaidus", Float) = 0
+
 			// Forward
 	   [HideInInspector] _StencilRef("_StencilRef", Int) = 0 // StencilUsage.Clear
 	   [HideInInspector] _StencilWriteMask("_StencilWriteMask", Int) = 3 // StencilUsage.RequiresDeferredLighting | StencilUsage.SubsurfaceScattering
@@ -475,6 +478,8 @@ ENDHLSL
 			Texture2D _Normal6;
 			Texture2D _Normal7;
 
+			float4 _CutoutPosition;
+			float _CutoutRadius;
 
 			Attributes vert(appdata v)
 			{
@@ -637,7 +642,7 @@ ENDHLSL
 							float3 n2 = v2.normalOS;
 
 							o.texCoord1 = float4(GetAbsolutePositionWS(TransformObjectToWorld(p0)).x, GetAbsolutePositionWS(TransformObjectToWorld(p0)).z, 0,0);
-							//o.texCoord2 = float4(GetAbsolutePositionWS(TransformObjectToWorld(p0)).y, 0, 0,0);
+							o.texCoord2 = float4(GetAbsolutePositionWS(TransformObjectToWorld(p0)).y, 0, 0,0);
 
 
 							tristream.Append(VertexOutput(v0, p0, p0_prev, n0));
@@ -658,7 +663,10 @@ ENDHLSL
 			{
 				FragInputs input = UnpackVaryingsMeshToFragInputs(packedInput.vmesh);
 			    PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
+				//float depth = LoadCameraDepth(varyings.positionCS.xy);
+				//PositionInputs newPosInput = GetPositionInput(varyings.positionCS.xy, _ScreenSize.zw, depth, UNITY_MATRIX_I_VP, UNITY_MATRIX_V);
 
+				
 			    float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
 
 				SurfaceData surfaceData;
@@ -844,7 +852,15 @@ ENDHLSL
 				}
 				col.xyz += _RimColor.rgb * pow(abs(rimLight), _RimPower);
 
+				float3 positionWS = float3 (input.texCoord1.x, input.texCoord2.x, input.texCoord1.y);
+
+				//dist(posInput.positionWS, _CutoutPosition.xyz);
+			    half threshold = step(_CutoutRadius,distance(positionWS, float3 (_CutoutPosition.x,0,_CutoutPosition.z)));
+				if (threshold == 0) discard;
+
+				
 				surfaceData.baseColor = col.rgb;
+				//surfaceData.baseColor = positionWS;
 				
 				builtinData.emissiveColor = _RimColor.rgb * pow(abs(rimLight), _RimPower)*10+ col.rgb* _ProjectedShadowColor;
 				builtinData.bakeDiffuseLighting = _RimColor.rgb * pow(abs(rimLight), _RimPower) * 10;
