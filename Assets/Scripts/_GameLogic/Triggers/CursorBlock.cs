@@ -53,7 +53,7 @@ public class CursorBlock : NumberBlocks
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (!PlayerAnimationManager.isInTeleporting)
+        if (!AM_BlissMain.isInTeleporting)
             clickTimes += 1;
 
         //CursorDissapearAnimation();

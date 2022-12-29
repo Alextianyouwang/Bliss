@@ -20,16 +20,18 @@ public class SceneManager : MonoBehaviour
 
     private void OnEnable()
     {
-       // Portal.OnEnterPortal += LoadScene;
+        AM_Menu.OnZoomFinished += StartLoadScreen;
     }
     private void OnDisable()
     {
-       // Portal.OnEnterPortal -= LoadScene;
-
+        AM_Menu.OnZoomFinished -= StartLoadScreen;
     }
     void Start()
     {
         loadSceneScreen.SetActive(false);
+        fps.allowYawLock = true;
+        fps.maxYawAngle = 40f;
+        fps.maxPitchAngle = 50f;
     }
 
     void Update()
@@ -37,8 +39,7 @@ public class SceneManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return) && !isGameStartScreenLoaded) 
         {
             isGameStartScreenLoaded = true;
-            //OnZoomingToScreenRequested?.Invoke(zoomTarget.transform.position,zoomTarget.transform.rotation);
-            StartLoadScreen();
+            OnZoomingToScreenRequested?.Invoke(zoomTarget.transform.position,zoomTarget.transform.rotation);
         }
     }
 
@@ -47,13 +48,18 @@ public class SceneManager : MonoBehaviour
         loadSceneScreen.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         fps.cameraCanMove = false;
-        // Do load Animation
+
 
     }
 
     public void OnClickSwitchToBliss() 
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("Bliss");
+        fps.cameraCanMove = true;
+
+        fps.allowYawLock = false;
+        //fps.maxYawAngle = 40f;
+        fps.maxPitchAngle = 80f;
     }
 
     void LoadScene(int scene) 

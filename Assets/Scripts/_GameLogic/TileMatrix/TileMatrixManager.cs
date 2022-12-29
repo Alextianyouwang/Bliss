@@ -27,7 +27,7 @@ public class TileMatrixManager : MonoBehaviour
         changingMatrixYOffset,
         varyingDampSpeed,
         defaultDampSpeed = 0.08f,
-        defaultNoiseWeight = 0.5f;
+        defaultNoiseWeight = 0.3f;
 
     private bool
         isInDiveFormation = false,
@@ -55,14 +55,14 @@ public class TileMatrixManager : MonoBehaviour
         FirstPersonController.OnStartDiving += StartDivingAnimation;
         FirstPersonController.OnStartSoaring += StartSoaringAnimation;
 
-        PlayerAnimationManager.OnPlayerStartAnchor += StartStagingFile;
-        PlayerAnimationManager.OnPlayerExitAnchor += EndStagingFile;
-        PlayerAnimationManager.OnPlayerTeleportAnimationFinished += ResetToDefault;
-        PlayerAnimationManager.OnDiving += DivingAnimation;
-        PlayerAnimationManager.OnSoring += SoaringAnimation;
-        PlayerAnimationManager.OnRequestDive += StartDivingAnimation;
-        PlayerAnimationManager.OnRequestDive += SwitchToStageDiving_fromPlayerAnchroAnimation;
-        PlayerAnimationManager.OnPrepareDiving += ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
+        AM_BlissMain.OnPlayerStartAnchor += StartStagingFile;
+        AM_BlissMain.OnPlayerExitAnchor += EndStagingFile;
+        AM_BlissMain.OnPlayerTeleportAnimationFinished += ResetToDefault;
+        AM_BlissMain.OnDiving += DivingAnimation;
+        AM_BlissMain.OnSoring += SoaringAnimation;
+        AM_BlissMain.OnRequestDive += StartDivingAnimation;
+        AM_BlissMain.OnRequestDive += SwitchToStageDiving_fromPlayerAnchroAnimation;
+        AM_BlissMain.OnPrepareDiving += ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
 
         SaveButton.OnRetreatSaveButton += InitiateRetreatAndResetWindowsAnimation;
         DeleteButton.OnPlayerReleased += InitiateDeleteAnchorAnimation;
@@ -79,14 +79,14 @@ public class TileMatrixManager : MonoBehaviour
         FirstPersonController.OnStartSoaring -= StartSoaringAnimation;
 
 
-        PlayerAnimationManager.OnPlayerStartAnchor -= StartStagingFile;
-        PlayerAnimationManager.OnPlayerExitAnchor -= EndStagingFile;
-        PlayerAnimationManager.OnPlayerTeleportAnimationFinished -= ResetToDefault;
-        PlayerAnimationManager.OnDiving -= DivingAnimation;
-        PlayerAnimationManager.OnSoring -= SoaringAnimation;
-        PlayerAnimationManager.OnRequestDive -= StartDivingAnimation;
-        PlayerAnimationManager.OnRequestDive -= SwitchToStageDiving_fromPlayerAnchroAnimation;
-        PlayerAnimationManager.OnPrepareDiving -= ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
+        AM_BlissMain.OnPlayerStartAnchor -= StartStagingFile;
+        AM_BlissMain.OnPlayerExitAnchor -= EndStagingFile;
+        AM_BlissMain.OnPlayerTeleportAnimationFinished -= ResetToDefault;
+        AM_BlissMain.OnDiving -= DivingAnimation;
+        AM_BlissMain.OnSoring -= SoaringAnimation;
+        AM_BlissMain.OnRequestDive -= StartDivingAnimation;
+        AM_BlissMain.OnRequestDive -= SwitchToStageDiving_fromPlayerAnchroAnimation;
+        AM_BlissMain.OnPrepareDiving -= ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
 
         SaveButton.OnRetreatSaveButton -= InitiateRetreatAndResetWindowsAnimation;
         DeleteButton.OnPlayerReleased -= InitiateDeleteAnchorAnimation;
@@ -152,14 +152,15 @@ public class TileMatrixManager : MonoBehaviour
 
     void Update()
     {
-        Vector3 playerGroundPosition = FirstPersonController.playerGroundPosition;
         if (!isEnabled)
             return;
+        Vector3 playerGroundPosition = FirstPersonController.playerGroundPosition;
         b.UpdateButtonPosition(TileButtons.ButtonTile.DisplayState.off);
 
         switch (state)
         {
             case TileStates.NormalFollow:
+                t.varyingNoiseTime = Time.time/3f;
                 t.UpdateTileSetActive(playerGroundPosition, changingRadius);
                 t.UpdateTileOrderedCoordinate(playerGroundPosition);
                 t.UpdateTileDampSpeedTogether(varyingDampSpeed);
@@ -346,7 +347,7 @@ public class TileMatrixManager : MonoBehaviour
         else
             radius = 0;
 
-        return radius - 0.5f;
+        return radius - 0.2f;
     }
 
 

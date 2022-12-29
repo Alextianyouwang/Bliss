@@ -16,11 +16,11 @@ public class SceneSwitcher : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerAnimationManager.OnRequestSceneSwitch += SwitchScene;
+        AM_BlissMain.OnRequestSceneSwitch += SwitchScene;
     }
     private void OnDisable()
     {
-        PlayerAnimationManager.OnRequestSceneSwitch -= SwitchScene;
+        AM_BlissMain.OnRequestSceneSwitch -= SwitchScene;
         isInClippy = false;
     }
 
@@ -81,7 +81,7 @@ public class SceneSwitcher : MonoBehaviour
     }
     void SceneSwitchingCheck()
     {
-        if (Input.GetKeyDown(KeyCode.F) && ! PlayerAnimationManager. isAnchoring)
+        if (Input.GetKeyDown(KeyCode.F) && ! AnchorAnimation. isAnchoring)
         {
             SwitchScene();
         }
