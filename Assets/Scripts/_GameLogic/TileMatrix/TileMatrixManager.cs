@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 public class TileMatrixManager : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class TileMatrixManager : MonoBehaviour
         changingRadius,
         changingMatrixYOffset,
         varyingDampSpeed,
-        defaultDampSpeed = 0.12f,
+        defaultDampSpeed = 0.08f,
         defaultNoiseWeight = 0.5f;
 
     private bool
@@ -33,12 +34,16 @@ public class TileMatrixManager : MonoBehaviour
         hasTriggeredLandingGathering = false,
         hasWindowsDetached = false;
 
+    List<TileDrawInstance.TileData> belowGroundTile = new List<TileDrawInstance.TileData>();
+
+
     private enum TileStates { NormalFollow, Staging, Landing, PrepareLanding, Staging_Diving, Staging_Deleting }
     private TileStates state;
 
     public static Action<Vector3, Quaternion> OnInitiateDivingFromMatrix;
     public static Action<Vector3, Quaternion> OnInitiateSoaringFromMatrix;
     public static Action OnFinishingDeleteFileAnimation;
+
 
 
     private void OnEnable()
@@ -50,17 +55,19 @@ public class TileMatrixManager : MonoBehaviour
         FirstPersonController.OnStartDiving += StartDivingAnimation;
         FirstPersonController.OnStartSoaring += StartSoaringAnimation;
 
-        PlayerAnchorAnimation.OnPlayerStartAnchor += StartStagingFile;
-        PlayerAnchorAnimation.OnPlayerExitAnchor += EndStagingFile;
-        PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished += ResetToDefault;
-        PlayerAnchorAnimation.OnDiving += DivingAnimation;
-        PlayerAnchorAnimation.OnSoring += SoaringAnimation;
-        PlayerAnchorAnimation.OnRequestDive += StartDivingAnimation;
-        PlayerAnchorAnimation.OnRequestDive += SwitchToStageDiving_fromPlayerAnchroAnimation;
-        PlayerAnchorAnimation.OnPrepareDiving += ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
+        PlayerAnimationManager.OnPlayerStartAnchor += StartStagingFile;
+        PlayerAnimationManager.OnPlayerExitAnchor += EndStagingFile;
+        PlayerAnimationManager.OnPlayerTeleportAnimationFinished += ResetToDefault;
+        PlayerAnimationManager.OnDiving += DivingAnimation;
+        PlayerAnimationManager.OnSoring += SoaringAnimation;
+        PlayerAnimationManager.OnRequestDive += StartDivingAnimation;
+        PlayerAnimationManager.OnRequestDive += SwitchToStageDiving_fromPlayerAnchroAnimation;
+        PlayerAnimationManager.OnPrepareDiving += ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
 
         SaveButton.OnRetreatSaveButton += InitiateRetreatAndResetWindowsAnimation;
         DeleteButton.OnPlayerReleased += InitiateDeleteAnchorAnimation;
+
+        PostAndScenery.OnGettingUndergroundTileRadius += GetUnderGroundTilesProxiRadius;
     }
     private void OnDisable()
     {
@@ -72,23 +79,26 @@ public class TileMatrixManager : MonoBehaviour
         FirstPersonController.OnStartSoaring -= StartSoaringAnimation;
 
 
-        PlayerAnchorAnimation.OnPlayerStartAnchor -= StartStagingFile;
-        PlayerAnchorAnimation.OnPlayerExitAnchor -= EndStagingFile;
-        PlayerAnchorAnimation.OnPlayerTeleportAnimationFinished -= ResetToDefault;
-        PlayerAnchorAnimation.OnDiving -= DivingAnimation;
-        PlayerAnchorAnimation.OnSoring -= SoaringAnimation;
-        PlayerAnchorAnimation.OnRequestDive -= StartDivingAnimation;
-        PlayerAnchorAnimation.OnRequestDive -= SwitchToStageDiving_fromPlayerAnchroAnimation;
-        PlayerAnchorAnimation.OnPrepareDiving -= ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
+        PlayerAnimationManager.OnPlayerStartAnchor -= StartStagingFile;
+        PlayerAnimationManager.OnPlayerExitAnchor -= EndStagingFile;
+        PlayerAnimationManager.OnPlayerTeleportAnimationFinished -= ResetToDefault;
+        PlayerAnimationManager.OnDiving -= DivingAnimation;
+        PlayerAnimationManager.OnSoring -= SoaringAnimation;
+        PlayerAnimationManager.OnRequestDive -= StartDivingAnimation;
+        PlayerAnimationManager.OnRequestDive -= SwitchToStageDiving_fromPlayerAnchroAnimation;
+        PlayerAnimationManager.OnPrepareDiving -= ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
 
         SaveButton.OnRetreatSaveButton -= InitiateRetreatAndResetWindowsAnimation;
         DeleteButton.OnPlayerReleased -= InitiateDeleteAnchorAnimation;
+
+        PostAndScenery.OnGettingUndergroundTileRadius -= GetUnderGroundTilesProxiRadius;
+
     }
 
     private void Awake()
     {
         //t = new TileMatrixFunctions(tile, saveButton, deleteButton, defaultTileDimension);
-        t = new TileDrawInstance(tile,  defaultTileDimension);
+        t = new TileDrawInstance(tile, defaultTileDimension);
         b = new TileButtons(t, saveButton, deleteButton);
     }
     void Start()
@@ -258,7 +268,7 @@ public class TileMatrixManager : MonoBehaviour
         b.ToggleSaveHasBeenClicked(true);
         while (percent < 1)
         {
-            float interpolate =  Mathf.Sin(percent * Mathf.PI / 2 - Mathf.PI / 4) * waveScale ;
+            float interpolate = Mathf.Sin(percent * Mathf.PI / 2 - Mathf.PI / 4) * waveScale;
             t.changingWindowsYPos = interpolate + initialAveragePosition.y;
 
             percent += Time.deltaTime * 2f;
@@ -320,6 +330,25 @@ public class TileMatrixManager : MonoBehaviour
         return divePosition;
     }
 
+    public float GetUnderGroundTilesProxiRadius()
+    {
+        float radius = 0;
+        TileDrawInstance.TileData[] array = new TileDrawInstance.TileData[t.tileOrderedDict.Count];
+        t.tileOrderedDict.Values.CopyTo(array, 0);
+
+        foreach (TileDrawInstance.TileData t in array)
+        {
+            radius += Vector2.Distance(new Vector2(t.smoothedFinalXYZPosition.x, t.smoothedFinalXYZPosition.z),
+        new Vector2(FirstPersonController.playerGroundPosition.x, FirstPersonController.playerGroundPosition.z));
+        }
+        if (array.Length >= 20)
+            radius /= array.Length;
+        else
+            radius = 0;
+
+        return radius - 0.5f;
+    }
+
 
     void ChangeFormation(float globalOffset, float curvatureOffset)
     {
@@ -373,7 +402,7 @@ public class TileMatrixManager : MonoBehaviour
 
         state = TileStates.NormalFollow;
     }
-   
+
     void SetWindowsIndependance(bool flag)
     {
         t.activateWindowsIndependance = flag;
@@ -394,7 +423,7 @@ public class TileMatrixManager : MonoBehaviour
         state = TileStates.NormalFollow;
     }
 
-   
+
     void StartSoaringAnimation(FirstPersonController player)
     {
         float playerPhysicalYPosEndPoint = 180f;
@@ -444,7 +473,7 @@ public class TileMatrixManager : MonoBehaviour
         state = TileStates.PrepareLanding;
 
         // Send position and rotation to playercontroller.
-        Vector3 divePosition = isEnabled? GetWindowsAveragePosition(true) : FirstPersonController.playerGroundPosition;
+        Vector3 divePosition = isEnabled ? GetWindowsAveragePosition(true) : FirstPersonController.playerGroundPosition;
         divePosition.y += playerPhysicalYPosEndPoint;
 
         Quaternion finalRot = faceSide ?

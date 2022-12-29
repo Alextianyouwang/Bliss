@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 4
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 9987.738, g: 11847.961, b: 17488.656, a: 1}
+  m_IndirectSpecularColor: {r: 502.37195, g: 519.6304, b: 706.4464, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -20416,7 +20416,7 @@ MonoBehaviour:
   saveButton: {fileID: 2020070663865798753, guid: e37abfbdb4a86e943a8e58066668f2fd, type: 3}
   deleteButton: {fileID: 1788451796285713186, guid: d1c59a3ae2015d042b5d8e85cec08588, type: 3}
   defaultTileDimension: 12
-  defaultRadius: 5
+  defaultRadius: 7
   isEnabled: 1
 --- !u!114 &1911615245
 MonoBehaviour:

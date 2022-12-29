@@ -36,11 +36,11 @@ public class InteractionManager : MonoBehaviour
     public bool canStartControl;
     private void OnEnable()
     {
-        SceneManager.OnGameStart += ToggleStart;
+        //SceneManager.OnGameStart += ToggleStart;
     }
     private void OnDisable()
     {
-        SceneManager.OnGameStart -= ToggleStart;
+        //SceneManager.OnGameStart -= ToggleStart;
     }
 
     void Start()
@@ -124,7 +124,7 @@ public class InteractionManager : MonoBehaviour
         
         for (int i = 0; i < 11; i++) 
         {
-            if (Input.GetKeyDown(alphaKeys[i]) && !prepareToThrow && !PlayerAnchorAnimation.isInTeleporting) 
+            if (Input.GetKeyDown(alphaKeys[i]) && !prepareToThrow && !PlayerAnimationManager.isInTeleporting) 
             {
                 currentKey = alphaKeys[i];
                 currentNumber = Instantiate(numbers[i]).GetComponent<NumberBlocks>();
@@ -141,7 +141,7 @@ public class InteractionManager : MonoBehaviour
                 }
             }
             
-            if (Input.GetKeyUp(alphaKeys[i]) && prepareToThrow && currentKey == alphaKeys[i] && !PlayerAnchorAnimation.isInTeleporting)
+            if (Input.GetKeyUp(alphaKeys[i]) && prepareToThrow && currentKey == alphaKeys[i] && !PlayerAnimationManager.isInTeleporting)
             {
                 prepareToThrow = false;
                 if (currentNumber != null) 
