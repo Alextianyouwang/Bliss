@@ -15,7 +15,7 @@ public class WordDocManager : MonoBehaviour, IClickable
     public List<Transform> dissolveMatHolder = new List<Transform>();
 
     [SerializeField]
-    private bool FileDebugger = false;
+    private bool FileDebugger = false, IndividualDebugger = false;
 
     [Header("MaterialAttributes")]
     public float minDissolve; public float maxDissolve;
@@ -63,11 +63,8 @@ public class WordDocManager : MonoBehaviour, IClickable
     // Update is called once per frame
     void Update()
     {
-        //Debugging section. Use Interface in build
-        if (FileDebugger)
-            FileClickControl(true, 1f);
-        else
-            FileClickControl(false, 0);
+        if (IndividualDebugger)
+            Debugger();
     }
 
     public void FileClickControl(bool animState, float targetValue)
@@ -161,5 +158,13 @@ public class WordDocManager : MonoBehaviour, IClickable
             txtColor.a = txtLerper;
             contentsHolderT[listIndex].gameObject.GetComponent<TextMeshProUGUI>().faceColor = txtColor;
         }
+    }
+    void Debugger()
+    {
+        //Debugging section. Use Interface in build
+        if (FileDebugger)
+            FileClickControl(true, 1f);
+        else
+            FileClickControl(false, 0);
     }
 }

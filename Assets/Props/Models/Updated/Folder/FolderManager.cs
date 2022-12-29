@@ -1,11 +1,11 @@
-using System.Collections;
+using System.Collections;   
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FolderManager : MonoBehaviour, IClickable
 {
 
-    public bool FileDebugger = false;
+    public bool FileDebugger = false, IndividualDebugger = false;
 
     string s_OpenFile = "OpenFile";
     bool canPop = false;
@@ -41,11 +41,8 @@ public class FolderManager : MonoBehaviour, IClickable
     // Update is called once per frame
     void Update()
     {
-        //Debugging section. Use Interface in build
-        if (FileDebugger)
-            FileClickControl(true, prefabOriginalScale);
-        else
-            FileClickControl(false, 0);
+        if (IndividualDebugger)
+            Debugger();
     }
    public void FileClickControl(bool animState, float targetValue)
    {
@@ -66,7 +63,9 @@ public class FolderManager : MonoBehaviour, IClickable
                 canPop = false;
             }
         }
-        foreach(Transform Child in prefabHolder)
+
+        targetValue = targetValue == 0 ? 0 : prefabOriginalScale;
+        foreach (Transform Child in prefabHolder)
         {
             if(canPop)
             {
@@ -82,4 +81,12 @@ public class FolderManager : MonoBehaviour, IClickable
             Child.localScale = new Vector3(scaleRef, scaleRef, scaleRef);
         }
    }
+    void Debugger()
+    {
+        //Debugging section. Use Interface in build
+        if (FileDebugger)
+            FileClickControl(true, 1f);
+        else
+            FileClickControl(false, 0);
+    }
 }
