@@ -46,6 +46,8 @@ public class WordDocManager : MonoBehaviour, IClickable
         {
             if (Child.GetComponent<Animator>() != null)
                 animatorHolder.Add(Child);
+
+            if (Child.gameObject.GetComponent<MeshRenderer>())
             if (Child.gameObject.GetComponent<MeshRenderer>()
                 .sharedMaterial.name.Equals(s_DissolveMat.ToString()))
                 dissolveMatHolder.Add(Child);

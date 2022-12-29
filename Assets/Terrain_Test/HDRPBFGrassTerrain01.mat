@@ -201,7 +201,7 @@ Material:
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5
-    - _CutoutRadius: 20
+    - _CutoutRadius: 0
     - _DetailNormalMapScale: 1
     - _DiffusionProfile: 0
     - _DiffusionProfileHash: 0
@@ -293,7 +293,7 @@ Material:
     - __NumberOfStacks: 17
     m_Colors:
     - _Color: {r: 0.73362374, g: 0.9339623, b: 0.2863564, a: 1}
-    - _CutoutPosition: {r: -6.528992, g: 7.5951805, b: -9.540692, a: 0}
+    - _CutoutPosition: {r: 0, g: 0, b: 0, a: 0}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 1, g: 0.9985158, b: 0.9764151, a: 1}
