@@ -39,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Control1:
-        m_Texture: {fileID: 8502747289048329919, guid: 6a31ca4986adfbc46804e7cf27065603, type: 2}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -67,7 +67,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GroundTex:
-        m_Texture: {fileID: 2800000, guid: 7f969087a2b5cf840bdda1c1d1e3a930, type: 3}
+        m_Texture: {fileID: 2800000, guid: 573c7bc99dcbc0f4ea88b3ac63b42402, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GroundTexture:
@@ -107,11 +107,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal4:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: bb9441ad1e914614c84125c92ac95253, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal5:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 4e1d764fa7e47f34eae88e37253c2542, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal6:
@@ -155,7 +155,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat5:
-        m_Texture: {fileID: 2800000, guid: 5c8999ac245bff34dab5fd31757ced45, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9eb8f1ba60975784ea9768fee3955c08, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat6:
@@ -201,6 +201,7 @@ Material:
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5
+    - _CutoutRadius: 0
     - _DetailNormalMapScale: 1
     - _DiffusionProfile: 0
     - _DiffusionProfileHash: 0
@@ -222,8 +223,8 @@ Material:
     - _Metallic1: 0
     - _Metallic2: 0
     - _Metallic3: 0
-    - _Metallic4: 0
-    - _Metallic5: 1
+    - _Metallic4: 1
+    - _Metallic5: 0
     - _Metallic6: 0
     - _Metallic7: 0
     - _MinimumNumberStacks: 3
@@ -244,7 +245,7 @@ Material:
     - _RTEffect: 1
     - _RimMax: 0.795
     - _RimMin: 0.502
-    - _RimPower: 2.7
+    - _RimPower: 3.01
     - _ShadowFuziness: 1
     - _ShadowMax: 0
     - _SmoothnessTextureChannel: 0
@@ -292,9 +293,10 @@ Material:
     - __NumberOfStacks: 17
     m_Colors:
     - _Color: {r: 0.73362374, g: 0.9339623, b: 0.2863564, a: 1}
+    - _CutoutPosition: {r: 0, g: 0, b: 0, a: 0}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GroundColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GroundColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
     - _OffsetVector: {r: 0, g: 0, b: 0, a: 0}
     - _PJShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ProjectedShadowColor: {r: 0.509434, g: 0.33235958, b: 0.18983625, a: 1}
@@ -304,12 +306,12 @@ Material:
     - _Specular1: {r: 1, g: 1, b: 1, a: 1}
     - _Specular2: {r: 1, g: 1, b: 1, a: 1}
     - _Specular3: {r: 1, g: 1, b: 1, a: 1}
-    - _Specular4: {r: 0, g: 0, b: 0, a: 1}
-    - _Specular5: {r: 1, g: 1, b: 1, a: 0}
+    - _Specular4: {r: 0.7205074, g: 0.754717, b: 0.58739763, a: 0}
+    - _Specular5: {r: 1, g: 0.86220187, b: 0.17647058, a: 1}
     - _Specular6: {r: 1, g: 1, b: 1, a: 1}
     - _Specular7: {r: 1, g: 1, b: 1, a: 1}
     - _Splat4_STn: {r: 0, g: 0, b: 2, a: 2}
-    - _Splat5_STn: {r: 5, g: 5, b: 3, a: 3}
+    - _Splat5_STn: {r: 193.71, g: 2.41, b: 14.7, a: 0.83}
     - _Splat6_STn: {r: 1, g: 1, b: 0, a: 1}
     - _Splat7_STn: {r: 1, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []
