@@ -47,6 +47,8 @@ public class FileManager : MonoBehaviour
             f.transform.localScale *= 0.8f;
             f.ResetIsAnchored();
             f.isAnchored = false;
+            f.CloseFileAnimation();
+            f.SetGroundPos();
             sd.clippyFileLoaded[sd.fileIndex] = f;
         }
     }

@@ -82,7 +82,7 @@ Material:
     - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
-    - _AlphaThreshold: 0
+    - _AlphaThreshold: 1
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
     - _BlendMode: 0

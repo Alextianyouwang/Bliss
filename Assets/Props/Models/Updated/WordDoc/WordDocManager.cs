@@ -5,168 +5,87 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEditor;
 
-public class WordDocManager : MonoBehaviour, IClickable
+public class WordDocManager : FileObject
 {
-
     string s_OpenFile = "OpenFile";
-    bool canDissolve = false;
+    string s_DissolveMat = "M_Dissolve_WordDoc";
 
-    public List<Transform> animatorHolder = new List<Transform>();
-    public List<Transform> dissolveMatHolder = new List<Transform>();
-
-    [SerializeField]
-    private bool FileDebugger = false, IndividualDebugger = false;
+    // I dont know why but if those list are private the dissolve logic of instantiated files in floppy world doesn't work.
+    [HideInInspector]public List<Transform> animatorHolder = new List<Transform>();
+    [HideInInspector] public List<Transform> dissolveMatHolder = new List<Transform>();
+    [HideInInspector] public List<Transform> contentsHolder = new List<Transform>();
 
     [Header("MaterialAttributes")]
     public float minDissolve; public float maxDissolve;
-    [SerializeField]
-    private float lerperVar = 0f, lerpMultiplier = 2f, dissolveDistance;
-    string s_DissolveMat = "M_Dissolve_WordDoc";
 
-    [Header("MaterialAttributes")]
-    public TextMeshProUGUI txt;
-    float txtLerper = 0;
-    public Image img;
+    [Header("Please Put In ContentHolder")]
+    [SerializeField] private Transform contentParent;
 
-    [Header("ContentHolder - TMP")]
-    public Transform TMPParent;
-    public List<Transform> contentsHolderT = new List<Transform>();
-    [Header("ContentHolder - IMAGES")]
-    public Transform IMGParent;
-    public List<Transform> contentsHolderI = new List<Transform>();
-
-    public int ContentsIndex;
-    public bool UsingImages = false;
-
+    public int contentIndex;
     void Initialization()
     {
-        ContentInitialization(ContentsIndex, UsingImages);
-
-        foreach (Transform Child in this.gameObject.transform)
+        foreach (Transform c in contentParent)
         {
-            if (Child.GetComponent<Animator>() != null)
-                animatorHolder.Add(Child);
+            contentsHolder.Add(c);
+            SetOpacity(0, c);
+        }
+        foreach (Transform c in this.gameObject.transform)
+        {
+            if (c.GetComponent<Animator>() != null)
+                animatorHolder.Add(c);
 
-            if (Child.gameObject.GetComponent<MeshRenderer>())
-            if (Child.gameObject.GetComponent<MeshRenderer>()
+            if (c.gameObject.GetComponent<MeshRenderer>())
+
+            if (c.gameObject.GetComponent<MeshRenderer>()
                 .sharedMaterial.name.Equals(s_DissolveMat.ToString()))
-                dissolveMatHolder.Add(Child);
+                dissolveMatHolder.Add(c);
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
+    protected override void Awake()
     {
+        base.Awake();
+    }
+    protected override void Start()
+    {
+        base.Start();
         Initialization();
-        txt = GetComponent<TextMeshProUGUI>();
-        img = GetComponent<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnEnable()
     {
-        if (IndividualDebugger)
-            Debugger();
+        OnFileAnimation = FileClickControl;
     }
-
     public void FileClickControl(bool animState, float targetValue)
     {
-        foreach (Transform Child in animatorHolder)
+        foreach (Transform c in animatorHolder)
         {
-            Animator anim = Child.GetComponent<Animator>();
+            Animator anim = c.GetComponent<Animator>();
             anim.SetBool(s_OpenFile.ToString(), animState);
-            if (animState)
-            {
-                if (anim.GetCurrentAnimatorStateInfo(0).IsTag("FileAnimation") &&
-                    anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0))
-                    canDissolve = true;
-                else
-                    canDissolve = false;
-            }
         }
-        foreach(Transform Child in dissolveMatHolder)
+
+        float dissolveDistance = Mathf.Lerp(minDissolve, maxDissolve, animationLerpValue);
+        foreach (Transform c in dissolveMatHolder)
         {
-            if (animState)
-            {
-                lerperVar = canDissolve ? Utility.LerpHelper(ref lerperVar, targetValue, lerpMultiplier) : lerperVar;
-            }
-            else
-            {
-                lerperVar = Utility.LerpHelper(ref lerperVar, targetValue, lerpMultiplier * 3);
-                txtLerper = Utility.LerpHelper(ref txtLerper, targetValue, lerpMultiplier * 15);
-            }
-            dissolveDistance = Mathf.Lerp(minDissolve, maxDissolve, lerperVar); 
-            if(dissolveDistance >= maxDissolve && animState)
-                txtLerper = canDissolve ? Utility.LerpHelper(ref txtLerper, targetValue, 0.3f) : lerperVar;
-
-            Child.GetComponent<MeshRenderer>().material.SetFloat("_WaveDistance", dissolveDistance);
+            c.GetComponent<MeshRenderer>().material.SetFloat("_WaveDistance", dissolveDistance);
         }
-
-        ContentSelection(ContentsIndex, UsingImages);
+        SetOpacity(animationLerpValue,contentsHolder[contentIndex]);
     }
-
-    void ContentInitialization(int contentIndex, bool IMGYes)
+    void SetOpacity(float value, Transform c) 
     {
-        int listIndex = contentIndex - 1;
+        Image i = c.gameObject.GetComponent<Image>();
+        TextMeshProUGUI t = c.gameObject.GetComponent<TextMeshProUGUI>();
 
-        foreach(Transform Contents in TMPParent)
+        if (i != null) 
         {
-            contentsHolderT.Add(Contents);
+            Color imgColor = i.color;
+            imgColor.a = value;
+            i.color = imgColor;
         }
-        foreach (Transform Contents in IMGParent)
+        if (t != null)
         {
-            contentsHolderI.Add(Contents);
+            Color txtColor = t.faceColor;
+            txtColor.a = value;
+            t.faceColor = txtColor;
         }
-
-        if (IMGYes)
-        {
-            foreach(var Child in contentsHolderT)
-            {
-                Child.gameObject.SetActive(false);
-            }
-            foreach(var Child in contentsHolderI)
-            {
-                if (contentsHolderI.IndexOf(Child) != listIndex)
-                    Child.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            foreach (var Child in contentsHolderI)
-            {
-                Child.gameObject.SetActive(false);
-            }
-            foreach (var Child in contentsHolderT)
-            {
-                if (contentsHolderT.IndexOf(Child) != listIndex)
-                    Child.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    void ContentSelection(int contentIndex, bool IMGYes)
-    {
-        int listIndex = contentIndex - 1;
-
-        if (IMGYes)
-        {
-            Color imgColor = contentsHolderI[listIndex].gameObject.GetComponent<Image>().color;
-            imgColor.a = txtLerper;
-            contentsHolderI[listIndex].gameObject.GetComponent<Image>().color = imgColor;
-        }
-        else
-        {
-            Color txtColor = contentsHolderT[listIndex].gameObject.GetComponent<TextMeshProUGUI>().faceColor;
-            txtColor.a = txtLerper;
-            contentsHolderT[listIndex].gameObject.GetComponent<TextMeshProUGUI>().faceColor = txtColor;
-        }
-    }
-    void Debugger()
-    {
-        //Debugging section. Use Interface in build
-        if (FileDebugger)
-            FileClickControl(true, 1f);
-        else
-            FileClickControl(false, 0);
     }
 }

@@ -90,7 +90,10 @@ public class PostAndScenery : MonoBehaviour
     }
     private void Start()
     {
+        originalFOV = 60f;
+        targetFOV = 60f;
         InitializePostprocessings();
+        
     }
 
     void ToggleClippyVolume(bool isInClippy)

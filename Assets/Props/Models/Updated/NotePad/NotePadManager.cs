@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NotePadManager : MonoBehaviour, IClickable
+public class NotePadManager : FileObject, IClickable
 {
     public bool FileDebugger = false, IndividualDebugger = false;
 
@@ -45,16 +45,18 @@ public class NotePadManager : MonoBehaviour, IClickable
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        OnFileAnimation = FileClickControl;
         Initialization();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (IndividualDebugger)
-            Debugger();
+        //if (IndividualDebugger)
+            //Debugger();
     }
 
     public void FileClickControl(bool animState, float targetValue)

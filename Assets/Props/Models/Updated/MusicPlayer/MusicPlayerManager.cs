@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicPlayerManager : MonoBehaviour, IClickable
+public class MusicPlayerManager : FileObject, IClickable
 {
 
     [SerializeField]
@@ -22,18 +22,20 @@ public class MusicPlayerManager : MonoBehaviour, IClickable
     [Header("MaterialAttributes")]
     string s_MatrixMat = "M_Matrix";
     [SerializeField]
-    private float lerperVar = 1f, lerpMultiplier = 2f;
+    private float lerpMultiplier = 2f;
 
     MeshRenderer NoteVFX;
 
     void Intialization()
     {
-        CD = GameObject.Find("CD");
+        CD = transform.Find("CD").gameObject;
 
         foreach (Transform Child in this.gameObject.transform)
         {
-            if (Child.gameObject.GetComponent<MeshRenderer>()
-               .sharedMaterial.name.Equals(s_MatrixMat.ToString()))
+
+            if (Child.gameObject.GetComponent<MeshRenderer>())
+
+            if (Child.gameObject.name == "Note_VFX")
             {
                 NoteVFX = Child.gameObject.GetComponent<MeshRenderer>();
                 NoteVFX.material.SetFloat("_AlphaThreshold", 1);
@@ -42,24 +44,26 @@ public class MusicPlayerManager : MonoBehaviour, IClickable
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        OnFileAnimation = FileClickControl;
+        base.Start();
         Intialization();
     }
 
     // Update is called once per frame
     void Update()
     {          
-        if (IndividualDebugger)
-            Debugger();
+        //if (IndividualDebugger)
+            //Debugger();
     }
 
     public void FileClickControl(bool animState, float targetValue)
     {
-        float alphaValue = targetValue == 0 ? 1 : 0;
-        lerperVar = Utility.LerpHelper(ref lerperVar, alphaValue, lerpMultiplier);
-        lerperVar = lerperVar <= 0 ? 0 : lerperVar;
-        NoteVFX.material.SetFloat("_AlphaThreshold", lerperVar);
+        //float alphaValue = targetValue == 0 ? 1 : 0;
+        //lerperVar = targetValue;
+        //lerperVar = lerperVar <= 0 ? 0 : lerperVar;
+        NoteVFX.material.SetFloat("_AlphaThreshold", 1-targetValue);
 
         CDRotation(animState);
     }

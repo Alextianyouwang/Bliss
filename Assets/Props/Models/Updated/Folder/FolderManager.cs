@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FolderManager : MonoBehaviour, IClickable
+public class FolderManager : FileObject, IClickable
 {
 
     public bool FileDebugger = false, IndividualDebugger = false;
@@ -13,36 +13,45 @@ public class FolderManager : MonoBehaviour, IClickable
 
     public List<Transform> prefabHolder = new List<Transform>();
 
-    [SerializeField]
-    private float lerperVar = 1f, lerpMultiplier = 2f;
-    [SerializeField]
-    private float prefabOriginalScale, scaleRef = 0;
 
+    [SerializeField]
+    private AnimationCurve filePopCurve;
+    [SerializeField]
+    private float  lerpMultiplier = 2f;
+    [SerializeField]
+    private float  scaleRef = 0;
 
+    Vector3[] prefabOriginalScale;
     void Initialization()
     {
+        prefabOriginalScale = new Vector3[ prefabHolder.Count];
         foreach (Transform Child in this.gameObject.transform)
         {
             if (Child.GetComponent<Animator>() != null)
                 animatorHolder.Add(Child);
         }
-        foreach (Transform Child in prefabHolder)
+        for (int i = 0; i < prefabHolder.Count; i++)
         {
-            Child.localScale = Vector3.zero;
+            prefabOriginalScale[i] = prefabHolder[i].localScale;
+
+            prefabHolder[i].localScale = Vector3.zero;
+
         }
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        OnFileAnimation = FileClickControl;
         Initialization();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (IndividualDebugger)
-            Debugger();
+        //if (IndividualDebugger)
+            //Debugger();
     }
    public void FileClickControl(bool animState, float targetValue)
    {
@@ -64,21 +73,22 @@ public class FolderManager : MonoBehaviour, IClickable
             }
         }
 
-        targetValue = targetValue == 0 ? 0 : prefabOriginalScale;
-        foreach (Transform Child in prefabHolder)
+        //targetValue = targetValue == 0 ? 0 : prefabOriginalScale;
+        for (int i = 0; i < prefabHolder.Count; i++)
+
         {
-            if(canPop)
+            if (canPop)
             {
-                scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
-                scaleRef = scaleRef >= targetValue ? targetValue : scaleRef;
+                //scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
+                //scaleRef = scaleRef >= targetValue ? targetValue : scaleRef;
             }
             if (!animState)
             {
-                scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
-                scaleRef = scaleRef <= targetValue ? targetValue : scaleRef;
+                //scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
+                //scaleRef = scaleRef <= targetValue ? targetValue : scaleRef;
             }
 
-            Child.localScale = new Vector3(scaleRef, scaleRef, scaleRef);
+            prefabHolder[i].localScale = Vector3.Lerp(Vector3.zero, prefabOriginalScale[i], filePopCurve.Evaluate( animationLerpValue));
         }
    }
     void Debugger()

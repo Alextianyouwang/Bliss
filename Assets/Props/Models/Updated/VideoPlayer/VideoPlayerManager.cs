@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VideoPlayerManager : MonoBehaviour, IClickable
+public class VideoPlayerManager : FileObject, IClickable
 {
 
     public bool FileDebugger = false, IndividualDebugger = false;
 
     string s_OpenFile = "OpenFile", s_Display = "VideoPlayer_Display";
 
+    Vector3 displayOriginalScale;
+
     [SerializeField]
     private List<Transform> animatorHolder = new List<Transform>();
     GameObject display;
-    float scaleRef = 0;
 
     public AnimationCurve displayIncre;
 
@@ -26,21 +27,25 @@ public class VideoPlayerManager : MonoBehaviour, IClickable
                 animatorHolder.Add(Child);
         }
 
-        display = GameObject.Find(s_Display.ToString());
+        display = transform.Find(s_Display.ToString()).gameObject;
+        displayOriginalScale = display.transform.localScale;
         display.transform.localPosition = Vector3.zero;
+        display.transform.localScale = Vector3.zero;
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        OnFileAnimation = FileClickControl;
         Initialization();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (IndividualDebugger)
-            Debugger();
+        //if (IndividualDebugger)
+            //Debugger();
     }
 
     public void FileClickControl(bool animState, float targetValue)
@@ -53,18 +58,18 @@ public class VideoPlayerManager : MonoBehaviour, IClickable
 
         if (animState)
         {
-            scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
-            scaleRef = scaleRef >= targetValue ? targetValue : scaleRef;
+            //scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
+            //scaleRef = targetValue;
+            //scaleRef = scaleRef >= targetValue ? targetValue : scaleRef;
         }
         else
         {
-            scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier * 5);
-            scaleRef = scaleRef <= targetValue ? targetValue : scaleRef;
+            //scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier * 5);
+            //scaleRef = targetValue;
+            //scaleRef = scaleRef <= targetValue ? targetValue : scaleRef;
         }
-
-        float scaleIncre = displayIncre.Evaluate(scaleRef);
-
-        display.transform.localScale = new Vector3(scaleIncre, scaleIncre, scaleIncre);
+  
+        display.transform.localScale = Vector3.Lerp(Vector3.zero,displayOriginalScale, displayIncre.Evaluate(animationLerpValue));
     }
     void Debugger()
     {

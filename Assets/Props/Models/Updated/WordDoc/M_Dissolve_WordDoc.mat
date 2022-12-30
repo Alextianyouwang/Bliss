@@ -48,7 +48,7 @@ Material:
     - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
-    - _AlphaThreshold: 0.1
+    - _AlphaThreshold: 0.4
     - _AlphaToMask: 0
     - _AlphaToMaskInspectorValue: 0
     - _BlendMode: 0
@@ -65,7 +65,7 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _FadeAttenuation: -4.03
-    - _NoiseEdge: 32.6
+    - _NoiseEdge: 34.3
     - _NoiseEdgeAttenuation: 11
     - _NoiseScale: 30.62
     - _NormalV_Pos: 0
@@ -97,7 +97,7 @@ Material:
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
     - _UseShadowThreshold: 0
-    - _WaveDistance: 102
+    - _WaveDistance: -1000
     - _WaveThickness: 2.72
     - _X_Y: 1
     - _Z: 0

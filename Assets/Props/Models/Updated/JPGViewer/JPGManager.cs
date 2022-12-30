@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JPGManager : MonoBehaviour, IClickable
+public class JPGManager : FileObject, IClickable
 {
     public bool FileDebugger = false, IndividualDebugger = false;
 
@@ -17,7 +17,7 @@ public class JPGManager : MonoBehaviour, IClickable
     string s_MatrixFadeMat = "M_MatrixFade"; string s_FragmentFadeMat = "M_FragmentFade";
     public float minFade, minFadeMatrix; public float maxFade;
     [SerializeField]
-    private float lerperVar = 0f, lerpMultiplier = 2f, fadeDistance, fadeDistanceMatrix;
+    private float lerpMultiplier = 2f, fadeDistance, fadeDistanceMatrix;
 
     void Initialization()
     {
@@ -25,7 +25,11 @@ public class JPGManager : MonoBehaviour, IClickable
         {
             if (Child.GetComponent<Animator>() != null)
                 animatorHolder.Add(Child);
-            if (Child.gameObject.GetComponent<MeshRenderer>()
+
+
+            if (Child.gameObject.GetComponent<MeshRenderer>())
+
+                if (Child.gameObject.GetComponent<MeshRenderer>()
                .sharedMaterial.name.Equals(s_MatrixFadeMat.ToString()) ||
                Child.gameObject.GetComponent<MeshRenderer>()
                .sharedMaterial.name.Equals(s_FragmentFadeMat.ToString()))
@@ -35,16 +39,21 @@ public class JPGManager : MonoBehaviour, IClickable
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         Initialization();
     }
 
+     void OnEnable()
+    {
+        OnFileAnimation = FileClickControl;
+    }
     // Update is called once per frame
     void Update()
     {
-        if(IndividualDebugger)
-            Debugger();
+        //if(IndividualDebugger)
+            //Debugger();
     }
 
     public void FileClickControl(bool animState, float targetValue)
@@ -66,14 +75,16 @@ public class JPGManager : MonoBehaviour, IClickable
         {
             if (animState)
             {
-                lerperVar = canFade ? Utility.LerpHelper(ref lerperVar, targetValue, lerpMultiplier) : lerperVar;
+                //lerperVar = canFade ? Utility.LerpHelper(ref lerperVar, targetValue, lerpMultiplier) : lerperVar;
+                animationLerpValue = canFade ? targetValue: animationLerpValue;
             }
             else
             {
-                lerperVar = Utility.LerpHelper(ref lerperVar, targetValue, lerpMultiplier);
+                //lerperVar = Utility.LerpHelper(ref lerperVar, targetValue, lerpMultiplier);
+                animationLerpValue = targetValue;
             }
-            fadeDistance = Mathf.Lerp(minFade, maxFade, lerperVar);
-            fadeDistanceMatrix = Mathf.Lerp(minFadeMatrix, maxFade, lerperVar);
+            fadeDistance = Mathf.Lerp(minFade, maxFade, animationLerpValue);
+            fadeDistanceMatrix = Mathf.Lerp(minFadeMatrix, maxFade, animationLerpValue);
             //Child.GetComponent<MeshRenderer>().material.SetFloat("_WaveDistance", fadeDistance);
         }
 
