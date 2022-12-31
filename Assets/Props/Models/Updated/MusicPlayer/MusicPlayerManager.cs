@@ -15,7 +15,8 @@ public class MusicPlayerManager : FileObject, IClickable
     [SerializeField]
     private float rotationLerpTime = 0.2f, rotationStopLerpTime = 0.2f;
 
-    float rotationIncre = 0;
+    [SerializeField]
+    private float rotationIncre = 0;
 
     GameObject CD, noteVFX;
 
@@ -42,11 +43,15 @@ public class MusicPlayerManager : FileObject, IClickable
             }
         }
     }
+    void OnEnable()
+    {
+        OnFileAnimation = FileClickControl;
+    }
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        OnFileAnimation = FileClickControl;
+        //OnFileAnimation = FileClickControl;
         base.Start();
         Intialization();
     }

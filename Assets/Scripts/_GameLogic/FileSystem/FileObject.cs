@@ -127,7 +127,7 @@ public class FileObject : MonoBehaviour
             StopCoroutine(fileAnimationCo);
         fileAnimationCo = StartCoroutine(FileAnimationValueManagement(0.6f, 1f, false));*/
         fileAnimationCancelCTS?.Cancel();
-        FileAnimationValueManagement(0.6f, 1f, false);
+        FileAnimationValueManagement(1.2f, 1f, false);
     }
     IEnumerator SaveEffectAnimation() 
     {
