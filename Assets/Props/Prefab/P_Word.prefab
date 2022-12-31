@@ -171,6 +171,9 @@ MonoBehaviour:
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
   isAnchored: 0
+  animatorHolder: []
+  dissolveMatHolder: []
+  contentsHolder: []
   minDissolve: -330
   maxDissolve: 700
   contentParent: {fileID: 7059817013188962670}
