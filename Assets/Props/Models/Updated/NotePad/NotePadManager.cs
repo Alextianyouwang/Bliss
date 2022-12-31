@@ -1,27 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class NotePadManager : FileObject, IClickable
+using System.Linq;
+public class NotePadManager : FileObject
 {
-    public bool FileDebugger = false, IndividualDebugger = false;
+    readonly string s_OpenFile = "OpenFile";
 
-    string s_OpenFile = "OpenFile";
-
-    [SerializeField]
-    private List<Transform> animatorHolder = new List<Transform>();
-
-    [Header("ContentHolder - TMP")]
+    [HideInInspector]public List<Transform> animatorHolder = new List<Transform>();
     public Transform TMPParent;
-    public List<Transform> contentsHolderT = new List<Transform>();
-
-    public int ContentsIndex;
+    [HideInInspector]public List<Transform> contentsHolderT = new List<Transform>();
+    public int contentsIndex;
 
     void Initialization()
     {
-        ContentInitialization(ContentsIndex);
+        ContentInitialization(contentsIndex);
 
-        foreach (Transform Child in this.gameObject.transform)
+        foreach (Transform Child in transform)
         {
             if (Child.GetComponent<Animator>() != null)
                 animatorHolder.Add(Child);
@@ -30,7 +23,7 @@ public class NotePadManager : FileObject, IClickable
 
     void ContentInitialization(int contentIndex)
     {
-        int listIndex = contentIndex - 1;
+        int listIndex = contentIndex;
 
         foreach (Transform Contents in TMPParent)
         {
@@ -43,36 +36,19 @@ public class NotePadManager : FileObject, IClickable
                 Child.gameObject.SetActive(false);
         }
     }
-
-    // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
-        OnFileAnimation = FileClickControl;
         Initialization();
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnEnable()
     {
-        //if (IndividualDebugger)
-            //Debugger();
+        OnFileAnimation = FileClickControl;
+        OnTestingFileAnimationPreRoutine = (bool b) => true;
     }
-
-    public void FileClickControl(bool animState, float targetValue)
+    public void FileClickControl(bool animState)
     {
-        foreach (Transform Child in animatorHolder)
-        {
-            Animator anim = Child.GetComponent<Animator>();
-            anim.SetBool(s_OpenFile.ToString(), animState);
-        }
-    }
-    void Debugger()
-    {
-        //Debugging section. Use Interface in build
-        if (FileDebugger)
-            FileClickControl(true, 1f);
-        else
-            FileClickControl(false, 0);
+        base.SettingAnimatorTargetValue_base(animatorHolder.Select(x => x.GetComponent<Animator>()).ToArray(), s_OpenFile.ToString(), animState);
     }
 }

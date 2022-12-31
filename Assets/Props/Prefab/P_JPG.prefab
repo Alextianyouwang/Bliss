@@ -250,17 +250,11 @@ MonoBehaviour:
   playerAnchor: {fileID: 251390400}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
-  isAnchored: 0
-  FileDebugger: 0
-  IndividualDebugger: 0
   animatorHolder: []
   matHolder: []
   minFade: 7
   minFadeMatrix: 6
   maxFade: 8.5
-  lerpMultiplier: 0.5
-  fadeDistance: 0
-  fadeDistanceMatrix: 0
 --- !u!65 &805534835
 BoxCollider:
   m_ObjectHideFlags: 0

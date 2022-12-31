@@ -347,44 +347,32 @@ MonoBehaviour:
   playerAnchor: {fileID: 6417133402552348316}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
-  isAnchored: 0
-  FileDebugger: 0
-  IndividualDebugger: 0
   animatorHolder: []
-  displayIncre:
+  displayAnimationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    - serializedVersion: 3
-      time: 0.48633942
-      value: 0.03056862
-      inSlope: 0.13046809
-      outSlope: 0.13046809
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.19438694
-      outWeight: 0.18500699
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 3.556729
-      outSlope: 3.556729
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.061104253
-      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lerpMultiplier: 0.4
+  display: {fileID: 0}
 --- !u!65 &6417133403078343856
 BoxCollider:
   m_ObjectHideFlags: 0

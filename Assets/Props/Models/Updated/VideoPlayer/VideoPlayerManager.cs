@@ -1,82 +1,49 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class VideoPlayerManager : FileObject, IClickable
+public class VideoPlayerManager : FileObject
 {
+    readonly string 
+        s_OpenFile = "OpenFile", 
+        s_Display = "VideoPlayer_Display";
 
-    public bool FileDebugger = false, IndividualDebugger = false;
+    [HideInInspector] public List<Transform> animatorHolder = new List<Transform>();
+    [SerializeField] private AnimationCurve displayAnimationCurve;
 
-    string s_OpenFile = "OpenFile", s_Display = "VideoPlayer_Display";
-
-    Vector3 displayOriginalScale;
-
-    [SerializeField]
-    private List<Transform> animatorHolder = new List<Transform>();
-    GameObject display;
-
-    public AnimationCurve displayIncre;
-
-    public float lerpMultiplier = 2f;
-
+    private Vector3 displayOriginalScale;
+    [HideInInspector]public GameObject display;
     void Initialization()
     { 
-        foreach (Transform Child in this.gameObject.transform)
+        foreach (Transform Child in transform)
         {
             if (Child.GetComponent<Animator>() != null)
                 animatorHolder.Add(Child);
         }
-
         display = transform.Find(s_Display.ToString()).gameObject;
         displayOriginalScale = display.transform.localScale;
         display.transform.localPosition = Vector3.zero;
         display.transform.localScale = Vector3.zero;
     }
 
-    // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
-        OnFileAnimation = FileClickControl;
         Initialization();
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnEnable()
     {
-        //if (IndividualDebugger)
-            //Debugger();
+        OnFileAnimation = FileClickControl;
+        OnTestingFileAnimationPreRoutine = (bool b) => true;
     }
-
-    public void FileClickControl(bool animState, float targetValue)
+    public void FileClickControl(bool animState)
     {
-        foreach (Transform Child in animatorHolder)
-        {
-            Animator anim = Child.GetComponent<Animator>();
-            anim.SetBool(s_OpenFile.ToString(), animState);
-        }      
-
-        if (animState)
-        {
-            //scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
-            //scaleRef = targetValue;
-            //scaleRef = scaleRef >= targetValue ? targetValue : scaleRef;
-        }
-        else
-        {
-            //scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier * 5);
-            //scaleRef = targetValue;
-            //scaleRef = scaleRef <= targetValue ? targetValue : scaleRef;
-        }
-  
-        display.transform.localScale = Vector3.Lerp(Vector3.zero,displayOriginalScale, displayIncre.Evaluate(animationLerpValue));
-    }
-    void Debugger()
-    {
-        //Debugging section. Use Interface in build
-        if (FileDebugger)
-            FileClickControl(true, 1f);
-        else
-            FileClickControl(false, 0);
+        base.SettingAnimatorTargetValue_base(animatorHolder.Select(x => x.GetComponent<Animator>()).ToArray(), s_OpenFile.ToString(), animState);
+        // set this value between 0-1 to indicate when the screen will start to pop, respective to the animator animation;
+        float threshold = 0.6f;
+        float delayedAnimation = animationLerpValue > threshold ? animationLerpValue : threshold;
+        delayedAnimation = Utility.Remap(delayedAnimation, threshold, 1f, 0f, 1f);
+        display.transform.localScale = Vector3.Lerp(Vector3.zero,displayOriginalScale, displayAnimationCurve.Evaluate(delayedAnimation));
     }
 }

@@ -517,17 +517,11 @@ MonoBehaviour:
   playerAnchor: {fileID: 3382580982281648145}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
-  isAnchored: 0
-  FileDebugger: 0
-  IndividualDebugger: 0
   animatorHolder: []
   matHolder: []
   minFade: 7
   minFadeMatrix: 6
   maxFade: 8.5
-  lerpMultiplier: 0.5
-  fadeDistance: 0
-  fadeDistanceMatrix: 0
 --- !u!65 &3382580982771821986
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -680,7 +674,9 @@ MonoBehaviour:
   playerAnchor: {fileID: 3382580981182728509}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
-  isAnchored: 0
+  animatorHolder: []
+  dissolveMatHolder: []
+  contentsHolder: []
   minDissolve: -330
   maxDissolve: 700
   contentParent: {fileID: 5695036270057363373}
@@ -1163,14 +1159,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4473994657887655264}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 353, z: -603}
+  m_LocalRotation: {x: -0, y: 0.9986231, z: -0, w: -0.05245969}
+  m_LocalPosition: {x: -0, y: 544, z: 736}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 503244093870030579}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 186.014, z: 0}
 --- !u!1 &4904135148934463453
 GameObject:
   m_ObjectHideFlags: 0
@@ -1512,9 +1508,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5795100005220612056}
-  m_LocalRotation: {x: -0, y: -0.7388416, z: -0, w: -0.6738791}
+  m_LocalRotation: {x: -0, y: -0.7388437, z: 0, w: -0.6738769}
   m_LocalPosition: {x: -731, y: 980, z: -1741}
-  m_LocalScale: {x: 0.015, y: 0.015, z: 0.015}
+  m_LocalScale: {x: 0.014999996, y: 0.015, z: 0.014999996}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7743086229784654029}
@@ -1539,9 +1535,6 @@ MonoBehaviour:
   playerAnchor: {fileID: 4473994657887655267}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
-  isAnchored: 0
-  FileDebugger: 0
-  IndividualDebugger: 0
   animatorHolder: []
   prefabHolder:
   - {fileID: 5103525392158674597}
@@ -1559,17 +1552,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.44226578
-      value: 0.15076135
-      inSlope: 1.1991519
-      outSlope: 1.1991519
+      time: 0.19762185
+      value: 0.13186894
+      inSlope: 2.0970135
+      outSlope: 2.0970135
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33003393
+      outWeight: 0.28872108
     - serializedVersion: 3
-      time: 0.6496352
-      value: 0.81371176
+      time: 0.38425434
+      value: 0.7286898
       inSlope: 1.8594224
       outSlope: 1.8594224
       tangentMode: 0
@@ -1588,8 +1581,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lerpMultiplier: 0.1
-  scaleRef: 0
 --- !u!65 &4473994656544052971
 BoxCollider:
   m_ObjectHideFlags: 0

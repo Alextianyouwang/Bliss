@@ -175,7 +175,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2245fc4cbd7e5f444941297bd5e8f756, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -249,9 +249,6 @@ MonoBehaviour:
   playerAnchor: {fileID: 2276947105951804642}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   groundPosition: {x: 0, y: 0, z: 0}
-  isAnchored: 0
-  FileDebugger: 0
-  IndividualDebugger: 0
   CDAnimCurve:
     serializedVersion: 2
     m_Curve:
@@ -265,8 +262,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.10288652
-      value: 0.51779324
+      time: 0.067653984
+      value: -0.10722971
       inSlope: -2.3228242
       outSlope: -2.3228242
       tangentMode: 0
@@ -274,8 +271,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.4108373
     - serializedVersion: 3
-      time: 0.3675166
-      value: -0.2933234
+      time: 0.2176753
+      value: -1.8782233
       inSlope: 0.25772256
       outSlope: 0.25772256
       tangentMode: 0
@@ -283,8 +280,17 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.11503962
     - serializedVersion: 3
+      time: 0.41116977
+      value: 0.97113
+      inSlope: 3.6307046
+      outSlope: 3.6307046
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 0.9982941
-      value: 2.0103025
+      value: 0.9978514
       inSlope: 4.863729
       outSlope: 4.863729
       tangentMode: 0
@@ -294,9 +300,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rotationMultiplier: 3
   rotationLerpTime: 0.2
   rotationStopLerpTime: 0.4
+  rotationMultiplier: 1
   lerpMultiplier: 0.5
 --- !u!65 &2276947106990743043
 BoxCollider:
@@ -336,7 +342,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9085303398462016375}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.2983631, w: -0.95445246}
   m_LocalPosition: {x: 12.121994, y: 9.721542, z: -1.840332}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

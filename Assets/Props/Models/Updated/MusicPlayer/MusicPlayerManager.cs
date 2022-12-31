@@ -1,94 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class MusicPlayerManager : FileObject, IClickable
+public class MusicPlayerManager : FileObject
 {
-
-    [SerializeField]
-    private bool FileDebugger = false, IndividualDebugger = false;
-
     [SerializeField]
     private AnimationCurve CDAnimCurve;
     [SerializeField]
-    private float rotationMultiplier = 2;
-    [SerializeField]
-    private float rotationLerpTime = 0.2f, rotationStopLerpTime = 0.2f;
+    private float rotationLerpTime = 0.2f, rotationStopLerpTime = 0.2f, rotationMultiplier = 0.5f, lerpMultiplier = 2f;
+    private float rotFef = 0;
 
-    [SerializeField]
-    private float rotationIncre = 0;
-
-    GameObject CD, noteVFX;
-
-    [Header("MaterialAttributes")]
-    string s_MatrixMat = "M_Matrix";
-    [SerializeField]
-    private float lerpMultiplier = 2f;
-
-    MeshRenderer NoteVFX;
+    private GameObject CD;
+    private MeshRenderer noteVFX;
+    private bool allowConstantRotation = false;
 
     void Intialization()
     {
         CD = transform.Find("CD").gameObject;
-
-        foreach (Transform Child in this.gameObject.transform)
+        foreach (Transform Child in transform)
         {
-
-            if (Child.gameObject.GetComponent<MeshRenderer>())
-
             if (Child.gameObject.name == "Note_VFX")
             {
-                NoteVFX = Child.gameObject.GetComponent<MeshRenderer>();
-                NoteVFX.material.SetFloat("_AlphaThreshold", 1);
+                noteVFX = Child.gameObject.GetComponent<MeshRenderer>();
+                noteVFX.material.SetFloat("_AlphaThreshold", 1);
             }
         }
     }
     void OnEnable()
     {
         OnFileAnimation = FileClickControl;
+        OnTestingFileAnimationPreRoutine = (bool a) => true;
     }
-
-    // Start is called before the first frame update
     protected override void Start()
     {
-        //OnFileAnimation = FileClickControl;
         base.Start();
         Intialization();
     }
 
-    // Update is called once per frame
-    void Update()
-    {          
-        //if (IndividualDebugger)
-            //Debugger();
-    }
-
-    public void FileClickControl(bool animState, float targetValue)
+    private void Update()
     {
-        //float alphaValue = targetValue == 0 ? 1 : 0;
-        //lerperVar = targetValue;
-        //lerperVar = lerperVar <= 0 ? 0 : lerperVar;
-        NoteVFX.material.SetFloat("_AlphaThreshold", 1-targetValue);
-
+        CDRotation(allowConstantRotation);
+    }
+    public void FileClickControl(bool animState)
+    {
+        noteVFX.material.SetFloat("_AlphaThreshold", 1-(animState?1:0));
+        allowConstantRotation = animState;
         CDRotation(animState);
     }
 
     void CDRotation(bool rotState)
     {
-        FileDebugger = IndividualDebugger ? FileDebugger : rotState;
-        float targetValue = FileDebugger ? 1 : 0;
-        float rotationLerp = FileDebugger ? rotationLerpTime : rotationStopLerpTime;
-
+        float targetValue = rotState ? 1 : 0;
+        float rotationLerp = rotState ? rotationLerpTime : rotationStopLerpTime;
         CD.transform.Rotate(0, 0, CDAnimCurve.Evaluate(
-        Utility.LerpHelper(ref rotationIncre, targetValue, rotationLerp)) * rotationMultiplier);
+        Utility.LerpHelper(ref rotFef, targetValue, rotationLerp)) * rotationMultiplier);
     }    
-
-    void Debugger()
-    {
-        //Debugging section. Use Interface in build
-        if (FileDebugger)
-            FileClickControl(FileDebugger, 0);
-        else
-            FileClickControl(FileDebugger, 1f);
-    }
 }

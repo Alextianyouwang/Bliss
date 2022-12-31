@@ -39,19 +39,19 @@ public class FileManager : MonoBehaviour
         sd.fileIndex = Utility.GetFirstNullIndexInList(sd.clippyFileLoaded);
         if (sd.fileIndex < sd.clippyFileLoaded.Length)
         {
-            sd.currFile.ResetIsAnchored();
+            sd.currFile.SetIsAnchored(false);
             FileObject f = Instantiate(sd.currFile);
             f.transform.position = sd.clippyFileLoadPosition[sd.fileIndex].position;
             f.transform.parent = sd.clippyFileSystem.transform;
             f.transform.forward = (sd.clippyFileSystem.transform.position - f.transform.position).normalized;
             f.transform.localScale *= 0.8f;
-            f.ResetIsAnchored();
-            f.isAnchored = false;
-            f.CloseFileAnimation();
+            f.SetIsAnchored(false);
             f.SetGroundPos();
+            f.ResetFileAnimationValue();
             sd.clippyFileLoaded[sd.fileIndex] = f;
         }
     }
+
     void DeleteCurrentFile()
     {
         RemoveFile(sd.currFile);
@@ -75,6 +75,7 @@ public class FileManager : MonoBehaviour
         if (sd.currFile != sd.prevFile && sd.prevFile != null)
         {
             OnSelectedFileChange?.Invoke(sd.currFile, sd.prevFile);
+            sd.prevFile.ResetAndClose(sd.currFile, sd.prevFile);
         }
         sd.prevFile = sd.currFile;
     }
