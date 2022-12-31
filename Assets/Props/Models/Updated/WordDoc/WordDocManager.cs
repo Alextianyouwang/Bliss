@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor;
 
 public class WordDocManager : FileObject
 {
     string s_OpenFile = "OpenFile";
     string s_DissolveMat = "M_Dissolve_WordDoc";
+
+    bool canFade = false;
 
     // I dont know why but if those list are private the dissolve logic of instantiated files in floppy world doesn't work.
     [HideInInspector]public List<Transform> animatorHolder = new List<Transform>();
@@ -61,6 +62,15 @@ public class WordDocManager : FileObject
         {
             Animator anim = c.GetComponent<Animator>();
             anim.SetBool(s_OpenFile.ToString(), animState);
+
+            if (animState)
+            {
+                if (anim.GetCurrentAnimatorStateInfo(0).IsTag("FileAnimation") &&
+                    anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !anim.IsInTransition(0))
+                    canFade = true;
+                else
+                    canFade = false;
+            }
         }
 
         float dissolveDistance = Mathf.Lerp(minDissolve, maxDissolve, animationLerpValue);
@@ -68,7 +78,15 @@ public class WordDocManager : FileObject
         {
             c.GetComponent<MeshRenderer>().material.SetFloat("_WaveDistance", dissolveDistance);
         }
-        SetOpacity(animationLerpValue,contentsHolder[contentIndex]);
+
+        //To ensure the contents will only fade after all animation has finished playing when clicked OPEN, not CLOSED.
+        if(!animState)
+            SetOpacity(animationLerpValue,contentsHolder[contentIndex]);
+        else
+        {
+            if(canFade)
+                SetOpacity(animationLerpValue, contentsHolder[contentIndex]); //Need different animLerpValue.
+        }
     }
     void SetOpacity(float value, Transform c) 
     {

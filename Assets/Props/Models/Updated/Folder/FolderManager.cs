@@ -17,9 +17,9 @@ public class FolderManager : FileObject, IClickable
     [SerializeField]
     private AnimationCurve filePopCurve;
     [SerializeField]
-    private float  lerpMultiplier = 2f;
-    [SerializeField]
-    private float  scaleRef = 0;
+    private float lerpMultiplier = 2f;
+/*    [SerializeField]
+    private float  scaleRef = 0;*/
 
     Vector3[] prefabOriginalScale;
     void Initialization()
@@ -77,18 +77,28 @@ public class FolderManager : FileObject, IClickable
         for (int i = 0; i < prefabHolder.Count; i++)
 
         {
-            if (canPop)
-            {
+            /*if (canPop)
+              {
                 //scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
-                //scaleRef = scaleRef >= targetValue ? targetValue : scaleRef;
-            }
-            if (!animState)
-            {
-                //scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
-                //scaleRef = scaleRef <= targetValue ? targetValue : scaleRef;
-            }
+               //scaleRef = scaleRef >= targetValue ? targetValue : scaleRef;
+              }
+              if (!animState)
+              {
+               //scaleRef = Utility.LerpHelper(ref scaleRef, targetValue, lerpMultiplier);
+               //scaleRef = scaleRef <= targetValue ? targetValue : scaleRef;
+              }*/
 
-            prefabHolder[i].localScale = Vector3.Lerp(Vector3.zero, prefabOriginalScale[i], filePopCurve.Evaluate( animationLerpValue));
+            //To ensure the contents will only fade after all animation has finished playing when clicked OPEN, not CLOSED.
+            if (!animState)
+                if (!animState)
+                prefabHolder[i].localScale = Vector3.Lerp(Vector3.zero, 
+                    prefabOriginalScale[i], filePopCurve.Evaluate(animationLerpValue));
+            else
+                if(canPop)
+                {
+                    prefabHolder[i].localScale = Vector3.Lerp(Vector3.zero,
+                    prefabOriginalScale[i], filePopCurve.Evaluate(animationLerpValue)); //Need different animLerpValue.
+                }
         }
    }
     void Debugger()
