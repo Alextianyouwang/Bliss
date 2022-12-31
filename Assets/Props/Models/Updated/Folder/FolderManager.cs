@@ -90,15 +90,16 @@ public class FolderManager : FileObject, IClickable
 
             //To ensure the contents will only fade after all animation has finished playing when clicked OPEN, not CLOSED.
             if (!animState)
-                if (!animState)
-                prefabHolder[i].localScale = Vector3.Lerp(Vector3.zero, 
-                    prefabOriginalScale[i], filePopCurve.Evaluate(animationLerpValue));
+            {
+                   prefabHolder[i].localScale = Vector3.Lerp(Vector3.zero,
+                   prefabOriginalScale[i], filePopCurve.Evaluate(animationLerpValue));
+            }
             else
-                if(canPop)
-                {
-                    prefabHolder[i].localScale = Vector3.Lerp(Vector3.zero,
-                    prefabOriginalScale[i], filePopCurve.Evaluate(animationLerpValue)); //Need different animLerpValue.
-                }
+            if (canPop)
+            {
+                   prefabHolder[i].localScale = Vector3.Lerp(Vector3.zero,
+                   prefabOriginalScale[i], filePopCurve.Evaluate(animationLerpValue)); //Need different animLerpValue.
+            }
         }
    }
     void Debugger()

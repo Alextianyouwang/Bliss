@@ -12,7 +12,7 @@ public class WordDocManager : FileObject
     bool canFade = false;
 
     // I dont know why but if those list are private the dissolve logic of instantiated files in floppy world doesn't work.
-    [HideInInspector]public List<Transform> animatorHolder = new List<Transform>();
+    [HideInInspector] public List<Transform> animatorHolder = new List<Transform>();
     [HideInInspector] public List<Transform> dissolveMatHolder = new List<Transform>();
     [HideInInspector] public List<Transform> contentsHolder = new List<Transform>();
 
