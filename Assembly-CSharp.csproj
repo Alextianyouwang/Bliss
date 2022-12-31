@@ -156,6 +156,7 @@
     <Compile Include="Assets\Scripts\_GameLogic\Animations\AM_BlissMain.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Scripts\BF_TractorController.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
+    <Compile Include="Assets\Props\Models\Updated\IFileAnimationSubscribtion.cs" />
     <Compile Include="Assets\_Resources\PureNature\Scripts\CloudsVolume.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Scripts\BF_FxOnMouseClick.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
@@ -173,7 +174,6 @@
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Scripts\Deprecated\AudioManager.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyLoadpoint.cs" />
-    <Compile Include="Assets\Props\Models\Updated\IFileAnimationSubscribtion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_Resources\TextMesh Pro\Shaders\TMPro.cginc" />
