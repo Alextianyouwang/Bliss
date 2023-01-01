@@ -209,7 +209,7 @@ public class TileMatrixManager : MonoBehaviour
             t.UpdateWindowTile(path);
             t.UpdateTilesStatusPerFrame(0, newRadius, 0.0f, 0.5f, defaultNoiseWeight, path);
             b.UpdateButtonPosition(SceneSwitcher.isInClippy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
-            t.DrawTileInstanceCurrentFrame(true);
+            t.DrawTileInstanceCurrentFrame(SceneSwitcher.isInClippy ? true : !SceneSwitcher.sd.currFile.isSaved);
 
             yield return null;
         }
@@ -225,7 +225,7 @@ public class TileMatrixManager : MonoBehaviour
                     t.UpdateWindowTile(path);
                     t.UpdateTilesStatusPerFrame(innerRadius, targetRadius, changingHighRiseMultiplierBoost, changingMatrixYOffset + 1f, 0.5f, path);
                     b.UpdateButtonPosition(SceneSwitcher.isInClippy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
-                    t.DrawTileInstanceCurrentFrame(t.allowWindowsSetPrefabToButtons);
+                    t.DrawTileInstanceCurrentFrame(SceneSwitcher.isInClippy ? true :!SceneSwitcher.sd.currFile.isSaved);
 
                     break;
                 case TileStates.Staging_Diving:
@@ -260,22 +260,23 @@ public class TileMatrixManager : MonoBehaviour
         state = TileStates.NormalFollow;
     }
 
-    IEnumerator WindowsClickedAnimation()
+    IEnumerator WindowsClickedAnimation(bool buttonStateAfterAnimation)
     {
         t.activateWindowsIndependance = true;
-        float percent = 0;
+        t.allowWindowsSetPrefabToButtons = true;
+       float percent = 0;
         Vector3 initialAveragePosition = GetWindowsAveragePosition(false);
-        float waveScale = 3f;
+        float waveScale = 2.5f;
         b.ToggleSaveHasBeenClicked(true);
         while (percent < 1)
         {
-            float interpolate = Mathf.Sin(percent * Mathf.PI / 2 - Mathf.PI / 4) * waveScale;
+            float interpolate = Mathf.Sin(percent * Mathf.PI / 2 - Mathf.PI / 8) * waveScale;
             t.changingWindowsYPos = interpolate + initialAveragePosition.y;
 
             percent += Time.deltaTime * 2f;
             yield return null;
         }
-        t.allowWindowsSetPrefabToButtons = false;
+        t.allowWindowsSetPrefabToButtons = buttonStateAfterAnimation;
         b.ToggleSaveHasBeenClicked(false);
         t.changingWindowsYPos = initialAveragePosition.y;
         yield return new WaitForSeconds(0.4f);
@@ -514,9 +515,9 @@ public class TileMatrixManager : MonoBehaviour
             ChangeFormation(Mathf.Lerp(planeCatchUpYPos, 20, distancePercent), 0);
         }
     }
-    void InitiateRetreatAndResetWindowsAnimation()
+    void InitiateRetreatAndResetWindowsAnimation(bool buttonStateAfterAnimation)
     {
-        StartCoroutine(WindowsClickedAnimation());
+        StartCoroutine(WindowsClickedAnimation(buttonStateAfterAnimation));
     }
 
     void InitiateDeleteAnchorAnimation()

@@ -5,7 +5,6 @@ using UnityEngine;
 // All movements of player that is not conducted by the FPS controller is classified as an Anchoring Animation.
 public class AM_BlissMain : AnchorAnimation
 {
-
     // Invoked when Player starts to perform an anchoring animation to a File.
     public static Action<Vector3> OnPlayerStartAnchor;
     // Invoked when Player are set free from an anchoring animation.
@@ -39,9 +38,6 @@ public class AM_BlissMain : AnchorAnimation
         TileMatrixManager.OnInitiateSoaringFromMatrix += InitiateSoarAnimation;
         TileMatrixManager.OnFinishingDeleteFileAnimation += InitiateDisableAnchorAnimation;
 
-        
-
-        
     }
     private void OnDisable()
     {
@@ -54,10 +50,9 @@ public class AM_BlissMain : AnchorAnimation
         TileMatrixManager.OnInitiateSoaringFromMatrix -= InitiateSoarAnimation;
         TileMatrixManager.OnFinishingDeleteFileAnimation -= InitiateDisableAnchorAnimation;
 
-
-
         isAnchoring = false;
     }
+
     void KillAnchor()
     {
         player.playerCanMove = true;

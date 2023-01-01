@@ -41,6 +41,8 @@ public class FileManager : MonoBehaviour
         {
             sd.currFile.SetIsAnchored(false);
             sd.currFile.ResetFileAnimationValue();
+            sd.currFile.isSaved = true;
+            
             FileObject f = Instantiate(sd.currFile);
             f.transform.position = sd.clippyFileLoadPosition[sd.fileIndex].position;
             f.transform.parent = sd.clippyFileSystem.transform;
@@ -49,6 +51,7 @@ public class FileManager : MonoBehaviour
             f.SetIsAnchored(false);
             f.SetGroundPos();
             f.ResetFileAnimationValue();
+            f.pairedMainFileWhenCloned = sd.currFile;
             sd.clippyFileLoaded[sd.fileIndex] = f;
         }
     }
@@ -56,6 +59,7 @@ public class FileManager : MonoBehaviour
     void DeleteCurrentFile()
     {
         RemoveFile(sd.currFile);
+        sd.currFile.pairedMainFileWhenCloned.isSaved = false;
         Destroy(sd.currFile.gameObject);
     }
     void RemoveFile(FileObject fileToRemove)
@@ -76,7 +80,9 @@ public class FileManager : MonoBehaviour
         if (sd.currFile != sd.prevFile && sd.prevFile != null)
         {
             OnSelectedFileChange?.Invoke(sd.currFile, sd.prevFile);
-            sd.prevFile.ResetAndClose(sd.currFile, sd.prevFile);
+            sd.prevFile.SetIsAnchored(false);
+            sd.currFile.SetIsAnchored(true);
+            sd.prevFile.CloseFileAnimation();
         }
         sd.prevFile = sd.currFile;
     }

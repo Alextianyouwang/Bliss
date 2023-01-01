@@ -23,7 +23,7 @@ public class WordDocManager : FileObject
             contentsHolder.Add(c);
             SetOpacity(0, c);
         }
-        foreach (Transform c in this.gameObject.transform)
+        foreach (Transform c in transform)
         {
             if (c.GetComponent<Animator>() != null)
                 animatorHolder.Add(c);

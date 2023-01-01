@@ -10,6 +10,9 @@ public class FileObject : MonoBehaviour
     [SerializeField] private GameObject saveEffectReference;
     private GameObject saveEffect_instance;
 
+    // Value of one will make the animation finish in exactely 1 second.
+    [SerializeField] private float fileOpenSpeed = 0.6f, fileCloseSpeed = 1.2f;
+
     // File ground position, will be found pocedurally when game start and stored in floppy.
     [HideInInspector] public Vector3 groundPosition;
     private LayerMask groundMask;
@@ -20,7 +23,8 @@ public class FileObject : MonoBehaviour
 
     // Curcial File Animaiton Value, will be used by all the inherited members.
     // Its value would lerp between 0-1 when OnFileAnimation is called.
-    protected float animationLerpValue = 0f;
+    protected float animationLerpValue = 0f, currentAnimationValue = 1;
+    
 
     // Container for File Animation
     protected Coroutine fileAnimationCo;
@@ -56,6 +60,9 @@ public class FileObject : MonoBehaviour
     // Invoked when the file is closed
     protected Action OnFileReset;
 
+     public bool isSaved = false;
+    [HideInInspector] public FileObject pairedMainFileWhenCloned;
+
     protected virtual void Awake()
     {
         groundMask = LayerMask.GetMask("Ground");
@@ -70,15 +77,9 @@ public class FileObject : MonoBehaviour
         if (Physics.Raycast(groundRay, out hit, 100f, groundMask))
             groundPosition = hit.point;
     }
-    public void ResetAndClose(FileObject newFile, FileObject prevFile)
-    {
-        prevFile.isAnchored = false;
-        newFile.isAnchored = true;
-        prevFile.CloseFileAnimation();
-    }
     public void ResetFileAnimationValue()
     {
-        OnFileAnimation?.Invoke(false);
+        CloseFileAnimation();
         animationLerpValue = 0;
         OnFileReset?.Invoke();
     }
@@ -112,18 +113,19 @@ public class FileObject : MonoBehaviour
     IEnumerator FileAnimationValueManagement(float openFileSpeed, float closeFileSpeed, bool open)
     {
         float percent = 0;
-        float initialValue = open ? 0 : 1;
+        float initialValue = open ? 0 : currentAnimationValue;
         float targetValue = open ? 1 : 0;
         float adjustedSpeed = open ? openFileSpeed : closeFileSpeed;
-
+        float speedMultiplier = currentAnimationValue;
         if (open)
             while (!OnTestingFileAnimationPreRoutine(open))
                 yield return null;
         while (percent < 1)
         {
-            percent += Time.deltaTime * adjustedSpeed;
+            percent += open? Time.deltaTime * adjustedSpeed : Time.deltaTime * adjustedSpeed /speedMultiplier;
             OnFileAnimation?.Invoke(open);
             animationLerpValue = Mathf.Lerp(initialValue, targetValue, percent);
+            currentAnimationValue = animationLerpValue;
             yield return null;
         }
         if (!open)
@@ -136,7 +138,7 @@ public class FileObject : MonoBehaviour
             return;
         if (fileAnimationCo != null)
             StopCoroutine(fileAnimationCo);
-        fileAnimationCo = StartCoroutine(FileAnimationValueManagement(0.6f, 1f, true));
+        fileAnimationCo = StartCoroutine(FileAnimationValueManagement(fileOpenSpeed, 0, true));
     }
     public void CloseFileAnimation()
     {
@@ -144,7 +146,7 @@ public class FileObject : MonoBehaviour
             return;
         if (fileAnimationCo != null)
             StopCoroutine(fileAnimationCo);
-        fileAnimationCo = StartCoroutine(FileAnimationValueManagement(0.6f, 1.2f, false));
+        fileAnimationCo = StartCoroutine(FileAnimationValueManagement(0, fileCloseSpeed, false));
     }
 
     protected virtual bool SettingAndTestingAnimatorTargetValue_base(Animator[] animators, string animationBoolName, string animationCompareTag, bool animState)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 public class SaveButton : MonoBehaviour
 {
     public static Action OnSaveCurrentFile;
-    public static Action OnRetreatSaveButton;
+    public static Action<bool> OnRetreatSaveButton;
     public static Action OnInitiateSaveAnimation;
     public static Action OnStartSaveEffect;
     public bool hasBeenClicked = false;
@@ -20,20 +20,25 @@ public class SaveButton : MonoBehaviour
                 {
                     if (!hasBeenClicked) 
                     {
-                        WaitExecute();
-                        OnRetreatSaveButton?.Invoke();
+                        OnRetreatSaveButton?.Invoke(SceneSwitcher.sd.currFile.isSaved);
+                        WaitExecute(!SceneSwitcher.sd.currFile.isSaved);
                         OnSaveCurrentFile?.Invoke();
-                        OnStartSaveEffect?.Invoke();
+                        if(!SceneSwitcher.sd.currFile.isSaved)
+                            OnStartSaveEffect?.Invoke();
                     }
                 }
             }
         }
     }
    
-    async void WaitExecute() 
+    async void WaitExecute(bool willExecute) 
     {
-        await Task.Delay(200);
-        OnInitiateSaveAnimation?.Invoke();
+        if (willExecute)
+        {
+            await Task.Delay(200);
+            OnInitiateSaveAnimation?.Invoke();
+        }
+          
 
     }
 }

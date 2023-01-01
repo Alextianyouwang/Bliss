@@ -45,7 +45,7 @@ public class MusicPlayerManager : FileObject
     }
     public void FileClickControl(bool animState)
     {
-        noteVFX.material.SetFloat("_AlphaThreshold", 1-(animState?1:0));
+        noteVFX.material.SetFloat("_AlphaThreshold",  1 - animationLerpValue);
         allowConstantRotation = animState;
         CDRotation(animState);
     }

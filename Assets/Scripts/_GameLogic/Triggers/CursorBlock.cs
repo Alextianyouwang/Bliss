@@ -56,8 +56,9 @@ public class CursorBlock : NumberBlocks
         if (!AM_BlissMain.isInTeleporting)
             clickTimes += 1;
 
+  
         //CursorDissapearAnimation();
-       
+
         if (collision.gameObject.tag.Equals("Quit")) 
         {
             Application.Quit();

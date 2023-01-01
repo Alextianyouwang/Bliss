@@ -9,7 +9,7 @@ public class FolderManager : FileObject
     public List<Transform> prefabHolder = new List<Transform>();
 
     [SerializeField]
-    private AnimationCurve filePopCurve;
+    public AnimationCurve filePopCurve;
     
     Vector3[] prefabOriginalScale;
     void Initialization()
