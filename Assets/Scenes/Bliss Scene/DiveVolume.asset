@@ -15,10 +15,10 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: -10
+    m_Value: -8
   contrast:
-    m_OverrideState: 0
-    m_Value: -9.6
+    m_OverrideState: 1
+    m_Value: 40
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1.5396167, g: 0, b: 0, a: 1}
@@ -73,14 +73,14 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   colorMode:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   color:
     m_OverrideState: 0
     m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   tint:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0.17647058, g: 0.5966683, b: 1, a: 1}
   maxFogDistance:
     m_OverrideState: 1
     m_Value: 1000
@@ -101,13 +101,13 @@ MonoBehaviour:
     m_Value: 100
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 200
+    m_Value: 100
   enableVolumetricFog:
     m_OverrideState: 0
     m_Value: 1
   albedo:
     m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_Value: {r: 0.49056602, g: 0, b: 0, a: 1}
   globalLightProbeDimmer:
     m_OverrideState: 0
     m_Value: 1
@@ -290,7 +290,7 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 15
+    m_Value: 16
   multiplier:
     m_OverrideState: 0
     m_Value: 1
@@ -314,13 +314,13 @@ MonoBehaviour:
     m_Value: 0
   top:
     m_OverrideState: 1
-    m_Value: {r: 1.4987328, g: 2.9042563, b: 0.17809126, a: 1}
+    m_Value: {r: 0.5057563, g: 0.9198887, b: 2.3651557, a: 1}
   middle:
     m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_Value: {r: 1024, g: 0, b: 0, a: 1}
   bottom:
     m_OverrideState: 1
-    m_Value: {r: 0.13449706, g: 10.49077, b: 12.844469, a: 1}
+    m_Value: {r: 2.828427, g: 1.0980952, b: 0.687696, a: 1}
   gradientDiffusion:
     m_OverrideState: 1
     m_Value: 20

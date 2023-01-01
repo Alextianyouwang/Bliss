@@ -53,6 +53,9 @@ public class FileObject : MonoBehaviour
     // OnTestingFileAnimationPreRoutine = (float f) => {};
     // OnFileAnimation = (bool b) => true;
 
+    // Invoked when the file is closed
+    protected Action OnFileReset;
+
     protected virtual void Awake()
     {
         groundMask = LayerMask.GetMask("Ground");
@@ -77,6 +80,7 @@ public class FileObject : MonoBehaviour
     {
         OnFileAnimation?.Invoke(false);
         animationLerpValue = 0;
+        OnFileReset?.Invoke();
     }
     public void SetIsAnchored(bool value)
     {
@@ -98,6 +102,7 @@ public class FileObject : MonoBehaviour
             percent += Time.deltaTime * 3f;
             yield return null;
         }
+        Destroy(saveEffect_instance);
     }
     public void StartSaveEffect()
     {

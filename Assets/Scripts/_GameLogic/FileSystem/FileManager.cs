@@ -40,6 +40,7 @@ public class FileManager : MonoBehaviour
         if (sd.fileIndex < sd.clippyFileLoaded.Length)
         {
             sd.currFile.SetIsAnchored(false);
+            sd.currFile.ResetFileAnimationValue();
             FileObject f = Instantiate(sd.currFile);
             f.transform.position = sd.clippyFileLoadPosition[sd.fileIndex].position;
             f.transform.parent = sd.clippyFileSystem.transform;

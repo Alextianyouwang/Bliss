@@ -7,8 +7,8 @@ public class MusicPlayerManager : FileObject
     private float rotationLerpTime = 0.2f, rotationStopLerpTime = 0.2f, rotationMultiplier = 0.5f, lerpMultiplier = 2f;
     private float rotFef = 0;
 
-    private GameObject CD;
-    private MeshRenderer noteVFX;
+    [HideInInspector]public GameObject CD;
+    [HideInInspector]public MeshRenderer noteVFX;
     private bool allowConstantRotation = false;
 
     void Intialization()
@@ -27,6 +27,7 @@ public class MusicPlayerManager : FileObject
     {
         OnFileAnimation = FileClickControl;
         OnTestingFileAnimationPreRoutine = (bool a) => true;
+        OnFileReset = StopSpinning_fromBase;
     }
     protected override void Start()
     {
@@ -37,6 +38,10 @@ public class MusicPlayerManager : FileObject
     private void Update()
     {
         CDRotation(allowConstantRotation);
+    }
+    void StopSpinning_fromBase() 
+    {
+        allowConstantRotation = false;
     }
     public void FileClickControl(bool animState)
     {
