@@ -23,7 +23,7 @@ public class NotePadManager : FileObject
 
     void ContentInitialization(int contentIndex)
     {
-        int listIndex = contentIndex;
+        int listIndex = contentIndex - 1;
 
         foreach (Transform Contents in TMPParent)
         {

@@ -60,7 +60,7 @@ public class WordDocManager : FileObject
         {
             c.GetComponent<MeshRenderer>().material.SetFloat("_WaveDistance", dissolveDistance);
         }
-        SetOpacity(animationLerpValue, contentsHolder[contentIndex]);
+        SetOpacity(animationLerpValue, contentsHolder[contentIndex - 1]);
     }
     void SetOpacity(float value, Transform c) 
     {
