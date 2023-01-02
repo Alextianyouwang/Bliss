@@ -649,7 +649,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 896789889}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &75051101
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -771,7 +775,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 934424397}
   saveEffectReference: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &78305529
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2072,7 +2080,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 1752011821}
   saveEffectReference: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &152702968
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2614,7 +2626,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 1897120257}
   saveEffectReference: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!1 &224225870
 GameObject:
   m_ObjectHideFlags: 0
@@ -2842,7 +2858,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 526197557}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &224881439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5720,7 +5740,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 87863136}
   saveEffectReference: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &490755656
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7948,7 +7972,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 52488129}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &740554096
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11738,7 +11766,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 1742094838}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &1082512461
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11887,7 +11919,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 1470188317}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &1100710224
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12393,7 +12429,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 1914527500}
   saveEffectReference: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &1119278085
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14513,7 +14553,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 1720401810}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &1392966900
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14806,7 +14850,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 126965440}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &1397466613
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20665,6 +20713,10 @@ PrefabInstance:
       value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2408143695032088346, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
+      propertyPath: jumpPower
+      value: 8.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408143695032088346, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
       propertyPath: sprintFOV
       value: 90
       objectReference: {fileID: 0}
@@ -20674,7 +20726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2408143695032088346, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
       propertyPath: enableJump
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2408143695032088346, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
       propertyPath: sprintSpeed
@@ -22147,7 +22199,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 1545556556}
   saveEffectReference: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &1962935350
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22440,7 +22496,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 1082890148}
   saveEffectReference: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &1979084829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22796,7 +22856,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 902005418}
   saveEffectReference: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &2000797639
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24238,7 +24302,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 1534933818}
   saveEffectReference: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
 --- !u!65 &2117959937
 BoxCollider:
   m_ObjectHideFlags: 0
