@@ -249,7 +249,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 251390400}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
   animatorHolder: []
   matHolder: []
   minFade: 7
