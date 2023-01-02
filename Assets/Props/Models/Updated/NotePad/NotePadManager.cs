@@ -8,11 +8,11 @@ public class NotePadManager : FileObject
     [HideInInspector]public List<Transform> animatorHolder = new List<Transform>();
     public Transform TMPParent;
     [HideInInspector]public List<Transform> contentsHolderT = new List<Transform>();
-    public int contentsIndex;
+    public int contentIndex;
 
     void Initialization()
     {
-        ContentInitialization(contentsIndex);
+        ContentInitialization(contentIndex);
 
         foreach (Transform Child in transform)
         {

@@ -47,7 +47,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _ContentPic:
-        m_Texture: {fileID: 2800000, guid: beb04881032ba094db388623ed21d944, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _IdlePic:

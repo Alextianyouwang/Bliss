@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class JPGManager : FileObject
 {
@@ -12,9 +13,18 @@ public class JPGManager : FileObject
     [HideInInspector]public List<Transform> animatorHolder = new List<Transform>();
     [HideInInspector]public List<Transform> matHolder = new List<Transform>();
 
-    public float minFade, minFadeMatrix, maxFade;
+    public Transform JPGParent;
+    [HideInInspector] public List<Transform> contentsHolder = new List<Transform>();
+    public int contentIndex;
+
+    [HideInInspector]public float minFade, minFadeMatrix, maxFade;
     void Initialization()
     {
+        foreach (Transform c in JPGParent)
+        {
+            contentsHolder.Add(c);
+            SetOpacity(0, c);
+        }
         foreach (Transform Child in transform)
         {
             if (Child.GetComponent<Animator>() != null)
@@ -53,6 +63,18 @@ public class JPGManager : FileObject
         float fadeDistanceMatrix = Mathf.Lerp(minFadeMatrix, maxFade, animationLerpValue);
         matHolder[0].GetComponent<MeshRenderer>().material.SetFloat("_WaveDistance", fadeDistanceMatrix);
         matHolder[1].GetComponent<MeshRenderer>().material.SetFloat("_WaveDistance", fadeDistance);
+        SetOpacity(animationLerpValue, contentsHolder[contentIndex - 1]);
+    }
+    void SetOpacity(float value, Transform c)
+    {
+        Image i = c.gameObject.GetComponent<Image>();
+
+        if (i != null)
+        {
+            Color imgColor = i.color;
+            imgColor.a = value;
+            i.color = imgColor;
+        }
     }
 
 }
