@@ -137,7 +137,7 @@ Material:
     - _WaveDistance: 7.3
     - _WaveSpeed: 3
     - _WaveStrength: 20
-    - _WaveThickness: 0.04
+    - _WaveThickness: 0.48
     - _X_Y: 0
     - _Z: 0
     - _ZTestDepthEqualForOpaque: 3

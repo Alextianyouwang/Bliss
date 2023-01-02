@@ -54,7 +54,7 @@ public class SceneManager : MonoBehaviour
 
     public void OnClickSwitchToBliss() 
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Bliss");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Bliss_Terrain Remodel");
         fps.cameraCanMove = true;
 
         fps.allowYawLock = false;

@@ -134,10 +134,10 @@ Material:
     - _UseShadowThreshold: 0
     - _UseVertAnim: 1
     - _UsingTextures: 0
-    - _WaveDistance: 7.92
+    - _WaveDistance: 7.84
     - _WaveSpeed: 3
     - _WaveStrength: 20
-    - _WaveThickness: -0.54
+    - _WaveThickness: -0.72
     - _X_Y: 0
     - _Z: 0
     - _ZTestDepthEqualForOpaque: 3

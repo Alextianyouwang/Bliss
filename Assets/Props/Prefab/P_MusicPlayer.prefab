@@ -175,7 +175,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 2245fc4cbd7e5f444941297bd5e8f756, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -248,7 +248,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnchor: {fileID: 2276947105951804642}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
+  isSaved: 0
+  pairedMainFileWhenCloned: {fileID: 0}
   CDAnimCurve:
     serializedVersion: 2
     m_Curve:
@@ -304,6 +308,8 @@ MonoBehaviour:
   rotationStopLerpTime: 0.4
   rotationMultiplier: 1
   lerpMultiplier: 0.5
+  CD: {fileID: 0}
+  noteVFX: {fileID: 0}
 --- !u!65 &2276947106990743043
 BoxCollider:
   m_ObjectHideFlags: 0
