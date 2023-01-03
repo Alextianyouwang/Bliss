@@ -65,7 +65,7 @@ public class CursorBlock : NumberBlocks
         }
         if (collision.gameObject.tag.Equals("Restart")) 
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Bliss");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
             Cursor.lockState = CursorLockMode.None;
             //AudioManager.instance.StopAllSound();
         }
