@@ -166,7 +166,7 @@ public class TileMatrixManager : MonoBehaviour
                 t.UpdateTileOrderedCoordinate(playerGroundPosition);
                 t.UpdateTileDampSpeedTogether(varyingDampSpeed);
                 t.UpdateWindowTile(playerGroundPosition);
-                t.UpdateTilesStatusPerFrame(0, defaultRadius, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset +1f, defaultNoiseWeight, playerGroundPosition);
+                t.UpdateTilesStatusPerFrame(0, defaultRadius, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset +0.4f, defaultNoiseWeight, playerGroundPosition);
                 t.DrawTileInstanceCurrentFrame(false);
 
                 break;

@@ -119,7 +119,6 @@
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyFileSystem.cs" />
     <Compile Include="Assets\_Resources\BruteForce-GrassShader\Scripts\BF_MowingUI.cs" />
-    <Compile Include="Assets\Props\Models\Updated\IconsGUI.cs" />
     <Compile Include="Assets\_Resources\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\Scripts\Deprecated\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Animations\AnchorAnimation.cs" />
