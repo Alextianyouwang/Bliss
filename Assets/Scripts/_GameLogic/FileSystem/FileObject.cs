@@ -59,8 +59,10 @@ public class FileObject : MonoBehaviour
 
     // Invoked when the file is closed
     protected Action OnFileReset;
+    protected Action<bool> OnFileActivatedLocal;
 
-     public bool isSaved = false;
+    [HideInInspector]public bool isSaved = false;
+    [HideInInspector] public FolderManager parentFolder = null;
     [HideInInspector] public FileObject pairedMainFileWhenCloned;
 
     protected virtual void Awake()
@@ -139,6 +141,8 @@ public class FileObject : MonoBehaviour
         if (fileAnimationCo != null)
             StopCoroutine(fileAnimationCo);
         fileAnimationCo = StartCoroutine(FileAnimationValueManagement(fileOpenSpeed, 0, true));
+        OnFileActivatedLocal?.Invoke(true);
+
     }
     public void CloseFileAnimation()
     {
@@ -147,6 +151,8 @@ public class FileObject : MonoBehaviour
         if (fileAnimationCo != null)
             StopCoroutine(fileAnimationCo);
         fileAnimationCo = StartCoroutine(FileAnimationValueManagement(0, fileCloseSpeed, false));
+        OnFileActivatedLocal?.Invoke(false);
+
     }
 
     protected virtual bool SettingAndTestingAnimatorTargetValue_base(Animator[] animators, string animationBoolName, string animationCompareTag, bool animState)
@@ -180,17 +186,24 @@ public class FileObject : MonoBehaviour
                     {
                         isAnchored = true;
 
-                        OnFlieCollected?.Invoke(this);
                         OnPlayerAnchored?.Invoke(this);
-
                         OpenFileAnimation();
+                        OnFlieCollected?.Invoke(this);
+
                     }
                     else
                     {
                         isAnchored = false;
+                        OnPlayerReleased?.Invoke();
                         CloseFileAnimation();
 
-                        OnPlayerReleased?.Invoke();
+
+
+                        if (parentFolder != null)
+                        {
+                            parentFolder.CloseFileAnimation();
+                            parentFolder.SetIsAnchored(false);
+                        }
                     }
         }
     }
