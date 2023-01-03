@@ -173,6 +173,7 @@ MonoBehaviour:
   fileCloseSpeed: 1.2
   groundPosition: {x: 0, y: 0, z: 0}
   isSaved: 0
+  parentFolder: {fileID: 0}
   pairedMainFileWhenCloned: {fileID: 0}
   animatorHolder: []
   dissolveMatHolder: []
@@ -180,7 +181,7 @@ MonoBehaviour:
   minDissolve: -330
   maxDissolve: 700
   contentParent: {fileID: 7059817013188962670}
-  contentIndex: 0
+  contentIndex: 1
 --- !u!65 &1214893259
 BoxCollider:
   m_ObjectHideFlags: 0
