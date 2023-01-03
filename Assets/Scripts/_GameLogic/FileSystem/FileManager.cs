@@ -5,8 +5,8 @@ using UnityEngine;
 public class FileManager : MonoBehaviour
 {
     private SceneData sd;
-    // Invoked when the current file selection has been changed.
-    public static Action<FileObject, FileObject> OnSelectedFileChange;
+    public static Action<FileObject, FileObject> OnFileChange;
+    public static Action<FileObject> OnTriggerSaveMatrix;
 
     private void OnEnable()
     {
@@ -77,13 +77,104 @@ public class FileManager : MonoBehaviour
     void GetFileObject(FileObject file)
     {
         sd.currFile = file;
-        if (sd.currFile != sd.prevFile && sd.prevFile != null)
+        if (
+            // Make sure the new file and the old file is not the same
+            sd.currFile != sd.prevFile
+            // Make sure this is not the first file selected
+            && sd.prevFile != null
+
+            )
         {
-            OnSelectedFileChange?.Invoke(sd.currFile, sd.prevFile);
-            sd.prevFile.SetIsAnchored(false);
-            sd.currFile.SetIsAnchored(true);
-            sd.prevFile.CloseFileAnimation();
+            OnFileChange?.Invoke(sd.currFile, sd.prevFile);
+            // From File on the Field to File on the Filed 
+            if (!sd.prevFile.GetComponent<FolderManager>()
+               && !sd.currFile.GetComponent<FolderManager>()
+               && sd.prevFile.parentFolder == null
+               && sd.currFile.parentFolder == null
+               )
+            {
+                sd.prevFile.SetIsAnchored(false);
+                sd.currFile.SetIsAnchored(true);
+                sd.prevFile.CloseFileAnimation();
+            }
+            // From File on the Field to Folder
+            else if (
+               !sd.prevFile.GetComponent<FolderManager>()
+               && sd.currFile.GetComponent<FolderManager>()
+                && sd.prevFile.parentFolder == null
+                && sd.currFile.parentFolder == null
+                )
+            {
+                sd.prevFile.SetIsAnchored(false);
+                sd.currFile.SetIsAnchored(true);
+                sd.prevFile.CloseFileAnimation();
+            }
+            // From Folder to File in Folder
+            else if (
+                sd.prevFile.GetComponent<FolderManager>()
+                && sd.currFile.parentFolder != null
+                )
+            {
+                sd.currFile.SetIsAnchored(true);
+            }
+            // From File in Folder to File on the Field
+            else if (
+                !sd.prevFile.GetComponent<FolderManager>()
+                && !sd.currFile.GetComponent<FolderManager>()
+                && sd.prevFile.parentFolder != null
+                && sd.currFile.parentFolder == null
+                )
+            {
+
+                sd.currFile.SetIsAnchored(true);
+                sd.prevFile.parentFolder.SetIsAnchored(false);
+                sd.prevFile.parentFolder.CloseFileAnimation();
+                sd.prevFile.SetIsAnchored(false);
+                sd.prevFile.CloseFileAnimation();
+            }
+            // From File in Folder to File in Folder 
+            else if (sd.prevFile.parentFolder != null
+                && sd.currFile.parentFolder != null)
+            {
+                sd.prevFile.SetIsAnchored(false);
+                sd.currFile.SetIsAnchored(true);
+                sd.prevFile.CloseFileAnimation();
+            }
+
+            // From File in Folder to Folder
+            else if (
+                !sd.prevFile.GetComponent<FolderManager>()
+                && sd.currFile.GetComponent<FolderManager>()
+                && sd.prevFile.parentFolder != null
+                && sd.currFile.parentFolder == null
+         
+                )
+            {
+               
+                sd.prevFile.SetIsAnchored(false);
+                sd.currFile.SetIsAnchored(true);
+                sd.prevFile.CloseFileAnimation();
+                sd.prevFile.parentFolder.SetIsAnchored(false);
+                // if enter a folder right after exit from a file inside that folder,
+                // the animation will be set to open from its own instancescript but then set to close by the prevFile.parentFolder
+                if (sd.prevFile.parentFolder != sd.currFile.GetComponent<FolderManager>())
+                    sd.prevFile.parentFolder.CloseFileAnimation();
+
+            }
+            // From Folder to File on the Field
+            else if (
+                 sd.prevFile.GetComponent<FolderManager>()
+                && sd.currFile.parentFolder == null
+                )
+            {
+                sd.prevFile.SetIsAnchored(false);
+                sd.currFile.SetIsAnchored(true);
+                sd.prevFile.CloseFileAnimation();
+            }
         }
+
+        if (!sd.currFile.GetComponent<FolderManager>())
+            OnTriggerSaveMatrix?.Invoke(sd.currFile);
         sd.prevFile = sd.currFile;
     }
 }

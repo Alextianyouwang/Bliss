@@ -5,10 +5,6 @@ using UnityEngine;
 // All movements of player that is not conducted by the FPS controller is classified as an Anchoring Animation.
 public class AM_BlissMain : AnchorAnimation
 {
-    // Invoked when Player starts to perform an anchoring animation to a File.
-    public static Action<Vector3> OnPlayerStartAnchor;
-    // Invoked when Player are set free from an anchoring animation.
-    public static Action OnPlayerExitAnchor;
     // Invoked when Player just finished its teleporting anchoring animation.
     public static Action OnPlayerTeleportAnimationFinished;
 
@@ -66,7 +62,6 @@ public class AM_BlissMain : AnchorAnimation
         playerZeroXZRotationCTS?.Cancel();
         PlayerAnchorTask(target.playerAnchor.position, Vector3.up * 4f, target.playerAnchor.rotation, 1.5f, 0.1f, 0.1f, player,slowFastCurve, false, false, false,false, false, null, null);
 
-        OnPlayerStartAnchor?.Invoke(target.groundPosition);
     }
     // Unlock player from a Anchoring situation.
     void InitiateDisableAnchorAnimation()
@@ -75,7 +70,6 @@ public class AM_BlissMain : AnchorAnimation
         playerZeroXZRotationCTS?.Cancel();
         ReturnPlayerToNormalXZRot();
 
-        OnPlayerExitAnchor?.Invoke();
         KillAnchor();
     }
     // Player will leap into the ground position of the currently selected file. It will followed by the dive anchoring animation.

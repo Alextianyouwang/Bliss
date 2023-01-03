@@ -34,8 +34,6 @@ public class TileMatrixManager : MonoBehaviour
         hasTriggeredLandingGathering = false,
         hasWindowsDetached = false;
 
-    List<TileDrawInstance.TileData> belowGroundTile = new List<TileDrawInstance.TileData>();
-
 
     private enum TileStates { NormalFollow, Staging, Landing, PrepareLanding, Staging_Diving, Staging_Deleting }
     private TileStates state;
@@ -55,14 +53,16 @@ public class TileMatrixManager : MonoBehaviour
         FirstPersonController.OnStartDiving += StartDivingAnimation;
         FirstPersonController.OnStartSoaring += StartSoaringAnimation;
 
-        AM_BlissMain.OnPlayerStartAnchor += StartStagingFile;
-        AM_BlissMain.OnPlayerExitAnchor += EndStagingFile;
         AM_BlissMain.OnPlayerTeleportAnimationFinished += ResetToDefault;
         AM_BlissMain.OnDiving += DivingAnimation;
         AM_BlissMain.OnSoring += SoaringAnimation;
         AM_BlissMain.OnRequestDive += StartDivingAnimation;
         AM_BlissMain.OnRequestDive += SwitchToStageDiving_fromPlayerAnchroAnimation;
         AM_BlissMain.OnPrepareDiving += ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
+
+        FileManager.OnTriggerSaveMatrix += StartStagingFile;
+        FileManager.OnFileChange += EndStagingFile_fromFileManager;
+        FileObject.OnPlayerReleased += EndStagingFile;
 
         SaveButton.OnRetreatSaveButton += InitiateRetreatAndResetWindowsAnimation;
         DeleteButton.OnPlayerReleased += InitiateDeleteAnchorAnimation;
@@ -78,15 +78,16 @@ public class TileMatrixManager : MonoBehaviour
         FirstPersonController.OnStartDiving -= StartDivingAnimation;
         FirstPersonController.OnStartSoaring -= StartSoaringAnimation;
 
-
-        AM_BlissMain.OnPlayerStartAnchor -= StartStagingFile;
-        AM_BlissMain.OnPlayerExitAnchor -= EndStagingFile;
         AM_BlissMain.OnPlayerTeleportAnimationFinished -= ResetToDefault;
         AM_BlissMain.OnDiving -= DivingAnimation;
         AM_BlissMain.OnSoring -= SoaringAnimation;
         AM_BlissMain.OnRequestDive -= StartDivingAnimation;
         AM_BlissMain.OnRequestDive -= SwitchToStageDiving_fromPlayerAnchroAnimation;
         AM_BlissMain.OnPrepareDiving -= ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation;
+
+        FileManager.OnTriggerSaveMatrix -= StartStagingFile;
+        FileManager.OnFileChange -= EndStagingFile_fromFileManager;
+        FileObject.OnPlayerReleased -= EndStagingFile;
 
         SaveButton.OnRetreatSaveButton -= InitiateRetreatAndResetWindowsAnimation;
         DeleteButton.OnPlayerReleased -= InitiateDeleteAnchorAnimation;
@@ -165,7 +166,7 @@ public class TileMatrixManager : MonoBehaviour
                 t.UpdateTileOrderedCoordinate(playerGroundPosition);
                 t.UpdateTileDampSpeedTogether(varyingDampSpeed);
                 t.UpdateWindowTile(playerGroundPosition);
-                t.UpdateTilesStatusPerFrame(0, defaultRadius, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset +1f, defaultNoiseWeight, playerGroundPosition);
+                t.UpdateTilesStatusPerFrame(0, defaultRadius, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset +0.4f, defaultNoiseWeight, playerGroundPosition);
                 t.DrawTileInstanceCurrentFrame(false);
 
                 break;
@@ -410,13 +411,17 @@ public class TileMatrixManager : MonoBehaviour
         t.activateWindowsIndependance = flag;
     }
 
-    public void StartStagingFile(Vector3 target)
+    public void StartStagingFile(FileObject f)
     {
         if (fileStagingCo != null)
             StopCoroutine(fileStagingCo);
-        fileStagingCo = StartCoroutine(FileStagingAnimation(target));
+        fileStagingCo = StartCoroutine(FileStagingAnimation(f.groundPosition));
     }
 
+    void EndStagingFile_fromFileManager(FileObject a,FileObject b) 
+    {
+        EndStagingFile();
+    }
     public void EndStagingFile()
     {
         if (fileStagingCo != null)

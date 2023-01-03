@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: b609ae06e37daea4dbf52e2335657328
-  - enabled: 0
-    path: Assets/Scenes/Bliss.unity
-    guid: 51041d9a4a70a1846acfaea98bdce158
   - enabled: 1
     path: Assets/Scenes/Floppy_IK.unity
     guid: 239ff85ead6c5cc44b75653d282fbf83
   - enabled: 1
     path: Assets/Scenes/Bliss_Terrain Remodel.unity
     guid: 51d8e85d8fd613a4989b5b0e1b1bd219
+  - enabled: 1
+    path: Assets/Scenes/Bliss.unity
+    guid: 51041d9a4a70a1846acfaea98bdce158
   m_configObjects: {}

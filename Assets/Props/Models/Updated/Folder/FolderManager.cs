@@ -8,12 +8,15 @@ public class FolderManager : FileObject
     public List<Transform> animatorHolder = new List<Transform>();
     public List<Transform> prefabHolder = new List<Transform>();
 
+     private BoxCollider clickCollider;
+
     [SerializeField]
     public AnimationCurve filePopCurve;
     
     Vector3[] prefabOriginalScale;
     void Initialization()
     {
+        clickCollider = GetComponent<BoxCollider>();
         prefabOriginalScale = new Vector3[ prefabHolder.Count];
         foreach (Transform Child in transform)
         {
@@ -24,8 +27,18 @@ public class FolderManager : FileObject
         {
             prefabOriginalScale[i] = prefabHolder[i].localScale;
             prefabHolder[i].localScale = Vector3.zero;
+            if (prefabHolder[i].GetComponent<FileObject>()) 
+            {
+                prefabHolder[i].GetComponent<FileObject>().parentFolder = this;
+            }
         }
     }
+
+    void SetCollider_fromBase(bool value) 
+    {
+        clickCollider.enabled = !value;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -35,7 +48,10 @@ public class FolderManager : FileObject
     {
         OnFileAnimation = FileClickControl;
         OnTestingFileAnimationPreRoutine = SettingAndTestingAnimatorTargetValue;
+        OnFileActivatedLocal = SetCollider_fromBase;
     }
+
+
     private bool SettingAndTestingAnimatorTargetValue(bool animState)
     {
         return base.SettingAndTestingAnimatorTargetValue_base(animatorHolder.Select(x => x.GetComponent<Animator>()).ToArray(), s_OpenFile.ToString(), "FileAnimation", animState);

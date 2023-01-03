@@ -65,7 +65,7 @@ public class CursorBlock : NumberBlocks
         }
         if (collision.gameObject.tag.Equals("Restart")) 
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Bliss_Terrain Remodel");
             Cursor.lockState = CursorLockMode.None;
             //AudioManager.instance.StopAllSound();
         }
