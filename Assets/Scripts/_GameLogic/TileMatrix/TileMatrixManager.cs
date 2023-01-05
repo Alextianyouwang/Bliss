@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class TileMatrixManager : MonoBehaviour
 {
-    // Changing: The value does not has a default, will be assigned later.
+    // Changing: The value does not has a default, it start with 0 and will be assigned later depends on needs.
     // Varying: The value will be set to a default at first, it will move between other values and the defalut.
     // Default: The value will not change.
 
@@ -15,7 +15,6 @@ public class TileMatrixManager : MonoBehaviour
     [SerializeField] private float defaultRadius = 15;
     [SerializeField] private bool isEnabled = true;
 
-    //private TileMatrixFunctions t;
     private TileDrawInstance t;
     private TileButtons b;
 
@@ -98,7 +97,6 @@ public class TileMatrixManager : MonoBehaviour
 
     private void Awake()
     {
-        //t = new TileMatrixFunctions(tile, saveButton, deleteButton, defaultTileDimension);
         t = new TileDrawInstance(tile, defaultTileDimension);
         b = new TileButtons(t, saveButton, deleteButton);
     }
@@ -368,8 +366,8 @@ public class TileMatrixManager : MonoBehaviour
 
     void ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation(float time, float distance)
     {
-        changingMatrixYOffset = -time * 8 + 7f;
-        changingHighRiseMultiplierBoost = time * 15;
+        changingMatrixYOffset = -time * 8 + 8f;
+        changingHighRiseMultiplierBoost = time * 16;
         varyingDampSpeed = Mathf.Lerp(defaultDampSpeed, .01f, time);
     }
     void ReceiveDownAnimationGlobalPositionOffset(float y)
@@ -395,7 +393,7 @@ public class TileMatrixManager : MonoBehaviour
 
     void ExitThreshold(float number)
     {
-        if (!isInDiveFormation)
+        //if (!isInDiveFormation)
         {
             changingMatrixYOffset = 0;
             changingHighRiseMultiplierBoost = 0;

@@ -4,7 +4,7 @@ using UnityEngine;
 public class FileObject : MonoBehaviour
 {
     // Player's anchor position when Examine the file
-    public Transform playerAnchor;
+    public Transform playerAnchor { get; private set; }
 
     // Placeholder for future save effect animation
     [SerializeField] private GameObject saveEffectReference;
@@ -14,17 +14,46 @@ public class FileObject : MonoBehaviour
     [SerializeField] private float fileOpenSpeed = 0.6f, fileCloseSpeed = 1.2f;
 
     // File ground position, will be found pocedurally when game start and stored in floppy.
-    [HideInInspector] public Vector3 groundPosition;
+    public Vector3 groundPosition { get; private set; }
     private LayerMask groundMask;
     private RaycastHit hit;
 
+
     // Telling if the file is in display or not.
-    protected bool isAnchored = false;
+    public bool isAnchored { get; private set; } = false;
+    public void SetIsAnchored(bool value)
+    {
+        isAnchored = value;
+    }
+    // Indicating if the file is saved;
+    public bool isSaved { get; private set; } = false;
+    public void SetIsSaved(bool value)
+    {
+        isSaved = value;
+    }
+    // Parent directory folder
+    public FileObject parent { get; private set; } = null;
+    public void SetParent(FileObject value) 
+    {
+        parent = value;
+    }
+    // Child directory files
+    public FileObject[] childs { get; private set; } = null;
+    public void SetChilds(FileObject[] values) 
+    {
+        childs = values;
+    }
+    // If file is send to cilppy world, the reference of the origin file. 
+    public FileObject pairedMainFileWhenCloned { get; private set; } = null;
+    public void SetPairedMainFile(FileObject value) 
+    {
+        pairedMainFileWhenCloned = value;
+    }
+
 
     // Curcial File Animaiton Value, will be used by all the inherited members.
     // Its value would lerp between 0-1 when OnFileAnimation is called.
     protected float animationLerpValue = 0f, currentAnimationValue = 1;
-    
 
     // Container for File Animation
     protected Coroutine fileAnimationCo;
@@ -57,17 +86,22 @@ public class FileObject : MonoBehaviour
     // OnTestingFileAnimationPreRoutine = (float f) => {};
     // OnFileAnimation = (bool b) => true;
 
-    // Invoked when the file is closed
+    // Invoked when the file is closed.
     protected Action OnFileReset;
+    // Invoked locally for all the subscribed members indicating the start of open and close of the animation.
     protected Action<bool> OnFileActivatedLocal;
 
-    [HideInInspector]public bool isSaved = false;
-    [HideInInspector] public FolderManager parentFolder = null;
-    [HideInInspector] public FileObject pairedMainFileWhenCloned;
 
     protected virtual void Awake()
     {
         groundMask = LayerMask.GetMask("Ground");
+        foreach (Transform c in transform) 
+        {
+            if (c.parent == transform && c.name == "PlayerAnchor") 
+            {
+                playerAnchor = c;
+            }
+        }
     }
     protected virtual void Start()
     {
@@ -85,10 +119,7 @@ public class FileObject : MonoBehaviour
         animationLerpValue = 0;
         OnFileReset?.Invoke();
     }
-    public void SetIsAnchored(bool value)
-    {
-        isAnchored = value;
-    }
+
     IEnumerator SaveEffectAnimation()
     {
         saveEffect_instance = Instantiate(saveEffectReference);
@@ -197,13 +228,14 @@ public class FileObject : MonoBehaviour
                         OnPlayerReleased?.Invoke();
                         CloseFileAnimation();
 
-
-
-                        if (parentFolder != null)
+                        // Perform Close animation from File Object for all of its parent folders.
+                       /* FileObject ultimateParent = parent;
+                        while (ultimateParent != null) 
                         {
-                            parentFolder.CloseFileAnimation();
-                            parentFolder.SetIsAnchored(false);
-                        }
+                            ultimateParent.CloseFileAnimation();
+                            ultimateParent.SetIsAnchored(false);
+                            ultimateParent = ultimateParent.parent;
+                        }*/
                     }
         }
     }

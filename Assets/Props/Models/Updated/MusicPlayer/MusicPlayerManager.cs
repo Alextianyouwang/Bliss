@@ -7,20 +7,21 @@ public class MusicPlayerManager : FileObject
     private float rotationLerpTime = 0.2f, rotationStopLerpTime = 0.2f, rotationMultiplier = 0.5f, lerpMultiplier = 2f;
     private float rotFef = 0;
 
-    [HideInInspector]public GameObject CD;
-    [HideInInspector]public MeshRenderer noteVFX;
+    private GameObject CD;
+    private MeshRenderer noteVFX;
     private bool allowConstantRotation = false;
 
     void Intialization()
     {
         CD = transform.Find("CD").gameObject;
-        foreach (Transform Child in transform)
+        foreach (Transform c in transform)
         {
-            if (Child.gameObject.name == "Note_VFX")
+            if (c.gameObject.name == "Note_VFX")
             {
-                noteVFX = Child.gameObject.GetComponent<MeshRenderer>();
+                noteVFX = c.gameObject.GetComponent<MeshRenderer>();
                 noteVFX.material.SetFloat("_AlphaThreshold", 1);
             }
+           
         }
     }
     void OnEnable()

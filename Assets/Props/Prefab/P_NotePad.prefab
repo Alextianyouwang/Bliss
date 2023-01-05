@@ -1092,17 +1092,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0cc1cb4056d61442ba9af4bb6eab5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnchor: {fileID: 311742790267361481}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
-  groundPosition: {x: 0, y: 0, z: 0}
-  isSaved: 0
-  pairedMainFileWhenCloned: {fileID: 0}
-  animatorHolder: []
-  TMPParent: {fileID: 4684972043553305560}
-  contentsHolderT: []
-  contentsIndex: 1
+  contentIndex: 1
 --- !u!65 &311742791520791301
 BoxCollider:
   m_ObjectHideFlags: 0

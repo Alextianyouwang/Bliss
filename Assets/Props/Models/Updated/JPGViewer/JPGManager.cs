@@ -5,39 +5,45 @@ using UnityEngine.UI;
 
 public class JPGManager : FileObject
 {
-    readonly string 
+    readonly string
         s_OpenFile = "OpenFile",
         s_MatrixFadeMat = "M_MatrixFade",
-        s_FragmentFadeMat = "M_FragmentFade";
+        s_FragmentFadeMat = "M_FragmentFade",
+        s_JPGParent = "Contents";
 
-    [HideInInspector]public List<Transform> animatorHolder = new List<Transform>();
-    [HideInInspector]public List<Transform> matHolder = new List<Transform>();
+    public List<Transform> animatorHolder { get; private set; } = new List<Transform>();
+    // Cannot use Get and Set if pass to imposter using Instantiate
+    [HideInInspector]public List<Transform> matHolder= new List<Transform>();
+    public List<Transform> contentsHolder { get; private set; } = new List<Transform>();
 
-    public Transform JPGParent;
-    [HideInInspector] public List<Transform> contentsHolder = new List<Transform>();
+    private Transform JPGParent;
+
+    public float minFade, minFadeMatrix, maxFade;
     public int contentIndex;
 
-    [HideInInspector]public float minFade, minFadeMatrix, maxFade;
     void Initialization()
     {
+        foreach (Transform c in transform)
+        {
+            if (c.GetComponent<Animator>() != null)
+                animatorHolder.Add(c);
+
+            if (c.gameObject.GetComponent<MeshRenderer>())
+                if (c.gameObject.GetComponent<MeshRenderer>()
+               .sharedMaterial.name.Equals(s_MatrixFadeMat.ToString()) ||
+               c.gameObject.GetComponent<MeshRenderer>()
+               .sharedMaterial.name.Equals(s_FragmentFadeMat.ToString()))
+                    if (c.gameObject.activeInHierarchy)
+                        matHolder.Add(c);
+            if (c.name == "Canvas")
+                JPGParent = c.Find(s_JPGParent);
+        }
         foreach (Transform c in JPGParent)
         {
             contentsHolder.Add(c);
             SetOpacity(0, c);
         }
-        foreach (Transform Child in transform)
-        {
-            if (Child.GetComponent<Animator>() != null)
-                animatorHolder.Add(Child);
-
-            if (Child.gameObject.GetComponent<MeshRenderer>())
-                if (Child.gameObject.GetComponent<MeshRenderer>()
-               .sharedMaterial.name.Equals(s_MatrixFadeMat.ToString()) ||
-               Child.gameObject.GetComponent<MeshRenderer>()
-               .sharedMaterial.name.Equals(s_FragmentFadeMat.ToString()))
-                if(Child.gameObject.activeInHierarchy)
-                    matHolder.Add(Child);
-        }
+      
     }
 
     protected override void Start()

@@ -21,10 +21,11 @@ public class SaveButton : MonoBehaviour
                     if (!hasBeenClicked) 
                     {
                         OnRetreatSaveButton?.Invoke(SceneSwitcher.sd.currFile.isSaved);
+                        if (!SceneSwitcher.sd.currFile.isSaved)
+                            OnStartSaveEffect?.Invoke();
                         WaitExecute(!SceneSwitcher.sd.currFile.isSaved);
                         OnSaveCurrentFile?.Invoke();
-                        if(!SceneSwitcher.sd.currFile.isSaved)
-                            OnStartSaveEffect?.Invoke();
+                        
                     }
                 }
             }

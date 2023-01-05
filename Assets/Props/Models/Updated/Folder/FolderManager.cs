@@ -5,33 +5,46 @@ using System.Linq;
 public class FolderManager : FileObject
 {
     readonly string s_OpenFile = "OpenFile";
-    public List<Transform> animatorHolder = new List<Transform>();
-    public List<Transform> prefabHolder = new List<Transform>();
+   public List<Transform> animatorHolder { get; private set; } = new List<Transform>();
+   public List<Transform> prefabHolder { get; private set; } = new List<Transform>();
 
-     private BoxCollider clickCollider;
+    private BoxCollider clickCollider;
 
-    [SerializeField]
-    public AnimationCurve filePopCurve;
+    [SerializeField] private AnimationCurve filePopCurve;
     
-    Vector3[] prefabOriginalScale;
+    private Vector3[] prefabOriginalScale;
+    private Transform contentContainer;
     void Initialization()
     {
         clickCollider = GetComponent<BoxCollider>();
-        prefabOriginalScale = new Vector3[ prefabHolder.Count];
-        foreach (Transform Child in transform)
+
+        foreach (Transform c in transform)
         {
-            if (Child.GetComponent<Animator>() != null)
-                animatorHolder.Add(Child);
+            if (c.GetComponent<Animator>())
+                animatorHolder.Add(c);
+            if (c.parent == transform && c.name == "ContentFiles")
+                contentContainer = c;
         }
+        foreach (Transform c in contentContainer)
+        {
+            if (c.GetComponent<FileObject>())
+                prefabHolder.Add(c);
+        }
+        prefabOriginalScale = new Vector3[contentContainer.childCount];
+        FileObject[] childs = new FileObject[prefabHolder.Count];
+        
         for (int i = 0; i < prefabHolder.Count; i++)
         {
             prefabOriginalScale[i] = prefabHolder[i].localScale;
             prefabHolder[i].localScale = Vector3.zero;
+            
             if (prefabHolder[i].GetComponent<FileObject>()) 
             {
-                prefabHolder[i].GetComponent<FileObject>().parentFolder = this;
+                prefabHolder[i].GetComponent<FileObject>().SetParent(this);
+                childs[i] = prefabHolder[i].GetComponent<FileObject>();
             }
         }
+        SetChilds(childs);
     }
 
     void SetCollider_fromBase(bool value) 
@@ -50,8 +63,6 @@ public class FolderManager : FileObject
         OnTestingFileAnimationPreRoutine = SettingAndTestingAnimatorTargetValue;
         OnFileActivatedLocal = SetCollider_fromBase;
     }
-
-
     private bool SettingAndTestingAnimatorTargetValue(bool animState)
     {
         return base.SettingAndTestingAnimatorTargetValue_base(animatorHolder.Select(x => x.GetComponent<Animator>()).ToArray(), s_OpenFile.ToString(), "FileAnimation", animState);

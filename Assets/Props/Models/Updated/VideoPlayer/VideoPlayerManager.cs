@@ -8,11 +8,12 @@ public class VideoPlayerManager : FileObject
         s_OpenFile = "OpenFile", 
         s_Display = "VideoPlayer_Display";
 
-    [HideInInspector] public List<Transform> animatorHolder = new List<Transform>();
     [SerializeField] private AnimationCurve displayAnimationCurve;
 
+    public List<Transform> animatorHolder { get; private set; } = new List<Transform>();
+
     private Vector3 displayOriginalScale;
-    [HideInInspector]public GameObject display;
+    private Transform display;
     void Initialization()
     { 
         foreach (Transform Child in transform)
@@ -20,7 +21,7 @@ public class VideoPlayerManager : FileObject
             if (Child.GetComponent<Animator>() != null)
                 animatorHolder.Add(Child);
         }
-        display = transform.Find(s_Display.ToString()).gameObject;
+        display = transform.Find(s_Display.ToString());
         displayOriginalScale = display.transform.localScale;
         display.transform.localPosition = Vector3.zero;
         display.transform.localScale = Vector3.zero;

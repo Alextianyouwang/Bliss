@@ -11,7 +11,7 @@ public class PostAndScenery : MonoBehaviour
     public Camera cam;
     public Volume localVolume;
     public VolumeProfile blissProfile, clippyProfile;
-    public CustomPassVolume pass;
+    //public CustomPassVolume pass;
     public Material grassMat;
     [SerializeField] private GameObject diveVolume, diveScenes;
 
@@ -90,7 +90,6 @@ public class PostAndScenery : MonoBehaviour
     }
     private void Start()
     {
-        originalFOV = 60f;
         targetFOV = 60f;
         InitializePostprocessings();
         
@@ -118,7 +117,6 @@ public class PostAndScenery : MonoBehaviour
     void InitializePostprocessings()
     {
         originalFOV = cam.fieldOfView;
-        targetFOV = originalFOV;
 
         blissProfile.TryGet(out caBliss);
         originalChromaticBliss = caBliss.intensity.value;
@@ -145,8 +143,8 @@ public class PostAndScenery : MonoBehaviour
         diveVolume_instance.GetComponent<Volume>().profile.TryGet(out colorAdjDiveSoar);
 
 
-        always = pass.customPasses[0];
-        lessEqual = pass.customPasses[1];
+        //always = pass.customPasses[0];
+        //lessEqual = pass.customPasses[1];
     }
 
     void AdjustAOInDiveScene(float timeValue, float distValue)

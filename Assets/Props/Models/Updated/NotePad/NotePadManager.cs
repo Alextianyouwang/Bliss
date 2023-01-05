@@ -3,22 +3,26 @@ using UnityEngine;
 using System.Linq;
 public class NotePadManager : FileObject
 {
-    readonly string s_OpenFile = "OpenFile";
+    readonly string 
+        s_OpenFile = "OpenFile", 
+        s_TMPParent = "TMPContents";
 
-    [HideInInspector]public List<Transform> animatorHolder = new List<Transform>();
-    public Transform TMPParent;
-    [HideInInspector]public List<Transform> contentsHolderT = new List<Transform>();
+    public List<Transform> animatorHolder { get; private set; } = new List<Transform>();
+    public List<Transform> contentsHolderT { get; private set; } = new List<Transform>();
+
+    private Transform TMPParent;
     public int contentIndex;
 
     void Initialization()
     {
-        ContentInitialization(contentIndex);
-
-        foreach (Transform Child in transform)
+        foreach (Transform c in transform)
         {
-            if (Child.GetComponent<Animator>() != null)
-                animatorHolder.Add(Child);
+            if (c.GetComponent<Animator>() != null)
+                animatorHolder.Add(c);
+            if (c.name == "Canvas")
+                TMPParent = c.Find(s_TMPParent);
         }
+        ContentInitialization(contentIndex);
     }
 
     void ContentInitialization(int contentIndex)

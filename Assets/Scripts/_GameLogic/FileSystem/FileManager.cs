@@ -12,7 +12,6 @@ public class FileManager : MonoBehaviour
     {
         SceneSwitcher.OnSceneDataLoaded += GetSceneData;
         SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
-
         SaveButton.OnSaveCurrentFile += SaveCurrentFile;
         DeleteButton.OnDeleteObject += DeleteCurrentFile;
         FileObject.OnFlieCollected += GetFileObject;
@@ -41,7 +40,7 @@ public class FileManager : MonoBehaviour
         {
             sd.currFile.SetIsAnchored(false);
             sd.currFile.ResetFileAnimationValue();
-            sd.currFile.isSaved = true;
+            sd.currFile.SetIsSaved(true);
             
             FileObject f = Instantiate(sd.currFile);
             f.transform.position = sd.clippyFileLoadPosition[sd.fileIndex].position;
@@ -51,7 +50,7 @@ public class FileManager : MonoBehaviour
             f.SetIsAnchored(false);
             f.SetGroundPos();
             f.ResetFileAnimationValue();
-            f.pairedMainFileWhenCloned = sd.currFile;
+            f.SetPairedMainFile(sd.currFile);
             sd.clippyFileLoaded[sd.fileIndex] = f;
         }
     }
@@ -59,7 +58,7 @@ public class FileManager : MonoBehaviour
     void DeleteCurrentFile()
     {
         RemoveFile(sd.currFile);
-        sd.currFile.pairedMainFileWhenCloned.isSaved = false;
+        sd.currFile.pairedMainFileWhenCloned.SetIsSaved(false);
         Destroy(sd.currFile.gameObject);
     }
     void RemoveFile(FileObject fileToRemove)
@@ -74,6 +73,33 @@ public class FileManager : MonoBehaviour
     {
         sd.currFile.StartSaveEffect();
     }
+    FileObject GetRoot(FileObject current) 
+    {
+        FileObject ultimate = current;
+        while (ultimate.parent != null) 
+        {
+            ultimate = ultimate.parent;
+        }
+        return ultimate;
+    }
+    void BatchDeactivateBetweenDirectoryDepth(FileObject from,FileObject to) 
+    {
+        FileObject[] childs = from.childs;
+        while (from != to)
+        {
+            if (childs != null)
+            if (childs.Length != 0)
+            foreach (FileObject f in childs)
+            {
+                if (f.isAnchored)
+                    f.CloseFileAnimation();
+                f.SetIsAnchored(false);
+            }
+            from.CloseFileAnimation();
+            from.SetIsAnchored(false);
+            from = from.parent;
+        }
+    }
     void GetFileObject(FileObject file)
     {
         sd.currFile = file;
@@ -82,94 +108,46 @@ public class FileManager : MonoBehaviour
             sd.currFile != sd.prevFile
             // Make sure this is not the first file selected
             && sd.prevFile != null
-
             )
         {
             OnFileChange?.Invoke(sd.currFile, sd.prevFile);
-            // From File on the Field to File on the Filed 
-            if (!sd.prevFile.GetComponent<FolderManager>()
-               && !sd.currFile.GetComponent<FolderManager>()
-               && sd.prevFile.parentFolder == null
-               && sd.currFile.parentFolder == null
-               )
-            {
-                sd.prevFile.SetIsAnchored(false);
-                sd.currFile.SetIsAnchored(true);
-                sd.prevFile.CloseFileAnimation();
-            }
-            // From File on the Field to Folder
-            else if (
-               !sd.prevFile.GetComponent<FolderManager>()
-               && sd.currFile.GetComponent<FolderManager>()
-                && sd.prevFile.parentFolder == null
-                && sd.currFile.parentFolder == null
+            //No matter how to traverse between files, the previous file Anchored flag has to be set to false.
+            sd.prevFile.SetIsAnchored(false);
+            sd.currFile.SetIsAnchored(true);
+            // move from files
+            if (
+                 !sd.prevFile.GetComponent<FolderManager>()
                 )
             {
-                sd.prevFile.SetIsAnchored(false);
-                sd.currFile.SetIsAnchored(true);
-                sd.prevFile.CloseFileAnimation();
+                // Same Level Movement
+                if (sd.currFile.parent == sd.prevFile.parent)
+                    sd.prevFile.CloseFileAnimation();
+                // Special Occation if enter a folder right after exit from a file inside that folder,
+                // the animation will be set to open from its own instancescript but then set to close by the prevFile.parentFolder
+                else if (GetRoot(sd.prevFile) == sd.currFile.GetComponent<FolderManager>()){}
+                // Different Directory Movement
+                else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile) && !SceneSwitcher.isInClippy)
+                    BatchDeactivateBetweenDirectoryDepth(sd.prevFile, null);
+                else
+                    if(!SceneSwitcher.isInClippy)
+                        BatchDeactivateBetweenDirectoryDepth(sd.prevFile, sd.currFile.parent);
             }
-            // From Folder to File in Folder
+            // move from folder
             else if (
                 sd.prevFile.GetComponent<FolderManager>()
-                && sd.currFile.parentFolder != null
                 )
             {
-                sd.currFile.SetIsAnchored(true);
-            }
-            // From File in Folder to File on the Field
-            else if (
-                !sd.prevFile.GetComponent<FolderManager>()
-                && !sd.currFile.GetComponent<FolderManager>()
-                && sd.prevFile.parentFolder != null
-                && sd.currFile.parentFolder == null
-                )
-            {
-
-                sd.currFile.SetIsAnchored(true);
-                sd.prevFile.parentFolder.SetIsAnchored(false);
-                sd.prevFile.parentFolder.CloseFileAnimation();
-                sd.prevFile.SetIsAnchored(false);
-                sd.prevFile.CloseFileAnimation();
-            }
-            // From File in Folder to File in Folder 
-            else if (sd.prevFile.parentFolder != null
-                && sd.currFile.parentFolder != null)
-            {
-                sd.prevFile.SetIsAnchored(false);
-                sd.currFile.SetIsAnchored(true);
-                sd.prevFile.CloseFileAnimation();
-            }
-
-            // From File in Folder to Folder
-            else if (
-                !sd.prevFile.GetComponent<FolderManager>()
-                && sd.currFile.GetComponent<FolderManager>()
-                && sd.prevFile.parentFolder != null
-                && sd.currFile.parentFolder == null
-         
-                )
-            {
-               
-                sd.prevFile.SetIsAnchored(false);
-                sd.currFile.SetIsAnchored(true);
-                sd.prevFile.CloseFileAnimation();
-                sd.prevFile.parentFolder.SetIsAnchored(false);
-                // if enter a folder right after exit from a file inside that folder,
-                // the animation will be set to open from its own instancescript but then set to close by the prevFile.parentFolder
-                if (sd.prevFile.parentFolder != sd.currFile.GetComponent<FolderManager>())
-                    sd.prevFile.parentFolder.CloseFileAnimation();
-
-            }
-            // From Folder to File on the Field
-            else if (
-                 sd.prevFile.GetComponent<FolderManager>()
-                && sd.currFile.parentFolder == null
-                )
-            {
-                sd.prevFile.SetIsAnchored(false);
-                sd.currFile.SetIsAnchored(true);
-                sd.prevFile.CloseFileAnimation();
+                // Same level movement
+                if (sd.currFile.parent == sd.prevFile.parent)
+                    sd.prevFile.CloseFileAnimation();
+                // Fetch childs within directory
+                else if (sd.currFile.parent == sd.prevFile.GetComponent<FolderManager>())
+                    sd.currFile.SetIsAnchored(true);
+                // Different Directory movement
+                else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile))
+                    BatchDeactivateBetweenDirectoryDepth(sd.prevFile, null);
+                else
+                    BatchDeactivateBetweenDirectoryDepth(sd.prevFile, sd.currFile.parent);
             }
         }
 
