@@ -11,14 +11,18 @@ public class FileManager : MonoBehaviour
     private void OnEnable()
     {
         SceneSwitcher.OnSceneDataLoaded += GetSceneData;
+        SceneSwitcher.OnClippyToggle += UpdateFileBeforeSwitchScene_fromSceneSwitcher;
         SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
         SaveButton.OnSaveCurrentFile += SaveCurrentFile;
         DeleteButton.OnDeleteObject += DeleteCurrentFile;
         FileObject.OnFlieCollected += GetFileObject;
+
     }
     private void OnDisable()
     {
         SaveButton.OnSaveCurrentFile -= SaveCurrentFile;
+        SceneSwitcher.OnClippyToggle -= UpdateFileBeforeSwitchScene_fromSceneSwitcher;
+
         DeleteButton.OnDeleteObject -= DeleteCurrentFile;
         FileObject.OnFlieCollected -= GetFileObject;
         SceneSwitcher.OnSceneDataLoaded -= GetSceneData;
@@ -82,7 +86,7 @@ public class FileManager : MonoBehaviour
         }
         return ultimate;
     }
-    void BatchDeactivateBetweenDirectoryDepth(FileObject from,FileObject to) 
+    void BatchDeactivateAcrossDirectoryDepth(FileObject from,FileObject to) 
     {
         FileObject[] childs = from.childs;
         while (from != to)
@@ -100,6 +104,13 @@ public class FileManager : MonoBehaviour
             from = from.parent;
         }
     }
+    void UpdateFileBeforeSwitchScene_fromSceneSwitcher(bool b) 
+    {
+        if (b)
+            sd.fileBeforeSwitchScene = sd.currFile;
+        else
+            sd.prevFile = sd.fileBeforeSwitchScene;
+    }
     void GetFileObject(FileObject file)
     {
         sd.currFile = file;
@@ -111,48 +122,53 @@ public class FileManager : MonoBehaviour
             )
         {
             OnFileChange?.Invoke(sd.currFile, sd.prevFile);
-            //No matter how to traverse between files, the previous file Anchored flag has to be set to false.
-            sd.prevFile.SetIsAnchored(false);
-            sd.currFile.SetIsAnchored(true);
-            // move from files
-            if (
-                 !sd.prevFile.GetComponent<FolderManager>()
-                )
-            {
-                // Same Level Movement
-                if (sd.currFile.parent == sd.prevFile.parent)
-                    sd.prevFile.CloseFileAnimation();
-                // Special Occation if enter a folder right after exit from a file inside that folder,
-                // the animation will be set to open from its own instancescript but then set to close by the prevFile.parentFolder
-                else if (GetRoot(sd.prevFile) == sd.currFile.GetComponent<FolderManager>()){}
-                // Different Directory Movement
-                else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile) && !SceneSwitcher.isInClippy)
-                    BatchDeactivateBetweenDirectoryDepth(sd.prevFile, null);
-                else
-                    if(!SceneSwitcher.isInClippy)
-                        BatchDeactivateBetweenDirectoryDepth(sd.prevFile, sd.currFile.parent);
-            }
-            // move from folder
-            else if (
-                sd.prevFile.GetComponent<FolderManager>()
-                )
-            {
-                // Same level movement
-                if (sd.currFile.parent == sd.prevFile.parent)
-                    sd.prevFile.CloseFileAnimation();
-                // Fetch childs within directory
-                else if (sd.currFile.parent == sd.prevFile.GetComponent<FolderManager>())
-                    sd.currFile.SetIsAnchored(true);
-                // Different Directory movement
-                else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile))
-                    BatchDeactivateBetweenDirectoryDepth(sd.prevFile, null);
-                else
-                    BatchDeactivateBetweenDirectoryDepth(sd.prevFile, sd.currFile.parent);
-            }
+            SetFileStatusUponChange();
         }
 
         if (!sd.currFile.GetComponent<FolderManager>())
             OnTriggerSaveMatrix?.Invoke(sd.currFile);
         sd.prevFile = sd.currFile;
+    }
+
+    void SetFileStatusUponChange() 
+    {
+        //No matter how to traverse between files, the previous file Anchored flag has to be set to false.
+        sd.prevFile.SetIsAnchored(false);
+        sd.currFile.SetIsAnchored(true);
+        // move from files
+        if (
+             !sd.prevFile.GetComponent<FolderManager>()
+            )
+        {
+            // Same Level Movement
+            if (sd.currFile.parent == sd.prevFile.parent)
+                sd.prevFile.CloseFileAnimation();
+            // Special Occation if enter a folder right after exit from a file inside that folder,
+            // the animation will be set to open from its own instance script but then set to close by the prevFile.parentFolder
+            else if (GetRoot(sd.prevFile) == sd.currFile.GetComponent<FolderManager>()) { }
+            // Different Directory Movement 
+            else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile) && !SceneSwitcher.isInClippy)
+                BatchDeactivateAcrossDirectoryDepth(sd.prevFile, null);
+            else
+                if (!SceneSwitcher.isInClippy)
+                BatchDeactivateAcrossDirectoryDepth(sd.prevFile, sd.currFile.parent);
+        }
+        // move from folder
+        else if (
+            sd.prevFile.GetComponent<FolderManager>()
+            )
+        {
+            // Same level movement
+            if (sd.currFile.parent == sd.prevFile.parent)
+                sd.prevFile.CloseFileAnimation();
+            // Fetch childs within directory
+            else if (sd.currFile.parent == sd.prevFile.GetComponent<FolderManager>())
+                sd.currFile.SetIsAnchored(true);
+            // Different Directory movement
+            else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile))
+                BatchDeactivateAcrossDirectoryDepth(sd.prevFile, null);
+            else
+                BatchDeactivateAcrossDirectoryDepth(sd.prevFile, sd.currFile.parent);
+        }
     }
 }
