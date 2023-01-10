@@ -7,10 +7,10 @@ public class SceneSwitcher : MonoBehaviour
 {
     // Create a static SceneData object.
     public static SceneData sd;
-    public static bool isInClippy = false;
+    public static bool isInFloppy = false;
 
     // Invoked when teleported between floppy and bliss.
-    public static Action<bool> OnClippyToggle;
+    public static Action<bool> OnFloppyToggle;
     // Invoke to notify other class to set a local reference of the SceneData object.
     public static Action OnSceneDataLoaded;
 
@@ -21,7 +21,7 @@ public class SceneSwitcher : MonoBehaviour
     private void OnDisable()
     {
         AM_BlissMain.OnRequestSceneSwitch -= SwitchScene;
-        isInClippy = false;
+        isInFloppy = false;
     }
 
     private void Awake()
@@ -46,37 +46,45 @@ public class SceneSwitcher : MonoBehaviour
         {
             yield return null;
         }
-        sd.clippyWrapper = FindObjectOfType<ClippyWrapper>().gameObject;
-        sd.clippyLoadPoint = FindObjectOfType<ClippyLoadpoint>().gameObject;
-        sd.clippyFileSystem = FindObjectOfType<ClippyFileSystem>();
-        sd.clippyFileLoadPosition = sd.clippyFileSystem.fileTransform;
-        sd.clippyWrapper.SetActive(false);
-        sd.clippyFileLoaded = new FileObject[sd.clippyFileSystem.transform.childCount];
+        sd.floppyWraper = FindObjectOfType<ClippyWrapper>().gameObject;
+        sd.floppyLoadPoint = FindObjectOfType<ClippyLoadpoint>().gameObject;
+        sd.floppyFileSystem = FindObjectOfType<ClippyFileSystem>();
+        sd.floppyFileManagers = sd.floppyFileSystem.fileProjectors;
+        sd.floppyWraper.SetActive(false);
+        sd.clippyFileLoaded = new FileObject[sd.floppyFileManagers.Count];
         for (int i = 0; i < sd.clippyFileLoaded.Length; i++) { sd.clippyFileLoaded[i] = null; }
         OnSceneDataLoaded?.Invoke();
     }
     void SwitchScene()
     {
-        if (!isInClippy)
+        if (!isInFloppy)
         {
-            isInClippy = true;
+            isInFloppy = true;
             sd.previousBlissPosition = transform.position;
-            transform.position = sd.clippyLoadPoint.transform.position;
+            transform.position = sd.floppyLoadPoint.transform.position;
+
+            if (sd.mostRecentSavedFile) 
+            {
+                Vector3 targetDir =(sd.mostRecentSavedFile.transform.position - transform.position).normalized;
+                transform.forward = targetDir;
+                transform.GetComponentInChildren<Camera>().transform.forward = targetDir;
+            }
 
             sd.blizzWrapper.SetActive(false);
-            sd.clippyWrapper.SetActive(true);
+            sd.floppyWraper.SetActive(true);
         }
 
         else
         {
-            isInClippy = false;
-            sd.clippyLoadPoint.transform.position = transform.position;
-
+            isInFloppy = false;
+            //sd.floppyLoadPoint.transform.position = transform.position;
             transform.position = sd.previousBlissPosition;
-            sd.clippyWrapper.SetActive(false);
+
+          
+            sd.floppyWraper.SetActive(false);
             sd.blizzWrapper.SetActive(true);
         }
-        OnClippyToggle?.Invoke(isInClippy);
+        OnFloppyToggle?.Invoke(isInFloppy);
 
     }
     void SceneSwitchingCheck()

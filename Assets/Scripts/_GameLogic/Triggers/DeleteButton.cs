@@ -4,6 +4,7 @@ using UnityEngine;
 public class DeleteButton : MonoBehaviour
 {
     public static Action OnDeleteObject;
+    public static Action OnRefreshFileFullState;
     public static Action OnPlayerReleased;
     public bool hasBeenClicked = false;
     private void OnCollisionEnter(Collision collision)
@@ -17,6 +18,7 @@ public class DeleteButton : MonoBehaviour
                     if (!hasBeenClicked) 
                     {
                         OnDeleteObject?.Invoke();
+                        OnRefreshFileFullState?.Invoke();
                         OnPlayerReleased?.Invoke();
                     }
                 }

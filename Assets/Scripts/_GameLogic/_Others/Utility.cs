@@ -81,6 +81,17 @@ public static class Utility
         return array.Length;
     }
 
+    public static int CheckIfHasNumberOfNullInList<T>(T[] array)
+    {
+        int num = 0;
+        foreach (T t in array)
+        {
+            if (t == null)
+               num += 1;
+        }
+        return num;
+    }
+
     public static float Remap(float value, float from1, float to1, float from2, float to2)
     {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;

@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using System.Linq;
 
 public class SaveButton : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class SaveButton : MonoBehaviour
     public static Action<bool> OnRetreatSaveButton;
     public static Action OnInitiateSaveAnimation;
     public static Action OnStartSaveEffect;
+    public static Action OnPreIterateFileIndex;
     public bool hasBeenClicked = false;
     private void OnCollisionEnter(Collision collision)
     {
@@ -20,12 +22,16 @@ public class SaveButton : MonoBehaviour
                 {
                     if (!hasBeenClicked) 
                     {
+                        if (!SceneSwitcher.sd.currFile.isSaved)
+                            OnPreIterateFileIndex?.Invoke();
+
                         OnRetreatSaveButton?.Invoke(SceneSwitcher.sd.currFile.isSaved);
+                        
                         if (!SceneSwitcher.sd.currFile.isSaved)
                             OnStartSaveEffect?.Invoke();
-                        WaitExecute(!SceneSwitcher.sd.currFile.isSaved);
+                        WaitExecute(!SceneSwitcher.sd.currFile.isSaved );
                         OnSaveCurrentFile?.Invoke();
-                        
+
                     }
                 }
             }

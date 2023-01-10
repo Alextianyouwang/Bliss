@@ -7,10 +7,13 @@ using UnityEngine;
 public class ClippyFileSystem : MonoBehaviour
 {
     // Contains a list of transforms, which will be the parent object of saved files in FloppyWorld.
-    public List<Transform> fileTransform = new List<Transform>();
+    //public List<Transform> fileTransform = new List<Transform>();
+    public List<FileProjectorManager> fileProjectors = new List<FileProjectorManager>();
     private void Awake()
     {
-        fileTransform = gameObject.GetComponentsInChildren<Transform>().ToList();
-        fileTransform = fileTransform.Where(x => x.parent == gameObject.transform).ToList();
+        fileProjectors = GetComponentsInChildren<FileProjectorManager>().ToList();
+        fileProjectors = fileProjectors.Where(x => x.transform.parent == transform).ToList();
+        //fileTransform = GetComponentsInChildren<Transform>().ToList();
+        //fileTransform = fileTransform.Where(x => x.name == "FileLoadingPoint").ToList();
     }
 }

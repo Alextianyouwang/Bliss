@@ -1092,6 +1092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0cc1cb4056d61442ba9af4bb6eab5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2

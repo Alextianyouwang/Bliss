@@ -9,16 +9,16 @@ public class SelfSpinning : MonoBehaviour
     private bool canRotate = true;
     private void OnEnable()
     {
-        FileObject.OnPlayerAnchored += StopSpin;
+        FileObject.OnPlayerAnchored += StopSpin_fromFileObject;
         FileObject.OnPlayerReleased += CanSpin;
     }
     private void OnDisable()
     {
-        FileObject.OnPlayerAnchored -= StopSpin;
+        FileObject.OnPlayerAnchored -= StopSpin_fromFileObject;
         FileObject.OnPlayerReleased -= CanSpin;
     }
 
-    void StopSpin(FileObject f) 
+    void StopSpin_fromFileObject(FileObject f) 
     {
         canRotate = false;
     }
@@ -29,7 +29,7 @@ public class SelfSpinning : MonoBehaviour
 
     void Update()
     {
-        if (canRotate) 
+        if (canRotate && !FileProjectorManager.isPerformingFileDisplayAnimation) 
         {
             transform.Rotate(0, rotationSpeed, 0);
         }

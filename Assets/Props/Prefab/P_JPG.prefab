@@ -850,21 +850,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1816ec4c43a7f4ca53813d0fdae994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnchor: {fileID: 251390400}
+  lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
-  groundPosition: {x: 0, y: 0, z: 0}
-  isSaved: 0
-  pairedMainFileWhenCloned: {fileID: 0}
-  animatorHolder: []
   matHolder: []
-  JPGParent: {fileID: 192393230}
-  contentsHolder: []
-  contentIndex: 1
   minFade: 7
   minFadeMatrix: 6
   maxFade: 8.5
+  contentIndex: 1
 --- !u!65 &805534835
 BoxCollider:
   m_ObjectHideFlags: 0

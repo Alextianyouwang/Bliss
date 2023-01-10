@@ -131,7 +131,7 @@ public class InteractionManager : MonoBehaviour
                 currentNumber.transform.position = throwPoint.position;
                 prepareToThrow = true;
 
-                if (SceneSwitcher.isInClippy)
+                if (SceneSwitcher.isInFloppy)
                 {
                     currentNumber.transform.parent = FindObjectOfType<ClippyWrapper>().transform;
                 }

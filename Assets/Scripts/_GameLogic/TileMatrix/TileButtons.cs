@@ -41,7 +41,7 @@ public class TileButtons
         {
             for (int i = 0; i < 4; i++)
             {
-                if (t.allowWindowsSetPrefabToButtons)
+                if (t.displayAndUpdateButton)
                 {
                     buttonArray[i].SetPosition(t.windowTiles[i].smoothedFinalXYZPosition);
                     if (buttonArray[i].displayState != state)

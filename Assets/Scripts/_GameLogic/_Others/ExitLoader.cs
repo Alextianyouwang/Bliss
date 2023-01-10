@@ -39,12 +39,12 @@ public class ExitLoader : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneSwitcher.OnClippyToggle += SetIsInClippy;
+        SceneSwitcher.OnFloppyToggle += SetIsInClippy;
     }
 
     private void OnDisable()
     {
-        SceneSwitcher.OnClippyToggle -= SetIsInClippy;
+        SceneSwitcher.OnFloppyToggle -= SetIsInClippy;
         
     }
 

@@ -5,28 +5,37 @@ using UnityEngine;
 public class FileManager : MonoBehaviour
 {
     private SceneData sd;
+    public static bool isFileFull = false;
     public static Action<FileObject, FileObject> OnFileChange;
     public static Action<FileObject> OnTriggerSaveMatrix;
 
     private void OnEnable()
     {
         SceneSwitcher.OnSceneDataLoaded += GetSceneData;
-        SceneSwitcher.OnClippyToggle += UpdateFileBeforeSwitchScene_fromSceneSwitcher;
+        SceneSwitcher.OnFloppyToggle += UpdateFileBeforeSwitchScene_fromSceneSwitcher;
         SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
         SaveButton.OnSaveCurrentFile += SaveCurrentFile;
+        SaveButton.OnPreIterateFileIndex += FindFirstEmptySpotAndCheckFullStatus;
         DeleteButton.OnDeleteObject += DeleteCurrentFile;
+        DeleteButton.OnRefreshFileFullState += SetFileFullToFalse;
+;
         FileObject.OnFlieCollected += GetFileObject;
 
     }
     private void OnDisable()
     {
+        SceneSwitcher.OnFloppyToggle -= UpdateFileBeforeSwitchScene_fromSceneSwitcher;
+        SceneSwitcher.OnSceneDataLoaded -= GetSceneData;
+
+        SaveButton.OnStartSaveEffect -= InitiateCurrentFileAnimation;
         SaveButton.OnSaveCurrentFile -= SaveCurrentFile;
-        SceneSwitcher.OnClippyToggle -= UpdateFileBeforeSwitchScene_fromSceneSwitcher;
+        SaveButton.OnPreIterateFileIndex -= FindFirstEmptySpotAndCheckFullStatus;
 
         DeleteButton.OnDeleteObject -= DeleteCurrentFile;
+        DeleteButton.OnRefreshFileFullState -= SetFileFullToFalse;
         FileObject.OnFlieCollected -= GetFileObject;
-        SceneSwitcher.OnSceneDataLoaded -= GetSceneData;
-        SaveButton.OnStartSaveEffect -= InitiateCurrentFileAnimation;
+
+        isFileFull = false;
     }
 
     void GetSceneData()
@@ -34,35 +43,53 @@ public class FileManager : MonoBehaviour
         sd = SceneSwitcher.sd;
     }
 
+    void FindFirstEmptySpotAndCheckFullStatus() 
+    {
+        isFileFull = Utility.CheckIfHasNumberOfNullInList(sd.clippyFileLoaded) == 1;
+        if (Array.Find(SceneSwitcher.sd.clippyFileLoaded, x => x != null && x.pairedMainFileWhenCloned == sd.currFile))
+            return;
+        sd.fileIndex = Utility.GetFirstNullIndexInList(sd.clippyFileLoaded);
+    }
+    void SetFileFullToFalse()
+    {
+        isFileFull = false;
+    }
     void SaveCurrentFile()
     {
         // only proceed to save if current list doesn't already contains it to prevent duplication.
-        if (Array.Find(SceneSwitcher.sd.clippyFileLoaded, x => x != null && x.name == sd.prevFile.name + "(Clone)"))
+        if (Array.Find(SceneSwitcher.sd.clippyFileLoaded, x => x != null && x.pairedMainFileWhenCloned == sd.currFile))
             return;
-        sd.fileIndex = Utility.GetFirstNullIndexInList(sd.clippyFileLoaded);
         if (sd.fileIndex < sd.clippyFileLoaded.Length)
         {
             sd.currFile.SetIsAnchored(false);
             sd.currFile.ResetFileAnimationValue();
             sd.currFile.SetIsSaved(true);
-            
+
             FileObject f = Instantiate(sd.currFile);
-            f.transform.position = sd.clippyFileLoadPosition[sd.fileIndex].position;
-            f.transform.parent = sd.clippyFileSystem.transform;
-            f.transform.forward = (sd.clippyFileSystem.transform.position - f.transform.position).normalized;
+            f.transform.position = sd.floppyFileManagers[sd.fileIndex].GetFileLoadPosition();
+            f.transform.parent = sd.floppyFileSystem.transform;
+            f.transform.forward = (sd.floppyFileSystem.transform.position - f.transform.position).normalized;
             f.transform.localScale *= 0.8f;
             f.SetIsAnchored(false);
             f.SetGroundPos();
             f.ResetFileAnimationValue();
             f.SetPairedMainFile(sd.currFile);
+            sd.mostRecentSavedFile = f;
             sd.clippyFileLoaded[sd.fileIndex] = f;
+            sd.floppyFileManagers[sd.fileIndex].SetContainedFile(f);
+            sd.floppyFileManagers[sd.fileIndex].SetFileLightData(sd.currFile.lightData);
         }
     }
 
     void DeleteCurrentFile()
     {
+        FileProjectorManager fileProjector = Array.Find(sd.floppyFileManagers.ToArray(), x => x.contianedFile == sd.currFile);
+        fileProjector.TurnOff();
+
         RemoveFile(sd.currFile);
         sd.currFile.pairedMainFileWhenCloned.SetIsSaved(false);
+        if (sd.mostRecentSavedFile == sd.currFile)
+            sd.mostRecentSavedFile = null;
         Destroy(sd.currFile.gameObject);
     }
     void RemoveFile(FileObject fileToRemove)
@@ -147,10 +174,10 @@ public class FileManager : MonoBehaviour
             // the animation will be set to open from its own instance script but then set to close by the prevFile.parentFolder
             else if (GetRoot(sd.prevFile) == sd.currFile.GetComponent<FolderManager>()) { }
             // Different Directory Movement 
-            else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile) && !SceneSwitcher.isInClippy)
+            else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile) && !SceneSwitcher.isInFloppy)
                 BatchDeactivateAcrossDirectoryDepth(sd.prevFile, null);
             else
-                if (!SceneSwitcher.isInClippy)
+                if (!SceneSwitcher.isInFloppy)
                 BatchDeactivateAcrossDirectoryDepth(sd.prevFile, sd.currFile.parent);
         }
         // move from folder

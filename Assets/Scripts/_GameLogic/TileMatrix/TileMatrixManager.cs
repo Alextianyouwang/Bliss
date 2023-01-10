@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 public class TileMatrixManager : MonoBehaviour
 {
@@ -194,7 +195,7 @@ public class TileMatrixManager : MonoBehaviour
         state = TileStates.Staging;
         float percent = 0;
         float initialRaidius = 2f;
-        float targetRadius = SceneSwitcher.isInClippy ? 5.5f : 8f;
+        float targetRadius = SceneSwitcher.isInFloppy ? 5.5f : 8f;
         Vector3 currentPosition = FirstPersonController.playerGroundPosition;
         Vector3 path = Vector3.zero;
         while (percent < 1)
@@ -207,8 +208,9 @@ public class TileMatrixManager : MonoBehaviour
             t.UpdateTileDampSpeedTogether(varyingDampSpeed);
             t.UpdateWindowTile(path);
             t.UpdateTilesStatusPerFrame(0, newRadius, 0.0f, 0.5f, defaultNoiseWeight, path);
-            b.UpdateButtonPosition(SceneSwitcher.isInClippy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
-            t.DrawTileInstanceCurrentFrame(SceneSwitcher.isInClippy ? true : !SceneSwitcher.sd.currFile.isSaved);
+            if ((!FileManager.isFileFull || SceneSwitcher.isInFloppy) || t.activateWindowsIndependance)
+                b.UpdateButtonPosition(SceneSwitcher.isInFloppy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
+            t.DrawTileInstanceCurrentFrame(SceneSwitcher.isInFloppy ? true : !(SceneSwitcher.sd.currFile.isSaved || FileManager.isFileFull));
 
             yield return null;
         }
@@ -223,8 +225,9 @@ public class TileMatrixManager : MonoBehaviour
                     t.UpdateTileDampSpeedTogether(varyingDampSpeed);
                     t.UpdateWindowTile(path);
                     t.UpdateTilesStatusPerFrame(innerRadius, targetRadius, changingHighRiseMultiplierBoost, changingMatrixYOffset + 1f, 0.5f, path);
-                    b.UpdateButtonPosition(SceneSwitcher.isInClippy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
-                    t.DrawTileInstanceCurrentFrame(SceneSwitcher.isInClippy ? true :!SceneSwitcher.sd.currFile.isSaved);
+                    if ((!FileManager.isFileFull || SceneSwitcher.isInFloppy) || t.activateWindowsIndependance)
+                        b.UpdateButtonPosition(SceneSwitcher.isInFloppy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
+                    t.DrawTileInstanceCurrentFrame(SceneSwitcher.isInFloppy ? true :!(SceneSwitcher.sd.currFile.isSaved || FileManager.isFileFull));
 
                     break;
                 case TileStates.Staging_Diving:
@@ -246,7 +249,7 @@ public class TileMatrixManager : MonoBehaviour
                     t.UpdateTileDampSpeedTogether(0.2f);
                     t.UpdateWindowTile(path);
                     t.UpdateTilesStatusPerFrame(0, 4f, 2f, 5f, 12f, path);
-                    b.UpdateButtonPosition(SceneSwitcher.isInClippy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
+                    b.UpdateButtonPosition(SceneSwitcher.isInFloppy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
 
                     t.DrawTileInstanceCurrentFrame(true);
 
@@ -262,7 +265,7 @@ public class TileMatrixManager : MonoBehaviour
     IEnumerator WindowsClickedAnimation(bool buttonStateAfterAnimation)
     {
         t.activateWindowsIndependance = true;
-        t.allowWindowsSetPrefabToButtons = true;
+        t.displayAndUpdateButton = true;
        float percent = 0;
         Vector3 initialAveragePosition = GetWindowsAveragePosition(false);
         float waveScale = 2.5f;
@@ -275,7 +278,7 @@ public class TileMatrixManager : MonoBehaviour
             percent += Time.deltaTime * 2f;
             yield return null;
         }
-        t.allowWindowsSetPrefabToButtons = buttonStateAfterAnimation;
+        t.displayAndUpdateButton = buttonStateAfterAnimation;
         b.ToggleSaveHasBeenClicked(false);
         t.changingWindowsYPos = initialAveragePosition.y;
         yield return new WaitForSeconds(0.4f);
@@ -288,6 +291,8 @@ public class TileMatrixManager : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         state = TileStates.Staging;
         yield return new WaitForSeconds(0.2f);
+        state = TileStates.NormalFollow;
+
         OnFinishingDeleteFileAnimation?.Invoke();
     }
 
@@ -342,12 +347,12 @@ public class TileMatrixManager : MonoBehaviour
             radius += Vector2.Distance(new Vector2(t.smoothedFinalXYZPosition.x, t.smoothedFinalXYZPosition.z),
         new Vector2(FirstPersonController.playerGroundPosition.x, FirstPersonController.playerGroundPosition.z));
         }
-        if (array.Length >= 20)
+        if (array.Length >= 10)
             radius /= array.Length;
         else
             radius = 0;
 
-        return radius - 0.2f;
+        return radius -0.2f;
     }
 
 
@@ -360,7 +365,7 @@ public class TileMatrixManager : MonoBehaviour
     #region EventSubscribtion
     void ChangeRadius(float pitch)
     {
-        float percentage = !SceneSwitcher.isInClippy ? Mathf.InverseLerp(30, 75, pitch) : Mathf.InverseLerp(-30, -75, pitch);
+        float percentage = !SceneSwitcher.isInFloppy ? Mathf.InverseLerp(30, 75, pitch) : Mathf.InverseLerp(-30, -75, pitch);
         changingRadius = Mathf.Lerp(0, defaultRadius, percentage);
     }
 
@@ -547,7 +552,7 @@ public class TileMatrixManager : MonoBehaviour
 
         // Reset States
         isInDiveFormation = false;
-        t.allowWindowsSetPrefabToButtons = true;
+        t.displayAndUpdateButton = true;
 
         // Reset Values
         varyingDampSpeed = defaultDampSpeed;

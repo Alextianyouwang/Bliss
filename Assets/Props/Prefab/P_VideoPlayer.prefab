@@ -343,14 +343,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0498c4ea2ae20b94e9fa34fe2a7ce731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnchor: {fileID: 6417133402552348316}
+  lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
-  groundPosition: {x: 0, y: 0, z: 0}
-  isSaved: 0
-  pairedMainFileWhenCloned: {fileID: 0}
-  animatorHolder: []
   displayAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -375,7 +371,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  display: {fileID: 0}
 --- !u!65 &6417133403078343856
 BoxCollider:
   m_ObjectHideFlags: 0

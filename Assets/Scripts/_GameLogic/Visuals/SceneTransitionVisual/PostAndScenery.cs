@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.UI;
 
 public class PostAndScenery : MonoBehaviour
 {
@@ -23,10 +24,9 @@ public class PostAndScenery : MonoBehaviour
     float preTeleportFOVMultiplier = 1.5f;
     float stageModeChromatic = 1f, stageModeVignette = 0.44f;
 
-    Coroutine cutoutShrinkCo , cutoutCreateCo;
+    Coroutine cutoutShrinkCo;
     ChromaticAberration caBliss, caClippy;
     Vignette vBliss, vClippy;
-    CustomPass always, lessEqual;
     ColorAdjustments colorAdjDiveSoar;
 
     private GameObject
@@ -38,6 +38,8 @@ public class PostAndScenery : MonoBehaviour
     public static Func<bool> OnTestingWindowsAboveGround;
     public static Func<float> OnGettingUndergroundTileRadius;
     #endregion
+
+    public Image fadeScreen;
 
     private void OnEnable()
     {
@@ -51,9 +53,11 @@ public class PostAndScenery : MonoBehaviour
         AM_BlissMain.OnPlayerTeleportAnimationFinished += DisableVolumenAndScene;
         AM_BlissMain.OnDiving += AdjustAOInDiveScene;
 
-        SceneSwitcher.OnClippyToggle += ToggleClippyVolume;
+        SceneSwitcher.OnFloppyToggle += ToggleClippyVolume;
+        SceneSwitcher.OnFloppyToggle += FadeFromBlackToClear;
         AM_BlissMain.OnRequestDive += EnlargeFOV_fromPlayerAnchorAnimation;
         AM_BlissMain.OnPlayerTeleportAnimationFinished += ShrinkFOV_fromPlayerAnchorAnimation;
+        AM_BlissMain.OnDiving += FadeInWhileDiving;
 
         FileObject.OnPlayerAnchored += ShrinkFOV_fromFileObject;
 
@@ -69,10 +73,14 @@ public class PostAndScenery : MonoBehaviour
         AM_BlissMain.OnPlayerTeleportAnimationFinished -= DisableVolumenAndScene;
         AM_BlissMain.OnDiving -= AdjustAOInDiveScene;
 
-        SceneSwitcher.OnClippyToggle -= ToggleClippyVolume;
+        SceneSwitcher.OnFloppyToggle -= ToggleClippyVolume;
+        SceneSwitcher.OnFloppyToggle -= FadeFromBlackToClear;
+
 
         AM_BlissMain.OnRequestDive -= EnlargeFOV_fromPlayerAnchorAnimation;
         AM_BlissMain.OnPlayerTeleportAnimationFinished -= ShrinkFOV_fromPlayerAnchorAnimation;
+        AM_BlissMain.OnDiving -= FadeInWhileDiving;
+
 
         FileObject.OnPlayerAnchored -= ShrinkFOV_fromFileObject;
 
@@ -92,9 +100,47 @@ public class PostAndScenery : MonoBehaviour
     {
         targetFOV = 60f;
         InitializePostprocessings();
+        InitializeFadeScreenColor();
         
     }
 
+    void InitializeFadeScreenColor() 
+    {
+        fadeScreen.color = new Color(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, 0);
+
+    }
+    void FadeInWhileDiving(float timePercent, float distancePercent) 
+    {
+        float initialDistance = 0.25f;
+        if (distancePercent < initialDistance) 
+        {
+            float interpolator = (initialDistance - distancePercent) / initialDistance;
+            fadeScreen.color = new Color(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, interpolator);
+        }
+        
+    }
+    void FadeFromBlackToClear(bool isInFloppy) 
+    {
+        if (isInFloppy)
+            StartCoroutine(EnterFloppyVisualAnimation(false, 0.8f));
+    }
+    IEnumerator EnterFloppyVisualAnimation(bool fadeToBlack, float speed) 
+    {
+        float percent = 0;
+        float initialValue = fadeToBlack ? 0 : 1.2f;
+        float targetValue = fadeToBlack ? 1.2f : 0;
+
+        while (percent < 1f)
+        {
+            percent += Time.deltaTime * speed;
+            fadeScreen.color = new Color(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, Mathf.Lerp(initialValue,targetValue,percent));
+            targetFOV = originalFOV * Mathf.Lerp(0.6f, 1f, percent);
+
+            yield return null;
+        }
+        targetFOV = originalFOV;
+
+    }
     void ToggleClippyVolume(bool isInClippy)
     {
         if (isInClippy)

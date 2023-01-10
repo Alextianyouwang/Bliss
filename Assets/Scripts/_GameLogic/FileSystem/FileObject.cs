@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 public class FileObject : MonoBehaviour
 {
+    // ScriptableObject containing file save light color;
+    public FileLightData lightData;
     // Player's anchor position when Examine the file
     public Transform playerAnchor { get; private set; }
 
@@ -94,6 +96,8 @@ public class FileObject : MonoBehaviour
 
     protected virtual void Awake()
     {
+        if (lightData == null)
+            Debug.LogWarning("Please Assign Light Data for " + name);
         groundMask = LayerMask.GetMask("Ground");
         foreach (Transform c in transform) 
         {

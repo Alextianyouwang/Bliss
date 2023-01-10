@@ -120,7 +120,7 @@ public abstract class AnchorAnimation : MonoBehaviour
                     Quaternion.Euler(0, player.transform.eulerAngles.y, 0),
                     percent
                     );
-                player.transform.rotation = Utility.SmoothDampQuaternion(player.transform.rotation, target, ref rotRef, 0.1f, 100, Time.deltaTime);
+                player.transform.rotation = Utility.SmoothDampQuaternion(player.transform.rotation, target, ref rotRef, 0.15f, 100, Time.deltaTime);
                 if (ct.IsCancellationRequested)
                     ct.ThrowIfCancellationRequested();
                 await Task.Yield();

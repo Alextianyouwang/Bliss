@@ -4,10 +4,10 @@ using UnityEngine;
 public class SceneData 
 {
     public Vector3 previousBlissPosition;
-    public GameObject blizzWrapper, clippyWrapper, clippyLoadPoint;
-    public FileObject prevFile, currFile, fileBeforeSwitchScene;
-    public ClippyFileSystem clippyFileSystem;
-    public List<Transform> clippyFileLoadPosition;
+    public GameObject blizzWrapper, floppyWraper, floppyLoadPoint;
+    public FileObject prevFile, currFile, fileBeforeSwitchScene, mostRecentSavedFile;
+    public ClippyFileSystem floppyFileSystem;
+    public List<FileProjectorManager> floppyFileManagers;
     public FileObject[] clippyFileLoaded;
     public int fileIndex = 0;
     public SceneData() { }

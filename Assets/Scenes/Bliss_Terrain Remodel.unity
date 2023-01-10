@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 4
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 502.37195, g: 519.6304, b: 706.4464, a: 1}
+  m_IndirectSpecularColor: {r: 2472.4446, g: 3032.7344, b: 4893.1406, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2316,6 +2316,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: bad32181805e7d040b948a44a5dd3664, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29b1dd494f190f647bdfc68caed1a87f, type: 3}
+--- !u!224 &315359966 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2408143696452549889, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
+  m_PrefabInstance: {fileID: 519648553}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &333988548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2452,6 +2457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfc90b2966e36c4abfdb68aec5334df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 0}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -3542,6 +3548,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2408143695057836335, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2408143696267026840, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -3613,6 +3623,10 @@ PrefabInstance:
     - target: {fileID: 2408143696428051207, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408143696452549890, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
+      propertyPath: m_Name
+      value: Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 2408143696452549890, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
       propertyPath: m_Layer
@@ -4580,6 +4594,82 @@ Transform:
   m_Father: {fileID: 782813884}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &578957980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 578957981}
+  - component: {fileID: 578957983}
+  - component: {fileID: 578957982}
+  m_Layer: 0
+  m_Name: FadeScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &578957981
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578957980}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 315359966}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 80, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &578957982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578957980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 8db3e1952dc12374e9675a304e956e8b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &578957983
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578957980}
+  m_CullTransparentMesh: 1
 --- !u!1001 &585250120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5835,6 +5925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1816ec4c43a7f4ca53813d0fdae994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 0}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -9132,6 +9223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1816ec4c43a7f4ca53813d0fdae994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 0}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -9559,6 +9651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfc90b2966e36c4abfdb68aec5334df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 0}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -10050,6 +10143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfc90b2966e36c4abfdb68aec5334df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -10468,6 +10562,7 @@ MonoBehaviour:
   grassMat: {fileID: 2100000, guid: f49390f64ace6794c8890b62845d2395, type: 2}
   diveVolume: {fileID: 8351976072721494441, guid: 18c66508fbcaeb140b57376292aa5d40, type: 3}
   diveScenes: {fileID: 4366868693756307906, guid: 10c0b8c03ec1e9e4b8eeb36dfb96f1ca, type: 3}
+  fadeScreen: {fileID: 578957982}
 --- !u!4 &1439692940 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1980178945028074233, guid: 1b514a044dc270a42b5b595f63d66a61, type: 3}
@@ -11083,6 +11178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfc90b2966e36c4abfdb68aec5334df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -16749,6 +16845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfc90b2966e36c4abfdb68aec5334df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -17823,6 +17920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528965eda44064149a4ca78e183f069a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -19087,6 +19185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfc90b2966e36c4abfdb68aec5334df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 0}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -19162,6 +19261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfc90b2966e36c4abfdb68aec5334df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 0}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -19237,6 +19337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfc90b2966e36c4abfdb68aec5334df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -19489,6 +19590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1816ec4c43a7f4ca53813d0fdae994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 0}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -19529,6 +19631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1816ec4c43a7f4ca53813d0fdae994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 0}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
@@ -19697,6 +19800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1816ec4c43a7f4ca53813d0fdae994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
   saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2

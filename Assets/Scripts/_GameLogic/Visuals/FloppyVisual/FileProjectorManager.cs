@@ -1,112 +1,169 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 
 public class FileProjectorManager : MonoBehaviour
 {
-    [Header("NullState")]
-    [ColorUsage(true, false)]
-    public Color MatNullColor;
-    public Color LightsNullColor;
-
-    [Header("SavedState")]
-    [ColorUsage(true, false)]
-    public Color MatSavedColor;
-    public Color LightsSavedColor;
+    public FileLightData nullStateLightData;
+    private FileLightData activatedStateLightData;
+    public void SetFileLightData(FileLightData data)
+    {
+        activatedStateLightData = data;
+    }
 
     //Animation parameters
-    string s_Saved = "FileSaved", s_Null = "FileNull";
+    readonly string
+        s_Saved = "FileSaved",
+        s_Null = "FileNull";
     //Material parameters
-    string s_ProjectorLights = "ProjectorLights";
+    readonly string s_ProjectorLights = "ProjectorLights";
+    //Parent names
+    readonly string
+        s_RingParent = "RimTopGroup",
+        s_RingBase = "BaseGroup",
+        s_Lights = "Lights";
 
-    [Header("RingsGroup")]
-    public Transform RingParent;
-    public Transform RingBottomParent;
-    [SerializeField]
-    private List<Transform> AnimRings = new List<Transform>();
-    private List<Transform> AnimBottomRings = new List<Transform>();
-    [SerializeField]
-    private List<Transform> AllRings = new List<Transform>();
 
-    [Header("LightsGroup")]
-    public Transform LightsParent;
-    [SerializeField]
-    private List<Transform> AnimLights = new List<Transform>();
-    public float LerperVar = 0f;
+    private Transform
+        ringParent,
+        ringBaseParent,
+        lightsParent;
+    private List<Animator> animRings = new List<Animator>();
+    private List<Material> ringMats = new List<Material>();
+    private List<HDAdditionalLightData> animLights = new List<HDAdditionalLightData>();
 
-    //Debugger boolean state
-    [SerializeField]
-    private bool FileSaveDebugger = false;
-    [SerializeField]
-    private float LerpMultiplier = 0.5f;
-
-    void StartStateDeclaration()
+    public Vector3 GetFileLoadPosition()
     {
-        FileSavedState(-2f, 0, false);
+        return transform.Find("FileLoadingPoint").position;
+    }
+    public FileObject contianedFile { get; private set; }
+    public void SetContainedFile(FileObject f)
+    {
+        contianedFile = f;
+    }
+    public bool isOccupied { get; private set; }
+    public static bool isPerformingFileDisplayAnimation;
 
-        foreach (Transform Child in RingParent)
+
+    private void OnEnable()
+    {
+        SceneSwitcher.OnFloppyToggle += TurnOnWhenPlayerEnterFloppy;
+    }
+    private void OnDisable()
+    {
+        SceneSwitcher.OnFloppyToggle -= TurnOnWhenPlayerEnterFloppy;
+
+    }
+
+    void Initialization()
+    {
+        if (nullStateLightData == null)
+            Debug.LogWarning("Please Assign Light Data for " + name);
+        foreach (Transform c in transform)
+        {
+            if (c.name == s_RingParent)
+                ringParent = c;
+            if (c.name == s_RingBase)
+                ringBaseParent = c;
+            if (c.name == s_Lights)
+                lightsParent = c;
+        }
+        foreach (Transform Child in ringParent)
         {
             if (Child.gameObject.GetComponent<MeshRenderer>().sharedMaterials[1].name.Equals(s_ProjectorLights.ToString()))
-                AllRings.Add(Child);     
+                ringMats.Add(Child.GetComponent<MeshRenderer>().materials[1]);
             if (Child.gameObject.GetComponent<Animator>() != null)
-                AnimRings.Add(Child);
+                animRings.Add(Child.GetComponent<Animator>());
         }
-        foreach(Transform Child in RingBottomParent)
+        foreach (Transform Child in ringBaseParent)
         {
             if (Child.gameObject.GetComponent<Animator>() != null)
-                AnimRings.Add(Child);
+                animRings.Add(Child.GetComponent<Animator>());
         }
 
-        foreach(Transform Child in LightsParent)
+        foreach (Transform Child in lightsParent)
         {
             if (Child.gameObject.GetComponent<Light>() != null)
-                AnimLights.Add(Child);
+                animLights.Add(Child.GetComponent<HDAdditionalLightData>());
         }
+        InitializeColor();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void InitializeColor()
     {
-        StartStateDeclaration();
+        foreach (Material mat in ringMats)
+            mat.SetColor("_EmissiveColor", nullStateLightData.matColor);
+        foreach (HDAdditionalLightData light in animLights)
+            light.GetComponent<HDAdditionalLightData>().SetColor(nullStateLightData.lightColor);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void Awake()
     {
-        if (FileSaveDebugger)
-            FileSavedState(2f, 1f, true);
-        else
-            FileSavedState(-2f, 0, false);
+        Initialization();
     }
-
-    public void FileSavedState(float animMultiplier, float TargetValue, bool animState)
+    public void TurnOff()
     {
-        LerperVar = Utility.LerpHelper(ref LerperVar, TargetValue, LerpMultiplier);
-        foreach (Transform Child in AllRings)
-        {
-           
-            Color c_MatSavedColor = Color.Lerp(MatNullColor, MatSavedColor, LerperVar);
-            Child.GetComponent<MeshRenderer>().materials[1].SetColor("_EmissiveColor", c_MatSavedColor);
-        }
-        foreach(Transform Child in AnimLights)
-        {
-            Color c_LightColor = Color.Lerp(LightsNullColor, LightsSavedColor, LerperVar);
-            Child.GetComponent<HDAdditionalLightData>().SetColor(c_LightColor, 5626);
-            //print(c_LightColor);
-        }
-        foreach (Transform Child in AnimRings)
-        {
-            Animator a_Anim;
-            a_Anim = Child.gameObject.GetComponent<Animator>();
-
-            if (a_Anim.GetCurrentAnimatorStateInfo(0).IsTag("ProjectorRings")
-                && a_Anim.GetFloat(s_Null.ToString()) == animMultiplier)
-                return;
-
-            a_Anim.SetBool(s_Saved.ToString(), animState);
-            //a_Anim.SetFloat(s_Null.ToString(), animMultiplier);
-        }
+        isOccupied = false;
+        StartCoroutine( ProjectorAnimation(0.4f, -3f, false));
     }
 
+    void TurnOnWhenPlayerEnterFloppy(bool inFloppy) 
+    {
+        // Animator will reset is value back to 0 upon disable, need to set it back to one if it is previously activated
+        if (isOccupied)
+            SetAnimationState(3f, true);
+        // For the most recent saved file, the lerp animation will refresh each time when player is teleported into floppy.
+        if (contianedFile != null && contianedFile == SceneSwitcher.sd.mostRecentSavedFile && inFloppy) 
+        {
+            isOccupied = true;
+            StartCoroutine( ProjectorAnimation(0.4f, 3f, true));
+        }
+    }
+    IEnumerator ProjectorAnimation(float speed, float animMultiplier, bool open)
+    {
+        float percent = 0;
+        float initialValue = open ? 0 : 1;
+        float targetValue = open ? 1 : 0;
+        SetAnimationState(animMultiplier, open);
+        isPerformingFileDisplayAnimation = true;
+        while (percent < 1f)
+        {
+
+            percent += Time.deltaTime * speed;
+            SetMatAndLightLerpValue(Mathf.Lerp(initialValue, targetValue, percent));
+            yield return null;
+        }
+        isPerformingFileDisplayAnimation = false;
+
+    }
+
+    void SetAnimationState(float animMultiplier, bool animState) 
+    {
+        foreach (Animator anim in animRings)
+        {
+            if (anim.GetCurrentAnimatorStateInfo(0).IsTag("ProjectorRings")
+                && anim.GetFloat(s_Null.ToString()) == animMultiplier)
+                continue;
+            anim.SetBool(s_Saved.ToString(), animState);
+        }
+    }
+    void SetMatAndLightLerpValue(float lerpValue)
+    {
+        if (!nullStateLightData || !activatedStateLightData)
+            return;
+        foreach (Material mat in ringMats)
+        {
+            Color c_MatSavedColor = Color.Lerp(nullStateLightData.matColor, activatedStateLightData.matColor, lerpValue);
+            mat.SetColor("_EmissiveColor", c_MatSavedColor);
+        }
+        foreach (HDAdditionalLightData light in animLights)
+        {
+            Color c_LightColor = Color.Lerp(nullStateLightData.lightColor, activatedStateLightData.lightColor, lerpValue);
+            light.GetComponent<HDAdditionalLightData>().SetColor(c_LightColor);
+        }
+    }
 }

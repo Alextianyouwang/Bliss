@@ -19,7 +19,7 @@ public class TileDrawInstance
 
     private int dimension;
     public bool activateWindowsIndependance = false;
-    public bool allowWindowsSetPrefabToButtons = true;
+    public bool displayAndUpdateButton = true;
     public float changingWindowsYPos;
     public float varyingNoiseTime;
 
