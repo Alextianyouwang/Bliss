@@ -206,8 +206,8 @@ Material:
     - _DstBlend: 0
     - _FadeAmplitude: 28
     - _FadeDistance: 16
-    - _FadeDistanceEnd: 1000
-    - _FadeDistanceStart: 100
+    - _FadeDistanceEnd: 2000
+    - _FadeDistanceStart: 500
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
