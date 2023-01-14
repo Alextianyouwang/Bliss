@@ -193,7 +193,7 @@ Material:
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
     - _BiPlanarSize: 0.73
-    - _BiPlanarStrength: 0.58
+    - _BiPlanarStrength: 9.26
     - _BlendMode: 0
     - _BumpScale: 1
     - _CullMode: 2
@@ -206,15 +206,15 @@ Material:
     - _DstBlend: 0
     - _FadeAmplitude: 28
     - _FadeDistance: 16
-    - _FadeDistanceEnd: 2000
-    - _FadeDistanceStart: 500
+    - _FadeDistanceEnd: 1000
+    - _FadeDistanceStart: 300
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GrassCut: 0
     - _GrassSaturation: 2.78
     - _GrassShading: 0.331
-    - _GrassThinness: 0.5
+    - _GrassThinness: 0.72
     - _GrassThinnessIntersection: 0.01
     - _Metallic: 0
     - _Metallic0: 0
@@ -225,7 +225,7 @@ Material:
     - _Metallic5: 0
     - _Metallic6: 0
     - _Metallic7: 0
-    - _MinimumNumberStacks: 0
+    - _MinimumNumberStacks: 2
     - _Mode: 0
     - _NearCameraSmoosh: 3
     - _NoisePower: 0
@@ -261,7 +261,7 @@ Material:
     - _StencilWriteMaskMV: 32
     - _SurfaceType: 0
     - _TextureScale: 0.25
-    - _TilingN1: 3
+    - _TilingN1: 6
     - _TilingN2: 0.99
     - _TilingN3: 0.8
     - _TransparentCullMode: 2
