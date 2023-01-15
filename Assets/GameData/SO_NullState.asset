@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85072ee371a41de4d9a7178c379eaae1, type: 3}
   m_Name: SO_NullState
   m_EditorClassIdentifier: 
-  matColor: {r: 1, g: 0.5615011, b: 0, a: 1}
-  lightColor: {r: 1, g: 0.5423229, b: 0, a: 1}
+  matColor: {r: 1, g: 1, b: 1, a: 1}
+  lightColor: {r: 1, g: 1, b: 1, a: 1}
