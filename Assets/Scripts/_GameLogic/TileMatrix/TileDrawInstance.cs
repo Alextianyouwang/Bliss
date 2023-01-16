@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -16,6 +17,7 @@ public class TileDrawInstance
     private Queue<TileData> tileQueue = new Queue<TileData>();
     private TileData[,] tilePool;
     public TileData[] windowTiles = new TileData[4];
+    public TileData closestTileToCenter;
 
     private int dimension;
     public bool activateWindowsIndependance = false;
@@ -176,6 +178,26 @@ public class TileDrawInstance
 
         }
     }
+
+    public void UpdateClosestTileToScreenCenter() 
+    {
+        float closestPointToLine = float.MaxValue;
+        for (int i = 0; i < windowTiles.Length; i++)
+        {
+            TileData localTile = windowTiles[i];
+            if (localTile == null)
+                continue;
+
+            Vector3 tileToScreenCenter = localTile.smoothedFinalXYZPosition - InteractionManager.screenCenter;
+            float distanceToPlane = Vector3.Dot(tileToScreenCenter.normalized, InteractionManager.camRay.direction.normalized) * tileToScreenCenter.magnitude;
+            Vector3 tileScreenPos = localTile.smoothedFinalXYZPosition - InteractionManager.camRay.direction.normalized * distanceToPlane;
+            localTile.screenPos = tileScreenPos;
+            float screenPosDistanceToScreenCenter = Vector3.Distance(tileScreenPos, InteractionManager.screenCenter);
+            localTile.screenPosDistanceToScreenCenter = screenPosDistanceToScreenCenter;
+            closestPointToLine = Mathf.Min(screenPosDistanceToScreenCenter, closestPointToLine);
+        }
+        closestTileToCenter = Array.Find(tileOrderedDict.Values.ToArray(), x => x.screenPosDistanceToScreenCenter == closestPointToLine);
+    }
     public void UpdateTileDampSpeedTogether(float dampSpeed)
     {
         for (int i = 0; i < tileOrderedDict.Count; i++)
@@ -232,6 +254,7 @@ public class TileDrawInstance
     {
         public Vector3 initialXZPosition, groundXYZPosition, finalXYZPosition;
         public Vector3 smoothedFinalXYZPosition, refPos;
+        public Vector3 screenPos;
         public Vector2 globalTileCoord, localTileCoord;
         public Vector3 tileBound;
         private RaycastHit botHit;
@@ -240,6 +263,7 @@ public class TileDrawInstance
         public bool isInDisplay;
         public bool isWindows;
         public float dampSpeed;
+        public float screenPosDistanceToScreenCenter;
 
         public enum DisplayState { tile, save, delete }
         public DisplayState displayState;
@@ -250,6 +274,7 @@ public class TileDrawInstance
             initialXZPosition = Vector3.zero;
             smoothedFinalXYZPosition = Vector3.zero;
             groundXYZPosition = Vector3.zero;
+            screenPos = Vector3.zero;
             finalXYZPosition = Vector3.zero;
             globalTileCoord = Vector2.zero;
             localTileCoord = Vector2.zero;
@@ -260,6 +285,7 @@ public class TileDrawInstance
             isInDisplay = false;
             isWindows = false;
             dampSpeed = 0.2f;
+            screenPosDistanceToScreenCenter = 0;
         }
         public void SetTilePositionAndGlobalCoordinate(Vector3 _position, Vector3 _globalTileCoord)
         {

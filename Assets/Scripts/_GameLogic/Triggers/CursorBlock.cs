@@ -53,6 +53,8 @@ public class CursorBlock : NumberBlocks
     
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.GetComponent<CursorBlock>())
+            return;
         if (!AM_BlissMain.isInTeleporting)
             clickTimes += 1;
 

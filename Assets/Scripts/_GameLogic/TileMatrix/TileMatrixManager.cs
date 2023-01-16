@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+
 public class TileMatrixManager : MonoBehaviour
 {
     // Changing: The value does not has a default, it start with 0 and will be assigned later depends on needs.
@@ -16,10 +18,15 @@ public class TileMatrixManager : MonoBehaviour
     [SerializeField] private float defaultRadius = 15;
     [SerializeField] private bool isEnabled = true;
 
+    public GameObject follower;
+
     private TileDrawInstance t;
     private TileButtons b;
 
     private Coroutine fileStagingCo;
+
+    Vector3 velocity;
+    Vector3 dampPosition;
 
     private float
         changingHighRiseMultiplierBoost,
@@ -35,7 +42,7 @@ public class TileMatrixManager : MonoBehaviour
         hasWindowsDetached = false;
 
 
-    private enum TileStates { NormalFollow, Staging, Landing, PrepareLanding, Staging_Diving, Staging_Deleting }
+    private enum TileStates { NormalFollow, Popup, Staging, Landing, PrepareLanding, Staging_Diving, Staging_Deleting }
     private TileStates state;
 
     public static Action<Vector3, Quaternion> OnInitiateDivingFromMatrix;
@@ -67,6 +74,8 @@ public class TileMatrixManager : MonoBehaviour
         SaveButton.OnRetreatSaveButton += InitiateRetreatAndResetWindowsAnimation;
         DeleteButton.OnPlayerReleased += InitiateDeleteAnchorAnimation;
 
+        GemCollectionPlat.OnFileUnlockMatrixPopup += InitiatePopupAnimation;
+
         PostAndScenery.OnGettingUndergroundTileRadius += GetUnderGroundTilesProxiRadius;
     }
     private void OnDisable()
@@ -92,6 +101,8 @@ public class TileMatrixManager : MonoBehaviour
         SaveButton.OnRetreatSaveButton -= InitiateRetreatAndResetWindowsAnimation;
         DeleteButton.OnPlayerReleased -= InitiateDeleteAnchorAnimation;
 
+        GemCollectionPlat.OnFileUnlockMatrixPopup -= InitiatePopupAnimation;
+
         PostAndScenery.OnGettingUndergroundTileRadius -= GetUnderGroundTilesProxiRadius;
 
     }
@@ -103,9 +114,11 @@ public class TileMatrixManager : MonoBehaviour
     }
     void Start()
     {
+        dampPosition = follower.transform.position;
         t.Initialize();
         varyingDampSpeed = defaultDampSpeed;
         state = TileStates.NormalFollow;
+        b.UpdateButtonPosition( TileButtons.ButtonTile.DisplayState.off);
     }
 
 
@@ -167,7 +180,31 @@ public class TileMatrixManager : MonoBehaviour
                 t.UpdateWindowTile(playerGroundPosition);
                 t.UpdateTilesStatusPerFrame(0, defaultRadius, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset +0.4f, defaultNoiseWeight, playerGroundPosition);
                 t.DrawTileInstanceCurrentFrame(false);
+                t.UpdateClosestTileToScreenCenter();
+                if (t.closestTileToCenter != null && follower && !SceneSwitcher.isInFloppy) 
+                {
+                    dampPosition = Vector3.SmoothDamp(dampPosition, t.closestTileToCenter.smoothedFinalXYZPosition + Vector3.up * 0.8f, ref velocity, 0.1f);
+                }
+                follower.transform.position = dampPosition;
 
+
+                break;
+
+            case TileStates.Popup:
+                t.varyingNoiseTime = Time.time / 3f;
+                Vector3 adjustedPosition = Vector3.ProjectOnPlane(InteractionManager.camRay.direction, Vector3.up).normalized * 2.5f + playerGroundPosition;
+                t.UpdateTileSetActive(adjustedPosition, 3f);
+                t.UpdateTileOrderedCoordinate(adjustedPosition);
+                t.UpdateTileDampSpeedTogether(0.15f);
+                t.UpdateWindowTile(adjustedPosition);
+                t.UpdateTilesStatusPerFrame(0, 3f, 0.8f, 0.3f, defaultNoiseWeight, adjustedPosition);
+                t.DrawTileInstanceCurrentFrame(false);
+                t.UpdateClosestTileToScreenCenter();
+                if (t.closestTileToCenter != null && follower && !SceneSwitcher.isInFloppy)
+                {
+                    dampPosition = Vector3.SmoothDamp(dampPosition, t.closestTileToCenter.smoothedFinalXYZPosition + Vector3.up * 0.8f, ref velocity, 0.1f);
+                }
+                follower.transform.position = dampPosition;
                 break;
             case TileStates.Landing:
                 t.UpdateTileSetActive(playerGroundPosition, 6f);
@@ -296,6 +333,14 @@ public class TileMatrixManager : MonoBehaviour
         OnFinishingDeleteFileAnimation?.Invoke();
     }
 
+    IEnumerator MatrixPopupAnimation()
+    {
+        state = TileStates.Popup;
+        yield return new WaitForSeconds(0.8f);
+        state = TileStates.NormalFollow;
+    }
+
+
     Vector3 CheckPlayerProximateDirection(Transform t)
     {
         float yRot = t.eulerAngles.y;
@@ -365,8 +410,8 @@ public class TileMatrixManager : MonoBehaviour
     #region EventSubscribtion
     void ChangeRadius(float pitch)
     {
-        float percentage = !SceneSwitcher.isInFloppy ? Mathf.InverseLerp(30, 75, pitch) : Mathf.InverseLerp(-30, -75, pitch);
-        changingRadius = Mathf.Lerp(0, defaultRadius, percentage);
+        float percentage = !SceneSwitcher.isInFloppy ? Mathf.InverseLerp(45, 80, pitch) : Mathf.InverseLerp(-45, -80, pitch);
+        changingRadius = percentage == 0? 0f : Mathf.Lerp(1.5f, defaultRadius, percentage);
     }
 
     void ReceiveDownAnimationGlobalPositionOffset_fromPlayerAnchorAnimation(float time, float distance)
@@ -533,6 +578,11 @@ public class TileMatrixManager : MonoBehaviour
         StartCoroutine(MatrixDeleteAnimation());
     }
 
+    void InitiatePopupAnimation() 
+    {
+        StartCoroutine(MatrixPopupAnimation());
+    }
+
     public void SwitchToStageDiving_fromPlayerAnchroAnimation(FirstPersonController f, bool b)
     {
         state = TileStates.Staging_Diving;
@@ -567,5 +617,10 @@ public class TileMatrixManager : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, defaultRadius);
+        if (t!= null && t.tileOrderedDict != null)
+        foreach (TileDrawInstance.TileData t in t.tileOrderedDict.Values) 
+        {
+            Gizmos.DrawSphere(t.screenPos,0.1f);
+        }
     }
 }

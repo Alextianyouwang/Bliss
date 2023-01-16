@@ -343,8 +343,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0498c4ea2ae20b94e9fa34fe2a7ce731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destructionState: 0
+  yieldGemType: 0
+  GemUnlockRequirement: {fileID: 11400000, guid: a1800bf884461eb44971b7105016a391, type: 2}
   lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
-  saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
   displayAnimationCurve:
@@ -553,7 +555,7 @@ GameObject:
   - component: {fileID: 8433420582054773390}
   - component: {fileID: 6831444594553952040}
   - component: {fileID: 3471310413336143188}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Video
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -828,7 +830,7 @@ GameObject:
   - component: {fileID: 7486439019260416095}
   - component: {fileID: 3807144045921269998}
   - component: {fileID: 9164327821549497035}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

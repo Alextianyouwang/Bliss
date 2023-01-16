@@ -1,16 +1,40 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEditor;
+using UnityEngine.Assertions;
+
 public class FileObject : MonoBehaviour
 {
+    public enum DestructionState { normal, destructed }
+    public DestructionState destructionState;
+    #region Gem Section
+    // Enum Selector indicates The Type of gem it contains
+    public Gem.GemTypes yieldGemType;
+    public GemRequirementData GemUnlockRequirement;
+    private Gem.GemTypes[] requiredGemTypes;
+    private  GameObject gem_prefab;
+    protected Gem gem;
+
+    public void RemoveGem() 
+    {
+        OnFileActivatedLocal -= gem.ToggleGemActivation;
+    }
+    private GameObject gemCollPlat_prefab;
+    private GemCollectionPlat gemCollPlatform;
+
+    #endregion
+    // Will be using Editor Script
+
+
     // ScriptableObject containing file save light color;
     public FileLightData lightData;
     // Player's anchor position when Examine the file
     public Transform playerAnchor { get; private set; }
 
     // Placeholder for future save effect animation
-    [SerializeField] private GameObject saveEffectReference;
-    private GameObject saveEffect_instance;
+    private GameObject saveEffect_prefab;
+    private GameObject saveEffect;
 
     // Value of one will make the animation finish in exactely 1 second.
     [SerializeField] private float fileOpenSpeed = 0.6f, fileCloseSpeed = 1.2f;
@@ -35,19 +59,19 @@ public class FileObject : MonoBehaviour
     }
     // Parent directory folder
     public FileObject parent { get; private set; } = null;
-    public void SetParent(FileObject value) 
+    public void SetParent(FileObject value)
     {
         parent = value;
     }
     // Child directory files
     public FileObject[] childs { get; private set; } = null;
-    public void SetChilds(FileObject[] values) 
+    public void SetChilds(FileObject[] values)
     {
         childs = values;
     }
     // If file is send to cilppy world, the reference of the origin file. 
     public FileObject pairedMainFileWhenCloned { get; private set; } = null;
-    public void SetPairedMainFile(FileObject value) 
+    public void SetPairedMainFile(FileObject value)
     {
         pairedMainFileWhenCloned = value;
     }
@@ -92,16 +116,21 @@ public class FileObject : MonoBehaviour
     protected Action OnFileReset;
     // Invoked locally for all the subscribed members indicating the start of open and close of the animation.
     protected Action<bool> OnFileActivatedLocal;
+    // Invoked locally for all the subscribed members indicating the start of Player anchor and release animation;
+    protected Action<bool> OnPlayerAnchoredLocal;
 
 
     protected virtual void Awake()
     {
+        gem_prefab = Resources.Load("Props/Gem/P_Gem") as GameObject;
+        gemCollPlat_prefab = Resources.Load("Props/GemCollPlat/P_GemCollPlatform") as GameObject;
+        saveEffect_prefab = Resources.Load("Props/FileSaveEffect/P_FileSaveAnimationProp") as GameObject;
         if (lightData == null)
             Debug.LogWarning("Please Assign Light Data for " + name);
         groundMask = LayerMask.GetMask("Ground");
-        foreach (Transform c in transform) 
+        foreach (Transform c in transform)
         {
-            if (c.parent == transform && c.name == "PlayerAnchor") 
+            if (c.parent == transform && c.name == "PlayerAnchor")
             {
                 playerAnchor = c;
             }
@@ -110,6 +139,65 @@ public class FileObject : MonoBehaviour
     protected virtual void Start()
     {
         SetGroundPos();
+        InstantiateGem();
+        requiredGemTypes = GemUnlockRequirement.GetReqiredGemType(yieldGemType);
+        InstantiateGemCollPlatform();
+        SetFileDestructionStateAndAppearance();
+    }
+
+
+    public void InstantiateGemCollPlatform() 
+    {
+        if (destructionState == DestructionState.normal)
+            return;
+        if (!gemCollPlat_prefab) 
+        {
+            Debug.Log("No Fixing Platform Prefab Assigned on " + name);
+            return;
+        }
+        gemCollPlatform = Instantiate(gemCollPlat_prefab).GetComponent<GemCollectionPlat>();
+        gemCollPlatform.automaticPlaced = true;
+        gemCollPlatform.Initiate();
+        gemCollPlatform.transform.position = groundPosition;
+        gemCollPlatform.transform.parent = SceneSwitcher.sd.blizzWrapper.transform;
+        gemCollPlatform.SetRequriedType(requiredGemTypes);
+        gemCollPlatform.InstantiateGemBaseOnRequiredType();
+        gemCollPlatform.SetColor();
+        gemCollPlatform.SetDestructionStateAndAppearance(false);
+        gemCollPlatform.SetPairedFile(this);
+        }
+    public void InstantiateGem()
+    {
+        if (GetComponent<FolderManager>())
+            return;
+        if (!gem_prefab)
+        {
+            Debug.Log( "No Gem Prefab Assigned on " + name);
+            return;
+        }
+        gem = Instantiate(gem_prefab).GetComponent<Gem>();
+        Vector3 boundSize = GetComponent<Collider>().bounds.size;
+        Vector3 boundCenter = GetComponent<Collider>().bounds.center;
+        gem.transform.position = boundCenter + Vector3.up * (boundSize.y/2+ 2f);
+        gem.gemType = yieldGemType;
+        gem.ChangeColor();
+        gem.ToggleGemActivation(false);
+        gem.SetPairedFile(this);
+        OnFileActivatedLocal += gem.ToggleGemActivation;
+    }
+  
+    public void SetFileDestructionStateAndAppearance() 
+    {
+      
+        switch (destructionState) 
+        {
+            case DestructionState.normal:
+                Utility.ChangeLayerRecursively(gameObject, "Interactive");
+                break;
+            case DestructionState.destructed:
+                Utility.ChangeLayerRecursively(gameObject, "Glitch");
+                break;
+        }
     }
     public void SetGroundPos()
     {
@@ -126,25 +214,25 @@ public class FileObject : MonoBehaviour
 
     IEnumerator SaveEffectAnimation()
     {
-        saveEffect_instance = Instantiate(saveEffectReference);
+        saveEffect = Instantiate(saveEffect_prefab);
         Vector3 originalPos = transform.position;
-        saveEffect_instance.transform.position = originalPos;
-        Vector3 originalScale = saveEffect_instance.transform.localScale;
+        saveEffect.transform.position = originalPos;
+        Vector3 originalScale = saveEffect.transform.localScale;
         Vector3 targetScale = originalScale * 0.3f;
-        saveEffect_instance.transform.rotation = transform.rotation;
+        saveEffect.transform.rotation = transform.rotation;
         float percent = 0;
         while (percent < 1)
         {
-            saveEffect_instance.transform.position = Vector3.Lerp(originalPos, groundPosition - Vector3.up * 3, percent);
-            saveEffect_instance.transform.localScale = Vector3.Lerp(originalScale, targetScale, percent);
+            saveEffect.transform.position = Vector3.Lerp(originalPos, groundPosition - Vector3.up * 3, percent);
+            saveEffect.transform.localScale = Vector3.Lerp(originalScale, targetScale, percent);
             percent += Time.deltaTime * 3f;
             yield return null;
         }
-        Destroy(saveEffect_instance);
+        Destroy(saveEffect);
     }
     public void StartSaveEffect()
     {
-        if (saveEffectReference != null)
+        if (saveEffect_prefab != null)
             StartCoroutine(SaveEffectAnimation());
     }
     IEnumerator FileAnimationValueManagement(float openFileSpeed, float closeFileSpeed, bool open)
@@ -159,7 +247,7 @@ public class FileObject : MonoBehaviour
                 yield return null;
         while (percent < 1)
         {
-            percent += open? Time.deltaTime * adjustedSpeed : Time.deltaTime * adjustedSpeed /speedMultiplier;
+            percent += open ? Time.deltaTime * adjustedSpeed : Time.deltaTime * adjustedSpeed / speedMultiplier;
             OnFileAnimation?.Invoke(open);
             animationLerpValue = Mathf.Lerp(initialValue, targetValue, percent);
             currentAnimationValue = animationLerpValue;
@@ -213,9 +301,9 @@ public class FileObject : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag.Equals("Cursor"))
-        if (collision.gameObject.GetComponent<CursorBlock>())
-        if (collision.gameObject.GetComponent<CursorBlock>().clickTimes == 1)
-        {
+            if (collision.gameObject.GetComponent<CursorBlock>())
+                if (collision.gameObject.GetComponent<CursorBlock>().clickTimes == 1)
+                {
                     SetGroundPos();
                     if (!isAnchored)
                     {
@@ -224,6 +312,7 @@ public class FileObject : MonoBehaviour
                         OnPlayerAnchored?.Invoke(this);
                         OpenFileAnimation();
                         OnFlieCollected?.Invoke(this);
+                        OnPlayerAnchoredLocal?.Invoke(true);
 
                     }
                     else
@@ -231,16 +320,36 @@ public class FileObject : MonoBehaviour
                         isAnchored = false;
                         OnPlayerReleased?.Invoke();
                         CloseFileAnimation();
+                        OnPlayerAnchoredLocal?.Invoke(false);
+
+
 
                         // Perform Close animation from File Object for all of its parent folders.
-                       /* FileObject ultimateParent = parent;
-                        while (ultimateParent != null) 
-                        {
-                            ultimateParent.CloseFileAnimation();
-                            ultimateParent.SetIsAnchored(false);
-                            ultimateParent = ultimateParent.parent;
-                        }*/
+                        /* FileObject ultimateParent = parent;
+                         while (ultimateParent != null) 
+                         {
+                             ultimateParent.CloseFileAnimation();
+                             ultimateParent.SetIsAnchored(false);
+                             ultimateParent = ultimateParent.parent;
+                         }*/
                     }
-        }
+                }
     }
+
+#if UNITY_EDITOR
+
+     private void OnValidate()
+    {
+        UnityEditor.EditorApplication.delayCall += OnValidateCallback;
+    }
+    private void OnValidateCallback()
+    {
+       if (this == null)
+        {
+            UnityEditor.EditorApplication.delayCall -= OnValidateCallback;
+            return; 
+        }
+        SetFileDestructionStateAndAppearance();
+    }
+#endif
 }

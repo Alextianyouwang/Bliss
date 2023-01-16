@@ -7,18 +7,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_TallGrassTest_Sync
-  m_Shader: {fileID: 4800000, guid: 06d919d7eebd56c419ffb0af64b8f5b7, type: 3}
-  m_ValidKeywords:
-  - USE_CS
-  - USE_RT
-  - USE_SC
-  - USE_SS
+  m_Name: M_TallGrass_Mesh
+  m_Shader: {fileID: 4800000, guid: a38e0992ef4d090428b1bde0b50144c3, type: 3}
+  m_ValidKeywords: []
   m_InvalidKeywords:
+  - USE_CS
   - USE_S
+  - USE_SS
   - _RTEFFECT_ON
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -35,7 +33,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Control0:
-        m_Texture: {fileID: 4479928841419418819, guid: 9cb2643832ebbeb4faef2df78dbb7199, type: 2}
+        m_Texture: {fileID: -3007912332207823270, guid: 6a31ca4986adfbc46804e7cf27065603, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Control1:
@@ -55,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Distortion:
-        m_Texture: {fileID: 2800000, guid: 7dca70292f589e345aef9b57403a46e6, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -63,11 +61,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GrassTex:
-        m_Texture: {fileID: 2800000, guid: b97e4be25c3932344b0b5b0ffe62377d, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GroundTex:
-        m_Texture: {fileID: 2800000, guid: 7f969087a2b5cf840bdda1c1d1e3a930, type: 3}
+        m_Texture: {fileID: 2800000, guid: d51cd06c7dc9efb40865c5afabb75b30, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GroundTexture:
@@ -107,11 +105,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal4:
-        m_Texture: {fileID: 2800000, guid: 86010af9cff01444cbacf33d8e938bcd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 84794b884a1ed204f9ce92a773a3fb0e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal5:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 4e1d764fa7e47f34eae88e37253c2542, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal6:
@@ -151,11 +149,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 1}
     - _Splat4:
-        m_Texture: {fileID: 2800000, guid: 4944753a01200334fb9c5b9b3a727740, type: 3}
+        m_Texture: {fileID: 2800000, guid: 877fd89f59f209b48af33c4e3e45498d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat5:
-        m_Texture: {fileID: 2800000, guid: 5c8999ac245bff34dab5fd31757ced45, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9eb8f1ba60975784ea9768fee3955c08, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat6:
@@ -201,6 +199,7 @@ Material:
     - _CullMode: 2
     - _CullModeForward: 2
     - _Cutoff: 0.5
+    - _CutoutRadius: 0
     - _DetailNormalMapScale: 1
     - _DiffusionProfile: 0
     - _DiffusionProfileHash: 0
@@ -208,31 +207,32 @@ Material:
     - _FadeAmplitude: 28
     - _FadeDistance: 16
     - _FadeDistanceEnd: 1000
-    - _FadeDistanceStart: 0
+    - _FadeDistanceStart: 100
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GrassCut: 1
+    - _GrassCut: 0
     - _GrassSaturation: 2.78
-    - _GrassShading: 1
+    - _GrassShading: 0.296
     - _GrassThinness: 0.5
     - _GrassThinnessIntersection: 0.01
+    - _LightIntensity: 1
     - _Metallic: 0
     - _Metallic0: 0
     - _Metallic1: 0
     - _Metallic2: 0
     - _Metallic3: 0
-    - _Metallic4: 0
-    - _Metallic5: 1
+    - _Metallic4: 1
+    - _Metallic5: 0
     - _Metallic6: 0
     - _Metallic7: 0
-    - _MinimumNumberStacks: 3
+    - _MinimumNumberStacks: 0
     - _Mode: 0
     - _NearCameraSmoosh: 3
-    - _NoisePower: 3
+    - _NoisePower: 0
     - _NumberOfStacks: 17
     - _OcclusionStrength: 1
-    - _OffsetValue: 6.89
+    - _OffsetValue: 5
     - _Parallax: 0.02
     - _PrioA: 1
     - _PrioB: 1
@@ -244,7 +244,7 @@ Material:
     - _RTEffect: 1
     - _RimMax: 0.795
     - _RimMin: 0.502
-    - _RimPower: 2.7
+    - _RimPower: 3.01
     - _ShadowFuziness: 1
     - _ShadowMax: 0
     - _SmoothnessTextureChannel: 0
@@ -263,7 +263,7 @@ Material:
     - _SurfaceType: 0
     - _TextureScale: 0.25
     - _TilingN1: 3
-    - _TilingN2: 0
+    - _TilingN2: 0.99
     - _TilingN3: 0.8
     - _TransparentCullMode: 2
     - _TransparentZWrite: 0
@@ -273,15 +273,16 @@ Material:
     - _UseBiplanar: 0
     - _UseCS: 1
     - _UsePR: 0
-    - _UseRT: 1
+    - _UseRT: 0
     - _UseShadow: 1
-    - _UseShadowCast: 1
+    - _UseShadowCast: 0
     - _UseSuperStack: 1
     - _UseTP: 0
+    - _UseVP: 0
     - _UseVR: 0
     - _UseWC: 0
-    - _WindForce: 0.8
-    - _WindMovement: 0.1
+    - _WindForce: 0.2
+    - _WindMovement: 0.05
     - _WorldRotation: 0
     - _WorldScale: 10
     - _ZTestDepthEqualForOpaque: 4
@@ -291,25 +292,26 @@ Material:
     - _ZWrite: 1
     - __NumberOfStacks: 17
     m_Colors:
-    - _Color: {r: 0.73362374, g: 0.9339623, b: 0.2863564, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CutoutPosition: {r: 0, g: 0, b: 0, a: 0}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 1, g: 1, b: 1, a: 1}
     - _OffsetVector: {r: 0, g: 0, b: 0, a: 0}
     - _PJShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ProjectedShadowColor: {r: 0.509434, g: 0.33235958, b: 0.18983625, a: 1}
-    - _RimColor: {r: 0.25034901, g: 0.3301887, b: 0, a: 0}
-    - _SelfShadowColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
+    - _RimColor: {r: 0.2843708, g: 0.3207547, b: 0.16794232, a: 0}
+    - _SelfShadowColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Specular0: {r: 1, g: 1, b: 1, a: 1}
     - _Specular1: {r: 1, g: 1, b: 1, a: 1}
     - _Specular2: {r: 1, g: 1, b: 1, a: 1}
     - _Specular3: {r: 1, g: 1, b: 1, a: 1}
-    - _Specular4: {r: 1, g: 1, b: 1, a: 0}
-    - _Specular5: {r: 1, g: 1, b: 1, a: 0}
+    - _Specular4: {r: 0.7821734, g: 0.80861366, b: 0.8773585, a: 0}
+    - _Specular5: {r: 1, g: 0.86220187, b: 0.17647058, a: 1}
     - _Specular6: {r: 1, g: 1, b: 1, a: 1}
     - _Specular7: {r: 1, g: 1, b: 1, a: 1}
-    - _Splat4_STn: {r: 0, g: 0, b: 10, a: 10}
-    - _Splat5_STn: {r: 5, g: 5, b: 3, a: 3}
+    - _Splat4_STn: {r: 3.26, g: 0, b: 1, a: 3}
+    - _Splat5_STn: {r: 193.71, g: 2.41, b: 14.7, a: 0.83}
     - _Splat6_STn: {r: 1, g: 1, b: 0, a: 1}
     - _Splat7_STn: {r: 1, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []

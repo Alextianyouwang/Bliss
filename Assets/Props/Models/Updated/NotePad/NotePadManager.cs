@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Linq;
 public class NotePadManager : FileObject
 {
+    [Space(20)]
+
     readonly string 
         s_OpenFile = "OpenFile", 
         s_TMPParent = "TMPContents";

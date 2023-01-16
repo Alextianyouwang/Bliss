@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
@@ -34,6 +36,8 @@ public class InteractionManager : MonoBehaviour
     public LayerMask interactionMask;
 
     public bool canStartControl;
+    public static Ray camRay;
+    public static Vector3 screenCenter;
     private void OnEnable()
     {
         //SceneManager.OnGameStart += ToggleStart;
@@ -83,8 +87,9 @@ public class InteractionManager : MonoBehaviour
 
     private void TrailUpdate() 
     {
-        Ray camRay = cam.ScreenPointToRay(Input.mousePosition);
-       
+        camRay = cam.ScreenPointToRay(Input.mousePosition);
+        screenCenter = cam.ScreenToWorldPoint(Input.mousePosition);
+        
         Vector3 targetVelocity = Vector3.zero;
         isRayHit = false;
         if (Physics.Raycast(camRay, out hit, 30f, interactionMask))
@@ -160,9 +165,16 @@ public class InteractionManager : MonoBehaviour
                 currentNumRb?.Sleep();
                 //currentNumber.transform.position = Vector3.SmoothDamp(currentNumber.transform.position, throwPoint.position, ref refVel, 0.1f);
                 currentNumber.transform.position = throwPoint.position;
-                currentNumber.transform.eulerAngles = transform.eulerAngles ;
-            }   
+                currentNumber.transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y - 60f, transform.eulerAngles.z);
+
+            }
         }
 
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(screenCenter, camRay.direction.normalized * 100f);
     }
 }

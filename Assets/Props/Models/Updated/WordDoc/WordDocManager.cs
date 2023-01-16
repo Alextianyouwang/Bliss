@@ -6,6 +6,8 @@ using System.Linq;
 
 public class WordDocManager : FileObject
 {
+    [Space(20)]
+
     readonly string
         s_OpenFile = "OpenFile",
         s_DissolveMat = "M_Dissolve_WordDoc",

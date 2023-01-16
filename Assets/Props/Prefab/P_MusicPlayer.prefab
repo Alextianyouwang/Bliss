@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2276947105951804642}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayerAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -247,8 +247,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c29dda62881ee949a87ae0e2406242a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destructionState: 0
+  yieldGemType: 0
+  GemUnlockRequirement: {fileID: 11400000, guid: a1800bf884461eb44971b7105016a391, type: 2}
   lightData: {fileID: 11400000, guid: 63aa6bfdf8c265a4f87e676d5d4d4d43, type: 2}
-  saveEffectReference: {fileID: 6971076999296559557, guid: b975ccfe62c0a90479b4d41d7ac87eb2, type: 3}
   fileOpenSpeed: 0.6
   fileCloseSpeed: 1.2
   CDAnimCurve:

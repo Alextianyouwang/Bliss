@@ -4,6 +4,8 @@ using System.Linq;
 
 public class VideoPlayerManager : FileObject
 {
+    [Space(20)]
+
     readonly string 
         s_OpenFile = "OpenFile", 
         s_Display = "VideoPlayer_Display";

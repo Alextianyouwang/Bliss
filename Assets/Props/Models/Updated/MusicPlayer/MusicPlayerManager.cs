@@ -1,6 +1,7 @@
 using UnityEngine;
 public class MusicPlayerManager : FileObject
 {
+    [Space(20)]
     [SerializeField]
     private AnimationCurve CDAnimCurve;
     [SerializeField]

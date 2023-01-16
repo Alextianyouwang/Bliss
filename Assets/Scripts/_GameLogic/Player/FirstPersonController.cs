@@ -34,7 +34,7 @@ public class FirstPersonController : MonoBehaviour
     public static Action<float> OnIncreaseDownAnimationTime;
     public static Action<float> OnIncreaseUpAnimationTime;
 
-    public static Vector3 playerGroundPosition;
+    public static Vector3 playerGroundPosition,playerPosition;
     #region Camera Movement Variables
 
     public Camera playerCamera;
@@ -162,6 +162,7 @@ public class FirstPersonController : MonoBehaviour
     {
         //storedPitch = 0;
         //isFOVEnlarged = false;
+        playerPosition = Vector3.zero;
 
     }
     private void Awake()
@@ -251,7 +252,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void Update()
     {
-
+        playerPosition = transform.position;
         UpdatePlayerGroundRay();
     }
 

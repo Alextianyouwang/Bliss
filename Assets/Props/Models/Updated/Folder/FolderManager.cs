@@ -1,17 +1,19 @@
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 public class FolderManager : FileObject
 {
+    [Space(20)]
+
     readonly string s_OpenFile = "OpenFile";
-   public List<Transform> animatorHolder { get; private set; } = new List<Transform>();
-   public List<Transform> prefabHolder { get; private set; } = new List<Transform>();
+    public List<Transform> animatorHolder { get; private set; } = new List<Transform>();
+    public List<Transform> prefabHolder { get; private set; } = new List<Transform>();
 
     private BoxCollider clickCollider;
 
     [SerializeField] private AnimationCurve filePopCurve;
-    
+
     private Vector3[] prefabOriginalScale;
     private Transform contentContainer;
     void Initialization()
@@ -32,13 +34,13 @@ public class FolderManager : FileObject
         }
         prefabOriginalScale = new Vector3[contentContainer.childCount];
         FileObject[] childs = new FileObject[prefabHolder.Count];
-        
+
         for (int i = 0; i < prefabHolder.Count; i++)
         {
             prefabOriginalScale[i] = prefabHolder[i].localScale;
             prefabHolder[i].localScale = Vector3.zero;
-            
-            if (prefabHolder[i].GetComponent<FileObject>()) 
+
+            if (prefabHolder[i].GetComponent<FileObject>())
             {
                 prefabHolder[i].GetComponent<FileObject>().SetParent(this);
                 childs[i] = prefabHolder[i].GetComponent<FileObject>();
@@ -47,7 +49,7 @@ public class FolderManager : FileObject
         SetChilds(childs);
     }
 
-    void SetCollider_fromBase(bool value) 
+    void SetCollider_fromBase(bool value)
     {
         clickCollider.enabled = !value;
     }
@@ -68,11 +70,11 @@ public class FolderManager : FileObject
         return base.SettingAndTestingAnimatorTargetValue_base(animatorHolder.Select(x => x.GetComponent<Animator>()).ToArray(), s_OpenFile.ToString(), "FileAnimation", animState);
     }
     public void FileClickControl(bool animState)
-   {
+    {
         for (int i = 0; i < prefabHolder.Count; i++)
         {
             prefabHolder[i].localScale = Vector3.Lerp(Vector3.zero,
             prefabOriginalScale[i], filePopCurve.Evaluate(animationLerpValue));
         }
-   }
+    }
 }

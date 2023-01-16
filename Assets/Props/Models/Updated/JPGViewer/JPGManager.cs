@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class JPGManager : FileObject
 {
+    [Space(20)]
+
     readonly string
         s_OpenFile = "OpenFile",
         s_MatrixFadeMat = "M_MatrixFade",

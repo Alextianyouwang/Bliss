@@ -27,10 +27,11 @@ public class SceneSwitcher : MonoBehaviour
     private void Awake()
     {
         sd = new SceneData();
+        StartCoroutine(WaitUntilSceneLoad());
+
     }
     private void Start()
     {
-        StartCoroutine(WaitUntilSceneLoad());
     }
 
     private void Update()
