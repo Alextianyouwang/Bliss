@@ -193,7 +193,7 @@ Material:
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
     - _BiPlanarSize: 0.73
-    - _BiPlanarStrength: 0.58
+    - _BiPlanarStrength: 9.26
     - _BlendMode: 0
     - _BumpScale: 1
     - _CullMode: 2
@@ -207,14 +207,14 @@ Material:
     - _FadeAmplitude: 28
     - _FadeDistance: 16
     - _FadeDistanceEnd: 1000
-    - _FadeDistanceStart: 100
+    - _FadeDistanceStart: 300
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GrassCut: 0
     - _GrassSaturation: 2.78
     - _GrassShading: 0.331
-    - _GrassThinness: 0.5
+    - _GrassThinness: 0.68
     - _GrassThinnessIntersection: 0.01
     - _Metallic: 0
     - _Metallic0: 0
@@ -225,13 +225,13 @@ Material:
     - _Metallic5: 0
     - _Metallic6: 0
     - _Metallic7: 0
-    - _MinimumNumberStacks: 0
+    - _MinimumNumberStacks: 4.1
     - _Mode: 0
     - _NearCameraSmoosh: 3
     - _NoisePower: 0
     - _NumberOfStacks: 17
     - _OcclusionStrength: 1
-    - _OffsetValue: 5
+    - _OffsetValue: 5.5
     - _Parallax: 0.02
     - _PrioA: 1
     - _PrioB: 1
@@ -261,7 +261,7 @@ Material:
     - _StencilWriteMaskMV: 32
     - _SurfaceType: 0
     - _TextureScale: 0.25
-    - _TilingN1: 3
+    - _TilingN1: 6
     - _TilingN2: 0.99
     - _TilingN3: 0.8
     - _TransparentCullMode: 2
@@ -295,7 +295,7 @@ Material:
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 1, g: 1, b: 1, a: 1}
-    - _OffsetVector: {r: 0, g: 0, b: 0, a: 0}
+    - _OffsetVector: {r: 0, g: 1.17, b: 0, a: 0}
     - _PJShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ProjectedShadowColor: {r: 0.509434, g: 0.33235958, b: 0.18983625, a: 1}
     - _RimColor: {r: 0.2843708, g: 0.3207547, b: 0.16794232, a: 0}
