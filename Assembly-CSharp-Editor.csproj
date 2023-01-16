@@ -887,6 +887,10 @@
       <Project>{C3A6F172-0046-80A7-59F4-E289847928B6}</Project>
       <Name>Unity.RenderPipelines.HighDefinition.Runtime</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
+      <Project>{731EC9CE-5C07-7E26-805D-223DEE3E7618}</Project>
+      <Name>Unity.2D.Sprite.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
       <Project>{8F2065EA-5224-AF7A-BB9C-EE1E62D4372E}</Project>
       <Name>Unity.RenderPipelines.Core.Runtime</Name>

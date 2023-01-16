@@ -81,7 +81,7 @@ public class GemCollectionPlat : MonoBehaviour
         for (int i = 0; i < requiredTypes.Length; i++) 
         {
             Gem localGem = Instantiate(gem_prefab).GetComponent<Gem>();
-            Vector3 offset = new Vector3(objectBound.x / 2, objectBound.y / 2, -objectBound.z / 2);
+            Vector3 offset = new Vector3(-objectBound.x / 2, objectBound.y / 2, -objectBound.z / 2);
             float increment = objectBound.z / (requiredTypes.Length + 1);
             localGem.transform.position = transform.position+ offset + new Vector3(0,0, increment * (i + 1));
             localGem.transform.parent = transform;

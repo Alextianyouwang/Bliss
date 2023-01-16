@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class TileMatrixManager : MonoBehaviour
 {
@@ -18,13 +19,15 @@ public class TileMatrixManager : MonoBehaviour
     [SerializeField] private float defaultRadius = 15;
     [SerializeField] private bool isEnabled = true;
 
-    public GameObject follower;
+
 
     private TileDrawInstance t;
     private TileButtons b;
 
     private Coroutine fileStagingCo;
 
+    // Test
+    private GameObject follower;
     Vector3 velocity;
     Vector3 dampPosition;
 
@@ -114,7 +117,11 @@ public class TileMatrixManager : MonoBehaviour
     }
     void Start()
     {
+        follower = GameObject.Find("GemPlatform");
+        if (!follower)
+            Debug.LogError("GemPlatform not found in scene");
         dampPosition = follower.transform.position;
+
         t.Initialize();
         varyingDampSpeed = defaultDampSpeed;
         state = TileStates.NormalFollow;

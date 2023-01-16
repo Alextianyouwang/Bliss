@@ -179,6 +179,7 @@ public class FileObject : MonoBehaviour
         Vector3 boundSize = GetComponent<Collider>().bounds.size;
         Vector3 boundCenter = GetComponent<Collider>().bounds.center;
         gem.transform.position = boundCenter + Vector3.up * (boundSize.y/2+ 2f);
+        gem.transform.parent = transform;
         gem.gemType = yieldGemType;
         gem.ChangeColor();
         gem.ToggleGemActivation(false);

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8bcdf71d7fafa419fca1ed162f5fc9, type: 3}
   m_Name: ColorAdjustments
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   postExposure:
-    m_OverrideState: 1
-    m_Value: -8
+    m_OverrideState: 0
+    m_Value: 10
   contrast:
-    m_OverrideState: 1
-    m_Value: 40
+    m_OverrideState: 0
+    m_Value: -3
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 1.5396167, g: 0, b: 0, a: 1}
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953beb541740ddc499d005ee80c9ff29, type: 3}
   m_Name: Fog
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   quality:
     m_OverrideState: 0
     m_Value: 1
@@ -74,13 +74,13 @@ MonoBehaviour:
     m_Value: 1
   colorMode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   color:
-    m_OverrideState: 0
-    m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 2.7521024, g: 4.5868373, b: 6.498019, a: 1}
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.17647058, g: 0.5966683, b: 1, a: 1}
+    m_Value: {r: 0.5349588, g: 1.8069719, b: 3.031433, a: 1}
   maxFogDistance:
     m_OverrideState: 1
     m_Value: 1000
@@ -106,8 +106,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   albedo:
-    m_OverrideState: 0
-    m_Value: {r: 0.49056602, g: 0, b: 0, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
   globalLightProbeDimmer:
     m_OverrideState: 0
     m_Value: 1
@@ -160,6 +160,53 @@ MonoBehaviour:
   - {fileID: 8422994809825289202}
   - {fileID: 7560569010673552153}
   - {fileID: -2081109241750864363}
+  - {fileID: 5391807765377064225}
+--- !u!114 &5391807765377064225
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f077503be6ae942a1e1245dbd53ea9, type: 3}
+  m_Name: Bloom
+  m_EditorClassIdentifier: 
+  active: 1
+  quality:
+    m_OverrideState: 1
+    m_Value: 0
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0.15
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.535
+  scatter:
+    m_OverrideState: 1
+    m_Value: 1
+  tint:
+    m_OverrideState: 1
+    m_Value: {r: 0.5254902, g: 1, b: 0.94338244, a: 1}
+  dirtTexture:
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: 714e7edfa2a92c6429caf2de76acd44d, type: 3}
+  dirtIntensity:
+    m_OverrideState: 1
+    m_Value: 2
+  anamorphic:
+    m_OverrideState: 0
+    m_Value: 1
+  m_Resolution:
+    m_OverrideState: 1
+    m_Value: 4
+  m_HighQualityPrefiltering:
+    m_OverrideState: 1
+    m_Value: 0
+  m_HighQualityFiltering:
+    m_OverrideState: 1
+    m_Value: 0
 --- !u!114 &7505381000785972781
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -255,7 +302,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 3
   cloudType:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   skyAmbientMode:
     m_OverrideState: 1
@@ -290,7 +337,7 @@ MonoBehaviour:
     m_Value: 0
   exposure:
     m_OverrideState: 1
-    m_Value: 16
+    m_Value: 17
   multiplier:
     m_OverrideState: 0
     m_Value: 1
@@ -314,13 +361,13 @@ MonoBehaviour:
     m_Value: 0
   top:
     m_OverrideState: 1
-    m_Value: {r: 0.5057563, g: 0.9198887, b: 2.3651557, a: 1}
+    m_Value: {r: 2.6390157, g: 1.0112429, b: 0.53885657, a: 1}
   middle:
     m_OverrideState: 0
     m_Value: {r: 1024, g: 0, b: 0, a: 1}
   bottom:
     m_OverrideState: 1
-    m_Value: {r: 2.828427, g: 1.0980952, b: 0.687696, a: 1}
+    m_Value: {r: 0.81934166, g: 3.3319895, b: 10.432951, a: 1}
   gradientDiffusion:
     m_OverrideState: 1
-    m_Value: 20
+    m_Value: 5.41
