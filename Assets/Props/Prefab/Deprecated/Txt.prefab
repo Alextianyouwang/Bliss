@@ -353,16 +353,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveLoadPoint: {fileID: 4637608104606275075}
-  closeLoadPoint: {fileID: 5372292357335517107}
-  playerAnchor: {fileID: 2914138425806535127}
-  deletePos: {fileID: 84696748}
-  groundPosition: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
-  isAnchored: 0
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 128
+  destructionState: 0
+  yieldGemType: 0
+  GemUnlockRequirement: {fileID: 0}
+  lightData: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
 --- !u!1 &7801230390345031994
 GameObject:
   m_ObjectHideFlags: 0

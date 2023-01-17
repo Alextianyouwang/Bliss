@@ -176,16 +176,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveLoadPoint: {fileID: 785436516}
-  closeLoadPoint: {fileID: 355131386}
-  playerAnchor: {fileID: 1016408423}
-  deletePos: {fileID: 1842199978}
-  groundPosition: {x: 0, y: 0, z: 0}
-  groundPositionInBliss: {x: 0, y: 0, z: 0}
-  isAnchored: 0
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 128
+  destructionState: 0
+  yieldGemType: 0
+  GemUnlockRequirement: {fileID: 0}
+  lightData: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
 --- !u!65 &1999137066
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -438,16 +438,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6af63c44d1747a1ae2768a8b90b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 6412070134610198041, guid: f364bebe7f3b6994aa739b2cf387083a, type: 3}
-  quit: {fileID: -2036108009476034543, guid: 1d2da3cd6e2e10343bedebd2f464b859, type: 3}
-  delete: {fileID: 4028233132991739792, guid: 17f1c7b5d21f7e64f95501c29c187490, type: 3}
-  saveLoadPoint: {fileID: 177802295}
-  closeLoadPoint: {fileID: 1136783598}
-  playerAnchor: {fileID: 2116626118}
-  deletePos: {fileID: 0}
-  clippyGroundMask:
-    serializedVersion: 2
-    m_Bits: 128
+  destructionState: 0
+  yieldGemType: 0
+  GemUnlockRequirement: {fileID: 0}
+  lightData: {fileID: 0}
+  fileOpenSpeed: 0.6
+  fileCloseSpeed: 1.2
 --- !u!65 &8505223126330834405
 BoxCollider:
   m_ObjectHideFlags: 0
