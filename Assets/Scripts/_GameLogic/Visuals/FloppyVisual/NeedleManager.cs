@@ -43,16 +43,13 @@ public class NeedleManager : MonoBehaviour
     {
         //Articulations on the DiskArm when in cinematics without jeopardizing the IK animations of the Arm in free mode.
         //NEED TO TEST: might be needed when using the official player GameObject when entering FloppyWorld.
-        print(SceneSwitcher.sd.needleManager.FloppyFirstSavedTimeline);
         if (SceneSwitcher.sd.needleManager.FloppyFirstSavedTimeline.inCinematic && SceneSwitcher.sd.needleManager.FloppyFirstSavedTimeline.FloppyWorldProgression.Equals(0))
         {
-            //TEST using hand-key animations to complete cinematic whitebox.
             rig.weight = 0;
         }
         else
         {
-            rig.weight = 1;
-
+      
             recentFile = SceneSwitcher.sd.mostRecentSavedFile;
             if (isInFloppy && SceneSwitcher.sd.mostRecentSavedFile)
                 StartCoroutine(AnimateNeedle(0.5f, SceneSwitcher.sd.mostRecentSavedFile.transform.position));

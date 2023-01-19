@@ -150,7 +150,6 @@
     <Compile Include="Assets\Scripts\_GameLogic\FileSystem\FileManager.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\_Others\PureNature\Scripts\FreeCamera.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\Cinematics\TimelineManager.cs" />
     <Compile Include="Assets\Scripts\Deprecated\Sound.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Props\Models\Updated\WordDoc\WordDocManager.cs" />
@@ -181,6 +180,7 @@
     <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyLoadpoint.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Visuals\FloppyVisual\NeedleManager.cs" />
     <Compile Include="Assets\Scripts\Testing\TestRIgWeight.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Cinematics\TimelineManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_Others\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -892,15 +892,6 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>D:\Programs\Unity\Hub\Editor\2021.3.6f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Recorder.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Recorder">
-      <HintPath>Library\ScriptAssemblies\Unity.Recorder.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Recorder.Base">
-      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Base.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.VSCode.Editor.csproj">
@@ -1118,6 +1109,18 @@
     <ProjectReference Include="Unity.SysrootPackage.Editor.csproj">
       <Project>{A3CFC4A5-CF1E-17A0-1FE2-530132BDAA6C}</Project>
       <Name>Unity.SysrootPackage.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Recorder.Editor.csproj">
+      <Project>{B07BD3F1-6F89-C50A-2D5C-DB5F1B0A27A3}</Project>
+      <Name>Unity.Recorder.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Recorder.csproj">
+      <Project>{D2F4664B-6733-F207-C60A-A3DE191F662E}</Project>
+      <Name>Unity.Recorder</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Recorder.Base.csproj">
+      <Project>{38D4797B-7DB6-6FE3-9231-6D68B31F44B3}</Project>
+      <Name>Unity.Recorder.Base</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

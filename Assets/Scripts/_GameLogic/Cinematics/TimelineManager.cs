@@ -50,6 +50,7 @@ public class TimelineManager : MonoBehaviour
             floppyDirector.gameObject.SetActive(false);
             inCinematic = false;
             FloppyWorldProgression = 1;
+            NeedleManager.rig.weight = 1;
         }
     }
 
@@ -69,18 +70,4 @@ public class TimelineManager : MonoBehaviour
         CineTriggerDebugger = false;
     }
 
-    void Update()
-    {
-        if(//SceneSwitcher.isInFloppy && // Uncomment when using UnfortunateKid.
-            FloppyWorldProgression.Equals(0))
-        {
-            NeedleManager.rig.weight = 0;
-        }
-
-        // Debugger, DELETE when using UnfortunateKid.
-        if (CineTriggerDebugger)
-        {
-            playCine?.Invoke();
-        }
-    }
 }

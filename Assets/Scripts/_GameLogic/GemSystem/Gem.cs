@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
-
+using Unity.VisualScripting;
 
 public class Gem : MonoBehaviour
 {
@@ -32,6 +32,15 @@ public class Gem : MonoBehaviour
     public enum GemTypes {Blue,Yellow,Red,Green }
     public GemTypes gemType;
 
+    private void OnEnable()
+    {
+        //SceneSwitcher.OnFloppyToggle += ToggleGemActivation;
+    }
+    private void OnDisable()
+    {
+        //SceneSwitcher.OnFloppyToggle -= ToggleGemActivation;
+
+    }
 
     private void Awake()
     {
@@ -101,19 +110,34 @@ public class Gem : MonoBehaviour
             transform.position = Vector3.SmoothDamp(transform.position, interpolatedPosition, ref velRef, 0.1f);
             transform.localScale = Vector3.Lerp(initialScale, targetScale, percent);
             percent += Time.deltaTime * 1.5f;
+            if (percent >= 1.15f) 
+            {
+                if (collect)
+                {
+                    manager.SaveGem(this);
+
+                }
+                else
+                {
+                    manager.RemoveGem(this);
+                }
+                StopAllCoroutines();
+            }
+      
             yield return null;
         }
+
 
         if (collect)
         {
             manager.SaveGem(this);
 
         }
-        else 
+        else
         {
             manager.RemoveGem(this);
         }
- 
+        StopAllCoroutines();
     }
     public void SetToDisplayOnly() 
     {
@@ -130,7 +154,12 @@ public class Gem : MonoBehaviour
 
     public void ToggleGemActivation(bool activation) 
     {
-        
+
+        if (SceneSwitcher.isInFloppy)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
         gameObject.SetActive(hasGemBeenCollected? gameObject.activeInHierarchy: activation);
     }
 

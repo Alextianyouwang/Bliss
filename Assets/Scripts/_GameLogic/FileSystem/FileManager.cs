@@ -69,7 +69,7 @@ public class FileManager : MonoBehaviour
 
             FileObject f = Instantiate(sd.currFile);
             f.transform.position = sd.floppyFileManagers[sd.fileIndex].GetFileLoadPosition();
-            f.transform.parent = sd.floppyFileSystem.transform;
+            f.transform.parent = sd.floppyFileManagers[sd.fileIndex].GetFileLoadTransform();
             f.transform.forward = (sd.floppyFileSystem.transform.position - f.transform.position).normalized;
             f.transform.localScale *= 0.8f;
             f.SetIsAnchored(false);

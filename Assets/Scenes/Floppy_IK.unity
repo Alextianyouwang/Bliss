@@ -1399,6 +1399,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4741079941785869805, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4741079941785869805, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4741079941785869805, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5360855542572012538, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
       propertyPath: m_Name
       value: IconProjector_01
@@ -2704,34 +2716,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4999377692720397643}
     m_Modifications:
-    - target: {fileID: 705018361136262234, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1067202389163420601, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1067202389646805686, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1544060961168747230, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: nullStateLightData
-      value: 
-      objectReference: {fileID: 11400000, guid: 4d31d93b8343386498e42a5a06bcc7e8, type: 2}
-    - target: {fileID: 2324114491557528815, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: LightsNullColor.b
-      value: 0.25882354
-      objectReference: {fileID: 0}
-    - target: {fileID: 2324114491557528815, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: LightsNullColor.g
-      value: 0.7372549
-      objectReference: {fileID: 0}
-    - target: {fileID: 2324114491557528815, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: LightsNullColor.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4158242074344857143, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2777,29 +2761,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5360855542572012538, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5360855542572012538, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
       propertyPath: m_Name
       value: IconProjector_00
-      objectReference: {fileID: 0}
-    - target: {fileID: 6295977913931851435, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8427067271936801471, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8692545200309424903, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8892681580804011860, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
       propertyPath: m_Icon
       value: 
-      objectReference: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+      objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a06aadcb7e02614fa65dc066630fba1, type: 3}
 --- !u!4 &938615686 stripped
@@ -11691,7 +11659,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8024415579477424523}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64ba0f1ae9b28a74a8feb50dcd49bd1e, type: 3}
   m_Name: 

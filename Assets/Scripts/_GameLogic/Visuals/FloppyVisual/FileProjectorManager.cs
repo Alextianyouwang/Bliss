@@ -39,6 +39,11 @@ public class FileProjectorManager : MonoBehaviour
     {
         return transform.Find("FileLoadingPoint").position;
     }
+    public Transform GetFileLoadTransform() 
+    {
+        return transform.Find("FileLoadingPoint");
+
+    }
     public FileObject contianedFile { get; private set; }
     public void SetContainedFile(FileObject f)
     {
