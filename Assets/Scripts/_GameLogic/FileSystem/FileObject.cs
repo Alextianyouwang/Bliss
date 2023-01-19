@@ -57,6 +57,12 @@ public class FileObject : MonoBehaviour
     {
         isSaved = value;
     }
+    public bool isActivated { get; private set; } = true;
+    public void SetIsActivated(bool value)
+    {
+        isActivated = value;
+    }
+
     // Parent directory folder
     public FileObject parent { get; private set; } = null;
     public void SetParent(FileObject value)
@@ -144,7 +150,7 @@ public class FileObject : MonoBehaviour
         InstantiateGemCollPlatform();
         SetFileDestructionStateAndAppearance();
     }
-
+ 
 
     public void InstantiateGemCollPlatform() 
     {
@@ -194,9 +200,12 @@ public class FileObject : MonoBehaviour
         {
             case DestructionState.normal:
                 Utility.ChangeLayerRecursively(gameObject, "Interactive");
+                SetIsActivated(true);
                 break;
             case DestructionState.destructed:
                 Utility.ChangeLayerRecursively(gameObject, "Glitch");
+                SetIsActivated(false);
+
                 break;
         }
     }
@@ -301,6 +310,8 @@ public class FileObject : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        if (!isActivated)
+            return;
         if (collision.gameObject.tag.Equals("Cursor"))
             if (collision.gameObject.GetComponent<CursorBlock>())
                 if (collision.gameObject.GetComponent<CursorBlock>().clickTimes == 1)

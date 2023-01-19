@@ -10,10 +10,10 @@ public class GemCollectionPlat : MonoBehaviour
 {
     private GemManager manager;
     private Gem.GemTypes[] requiredTypes;
-    private List<Gem> awaitingGems = new List<Gem>();
+    private List<Gem> gemInPlatformDispatchReady = new List<Gem>();
     private Vector3 objectBound;
     private GameObject gem_prefab;
-    private Gem[] displayedGem;
+    private Gem[] slots;
 
     public static Action OnFileUnlockMatrixPopup;
 
@@ -23,7 +23,7 @@ public class GemCollectionPlat : MonoBehaviour
     {
         pairedFile = file;
     }
-    private bool isActivated = false, hasBeenUsedUp = false;
+    private bool isActivated = false, platformHasBeenUsedUp = false;
 
 
     [HideInInspector]public bool automaticPlaced = false;
@@ -77,7 +77,7 @@ public class GemCollectionPlat : MonoBehaviour
     }
     public void InstantiateGemBaseOnRequiredType() 
     {
-        displayedGem = new Gem[requiredTypes.Length];
+        slots = new Gem[requiredTypes.Length];
         for (int i = 0; i < requiredTypes.Length; i++) 
         {
             Gem localGem = Instantiate(gem_prefab).GetComponent<Gem>();
@@ -87,7 +87,7 @@ public class GemCollectionPlat : MonoBehaviour
             localGem.transform.parent = transform;
             localGem.SetDestructionStateAndAppearance(false);
             localGem.SetToDisplayOnly();
-            displayedGem[i] = localGem;
+            slots[i] = localGem;
         }
     }
 
@@ -101,66 +101,51 @@ public class GemCollectionPlat : MonoBehaviour
     {
         for (int i = 0; i < requiredTypes.Length; i++) 
         {
-            displayedGem[i].gemType = requiredTypes[i];
-            displayedGem[i].ChangeColor();
+            slots[i].gemType = requiredTypes[i];
+            slots[i].ChangeColor();
         }
        
     }
 
     void UpdateGemRequirement() 
     {
-        if (hasBeenUsedUp)
+        if (platformHasBeenUsedUp)
             return;
-        // Holding the gems that are ready to be dispatched to unlock props.
-        // Needs to be repopulate everytime the gem inventory refreshes.
-        awaitingGems.Clear();
-        // Document the total number of matches between All gems and Required Gems
-        // If its number equals to the number of Required Gems, then that specific prop will be ready to unlock.
-        int totalMatches = 0;
-        foreach (Gem d in displayedGem) 
+
+        gemInPlatformDispatchReady.Clear();
+
+        int totalMatches_between_inventory_slots = 0;
+        foreach (Gem gemInEachSlot in slots) 
         {
-            // For every loop in the 'All gem list', only one gem could be selected pairing with the Required gem.
-            bool hasMatched = false;
-            // Document the number of unsuccessful match for every Required gem.
-            //int gemTypeNotEqualCount = 0;
-            int sameTypeNumber = 0;
-            foreach (Gem c in displayedGem) 
+            bool has_inventory_matches_slots = false;
+            foreach (Gem gemInEachInvenotry in manager.inventory) 
             {
-                if (c.gemType == d.gemType && c != d)
-                    sameTypeNumber++;
-            }
-            foreach (Gem g in manager.loadedGems) 
-            {
-                if (g == null)
+                if (gemInEachInvenotry == null)
                     continue;
-                // If it is a match, and pass the one time check flag, and make sure it will not be include twice. 
-                if (d.gemType == g.gemType && !hasMatched && !awaitingGems.Contains(g)) 
+                if (gemInEachSlot.gemType == gemInEachInvenotry.gemType && !has_inventory_matches_slots && !gemInPlatformDispatchReady.Contains(gemInEachInvenotry)) 
                 {
-                    hasMatched = true;
-                    totalMatches++;
-                    awaitingGems.Add(g);
+                    has_inventory_matches_slots = true;
+                    totalMatches_between_inventory_slots++;
+                    gemInPlatformDispatchReady.Add(gemInEachInvenotry);
                 }
             }
         }
-        // Create a copy of the staging gems to preform a Visual update based on the activated Displaying gems.
-        List<Gem> awaitGemCopy = awaitingGems.ToList();
-        foreach (Gem r in displayedGem)
+        List<Gem> copy = gemInPlatformDispatchReady.ToList();
+        foreach (Gem gemInEachSlot in slots)
         {
-            r.SetDestructionStateAndAppearance(false);
-            bool hasRemoved = false;
-            for (int i = 0; i < awaitGemCopy.Count; i++ )
+            gemInEachSlot.SetDestructionStateAndAppearance(false);
+            bool has_gem_removed_from_copy = false;
+            for (int i = 0; i < copy.Count; i++ )
             {
-                if (r.gemType == awaitGemCopy[i].gemType && !hasRemoved) 
+                if (gemInEachSlot.gemType == copy[i].gemType && !has_gem_removed_from_copy) 
                 {
-                    hasRemoved = true;
-                    awaitGemCopy.Remove(awaitGemCopy[i]);
-                    r.SetDestructionStateAndAppearance(true);
+                    has_gem_removed_from_copy = true;
+                    copy.Remove(copy[i]);
+                    gemInEachSlot.SetDestructionStateAndAppearance(true);
                 }
             }
         }
-      
-        // Update the final Activition based on the total number of matches.
-        if (totalMatches == displayedGem.Length)
+        if (totalMatches_between_inventory_slots == slots.Length)
             SetDestructionStateAndAppearance(true);
         else 
             SetDestructionStateAndAppearance(false);
@@ -194,9 +179,9 @@ public class GemCollectionPlat : MonoBehaviour
                 {
                     if (!isActivated)
                         return;
-                    if (hasBeenUsedUp)
+                    if (platformHasBeenUsedUp)
                         return;
-                    hasBeenUsedUp = true;
+                    platformHasBeenUsedUp = true;
 
                     
                     StartCoroutine(WaitAndActivateFile());
@@ -214,10 +199,10 @@ public class GemCollectionPlat : MonoBehaviour
     }
     IEnumerator Dispatch() 
     {
-        for (int i = 0; i < awaitingGems.Count; i++)
+        for (int i = 0; i < gemInPlatformDispatchReady.Count; i++)
         {
-            Gem g = awaitingGems[i];
-            g.SendToCollPlatform(Array.Find(displayedGem, x => x.gemType == g.gemType).transform.position);
+            Gem g = gemInPlatformDispatchReady[i];
+            g.SendToCollPlatform(Array.Find(slots, x => x.gemType == g.gemType).transform.position);
             yield return new WaitForSeconds(0.1f);
         }
        

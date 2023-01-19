@@ -5,8 +5,12 @@ using UnityEngine;
 public class NumberBlocks : MonoBehaviour
 {
     Rigidbody rb;
+    public Vector3 holdPoint;
 
     protected bool hasCollided;
+
+    public InteractionManager parentManager;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -16,7 +20,7 @@ public class NumberBlocks : MonoBehaviour
     }
     void Update()
     {
-        
+
     }
     public void Addforce(Vector3 direction, float force) 
     {
