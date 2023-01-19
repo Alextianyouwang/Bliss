@@ -14,7 +14,7 @@ public class FileManager : MonoBehaviour
         SceneSwitcher.OnSceneDataLoaded += GetSceneData;
         SceneSwitcher.OnFloppyToggle += UpdateFileBeforeSwitchScene_fromSceneSwitcher;
         SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
-        SaveButton.OnSaveCurrentFile += SaveCurrentFile;
+        SaveButton.OnSaveCurrentFile += SaveCurrentFileWaitExecute;
         SaveButton.OnPreIterateFileIndex += FindFirstEmptySpotAndCheckFullStatus;
         DeleteButton.OnDeleteObject += DeleteCurrentFile;
         DeleteButton.OnRefreshFileFullState += SetFileFullToFalse;
@@ -28,7 +28,7 @@ public class FileManager : MonoBehaviour
         SceneSwitcher.OnSceneDataLoaded -= GetSceneData;
 
         SaveButton.OnStartSaveEffect -= InitiateCurrentFileAnimation;
-        SaveButton.OnSaveCurrentFile -= SaveCurrentFile;
+        SaveButton.OnSaveCurrentFile -= SaveCurrentFileWaitExecute;
         SaveButton.OnPreIterateFileIndex -= FindFirstEmptySpotAndCheckFullStatus;
 
         DeleteButton.OnDeleteObject -= DeleteCurrentFile;
@@ -54,13 +54,15 @@ public class FileManager : MonoBehaviour
     {
         isFileFull = false;
     }
-    void SaveCurrentFile()
+    void SaveCurrentFileWaitExecute()
     {
         // only proceed to save if current list doesn't already contains it to prevent duplication.
         if (Array.Find(SceneSwitcher.sd.clippyFileLoaded, x => x != null && x.pairedMainFileWhenCloned == sd.currFile))
             return;
         if (sd.fileIndex < sd.clippyFileLoaded.Length)
         {
+            sd.howManyFileSaved++;
+
             sd.currFile.SetIsAnchored(false);
             sd.currFile.ResetFileAnimationValue();
             sd.currFile.SetIsSaved(true);

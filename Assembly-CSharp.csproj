@@ -150,6 +150,7 @@
     <Compile Include="Assets\Scripts\_GameLogic\FileSystem\FileManager.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\_Others\PureNature\Scripts\FreeCamera.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Cinematics\TimelineManager.cs" />
     <Compile Include="Assets\Scripts\Deprecated\Sound.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Props\Models\Updated\WordDoc\WordDocManager.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Assets\Scripts\Deprecated\AudioManager.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyLoadpoint.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Visuals\FloppyVisual\NeedleManager.cs" />
+    <Compile Include="Assets\Scripts\Testing\TestRIgWeight.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_Others\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -1057,6 +1059,15 @@
     </Reference>
     <Reference Include="Unity.SysrootPackage.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.SysrootPackage.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder">
+      <HintPath>Library\ScriptAssemblies\Unity.Recorder.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder.Base">
+      <HintPath>Library\ScriptAssemblies\Unity.Recorder.Base.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

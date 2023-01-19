@@ -13,6 +13,8 @@ public class SceneSwitcher : MonoBehaviour
     public static Action<bool> OnFloppyToggle;
     // Invoke to notify other class to set a local reference of the SceneData object.
     public static Action OnSceneDataLoaded;
+    //Invoke when saved file for the first time then entering Floppy for cinematics.
+    public static Action OnFloppyCinematics;
 
     private void OnEnable()
     {
@@ -32,6 +34,7 @@ public class SceneSwitcher : MonoBehaviour
     }
     private void Start()
     {
+
     }
 
     private void Update()
@@ -47,14 +50,17 @@ public class SceneSwitcher : MonoBehaviour
         {
             yield return null;
         }
+        sd.needleManager = FindObjectOfType<NeedleManager>();
+        sd.needleManager.FloppyFirstSavedTimeline = FindObjectOfType<TimelineManager>();
+        sd.timelineManager = FindObjectOfType<TimelineManager>();
         sd.floppyWraper = FindObjectOfType<ClippyWrapper>().gameObject;
         sd.floppyLoadPoint = FindObjectOfType<ClippyLoadpoint>().gameObject;
         sd.floppyFileSystem = FindObjectOfType<ClippyFileSystem>();
-        sd.floppyFileManagers = sd.floppyFileSystem.fileProjectors;
-        sd.floppyWraper.SetActive(false);
+        sd.floppyFileManagers = sd.floppyFileSystem.fileProjectors;    
         sd.clippyFileLoaded = new FileObject[sd.floppyFileManagers.Count];
         for (int i = 0; i < sd.clippyFileLoaded.Length; i++) { sd.clippyFileLoaded[i] = null; }
         OnSceneDataLoaded?.Invoke();
+        sd.floppyWraper.SetActive(false);
     }
     void SwitchScene()
     {
@@ -66,13 +72,17 @@ public class SceneSwitcher : MonoBehaviour
 
             if (sd.mostRecentSavedFile) 
             {
-                Vector3 targetDir =(sd.mostRecentSavedFile.transform.position - transform.position).normalized;
+                Vector3 targetDir = (sd.mostRecentSavedFile.transform.position - transform.position).normalized;
                 transform.forward = targetDir;
                 transform.GetComponentInChildren<Camera>().transform.forward = targetDir;
             }
 
             sd.blizzWrapper.SetActive(false);
             sd.floppyWraper.SetActive(true);
+
+            // Invoke timeline to play when saved a file for the first time for UnfortunateKid.
+            if (sd.howManyFileSaved.Equals(1))
+                OnFloppyCinematics?.Invoke();
         }
 
         else

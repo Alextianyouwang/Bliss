@@ -12,4 +12,8 @@ public class SceneData
     public int fileIndex = 0;
     public SceneData() { }
 
+    public NeedleManager needleManager;
+    public TimelineManager timelineManager;
+    public int howManyFileSaved = 0;
+
 }

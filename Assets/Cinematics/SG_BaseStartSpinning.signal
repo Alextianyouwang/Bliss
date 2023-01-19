@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85072ee371a41de4d9a7178c379eaae1, type: 3}
-  m_Name: SO_NullState
+  m_Script: {fileID: 11500000, guid: d6fa2d92fc1b3f34da284357edf89c3b, type: 3}
+  m_Name: SG_BaseStartSpinning
   m_EditorClassIdentifier: 
-  matColor: {r: 1, g: 0.9755849, b: 0.9009434, a: 1}
-  lightColor: {r: 1, g: 0.9764706, b: 0.9019608, a: 1}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85072ee371a41de4d9a7178c379eaae1, type: 3}
-  m_Name: SO_NullState
+  m_Name: SO_CineState
   m_EditorClassIdentifier: 
-  matColor: {r: 1, g: 0.9755849, b: 0.9009434, a: 1}
-  lightColor: {r: 1, g: 0.9764706, b: 0.9019608, a: 1}
+  matColor: {r: 1, g: 0.54509807, b: 0, a: 1}
+  lightColor: {r: 1, g: 0.7372549, b: 0.25882354, a: 1}
