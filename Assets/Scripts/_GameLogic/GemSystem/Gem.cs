@@ -153,7 +153,7 @@ public class Gem : MonoBehaviour
                         Debug.LogWarning("No Gem Manager Found in Scene");
                         return;
                     }
-                    if (Utility.CheckIfHasNumberOfNullInList(manager.loadedGems) == 0) 
+                    if (Utility.CheckIfHasNumberOfNullInList(manager.inventory) == 0) 
                     {
                         return;
                     }

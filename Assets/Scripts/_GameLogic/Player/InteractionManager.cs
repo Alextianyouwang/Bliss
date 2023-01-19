@@ -38,6 +38,10 @@ public class InteractionManager : MonoBehaviour
     public bool canStartControl;
     public static Ray camRay;
     public static Vector3 screenCenter;
+    public static Transform throwPointTransform;
+
+    private bool isNotRestrictedByBoomerang = true;
+
     private void OnEnable()
     {
         //SceneManager.OnGameStart += ToggleStart;
@@ -49,9 +53,13 @@ public class InteractionManager : MonoBehaviour
 
     void Start()
     {
+
         lr = GetComponent<LineRenderer>();
         lr.positionCount = trPointNumber;
         currentKey = KeyCode.None;
+
+        throwPointTransform = throwPoint;
+
     }
 
     private void Update()
@@ -59,7 +67,9 @@ public class InteractionManager : MonoBehaviour
         if (isRayHit && canStartControl)
         {
             Vector3 targetVelocity = CalculateVelocity(hit.point, throwPoint.position, 0.4f);
-            GetNumber(targetVelocity);
+
+            if (isNotRestrictedByBoomerang)
+                GetNumber(targetVelocity);
 
             for (int i = 0; i < trPointNumber; i++)
             {
@@ -83,6 +93,11 @@ public class InteractionManager : MonoBehaviour
     void ToggleStart() 
     {
         canStartControl = true;
+    }
+
+    public void SetBoomerangRestrictedState(bool value) 
+    {
+        isNotRestrictedByBoomerang = value;
     }
 
     private void TrailUpdate() 
@@ -126,13 +141,24 @@ public class InteractionManager : MonoBehaviour
     } 
     private void GetNumber(Vector3 targetVelocity) 
     {
-        
-        for (int i = 0; i < 11; i++) 
+
+        if (!isNotRestrictedByBoomerang)
+            return
+                ;
+
+       // for (int i = 0; i < 11; i++) 
         {
-            if (Input.GetKeyDown(alphaKeys[i]) && !prepareToThrow && !AM_BlissMain.isInTeleporting) 
+            if (Input.GetKeyDown(alphaKeys[10]) && !prepareToThrow && !AM_BlissMain.isInTeleporting) 
             {
-                currentKey = alphaKeys[i];
-                currentNumber = Instantiate(numbers[i]).GetComponent<NumberBlocks>();
+                currentKey = alphaKeys[10];
+                currentNumber = Instantiate(numbers[10]).GetComponent<NumberBlocks>();
+                currentNumber.parentManager = this;
+                /*if (currentNumber.GetComponent<CursorBlock>())
+                    currentNumber.GetComponent<CursorBlock>().OnBommerangAnimationFinished += SetBoomerangRestrictedState;*/
+          
+
+
+                currentNumber.holdPoint = throwPoint.position;
                 currentNumber.transform.position = throwPoint.position;
                 prepareToThrow = true;
 
@@ -145,9 +171,13 @@ public class InteractionManager : MonoBehaviour
                     currentNumber.transform.parent = FindObjectOfType<BlissWrapper>().transform;
                 }
             }
-            
-            if (Input.GetKeyUp(alphaKeys[i]) && prepareToThrow && currentKey == alphaKeys[i] && !AM_BlissMain.isInTeleporting)
+
+           
+            if (Input.GetKeyUp(alphaKeys[10]) && prepareToThrow && currentKey == alphaKeys[10] && !AM_BlissMain.isInTeleporting )
             {
+                if (PlayerPrefs.GetInt("CursorSpam") == 2 && prepareToThrow)
+                    SetBoomerangRestrictedState(false);
+
                 prepareToThrow = false;
                 if (currentNumber != null) 
                 {

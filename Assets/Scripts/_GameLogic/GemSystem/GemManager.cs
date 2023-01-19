@@ -5,7 +5,7 @@ using System;
 public class GemManager : MonoBehaviour
 {
     public List<GemSpot> gemHolders = new List<GemSpot>();
-    public Gem[] loadedGems;
+    public Gem[] inventory;
     private int gemIndex = 0;
 
     public static Action OnNewGemSaved,OnGemRemoved;
@@ -23,7 +23,7 @@ public class GemManager : MonoBehaviour
     }
     void Awake()
     {
-        loadedGems = new Gem[transform.childCount];
+        inventory = new Gem[transform.childCount];
         foreach (Transform t in transform) 
         {
             gemHolders.Add(new GemSpot(t, null));
@@ -32,7 +32,7 @@ public class GemManager : MonoBehaviour
     }
     public Vector3 GetNextSpotPosition() 
     {
-        gemIndex = Utility.GetFirstNullIndexInList(loadedGems);
+        gemIndex = Utility.GetFirstNullIndexInList(inventory);
 
         return gemHolders[gemIndex].transform.position;
     }
@@ -42,24 +42,24 @@ public class GemManager : MonoBehaviour
 
         g.transform.parent = gemHolders[gemIndex].transform;
         g.transform.localPosition = Vector3.zero;
-        loadedGems[gemIndex] = g;
+        inventory[gemIndex] = g;
         OnNewGemSaved?.Invoke();
 
-        gemIndex = Utility.GetFirstNullIndexInList(loadedGems);
+        gemIndex = Utility.GetFirstNullIndexInList(inventory);
 
     }
 
     public void RemoveGem(Gem g ) 
     {
 
-        for (int i = 0; i < loadedGems.Length; i++)
+        for (int i = 0; i < inventory.Length; i++)
         {
-            if (loadedGems[i] == g)
-                loadedGems[i] = null;
+            if (inventory[i] == g)
+                inventory[i] = null;
         }
         g.gameObject.SetActive(false);
         OnGemRemoved?.Invoke();
-        gemIndex = Utility.GetFirstNullIndexInList(loadedGems);
+        gemIndex = Utility.GetFirstNullIndexInList(inventory);
 
 
     }
