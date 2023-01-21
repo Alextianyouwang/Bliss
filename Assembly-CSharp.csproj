@@ -80,6 +80,7 @@
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Scripts\BF_BallPlayer.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Player\FirstPersonController.cs" />
+    <Compile Include="Assets\Scripts\Testing\TestRIgWeight.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\GemSystem\GemManager.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Assets\Scripts\_GameLogic\FileSystem\FileManager.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\_Others\PureNature\Scripts\FreeCamera.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\Cinematics\TimelineManager.cs" />
     <Compile Include="Assets\Scripts\Deprecated\Sound.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Props\Models\Updated\WordDoc\WordDocManager.cs" />
@@ -179,8 +181,6 @@
     <Compile Include="Assets\Scripts\Deprecated\AudioManager.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyLoadpoint.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Visuals\FloppyVisual\NeedleManager.cs" />
-    <Compile Include="Assets\Scripts\Testing\TestRIgWeight.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\Cinematics\TimelineManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_Others\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -228,7 +228,6 @@
     <None Include="Assets\_Others\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\_Others\BruteForce-GrassShader\Shaders\URP\Debug\BFGrassMobileDebugURP.shader" />
     <None Include="Assets\_Others\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\_Others\PureNature\Shaders\Clouds.shader" />
     <None Include="Assets\_Others\PureNature\Shaders\VegetationTrunk.shader" />
     <None Include="Assets\_Others\BruteForce-GrassShader\Shaders\Standard\Debug\BFGrassMobileDebug.shader" />
     <None Include="Assets\Shader_Tests\Alex_Stencil\StencilPass.shader" />
@@ -894,6 +893,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.Recorder.Editor.csproj">
+      <Project>{B07BD3F1-6F89-C50A-2D5C-DB5F1B0A27A3}</Project>
+      <Name>Unity.Recorder.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.VSCode.Editor.csproj">
       <Project>{036BC6A5-966C-6E1F-09DD-1EFD684186FF}</Project>
       <Name>Unity.VSCode.Editor</Name>
@@ -978,6 +981,10 @@
       <Project>{8A0FE5C5-AB46-23FD-8643-41F9101E523A}</Project>
       <Name>Unity.Animation.Rigging.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.Recorder.csproj">
+      <Project>{D2F4664B-6733-F207-C60A-A3DE191F662E}</Project>
+      <Name>Unity.Recorder</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.VisualScripting.Flow.Editor.csproj">
       <Project>{B57D622F-243D-3F83-44C6-5623EFBCCF2A}</Project>
       <Name>Unity.VisualScripting.Flow.Editor</Name>
@@ -985,6 +992,10 @@
     <ProjectReference Include="Unity.VisualEffectGraph.Editor.csproj">
       <Project>{45E48494-3DA8-1380-934F-298EA42D40E9}</Project>
       <Name>Unity.VisualEffectGraph.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Recorder.Base.csproj">
+      <Project>{38D4797B-7DB6-6FE3-9231-6D68B31F44B3}</Project>
+      <Name>Unity.Recorder.Base</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.ProBuilder.AddOns.Editor.csproj">
       <Project>{B8506336-35E2-3B23-1099-BA6DA2CA34A0}</Project>
@@ -1109,18 +1120,6 @@
     <ProjectReference Include="Unity.SysrootPackage.Editor.csproj">
       <Project>{A3CFC4A5-CF1E-17A0-1FE2-530132BDAA6C}</Project>
       <Name>Unity.SysrootPackage.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Recorder.Editor.csproj">
-      <Project>{B07BD3F1-6F89-C50A-2D5C-DB5F1B0A27A3}</Project>
-      <Name>Unity.Recorder.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Recorder.csproj">
-      <Project>{D2F4664B-6733-F207-C60A-A3DE191F662E}</Project>
-      <Name>Unity.Recorder</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Recorder.Base.csproj">
-      <Project>{38D4797B-7DB6-6FE3-9231-6D68B31F44B3}</Project>
-      <Name>Unity.Recorder.Base</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

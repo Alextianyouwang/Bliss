@@ -755,6 +755,10 @@
       <Project>{7D616322-461E-6CD3-6ECA-0EC97F450126}</Project>
       <Name>UnityEngine.TestRunner</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.Recorder.Editor.csproj">
+      <Project>{B07BD3F1-6F89-C50A-2D5C-DB5F1B0A27A3}</Project>
+      <Name>Unity.Recorder.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.VSCode.Editor.csproj">
       <Project>{036BC6A5-966C-6E1F-09DD-1EFD684186FF}</Project>
       <Name>Unity.VSCode.Editor</Name>
@@ -839,6 +843,10 @@
       <Project>{8A0FE5C5-AB46-23FD-8643-41F9101E523A}</Project>
       <Name>Unity.Animation.Rigging.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.Recorder.csproj">
+      <Project>{D2F4664B-6733-F207-C60A-A3DE191F662E}</Project>
+      <Name>Unity.Recorder</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.VisualScripting.Flow.Editor.csproj">
       <Project>{B57D622F-243D-3F83-44C6-5623EFBCCF2A}</Project>
       <Name>Unity.VisualScripting.Flow.Editor</Name>
@@ -846,6 +854,10 @@
     <ProjectReference Include="Unity.VisualEffectGraph.Editor.csproj">
       <Project>{45E48494-3DA8-1380-934F-298EA42D40E9}</Project>
       <Name>Unity.VisualEffectGraph.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Recorder.Base.csproj">
+      <Project>{38D4797B-7DB6-6FE3-9231-6D68B31F44B3}</Project>
+      <Name>Unity.Recorder.Base</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.ProBuilder.AddOns.Editor.csproj">
       <Project>{B8506336-35E2-3B23-1099-BA6DA2CA34A0}</Project>
@@ -970,18 +982,6 @@
     <ProjectReference Include="Unity.SysrootPackage.Editor.csproj">
       <Project>{A3CFC4A5-CF1E-17A0-1FE2-530132BDAA6C}</Project>
       <Name>Unity.SysrootPackage.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Recorder.Editor.csproj">
-      <Project>{B07BD3F1-6F89-C50A-2D5C-DB5F1B0A27A3}</Project>
-      <Name>Unity.Recorder.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Recorder.csproj">
-      <Project>{D2F4664B-6733-F207-C60A-A3DE191F662E}</Project>
-      <Name>Unity.Recorder</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Recorder.Base.csproj">
-      <Project>{38D4797B-7DB6-6FE3-9231-6D68B31F44B3}</Project>
-      <Name>Unity.Recorder.Base</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
