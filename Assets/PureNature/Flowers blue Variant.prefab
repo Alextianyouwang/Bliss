@@ -69,7 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a0f29caf29f7d03428fa0c39008ffaa0, type: 2}
     - target: {fileID: 919132149155446097, guid: f54a5d78f4a27dd43bd1a4ee3a66d788, type: 3}
       propertyPath: m_Name
-      value: Flowers blue
+      value: Flowers blue Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f54a5d78f4a27dd43bd1a4ee3a66d788, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f54a5d78f4a27dd43bd1a4ee3a66d788, type: 3}

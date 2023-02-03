@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2572543199192759152, guid: b40bfd8818c48e9468ef290a4b3684af, type: 3}
       propertyPath: m_Name
-      value: OakTree02
+      value: OakTree02 Pink Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2952200559648268746, guid: b40bfd8818c48e9468ef290a4b3684af, type: 3}
       propertyPath: m_RootOrder

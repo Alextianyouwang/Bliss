@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 994cdc12c9ae9554793e9dfbad159e3d, type: 2}
     - target: {fileID: 4861150268723170305, guid: bade9370fd5a2024fa025c441a1940fb, type: 3}
       propertyPath: m_Name
-      value: Oaktree04
+      value: Oaktree04 Pink Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6167517152311144459, guid: bade9370fd5a2024fa025c441a1940fb, type: 3}
       propertyPath: m_RootOrder

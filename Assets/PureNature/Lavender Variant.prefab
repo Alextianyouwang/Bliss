@@ -69,7 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c63a5b8b199a4804eaac958d2ac19bbc, type: 2}
     - target: {fileID: 919132149155446097, guid: b5ffe0ed9580e8644858a005ea393a31, type: 3}
       propertyPath: m_Name
-      value: Lavender
+      value: Lavender Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b5ffe0ed9580e8644858a005ea393a31, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5ffe0ed9580e8644858a005ea393a31, type: 3}

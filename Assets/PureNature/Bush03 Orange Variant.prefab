@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1899214336596923635, guid: 4516d030db74f71439a55e10f4f5e329, type: 3}
       propertyPath: m_Name
-      value: Bush03
+      value: Bush03 Orange Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3170539328181282528, guid: 4516d030db74f71439a55e10f4f5e329, type: 3}
       propertyPath: m_RootOrder

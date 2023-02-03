@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3963097552642131605, guid: 264bd47e82f8b3d4fb313894d9da1506, type: 3}
       propertyPath: m_Name
-      value: Flowers Pink
+      value: Flowers Pink Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4446196970998209583, guid: 264bd47e82f8b3d4fb313894d9da1506, type: 3}
       propertyPath: m_RootOrder
