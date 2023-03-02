@@ -12,9 +12,9 @@ public class TileMatrixManager : MonoBehaviour
     // Varying: The value will be set to a default at first, it will move between other values and the defalut.
     // Default: The value will not change.
 
-    [SerializeField] private GameObject tile;
-    [SerializeField] private SaveButton saveButton;
-    [SerializeField] private DeleteButton deleteButton;
+    private GameObject tile;
+    private SaveButton saveButton;
+    private DeleteButton deleteButton;
     [SerializeField] private int defaultTileDimension = 7;
     [SerializeField] private float defaultRadius = 15;
     [SerializeField] private bool isEnabled = true;
@@ -112,11 +112,17 @@ public class TileMatrixManager : MonoBehaviour
 
     private void Awake()
     {
-        t = new TileDrawInstance(tile, defaultTileDimension);
-        b = new TileButtons(t, saveButton, deleteButton);
+      
     }
     void Start()
     {
+        tile = SceneSwitcher.sd.tile_prefab;
+        saveButton = SceneSwitcher.sd.saveButton_prefab.GetComponent<SaveButton>();
+        deleteButton = SceneSwitcher.sd.deleteButton_prefab.GetComponent<DeleteButton>();
+
+        t = new TileDrawInstance(tile, defaultTileDimension);
+        b = new TileButtons(t, saveButton, deleteButton);
+
         follower = GameObject.Find("GemPlatform");
         if (!follower)
             Debug.LogError("GemPlatform not found in scene");

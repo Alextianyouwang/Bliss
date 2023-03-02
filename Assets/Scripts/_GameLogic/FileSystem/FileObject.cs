@@ -126,11 +126,11 @@ public class FileObject : MonoBehaviour
     protected Action<bool> OnPlayerAnchoredLocal;
 
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
-        gem_prefab = Resources.Load("Props/Gem/P_Gem") as GameObject;
-        gemCollPlat_prefab = Resources.Load("Props/GemCollPlat/P_GemCollPlatform") as GameObject;
-        saveEffect_prefab = Resources.Load("Props/FileSaveEffect/P_FileSaveAnimationProp") as GameObject;
+        gem_prefab = SceneSwitcher.sd.gem_prefab;
+        gemCollPlat_prefab = SceneSwitcher.sd.gemCollPlat_prefab;
+        saveEffect_prefab = SceneSwitcher.sd.saveEffect_prefab;
         if (lightData == null)
             Debug.LogWarning("Please Assign Light Data for " + name);
         groundMask = LayerMask.GetMask("Ground");
@@ -141,9 +141,6 @@ public class FileObject : MonoBehaviour
                 playerAnchor = c;
             }
         }
-    }
-    protected virtual void Start()
-    {
         SetGroundPos();
         InstantiateGem();
         requiredGemTypes = GemUnlockRequirement.GetReqiredGemType(yieldGemType);

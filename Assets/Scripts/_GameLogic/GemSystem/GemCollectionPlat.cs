@@ -43,10 +43,7 @@ public class GemCollectionPlat : MonoBehaviour
         GemManager.OnGemRemoved -= UpdateGemRequirement;
 
     }
-    private void Awake()
-    {
-     
-    }
+
     void Start()
     {
         if (!automaticPlaced)
@@ -65,7 +62,7 @@ public class GemCollectionPlat : MonoBehaviour
             Debug.LogWarning("There is no Gem Manager in the scene");
         }
 
-        gem_prefab = Resources.Load("Props/Gem/P_Gem") as GameObject;
+        gem_prefab = SceneSwitcher.sd.gem_prefab;
 
         // objectBound = GetComponent<MeshRenderer>().bounds.size;
         objectBound = transform.localScale;

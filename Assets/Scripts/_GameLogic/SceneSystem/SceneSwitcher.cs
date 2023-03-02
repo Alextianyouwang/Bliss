@@ -45,6 +45,12 @@ public class SceneSwitcher : MonoBehaviour
     IEnumerator WaitUntilSceneLoad()
     {
         sd.blizzWrapper = FindObjectOfType<BlissWrapper>().gameObject;
+        sd.gem_prefab = Resources.Load("Props/Gem/P_Gem") as GameObject;
+        sd.gemCollPlat_prefab = Resources.Load("Props/GemCollPlat/P_GemCollPlatform") as GameObject;
+        sd.saveEffect_prefab = Resources.Load("Props/FileSaveEffect/P_FileSaveAnimationProp") as GameObject;
+        sd.tile_prefab = Resources.Load("Props/LongTile/P_LongTile") as GameObject;
+        sd.saveButton_prefab = Resources.Load("Props/SaveButton/P_DownloadM") as GameObject ;
+        sd.deleteButton_prefab = Resources.Load("Props/DeleteButton/P_CrossButtonM") as GameObject ;
         AsyncOperation load = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Floppy_IK", LoadSceneMode.Additive);
         while (!load.isDone)
         {
@@ -58,6 +64,7 @@ public class SceneSwitcher : MonoBehaviour
         sd.floppyFileSystem = FindObjectOfType<ClippyFileSystem>();
         sd.floppyFileManagers = sd.floppyFileSystem.fileProjectors;    
         sd.clippyFileLoaded = new FileObject[sd.floppyFileManagers.Count];
+       
         for (int i = 0; i < sd.clippyFileLoaded.Length; i++) { sd.clippyFileLoaded[i] = null; }
         OnSceneDataLoaded?.Invoke();
         sd.floppyWraper.SetActive(false);
