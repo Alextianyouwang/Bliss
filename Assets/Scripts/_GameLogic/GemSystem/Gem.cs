@@ -45,6 +45,10 @@ public class Gem : MonoBehaviour
     private void Awake()
     {
         manager = FindObjectOfType<GemManager>();
+        if (!manager)
+        {
+            Debug.LogWarning("There is no Gem Manager in the scene");
+        }
         collider = GetComponent<Collider>();
     }
     void Start()
@@ -114,12 +118,12 @@ public class Gem : MonoBehaviour
             {
                 if (collect)
                 {
-                    manager.SaveGem(this);
+                    manager?.SaveGem(this);
 
                 }
                 else
                 {
-                    manager.RemoveGem(this);
+                    manager?.RemoveGem(this);
                 }
                 StopAllCoroutines();
             }
@@ -130,12 +134,12 @@ public class Gem : MonoBehaviour
 
         if (collect)
         {
-            manager.SaveGem(this);
+            manager?.SaveGem(this);
 
         }
         else
         {
-            manager.RemoveGem(this);
+            manager?.RemoveGem(this);
         }
         StopAllCoroutines();
     }

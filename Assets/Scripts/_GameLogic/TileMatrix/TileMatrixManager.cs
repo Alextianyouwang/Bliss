@@ -120,7 +120,8 @@ public class TileMatrixManager : MonoBehaviour
         follower = GameObject.Find("GemPlatform");
         if (!follower)
             Debug.LogError("GemPlatform not found in scene");
-        dampPosition = follower.transform.position;
+        if (follower)
+            dampPosition = follower.transform.position;
 
         t.Initialize();
         varyingDampSpeed = defaultDampSpeed;
@@ -192,7 +193,8 @@ public class TileMatrixManager : MonoBehaviour
                 {
                     dampPosition = Vector3.SmoothDamp(dampPosition, t.closestTileToCenter.smoothedFinalXYZPosition + Vector3.up * 0.8f, ref velocity, 0.1f);
                 }
-                follower.transform.position = dampPosition;
+                if(follower)
+                    follower.transform.position = dampPosition;
 
 
                 break;
@@ -211,7 +213,8 @@ public class TileMatrixManager : MonoBehaviour
                 {
                     dampPosition = Vector3.SmoothDamp(dampPosition, t.closestTileToCenter.smoothedFinalXYZPosition + Vector3.up * 0.8f, ref velocity, 0.1f);
                 }
-                follower.transform.position = dampPosition;
+                if (follower)
+                    follower.transform.position = dampPosition;
                 break;
             case TileStates.Landing:
                 t.UpdateTileSetActive(playerGroundPosition, 6f);

@@ -58,12 +58,18 @@ public class GemCollectionPlat : MonoBehaviour
         if (hasBeenInitiated)
             return;
         hasBeenInitiated = true;
-        
+
+        manager = FindObjectOfType<GemManager>();
+        if (!manager)
+        {
+            Debug.LogWarning("There is no Gem Manager in the scene");
+        }
+
         gem_prefab = Resources.Load("Props/Gem/P_Gem") as GameObject;
 
         // objectBound = GetComponent<MeshRenderer>().bounds.size;
         objectBound = transform.localScale;
-        manager = FindObjectOfType<GemManager>();
+        
 
         if (!automaticPlaced)
         {
@@ -109,7 +115,7 @@ public class GemCollectionPlat : MonoBehaviour
 
     void UpdateGemRequirement() 
     {
-        if (platformHasBeenUsedUp)
+        if (platformHasBeenUsedUp || !manager)
             return;
 
         gemInPlatformDispatchReady.Clear();

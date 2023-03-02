@@ -38,6 +38,7 @@ public class TileDrawInstance
         startPosition = FirstPersonController.playerGroundPosition;
         tileMat = tile.GetComponent<MeshRenderer>().sharedMaterial;
         tileMesh = tile.GetComponent<MeshFilter>().sharedMesh;
+        Debug.Log(tileMesh.name);
         originalTileBound = tile.GetComponent<MeshRenderer>().bounds.size;
         float formationSideLength = dimension * originalTileBound.x;
         formationOffset = new Vector3(formationSideLength / 2 - originalTileBound.x / 2, 0, formationSideLength / 2 - originalTileBound.z / 2);
