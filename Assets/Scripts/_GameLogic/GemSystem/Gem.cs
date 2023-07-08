@@ -10,7 +10,7 @@ public class Gem : MonoBehaviour
     public float rotateSpeed;
     private Coroutine collectAnimCo;
     private GemManager manager;
-    private Collider collider;
+    private new Collider collider;
 
     private FileObject pairedFile;
     public void SetPairedFile(FileObject obj) 

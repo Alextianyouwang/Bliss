@@ -5,7 +5,7 @@ public class MusicPlayerManager : FileObject
     [SerializeField]
     private AnimationCurve CDAnimCurve;
     [SerializeField]
-    private float rotationLerpTime = 0.2f, rotationStopLerpTime = 0.2f, rotationMultiplier = 0.5f, lerpMultiplier = 2f;
+    private float rotationLerpTime = 0.2f, rotationStopLerpTime = 0.2f, rotationMultiplier = 0.5f;
     private float rotFef = 0;
 
     private GameObject CD;

@@ -40,7 +40,6 @@ public class TileMatrixManager : MonoBehaviour
         defaultNoiseWeight = 0.3f;
 
     private bool
-        isInDiveFormation = false,
         hasTriggeredLandingGathering = false,
         hasWindowsDetached = false;
 
@@ -116,26 +115,45 @@ public class TileMatrixManager : MonoBehaviour
     }
     void Start()
     {
-        tile = SceneSwitcher.sd.tile_prefab;
-        saveButton = SceneSwitcher.sd.saveButton_prefab.GetComponent<SaveButton>();
-        deleteButton = SceneSwitcher.sd.deleteButton_prefab.GetComponent<DeleteButton>();
-
-        t = new TileDrawInstance(tile, defaultTileDimension);
-        b = new TileButtons(t, saveButton, deleteButton);
+       
+        LoadObject();
+        InitializeTileButton();
 
         follower = GameObject.Find("GemPlatform");
         if (!follower)
             Debug.LogError("GemPlatform not found in scene");
-        if (follower)
+        else
             dampPosition = follower.transform.position;
 
-        t.Initialize();
         varyingDampSpeed = defaultDampSpeed;
         state = TileStates.NormalFollow;
-        b.UpdateButtonPosition( TileButtons.ButtonTile.DisplayState.off);
+
     }
 
+    private void InitializeTileButton() 
+    {
+        if (tile == null)
+            return;
+        t = new TileDrawInstance(tile, defaultTileDimension);
+        t.Initialize();
 
+        if (saveButton == null || deleteButton == null)
+            return;
+        b = new TileButtons(t, saveButton, deleteButton);
+        b.UpdateButtonPosition(TileButtons.ButtonTile.DisplayState.off);
+
+    }
+    private void LoadObject() 
+    {
+        if (SceneSwitcher.sd == null)
+        {
+            print("SceneSwitcher Not Exist.");
+            return;
+        }
+        tile = SceneSwitcher.sd.tile_prefab;
+        saveButton = SceneSwitcher.sd.saveButton_prefab.GetComponent<SaveButton>();
+        deleteButton = SceneSwitcher.sd.deleteButton_prefab.GetComponent<DeleteButton>();
+    }
     /*
         The main logic of this procedural Tile Animation system is driven by State and Step.
         There are two main states. The tile main code is running in either Update or in the FileStagingAnimation Coroutine, never in both.
@@ -182,8 +200,10 @@ public class TileMatrixManager : MonoBehaviour
         if (!isEnabled)
             return;
         Vector3 playerGroundPosition = FirstPersonController.playerGroundPosition;
-        b.UpdateButtonPosition(TileButtons.ButtonTile.DisplayState.off);
+        b?.UpdateButtonPosition(TileButtons.ButtonTile.DisplayState.off);
 
+        if (t== null)
+            return;
         switch (state)
         {
             case TileStates.NormalFollow:
@@ -317,6 +337,7 @@ public class TileMatrixManager : MonoBehaviour
 
     IEnumerator WindowsClickedAnimation(bool buttonStateAfterAnimation)
     {
+      
         t.activateWindowsIndependance = true;
         t.displayAndUpdateButton = true;
        float percent = 0;
@@ -399,6 +420,8 @@ public class TileMatrixManager : MonoBehaviour
 
     public float GetUnderGroundTilesProxiRadius()
     {
+        if (t == null)
+            return 0;
         float radius = 0;
         TileDrawInstance.TileData[] array = new TileDrawInstance.TileData[t.tileOrderedDict.Count];
         t.tileOrderedDict.Values.CopyTo(array, 0);
@@ -447,6 +470,8 @@ public class TileMatrixManager : MonoBehaviour
 
     void ReceiveUpAnimationGlobalPositionOffset(float y)
     {
+        if (t == null)
+            return;
         state = TileStates.PrepareLanding;
 
         t.activateWindowsIndependance = true;
@@ -459,6 +484,8 @@ public class TileMatrixManager : MonoBehaviour
 
     void ExitThreshold(float number)
     {
+        if (t == null)
+            return;
         //if (!isInDiveFormation)
         {
             changingMatrixYOffset = 0;
@@ -472,6 +499,8 @@ public class TileMatrixManager : MonoBehaviour
 
     void SetWindowsIndependance(bool flag)
     {
+        if (t == null)
+            return;
         t.activateWindowsIndependance = flag;
     }
 
@@ -510,11 +539,13 @@ public class TileMatrixManager : MonoBehaviour
         // Activate volume and scenery, set plane target position to form a "V" shape.
         // The dive animation is officially started.
         OnInitiateSoaringFromMatrix?.Invoke(divePosition, finalRot);
-        isInDiveFormation = true;
         ChangeFormation(30, topOfFormationVShape);
     }
     void SoaringAnimation(float timePercent, float distancePercent)
     {
+
+        if (t == null)
+            return;
         float planeCatchUpYPos = -205f;
 
         // Player Went Through the "V" shaped formation matrix
@@ -554,12 +585,13 @@ public class TileMatrixManager : MonoBehaviour
         // The dive animation is officially started.
 
         OnInitiateDivingFromMatrix?.Invoke(divePosition, finalRot);
-        isInDiveFormation = true;
         ChangeFormation(formationLowestPoint, formationLowestPoint + 8f);
 
     }
     void DivingAnimation(float timePercent, float distancePercent)
     {
+        if (t == null)
+            return;
         float planeCatchUpYPos = 80f;
         // The window will Detach, move out the way for player to travel through.
         if (distancePercent < 0.9f && !hasWindowsDetached)
@@ -586,16 +618,22 @@ public class TileMatrixManager : MonoBehaviour
     }
     void InitiateRetreatAndResetWindowsAnimation(bool buttonStateAfterAnimation)
     {
+        if (t == null)
+            return;
         StartCoroutine(WindowsClickedAnimation(buttonStateAfterAnimation));
     }
 
     void InitiateDeleteAnchorAnimation()
     {
+        if (t == null)
+            return;
         StartCoroutine(MatrixDeleteAnimation());
     }
 
     void InitiatePopupAnimation() 
     {
+        if (t == null)
+            return;
         StartCoroutine(MatrixPopupAnimation());
     }
 
@@ -606,6 +644,8 @@ public class TileMatrixManager : MonoBehaviour
 
     void ResetToDefault()
     {
+        if (t == null)
+            return;
         // Reset Windows Tile Behavior 
         SetWindowsIndependance(false);
         t.changingWindowsYPos = 0;
@@ -617,7 +657,6 @@ public class TileMatrixManager : MonoBehaviour
         hasWindowsDetached = false;
 
         // Reset States
-        isInDiveFormation = false;
         t.displayAndUpdateButton = true;
 
         // Reset Values
