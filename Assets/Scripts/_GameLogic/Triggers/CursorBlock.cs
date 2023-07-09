@@ -106,7 +106,7 @@ public class CursorBlock : NumberBlocks
         float originalDistance = Vector3.Distance(transform.position, target.position);
         float distancePercent;
 
-        while (percent < 1 || Vector3.Distance(transform.position, target.position) > 0.1f)
+        while ( Vector3.Distance(transform.position, target.position) > 0.1f)
         {
             distancePercent = (originalDistance - Vector3.Distance(transform.position, target.position)) / originalDistance;
             Vector3 travelDir = (target.position - initialPosition).normalized;
@@ -117,7 +117,8 @@ public class CursorBlock : NumberBlocks
             interpolatedPosition = Utility.QuadraticBezier(initialPosition, (initialPosition + target.position) / 2 + finalRandom, target.position, percent);
             transform.position = Vector3.SmoothDamp(transform.position, interpolatedPosition, ref velRef, 0.08f);
 
-        
+            if (Vector3.Distance(transform.position, target.position) <= 0.1f || percent >= 1.2f)
+                break;
             //transform.localScale = Vector3.Lerp(initialScale, targetScale, percent);
             percent += Time.deltaTime * 1.5f;
             yield return null;
@@ -128,8 +129,8 @@ public class CursorBlock : NumberBlocks
                 parentManager.SetBoomerangRestrictedState(true);
        
         }
-        if (boomrangeAnimation != null)
-            StopCoroutine(boomrangeAnimation);
+        //if (boomrangeAnimation != null)
+            //StopCoroutine(boomrangeAnimation);
 
         Destroy(gameObject);
     }
@@ -194,9 +195,9 @@ public class CursorBlock : NumberBlocks
             (PlayerPrefs.GetInt("CursorSpam") == 0 || PlayerPrefs.GetInt("CursorSpam") == 2)) 
         {
             hasBeenClicked = true;
-            if (boomrangeAnimation != null)
-                StopCoroutine(boomrangeAnimation);
-            boomrangeAnimation = StartCoroutine(CollectAnimation(InteractionManager.throwPointTransform));
+            //if (boomrangeAnimation != null)
+                //StopCoroutine(boomrangeAnimation);
+            StartCoroutine(CollectAnimation(InteractionManager.throwPointTransform));
             StartCoroutine(ResetBoomerang());
 
             

@@ -160,7 +160,6 @@ public class TM_DrawInstance
 
         public enum DisplayState { tile, save, delete }
         public DisplayState displayState;
-        public event Action<Vector2,TileData> OnRemoveFromDisplay;
 
         public TileData(Vector3 _tileBound)
         {
