@@ -279,21 +279,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2408143695032088336, guid: a80ab36fe11832348ab5043c8990cff0, type: 3}
   m_PrefabInstance: {fileID: 49409413}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &49409415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49409414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fe3c9f15f7e62e4a981fec9ccc2b234, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultTileDimension: 7
-  defaultRadius: 15
-  isEnabled: 1
 --- !u!114 &49409427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +292,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoadSecondaryScene: 0
+--- !u!114 &49409434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49409414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c8cea846dcb3a4ea7e63ea42d177d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultTileDimension: 7
+  defaultRadius: 5
+  isEnabled: 1
 --- !u!1 &238463529
 GameObject:
   m_ObjectHideFlags: 0
