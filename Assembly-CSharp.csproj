@@ -181,6 +181,11 @@
     <Compile Include="Assets\Scripts\Deprecated\AudioManager.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyLoadpoint.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Visuals\FloppyVisual\NeedleManager.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TileMatrixBehavior.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TM_FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TM_PitchRadius.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TM_ActivateTeleport.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TM_Dispatch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_Others\TextMesh Pro\Shaders\TMPro.cginc" />

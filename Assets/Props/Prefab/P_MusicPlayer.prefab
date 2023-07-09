@@ -307,7 +307,6 @@ MonoBehaviour:
   rotationLerpTime: 0.2
   rotationStopLerpTime: 0.4
   rotationMultiplier: 1
-  lerpMultiplier: 0.5
 --- !u!65 &2276947106990743043
 BoxCollider:
   m_ObjectHideFlags: 0

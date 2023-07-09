@@ -162,14 +162,14 @@ public class InteractionManager : MonoBehaviour
                 currentNumber.transform.position = throwPoint.position;
                 prepareToThrow = true;
 
-                if (SceneSwitcher.isInFloppy)
+                /*if (SceneSwitcher.isInFloppy)
                 {
                     currentNumber.transform.parent = FindObjectOfType<ClippyWrapper>().transform;
                 }
                 else
                 {
                     currentNumber.transform.parent = FindObjectOfType<BlissWrapper>().transform;
-                }
+                }*/
             }
 
            
