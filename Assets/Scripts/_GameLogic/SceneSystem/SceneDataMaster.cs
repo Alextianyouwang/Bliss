@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneSwitcher : MonoBehaviour
+public class SceneDataMaster : MonoBehaviour
 {
 
     public bool LoadSecondaryScene = true;

@@ -31,7 +31,7 @@ public class TimelineManager : MonoBehaviour
         floppyDirector.stopped += FloppyIntroEnd;
         floppyDirector.played += FloppyIntroBegin;
 
-        SceneSwitcher.OnFloppyCinematics += FloppyCinePlay;
+        SceneDataMaster.OnFloppyCinematics += FloppyCinePlay;
         playCine += FloppyCinePlay;
     }
      void OnDisable()
@@ -39,7 +39,7 @@ public class TimelineManager : MonoBehaviour
         floppyDirector.stopped -= FloppyIntroEnd;
         floppyDirector.played -= FloppyIntroBegin;
 
-        SceneSwitcher.OnFloppyCinematics -= FloppyCinePlay;
+        SceneDataMaster.OnFloppyCinematics -= FloppyCinePlay;
         playCine -= FloppyCinePlay;
     }
 

@@ -23,14 +23,14 @@ public class NeedleManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        SceneSwitcher.OnFloppyToggle += UpdateNeedlePositionWhenPlayerEnterFloppy;
+        SceneDataMaster.OnFloppyToggle += UpdateNeedlePositionWhenPlayerEnterFloppy;
         DeleteButton.OnDeleteObject += RetreatNeedleWhenRecentFileDestroyed;
         FileObject.OnFlieCollected += UpdateNeedlePositionWhenNewFileSelected;
     }
 
     private void OnDisable()
     {
-        SceneSwitcher.OnFloppyToggle -= UpdateNeedlePositionWhenPlayerEnterFloppy;
+        SceneDataMaster.OnFloppyToggle -= UpdateNeedlePositionWhenPlayerEnterFloppy;
         DeleteButton.OnDeleteObject -= RetreatNeedleWhenRecentFileDestroyed;
         FileObject.OnFlieCollected -= UpdateNeedlePositionWhenNewFileSelected;
     }
@@ -43,22 +43,22 @@ public class NeedleManager : MonoBehaviour
     {
         //Articulations on the DiskArm when in cinematics without jeopardizing the IK animations of the Arm in free mode.
         //NEED TO TEST: might be needed when using the official player GameObject when entering FloppyWorld.
-        if (SceneSwitcher.sd.needleManager.FloppyFirstSavedTimeline.inCinematic && SceneSwitcher.sd.needleManager.FloppyFirstSavedTimeline.FloppyWorldProgression.Equals(0))
+        if (SceneDataMaster.sd.needleManager.FloppyFirstSavedTimeline.inCinematic && SceneDataMaster.sd.needleManager.FloppyFirstSavedTimeline.FloppyWorldProgression.Equals(0))
         {
             rig.weight = 0;
         }
         else
         {
       
-            recentFile = SceneSwitcher.sd.mostRecentSavedFile;
-            if (isInFloppy && SceneSwitcher.sd.mostRecentSavedFile)
-                StartCoroutine(AnimateNeedle(0.5f, SceneSwitcher.sd.mostRecentSavedFile.transform.position));
+            recentFile = SceneDataMaster.sd.mostRecentSavedFile;
+            if (isInFloppy && SceneDataMaster.sd.mostRecentSavedFile)
+                StartCoroutine(AnimateNeedle(0.5f, SceneDataMaster.sd.mostRecentSavedFile.transform.position));
         }
     }
     void UpdateNeedlePositionWhenNewFileSelected(FileObject f) 
     {
         recentFile = f;
-        if (SceneSwitcher.isInFloppy) 
+        if (SceneDataMaster.isInFloppy) 
             StartCoroutine(AnimateNeedle(0.5f, f.transform.position));
     }
     void RetreatNeedleWhenRecentFileDestroyed() 

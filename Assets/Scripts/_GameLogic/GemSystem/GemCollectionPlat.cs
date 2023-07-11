@@ -62,7 +62,7 @@ public class GemCollectionPlat : MonoBehaviour
             Debug.LogWarning("There is no Gem Manager in the scene");
         }
 
-        gem_prefab = SceneSwitcher.sd.gem_prefab;
+        gem_prefab = SceneDataMaster.sd.gem_prefab;
 
         // objectBound = GetComponent<MeshRenderer>().bounds.size;
         objectBound = transform.localScale;

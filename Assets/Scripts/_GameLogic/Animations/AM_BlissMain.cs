@@ -78,7 +78,7 @@ public class AM_BlissMain : AnchorAnimation
     {
         playerAnimationCTS?.Cancel();
         playerZeroXZRotationCTS?.Cancel();
-        PlayerAnchorTask(SceneSwitcher.sd.currFile.groundPosition + Vector3.up * 4f, Vector3.up * 25f, Quaternion.LookRotation(Vector3.down, transform.right), 0.6f, 0.01f, 0.2f, player, fastSlowCurve, false, false, false,true,true, RequestDive_passive, DuringPrepareDiving);
+        PlayerAnchorTask(SceneDataMaster.sd.currFile.groundPosition + Vector3.up * 4f, Vector3.up * 25f, Quaternion.LookRotation(Vector3.down, transform.right), 0.6f, 0.01f, 0.2f, player, fastSlowCurve, false, false, false,true,true, RequestDive_passive, DuringPrepareDiving);
     }
     // Dive animation, will follow by scene swith and reset.
     void InitiateDiveAnimation(Vector3 targetPosition, Quaternion lookDirection)

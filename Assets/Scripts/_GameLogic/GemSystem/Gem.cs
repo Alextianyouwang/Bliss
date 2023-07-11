@@ -159,7 +159,7 @@ public class Gem : MonoBehaviour
     public void ToggleGemActivation(bool activation) 
     {
 
-        if (SceneSwitcher.isInFloppy)
+        if (SceneDataMaster.isInFloppy)
         {
             gameObject.SetActive(false);
             return;

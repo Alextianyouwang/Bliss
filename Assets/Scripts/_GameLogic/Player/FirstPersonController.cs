@@ -274,7 +274,7 @@ public class FirstPersonController : MonoBehaviour
         if (!isGrounded)
             return;
   
-        if ((!SceneSwitcher.isInFloppy ? storedPitch > 70f : storedPitch < -70) && !hasPitchEnterTrigger)
+        if ((!SceneDataMaster.isInFloppy ? storedPitch > 70f : storedPitch < -70) && !hasPitchEnterTrigger)
         {
             hasPitchEnterTrigger = true;
             hasPitchExitTrigger = false;
@@ -283,7 +283,7 @@ public class FirstPersonController : MonoBehaviour
 
 
         }
-         if ((!SceneSwitcher.isInFloppy ? storedPitch <= 70f : storedPitch >= -70) && !hasPitchExitTrigger)
+         if ((!SceneDataMaster.isInFloppy ? storedPitch <= 70f : storedPitch >= -70) && !hasPitchExitTrigger)
         {
             hasPitchExitTrigger = true;
             hasPitchEnterTrigger = false;
@@ -308,7 +308,7 @@ public class FirstPersonController : MonoBehaviour
             animationActivationTimer += Time.deltaTime;
             if (animationActivationTimer >= 1f)
                 animationActivationTimer = 1f;
-            if (!SceneSwitcher.isInFloppy)
+            if (!SceneDataMaster.isInFloppy)
                 OnIncreaseDownAnimationTime?.Invoke(animationActivationTimer);
             else
                 OnIncreaseUpAnimationTime?.Invoke(animationActivationTimer);
@@ -316,7 +316,7 @@ public class FirstPersonController : MonoBehaviour
         if ((animationActivationTimer == 1f || timerBeforeAnimation >= 0.5f && Input.GetMouseButton(0)) && !hasAnimationTriggered)
         {
             hasAnimationTriggered = true;
-            if (!SceneSwitcher.isInFloppy)
+            if (!SceneDataMaster.isInFloppy)
                 OnStartDiving?.Invoke(this, true);
             else
                 OnStartSoaring?.Invoke(this);

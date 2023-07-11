@@ -72,10 +72,8 @@
     <Compile Include="Assets\Scripts\Deprecated\PlayerLook.cs" />
     <Compile Include="Assets\Scripts\Deprecated\PlayerMove.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TM_ActivateTeleport.cs" />
     <Compile Include="Assets\Scripts\Deprecated\SimpleCameraController.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TM_DrawInstance.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\SceneSystem\SceneSwitcher.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TileMatrixStructureData.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Scripts\BF_AssetManager.cs" />
     <Compile Include="Assets\Mics_3D\FloppyWorld\Scripts\Utilities.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
@@ -91,7 +89,6 @@
     <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyWrapper.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Extra\AA\Scripts\Extensions.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TM_PitchRadius.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Extra\AA\Scripts\FrustumJitter.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileDrawInstance.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
@@ -101,7 +98,6 @@
     <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixFunctions.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\GemSystem\Gem.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TM_Dispatch.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\GemSystem\GemCollectionPlat.cs" />
     <Compile Include="Assets\Props\Models\Updated\Interface3D.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Scripts\BF_BallPlayerTriplanar.cs" />
@@ -178,15 +174,19 @@
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Scripts\BF_Terrain.cs" />
     <Compile Include="Assets\Props\Models\Updated\NotePad\NotePadManager.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TM_FollowPlayer.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\_Others\PureNature\Scripts\WaterReflection.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\_Others\Utility.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Scripts\Deprecated\AudioManager.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TileMatrixBehavior.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyLoadpoint.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Visuals\FloppyVisual\NeedleManager.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TileMatrixDriver.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\SceneSystem\SceneDataMaster.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\FunctionTileDriver.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\FunctionTilesStructureData.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TileData.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\FunctionTile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_Others\TextMesh Pro\Shaders\TMPro.cginc" />

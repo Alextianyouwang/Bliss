@@ -55,11 +55,11 @@ public class FileProjectorManager : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneSwitcher.OnFloppyToggle += TurnOnWhenPlayerEnterFloppy;
+        SceneDataMaster.OnFloppyToggle += TurnOnWhenPlayerEnterFloppy;
     }
     private void OnDisable()
     {
-        SceneSwitcher.OnFloppyToggle -= TurnOnWhenPlayerEnterFloppy;
+        SceneDataMaster.OnFloppyToggle -= TurnOnWhenPlayerEnterFloppy;
 
     }
 
@@ -122,7 +122,7 @@ public class FileProjectorManager : MonoBehaviour
         if (isOccupied)
             SetAnimationState(3f, true);
         // For the most recent saved file, the lerp animation will refresh each time when player is teleported into floppy.
-        if (contianedFile != null && contianedFile == SceneSwitcher.sd.mostRecentSavedFile && inFloppy) 
+        if (contianedFile != null && contianedFile == SceneDataMaster.sd.mostRecentSavedFile && inFloppy) 
         {
             isOccupied = true;
             StartCoroutine( ProjectorAnimation(0.4f, 3f, true));

@@ -128,9 +128,9 @@ public class FileObject : MonoBehaviour
 
     protected virtual void Start()
     {
-        gem_prefab = SceneSwitcher.sd.gem_prefab;
-        gemCollPlat_prefab = SceneSwitcher.sd.gemCollPlat_prefab;
-        saveEffect_prefab = SceneSwitcher.sd.saveEffect_prefab;
+        gem_prefab = SceneDataMaster.sd.gem_prefab;
+        gemCollPlat_prefab = SceneDataMaster.sd.gemCollPlat_prefab;
+        saveEffect_prefab = SceneDataMaster.sd.saveEffect_prefab;
         if (lightData == null)
             Debug.LogWarning("Please Assign Light Data for " + name);
         groundMask = LayerMask.GetMask("Ground");
@@ -162,7 +162,7 @@ public class FileObject : MonoBehaviour
         gemCollPlatform.automaticPlaced = true;
         gemCollPlatform.Initiate();
         gemCollPlatform.transform.position = groundPosition;
-        gemCollPlatform.transform.parent = SceneSwitcher.sd.blizzWrapper.transform;
+        gemCollPlatform.transform.parent = SceneDataMaster.sd.blizzWrapper.transform;
         gemCollPlatform.SetRequriedType(requiredGemTypes);
         gemCollPlatform.InstantiateGemBaseOnRequiredType();
         gemCollPlatform.SetColor();

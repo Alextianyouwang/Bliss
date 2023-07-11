@@ -22,14 +22,14 @@ public class SaveButton : MonoBehaviour
                 {
                     if (!hasBeenClicked) 
                     {
-                        if (!SceneSwitcher.sd.currFile.isSaved)
+                        if (!SceneDataMaster.sd.currFile.isSaved)
                             OnPreIterateFileIndex?.Invoke();
 
-                        OnRetreatSaveButton?.Invoke(SceneSwitcher.sd.currFile.isSaved);
+                        OnRetreatSaveButton?.Invoke(SceneDataMaster.sd.currFile.isSaved);
                         
-                        if (!SceneSwitcher.sd.currFile.isSaved)
+                        if (!SceneDataMaster.sd.currFile.isSaved)
                             OnStartSaveEffect?.Invoke();
-                        WaitExecute(!SceneSwitcher.sd.currFile.isSaved );
+                        WaitExecute(!SceneDataMaster.sd.currFile.isSaved );
                         OnSaveCurrentFile?.Invoke();
 
                     }

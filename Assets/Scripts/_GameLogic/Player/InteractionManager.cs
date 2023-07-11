@@ -55,6 +55,7 @@ public class InteractionManager : MonoBehaviour
     {
 
         lr = GetComponent<LineRenderer>();
+        lr.enabled = true;
         lr.positionCount = trPointNumber;
         currentKey = KeyCode.None;
 

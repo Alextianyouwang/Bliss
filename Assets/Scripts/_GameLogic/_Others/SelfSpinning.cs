@@ -27,7 +27,7 @@ public class SelfSpinning : MonoBehaviour
     }
     void StopSpin_fromFileObject(FileObject f) 
     {
-        if (SceneSwitcher.sd.howManyFileSaved.Equals(1))
+        if (SceneDataMaster.sd.howManyFileSaved.Equals(1))
         {
             transform.eulerAngles = initialRotation;
         }

@@ -53,8 +53,8 @@ public class PostAndScenery : MonoBehaviour
         AM_BlissMain.OnPlayerTeleportAnimationFinished += DisableVolumenAndScene;
         AM_BlissMain.OnDiving += AdjustAOInDiveScene;
 
-        SceneSwitcher.OnFloppyToggle += ToggleClippyVolume;
-        SceneSwitcher.OnFloppyToggle += FadeFromBlackToClear;
+        SceneDataMaster.OnFloppyToggle += ToggleClippyVolume;
+        SceneDataMaster.OnFloppyToggle += FadeFromBlackToClear;
         AM_BlissMain.OnRequestDive += EnlargeFOV_fromPlayerAnchorAnimation;
         AM_BlissMain.OnPlayerTeleportAnimationFinished += ShrinkFOV_fromPlayerAnchorAnimation;
         AM_BlissMain.OnDiving += FadeInWhileDiving;
@@ -73,8 +73,8 @@ public class PostAndScenery : MonoBehaviour
         AM_BlissMain.OnPlayerTeleportAnimationFinished -= DisableVolumenAndScene;
         AM_BlissMain.OnDiving -= AdjustAOInDiveScene;
 
-        SceneSwitcher.OnFloppyToggle -= ToggleClippyVolume;
-        SceneSwitcher.OnFloppyToggle -= FadeFromBlackToClear;
+        SceneDataMaster.OnFloppyToggle -= ToggleClippyVolume;
+        SceneDataMaster.OnFloppyToggle -= FadeFromBlackToClear;
 
 
         AM_BlissMain.OnRequestDive -= EnlargeFOV_fromPlayerAnchorAnimation;

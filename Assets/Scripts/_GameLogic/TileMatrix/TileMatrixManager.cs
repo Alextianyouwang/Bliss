@@ -145,14 +145,14 @@ public class TileMatrixManager : MonoBehaviour
     }
     private void LoadObject() 
     {
-        if (SceneSwitcher.sd == null)
+        if (SceneDataMaster.sd == null)
         {
             print("SceneSwitcher Not Exist.");
             return;
         }
-        tile = SceneSwitcher.sd.tile_prefab;
-        saveButton = SceneSwitcher.sd.saveButton_prefab.GetComponent<SaveButton>();
-        deleteButton = SceneSwitcher.sd.deleteButton_prefab.GetComponent<DeleteButton>();
+        tile = SceneDataMaster.sd.tile_prefab;
+        saveButton = SceneDataMaster.sd.saveButton_prefab.GetComponent<SaveButton>();
+        deleteButton = SceneDataMaster.sd.deleteButton_prefab.GetComponent<DeleteButton>();
     }
     /*
         The main logic of this procedural Tile Animation system is driven by State and Step.
@@ -215,7 +215,7 @@ public class TileMatrixManager : MonoBehaviour
                 t.UpdateTilesStatusPerFrame(0, defaultRadius, changingRadius / 2 + changingHighRiseMultiplierBoost, changingMatrixYOffset +0.4f, defaultNoiseWeight, playerGroundPosition);
                 t.DrawTileInstanceCurrentFrame(false);
                 t.UpdateClosestTileToScreenCenter();
-                if (t.closestTileToCenter != null && follower && !SceneSwitcher.isInFloppy) 
+                if (t.closestTileToCenter != null && follower && !SceneDataMaster.isInFloppy) 
                 {
                     dampPosition = Vector3.SmoothDamp(dampPosition, t.closestTileToCenter.smoothedFinalXYZPosition + Vector3.up * 0.8f, ref velocity, 0.1f);
                 }
@@ -235,7 +235,7 @@ public class TileMatrixManager : MonoBehaviour
                 t.UpdateTilesStatusPerFrame(0, 3f, 0.8f, 0.3f, defaultNoiseWeight, adjustedPosition);
                 t.DrawTileInstanceCurrentFrame(false);
                 t.UpdateClosestTileToScreenCenter();
-                if (t.closestTileToCenter != null && follower && !SceneSwitcher.isInFloppy)
+                if (t.closestTileToCenter != null && follower && !SceneDataMaster.isInFloppy)
                 {
                     dampPosition = Vector3.SmoothDamp(dampPosition, t.closestTileToCenter.smoothedFinalXYZPosition + Vector3.up * 0.8f, ref velocity, 0.1f);
                 }
@@ -268,7 +268,7 @@ public class TileMatrixManager : MonoBehaviour
         state = TileStates.Staging;
         float percent = 0;
         float initialRaidius = 2f;
-        float targetRadius = SceneSwitcher.isInFloppy ? 5.5f : 8f;
+        float targetRadius = SceneDataMaster.isInFloppy ? 5.5f : 8f;
         Vector3 currentPosition = FirstPersonController.playerGroundPosition;
         Vector3 path = Vector3.zero;
         while (percent < 1)
@@ -281,9 +281,9 @@ public class TileMatrixManager : MonoBehaviour
             t.UpdateTileDampSpeedTogether(varyingDampSpeed);
             t.UpdateWindowTile(path);
             t.UpdateTilesStatusPerFrame(0, newRadius, 0.0f, 0.5f, defaultNoiseWeight, path);
-            if ((!FileManager.isFileFull || SceneSwitcher.isInFloppy) || t.activateWindowsIndependance)
-                b.UpdateButtonPosition(SceneSwitcher.isInFloppy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
-            t.DrawTileInstanceCurrentFrame(SceneSwitcher.isInFloppy ? true : !(SceneSwitcher.sd.currFile.isSaved || FileManager.isFileFull));
+            if ((!FileManager.isFileFull || SceneDataMaster.isInFloppy) || t.activateWindowsIndependance)
+                b.UpdateButtonPosition(SceneDataMaster.isInFloppy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
+            t.DrawTileInstanceCurrentFrame(SceneDataMaster.isInFloppy ? true : !(SceneDataMaster.sd.currFile.isSaved || FileManager.isFileFull));
 
             yield return null;
         }
@@ -298,9 +298,9 @@ public class TileMatrixManager : MonoBehaviour
                     t.UpdateTileDampSpeedTogether(varyingDampSpeed);
                     t.UpdateWindowTile(path);
                     t.UpdateTilesStatusPerFrame(innerRadius, targetRadius, changingHighRiseMultiplierBoost, changingMatrixYOffset + 1f, 0.5f, path);
-                    if ((!FileManager.isFileFull || SceneSwitcher.isInFloppy) || t.activateWindowsIndependance)
-                        b.UpdateButtonPosition(SceneSwitcher.isInFloppy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
-                    t.DrawTileInstanceCurrentFrame(SceneSwitcher.isInFloppy ? true :!(SceneSwitcher.sd.currFile.isSaved || FileManager.isFileFull));
+                    if ((!FileManager.isFileFull || SceneDataMaster.isInFloppy) || t.activateWindowsIndependance)
+                        b.UpdateButtonPosition(SceneDataMaster.isInFloppy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
+                    t.DrawTileInstanceCurrentFrame(SceneDataMaster.isInFloppy ? true :!(SceneDataMaster.sd.currFile.isSaved || FileManager.isFileFull));
 
                     break;
                 case TileStates.Staging_Diving:
@@ -322,7 +322,7 @@ public class TileMatrixManager : MonoBehaviour
                     t.UpdateTileDampSpeedTogether(0.2f);
                     t.UpdateWindowTile(path);
                     t.UpdateTilesStatusPerFrame(0, 4f, 2f, 5f, 12f, path);
-                    b.UpdateButtonPosition(SceneSwitcher.isInFloppy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
+                    b.UpdateButtonPosition(SceneDataMaster.isInFloppy ? TileButtons.ButtonTile.DisplayState.delete : TileButtons.ButtonTile.DisplayState.save);
 
                     t.DrawTileInstanceCurrentFrame(true);
 
@@ -449,7 +449,7 @@ public class TileMatrixManager : MonoBehaviour
     #region EventSubscribtion
     void ChangeRadius(float pitch)
     {
-        float percentage = !SceneSwitcher.isInFloppy ? Mathf.InverseLerp(45, 80, pitch) : Mathf.InverseLerp(-45, -80, pitch);
+        float percentage = !SceneDataMaster.isInFloppy ? Mathf.InverseLerp(45, 80, pitch) : Mathf.InverseLerp(-45, -80, pitch);
         changingRadius = percentage == 0? 0f : Mathf.Lerp(1.5f, defaultRadius, percentage);
     }
 

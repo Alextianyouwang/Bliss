@@ -11,8 +11,8 @@ public class FileManager : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneSwitcher.OnSceneDataLoaded += GetSceneData;
-        SceneSwitcher.OnFloppyToggle += UpdateFileBeforeSwitchScene_fromSceneSwitcher;
+        SceneDataMaster.OnSceneDataLoaded += GetSceneData;
+        SceneDataMaster.OnFloppyToggle += UpdateFileBeforeSwitchScene_fromSceneSwitcher;
         SaveButton.OnStartSaveEffect += InitiateCurrentFileAnimation;
         SaveButton.OnSaveCurrentFile += SaveCurrentFileWaitExecute;
         SaveButton.OnPreIterateFileIndex += FindFirstEmptySpotAndCheckFullStatus;
@@ -24,8 +24,8 @@ public class FileManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        SceneSwitcher.OnFloppyToggle -= UpdateFileBeforeSwitchScene_fromSceneSwitcher;
-        SceneSwitcher.OnSceneDataLoaded -= GetSceneData;
+        SceneDataMaster.OnFloppyToggle -= UpdateFileBeforeSwitchScene_fromSceneSwitcher;
+        SceneDataMaster.OnSceneDataLoaded -= GetSceneData;
 
         SaveButton.OnStartSaveEffect -= InitiateCurrentFileAnimation;
         SaveButton.OnSaveCurrentFile -= SaveCurrentFileWaitExecute;
@@ -40,13 +40,13 @@ public class FileManager : MonoBehaviour
 
     void GetSceneData()
     {
-        sd = SceneSwitcher.sd;
+        sd = SceneDataMaster.sd;
     }
 
     void FindFirstEmptySpotAndCheckFullStatus() 
     {
         isFileFull = Utility.CheckIfHasNumberOfNullInList(sd.clippyFileLoaded) == 1;
-        if (Array.Find(SceneSwitcher.sd.clippyFileLoaded, x => x != null && x.pairedMainFileWhenCloned == sd.currFile))
+        if (Array.Find(SceneDataMaster.sd.clippyFileLoaded, x => x != null && x.pairedMainFileWhenCloned == sd.currFile))
             return;
         sd.fileIndex = Utility.GetFirstNullIndexInList(sd.clippyFileLoaded);
     }
@@ -57,7 +57,7 @@ public class FileManager : MonoBehaviour
     void SaveCurrentFileWaitExecute()
     {
         // only proceed to save if current list doesn't already contains it to prevent duplication.
-        if (Array.Find(SceneSwitcher.sd.clippyFileLoaded, x => x != null && x.pairedMainFileWhenCloned == sd.currFile))
+        if (Array.Find(SceneDataMaster.sd.clippyFileLoaded, x => x != null && x.pairedMainFileWhenCloned == sd.currFile))
             return;
         if (sd.fileIndex < sd.clippyFileLoaded.Length)
         {
@@ -176,10 +176,10 @@ public class FileManager : MonoBehaviour
             // the animation will be set to open from its own instance script but then set to close by the prevFile.parentFolder
             else if (GetRoot(sd.prevFile) == sd.currFile.GetComponent<FolderManager>()) { }
             // Different Directory Movement 
-            else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile) && !SceneSwitcher.isInFloppy)
+            else if (GetRoot(sd.prevFile) != GetRoot(sd.currFile) && !SceneDataMaster.isInFloppy)
                 BatchDeactivateAcrossDirectoryDepth(sd.prevFile, null);
             else
-                if (!SceneSwitcher.isInFloppy)
+                if (!SceneDataMaster.isInFloppy)
                 BatchDeactivateAcrossDirectoryDepth(sd.prevFile, sd.currFile.parent);
         }
         // move from folder

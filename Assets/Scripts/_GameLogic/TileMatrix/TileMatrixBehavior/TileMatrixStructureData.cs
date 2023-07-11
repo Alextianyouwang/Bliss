@@ -1,21 +1,17 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Rendering;
-
-public class TM_DrawInstance
+public class TileMatrixStructureData
 {
     public GameObject tile;
-    private Mesh tileMesh;
-    private Material tileMat;
+    public Mesh tileMesh { get; private set; }
+    public Material tileMat { get; private set; }
     private Vector3 originalTileBound, formationOffset, startPosition;
     private TileData[,] tilePool;
     private Queue<TileData> tileQueue = new Queue<TileData>();
     public Dictionary<Vector2, TileData> tileDict = new Dictionary<Vector2, TileData>();
     public Dictionary<Vector2, TileData> tileOrderedDict = new Dictionary<Vector2, TileData>();
+    public TileData[] windowTiles { get; private set; } = new TileData[4];
 
 
     private int dimension;
@@ -28,7 +24,7 @@ public class TM_DrawInstance
         public float dampingAmount;
         public float noiseWeight;
     }
-    public TM_DrawInstance(GameObject _tile, int _maximumTile)
+    public TileMatrixStructureData(GameObject _tile, int _maximumTile)
     {
         tile = _tile;
         dimension = _maximumTile;
@@ -106,27 +102,60 @@ public class TM_DrawInstance
 
         }
     }
-    public void DrawTileInstanceCurrentFrame()
+
+    public void UpdateWindowTile(Vector3 comparePos)
     {
-        Matrix4x4[] tileMatrix = tileOrderedDict.Values.Select(x => x.transformMat).ToArray();
-        Graphics.DrawMeshInstanced(
-            tileMesh,
-            0,
-            tileMat,
-            tileMatrix,
-            tileMatrix.Length,
-            new MaterialPropertyBlock(),
-            ShadowCastingMode.On,
-            true,
-            14);
+        if (tileOrderedDict.Count == 0)
+            return;
+        TileData center, up, bot, left, right, upRight, upLeft, botRight, botLeft;
+        tileOrderedDict.TryGetValue(Vector2.zero, out center);
+        tileOrderedDict.TryGetValue(new Vector2(0, 1), out up);
+        tileOrderedDict.TryGetValue(new Vector2(0, -1), out bot);
+        tileOrderedDict.TryGetValue(new Vector2(-1, 0), out left);
+        tileOrderedDict.TryGetValue(new Vector2(1, 0), out right);
+        tileOrderedDict.TryGetValue(new Vector2(1, 1), out upRight);
+        tileOrderedDict.TryGetValue(new Vector2(-1, 1), out upLeft);
+        tileOrderedDict.TryGetValue(new Vector2(1, -1), out botRight);
+        tileOrderedDict.TryGetValue(new Vector2(-1, -1), out botLeft);
+        windowTiles[0] = center;
+
+        if (center == null)
+            return;
+
+        if (comparePos.x > center.initialXZPosition.x && comparePos.z > center.initialXZPosition.z)
+        {
+            windowTiles[1] = up;
+            windowTiles[2] = right;
+            windowTiles[3] = upRight;
+        }
+        else if (comparePos.x > center.initialXZPosition.x && comparePos.z < center.initialXZPosition.z)
+        {
+            windowTiles[1] = bot;
+            windowTiles[2] = right;
+            windowTiles[3] = botRight;
+        }
+        else if (comparePos.x < center.initialXZPosition.x && comparePos.z > center.initialXZPosition.z)
+        {
+            windowTiles[1] = left;
+            windowTiles[2] = up;
+            windowTiles[3] = upLeft;
+        }
+        else if (comparePos.x < center.initialXZPosition.x && comparePos.z < center.initialXZPosition.z)
+        {
+            windowTiles[1] = bot;
+            windowTiles[2] = left;
+            windowTiles[3] = botLeft;
+        }
     }
+
+
 
     public void UpdateTilesStatusPerFrame(float innerRadius, float outerRadius, float multiplier, float yPos, float noiseWeight, Vector3 centerPosition)
     {
         for (int i = 0; i < tileOrderedDict.Count; i++)
         {
             TileData localTile = tileOrderedDict.ElementAt(i).Value;
- 
+            localTile.ToggleOccupied(false);
 
             float distanceToCenter = Vector2.Distance(new Vector2(localTile.initialXZPosition.x, localTile.initialXZPosition.z), new Vector2(centerPosition.x, centerPosition.z));
             float highRiseInfluence = Mathf.InverseLerp(innerRadius, outerRadius, distanceToCenter);
@@ -143,97 +172,6 @@ public class TM_DrawInstance
     }
 
 
-    public class TileData
-    {
-        public Vector3 initialXZPosition, groundXYZPosition, finalXYZPosition;
-        public Vector3 smoothedFinalXYZPosition, refPos;
-        public Vector3 screenPos;
-        public Vector2 globalTileCoord, localTileCoord;
-        public Vector3 tileBound;
-        private RaycastHit botHit;
-        private LayerMask groundMask;
-        public Matrix4x4 transformMat;
-        public bool isInDisplay;
-        public bool isWindows;
-        public float dampSpeed;
-        public float screenPosDistanceToScreenCenter;
-
-        public enum DisplayState { tile, save, delete }
-        public DisplayState displayState;
-
-        public TileData(Vector3 _tileBound)
-        {
-            initialXZPosition = Vector3.zero;
-            smoothedFinalXYZPosition = Vector3.zero;
-            groundXYZPosition = Vector3.zero;
-            screenPos = Vector3.zero;
-            finalXYZPosition = Vector3.zero;
-            globalTileCoord = Vector2.zero;
-            localTileCoord = Vector2.zero;
-            tileBound = _tileBound;
-            groundMask = LayerMask.GetMask("Ground");
-            botHit = new RaycastHit();
-            transformMat = Matrix4x4.identity;
-            isInDisplay = false;
-            isWindows = false;
-            dampSpeed = 0.2f;
-            screenPosDistanceToScreenCenter = 0;
-        }
-        public void SetTilePositionAndGlobalCoordinate(Vector3 _position, Vector3 _globalTileCoord)
-        {
-            initialXZPosition = _position;
-            smoothedFinalXYZPosition = _position;
-            globalTileCoord = _globalTileCoord;
-        }
-        public void UpdateTileSmoothDampPos()
-        {
-            smoothedFinalXYZPosition = Vector3.SmoothDamp(smoothedFinalXYZPosition, finalXYZPosition, ref refPos, dampSpeed, 10000f);
-        }
-        public void SetgroundPosition(Vector3 _newPos)
-        {
-            groundXYZPosition = _newPos;
-        }
-        public void OverwriteTileSmoothDampPos(Vector3 _newPos)
-        {
-            smoothedFinalXYZPosition = _newPos;
-        }
-
-        public void SetTileFinalPosition(Vector3 _newPos)
-        {
-            finalXYZPosition = _newPos;
-        }
-        public void SetDisplay(DisplayState state)
-        {
-            displayState = state;
-        }
-        public Vector3 GetGroundPosition()
-        {
-            Vector3 groundPos = initialXZPosition;
-            Ray botRay = new Ray(groundPos + Vector3.up * 10000f, Vector3.down);
-            if (Physics.Raycast(botRay, out botHit, float.MaxValue, groundMask))
-            {
-                groundPos = botHit.point;
-            }
-            return groundPos;
-        }
-        public Vector3 OffsetTileAlignWithGround(Vector3 pos, float groundOffset)
-        {
-            return pos + Vector3.down * (tileBound.y / 2 - groundOffset);
-        }
-        public Matrix4x4 GetTransformMatFromPos(Vector3 pos, Vector3 scale)
-        {
-            transformMat = Matrix4x4.TRS(pos, Quaternion.identity, scale);
-            return transformMat;
-        }
-        public void ToggleIsInDisplay(bool _display)
-        {
-            isInDisplay = _display;
-        }
-        public void ToggleIsWindows(bool _window)
-        {
-            isWindows = _window;
-        }
-    }
-
+   
 
 }
