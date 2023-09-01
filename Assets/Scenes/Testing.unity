@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnabled: 1
-  tile: {fileID: 7835130833996489204, guid: 42f0c9ec4a7f90a48a9eab7a2e63a240, type: 3}
+  tile: {fileID: 0}
   masterObject: {fileID: 2408143694999460501}
   defaultTileDimension: 9
   defaultRadius: 5

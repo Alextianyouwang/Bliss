@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,6 +33,7 @@ public class SceneDataMaster : MonoBehaviour
     {
         sd = new SceneData();
         LoadResources();
+        DispatchResources();
         StartCoroutine(WaitUntilSceneLoad());
 
     }
@@ -53,6 +55,13 @@ public class SceneDataMaster : MonoBehaviour
         sd.tile_prefab = Resources.Load("Props/LongTile/P_LongTile") as GameObject;
         sd.saveButton_prefab = Resources.Load("Props/SaveButton/P_DownloadM") as GameObject;
         sd.deleteButton_prefab = Resources.Load("Props/DeleteButton/P_CrossButtonM") as GameObject;
+    }
+    private void DispatchResources() 
+    {
+        foreach (INeedResources r in FindObjectsOfType<MonoBehaviour>().Select(x => x?.GetComponent<INeedResources>())) 
+        {
+            r?.LoadResources();
+        }
     }
     // Set reference for all the members of the SceneData Object.
     IEnumerator WaitUntilSceneLoad()

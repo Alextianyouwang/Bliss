@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public class TileMatrixDriver : MonoBehaviour
+public class TileMatrixDriver : MonoBehaviour,INeedResources
 {
     private TileMatrixStructureData t;
 
@@ -19,11 +19,10 @@ public class TileMatrixDriver : MonoBehaviour
 
     private void Start()
     {
-        AutomaticallyLoadTile();
         InitializeTile();
         OnShareTileStructureData?.Invoke(t);
     }
-    private void AutomaticallyLoadTile()
+    public void LoadResources()
     {
         if (tile != null)
             return;
@@ -32,9 +31,13 @@ public class TileMatrixDriver : MonoBehaviour
             print("SceneDataMaster Doesn't Exist. Using Manually Assigned Tile Object.");
             return;
         }
-        tile = SceneDataMaster.sd.tile_prefab;
+        LoadTile(SceneDataMaster.sd.tile_prefab);
     }
 
+    public void LoadTile(GameObject _tile) 
+    {
+        tile = _tile;
+    }
 
 
     private void InitializeTile()
@@ -62,6 +65,7 @@ public class TileMatrixDriver : MonoBehaviour
         t.UpdateWindowTile(masterObject.transform.position);
         t.UpdateTilesStatusPerFrame(0.2f, 5.0f, 1.5f, 0, 0.5f, masterObject.transform.position);
         OnCallFunctionTileUpdate?.Invoke();
+
         DrawTileInstanceCurrentFrame();
     }
     public void DrawTileInstanceCurrentFrame()
