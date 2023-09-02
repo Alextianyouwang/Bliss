@@ -5,6 +5,7 @@ using System.Linq;
 public class TileMatrixDriver : MonoBehaviour,INeedResources
 {
     private TileMatrixStructureData t;
+    private TileMatrixStats s;
 
     [SerializeField] private bool isEnabled = true;
     [SerializeField] private GameObject tile;
@@ -14,13 +15,15 @@ public class TileMatrixDriver : MonoBehaviour,INeedResources
     [SerializeField] private LayerMask tileMatrixLayer;
 
     public static Action<TileMatrixStructureData> OnShareTileStructureData;
+    public static Action<TileMatrixStats> OnShareTileStats;
     public static Action OnCallFunctionTileUpdate;
+    public static Func<TileMatrixStats> OnCallStatsUpdate;
 
 
     private void Start()
     {
+        InitializeStats();
         InitializeTile();
-        OnShareTileStructureData?.Invoke(t);
     }
     public void LoadResources()
     {
@@ -39,7 +42,15 @@ public class TileMatrixDriver : MonoBehaviour,INeedResources
         tile = _tile;
     }
 
-
+    private void InitializeStats() 
+    {
+        s = new TileMatrixStats(
+            masterObject.transform.position,
+            defaultRadius,
+            0.2f, 5.0f, 1.5f, 0, 0.5f, 0.2f
+            ) ;
+        OnShareTileStats?.Invoke(s);
+    }
     private void InitializeTile()
     {
         if (tile == null) 
@@ -49,7 +60,7 @@ public class TileMatrixDriver : MonoBehaviour,INeedResources
         }
         t = new TileMatrixStructureData(tile, defaultTileDimension);
         t.Initialize();
-
+        OnShareTileStructureData?.Invoke(t);
     }
 
     private void Update()
@@ -60,10 +71,14 @@ public class TileMatrixDriver : MonoBehaviour,INeedResources
             return;
         if (t == null)
             return;
-        t.UpdateTileSetActive(masterObject.transform.position,defaultRadius);
-        t.UpdateTileOrderedCoordinate(masterObject.transform.position);
-        t.UpdateWindowTile(masterObject.transform.position);
-        t.UpdateTilesStatusPerFrame(0.2f, 5.0f, 1.5f, 0, 0.5f, masterObject.transform.position);
+        TileMatrixStats tempStats = OnCallStatsUpdate?.Invoke();
+        if (tempStats == null)
+            tempStats = s;
+
+        t.UpdateTileSetActive(s.center,s.radius);
+        t.UpdateTileOrderedCoordinate(s.center);
+        t.UpdateWindowTile(s.center);
+        t.UpdateTilesStatusPerFrame(s.innerRadius, s.outerRadius, s.coneShapeMultiplier, s.yOffset, s.noiseWeight,s.dampSpeed, s.center);
         OnCallFunctionTileUpdate?.Invoke();
 
         DrawTileInstanceCurrentFrame();

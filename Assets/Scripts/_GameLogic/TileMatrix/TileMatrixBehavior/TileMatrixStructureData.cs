@@ -150,7 +150,7 @@ public class TileMatrixStructureData
 
 
 
-    public void UpdateTilesStatusPerFrame(float innerRadius, float outerRadius, float multiplier, float yPos, float noiseWeight, Vector3 centerPosition)
+    public void UpdateTilesStatusPerFrame(float innerRadius, float outerRadius, float multiplier, float yPos, float noiseWeight,float dampSpeed, Vector3 centerPosition)
     {
         for (int i = 0; i < tileOrderedDict.Count; i++)
         {
@@ -164,6 +164,7 @@ public class TileMatrixStructureData
             localTile.SetgroundPosition(groundPosition);
             Vector3 newPos = new Vector3(groundPosition.x, groundPosition.y + highRiseInfluence * multiplier + noise * noiseWeight, groundPosition.z) + Vector3.up * yPos;
 
+            localTile.dampSpeed = dampSpeed;
             localTile.SetTileFinalPosition(newPos);
             localTile.UpdateTileSmoothDampPos();
             localTile.GetTransformMatFromPos(localTile.OffsetTileAlignWithGround(localTile.smoothedFinalXYZPosition, 0.5f), Vector3.one * originalTileBound.x * 0.01f);
