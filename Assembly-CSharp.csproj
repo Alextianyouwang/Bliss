@@ -132,6 +132,7 @@
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Extra\AA\Scripts\VelocityBuffer.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileBase.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TileMatrixEvent.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Extra\AA\Scripts\VelocityBufferTag.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Scripts\BF_RainActivator.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Scripts\BF_SubShowcase.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Assets\Scripts\_GameLogic\Player\InteractionManager.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Scripts\BF_RotatorDisplay.cs" />
     <Compile Include="Assets\_Others\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
+    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TileMatrixStats.cs" />
     <Compile Include="Assets\_Others\BruteForce-GrassShader\Scripts\BF_MowingManager.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Animations\AM_Menu.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixManager.cs" />
@@ -188,8 +190,6 @@
     <Compile Include="Assets\Scripts\Deprecated\AudioManager.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Anchors\ClippyLoadpoint.cs" />
     <Compile Include="Assets\Scripts\_GameLogic\Visuals\FloppyVisual\NeedleManager.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TileMatrixStats.cs" />
-    <Compile Include="Assets\Scripts\_GameLogic\TileMatrix\TileMatrixBehavior\TileMatrixEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_Others\TextMesh Pro\Shaders\TMPro.cginc" />
