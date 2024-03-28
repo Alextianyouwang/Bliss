@@ -10,6 +10,7 @@ public class FileObject : MonoBehaviour
     public DestructionState destructionState;
     #region Gem Section
     // Enum Selector indicates The Type of gem it contains
+    public bool SpawnGem = true;
     public Gem.GemTypes yieldGemType;
     public GemRequirementData GemUnlockRequirement;
     private Gem.GemTypes[] requiredGemTypes;
@@ -142,7 +143,8 @@ public class FileObject : MonoBehaviour
             }
         }
         SetGroundPos();
-        InstantiateGem();
+        if (SpawnGem)
+            InstantiateGem();
         requiredGemTypes = GemUnlockRequirement.GetReqiredGemType(yieldGemType);
         InstantiateGemCollPlatform();
         SetFileDestructionStateAndAppearance();
