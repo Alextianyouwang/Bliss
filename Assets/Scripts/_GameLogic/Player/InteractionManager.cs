@@ -42,15 +42,39 @@ public class InteractionManager : MonoBehaviour
 
     private bool isNotRestrictedByBoomerang = true;
 
+    
+
     private void OnEnable()
     {
         //SceneManager.OnGameStart += ToggleStart;
+        SaveButton.OnInitiateSaveAnimation += DisableLineRenderer;
+        FirstPersonController.OnStartDiving += DisableLineRenderer_FirstPersonControllerWrapper;
+        AM_BlissMain.OnPlayerTeleportAnimationFinished += EnableLineRenderer;
     }
     private void OnDisable()
     {
         //SceneManager.OnGameStart -= ToggleStart;
+        SaveButton.OnInitiateSaveAnimation -= DisableLineRenderer;
+        AM_BlissMain.OnPlayerTeleportAnimationFinished -= EnableLineRenderer;
+        FirstPersonController.OnStartDiving -= DisableLineRenderer_FirstPersonControllerWrapper;
+
+    }
+    private void DisableLineRenderer_FirstPersonControllerWrapper(FirstPersonController f, bool b) 
+    {
+        DisableLineRenderer();
     }
 
+  
+    private void EnableLineRenderer() 
+    {
+        lr.enabled = true;
+        enabled = true;
+    }
+    private void DisableLineRenderer() 
+    {
+        lr.enabled = false;
+        enabled = false;
+    }
     void Start()
     {
 
